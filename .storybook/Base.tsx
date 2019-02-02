@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { Component, FC, ReactNode } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { withTrousers } from '../src';
@@ -13,7 +13,7 @@ const Button: FC<ButtonProps> = ({ children }) => {
     );
 }
 
-const TrouseredButton = withTrousers(Button)`
+const TrouseredButton = withTrousers<ButtonProps>(Button)`
     background-color: red;
     border: 2px solid black;
 `;
