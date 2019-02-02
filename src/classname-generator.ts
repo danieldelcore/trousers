@@ -1,5 +1,5 @@
 function classNameGenerator(componentName: string): string {
-    return componentName;
+    return `.${componentName}`;
 }
 
 export default classNameGenerator;
