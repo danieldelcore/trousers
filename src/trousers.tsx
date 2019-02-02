@@ -11,10 +11,9 @@ import classNameGenerator from './classname-generator';
 import getDisplayName from './get-display-name';
 
 const withTrousers = <P extends object>(WrappedComponent: ComponentType<P>) =>
-  (styles: string[], ...expressions: any[]) =>
+  (styles: TemplateStringsArray, ...expressions: any[]) =>
     class extends Component<P> {
       elementRef: RefObject<HTMLElement>;
-
       constructor(props: P) {
         super(props);
 

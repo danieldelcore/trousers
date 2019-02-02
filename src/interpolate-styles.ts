@@ -1,5 +1,5 @@
 function interpolateStyles(
-  styles: string[],
+  styles: TemplateStringsArray,
   expressions: any[],
   props: any,
 ): string {
