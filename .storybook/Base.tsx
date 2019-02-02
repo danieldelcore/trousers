@@ -1,11 +1,12 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, Fragment, ReactNode } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { withTrousers } from '../src';
 
 interface ButtonProps {
-    className?: string;
     children: ReactNode;
+    className?: string;
+    primary?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({ className, children }) => {
@@ -19,8 +20,9 @@ const Button: FC<ButtonProps> = ({ className, children }) => {
 }
 
 const TrouseredButton = withTrousers<ButtonProps>(Button)`
-    background-color: red;
+    background-color: ${(theme: any) => theme.primaryColor};
     border: 2px solid black;
+    transistion: color 300ms;
 
     :hover {
         background-color: blue;
@@ -30,11 +32,23 @@ const TrouseredButton = withTrousers<ButtonProps>(Button)`
     .button-span {
         font-size: 20px;
     }
+
+    ${({ primary }: ButtonProps) =>
+        primary && `
+            background-color: purple;
+            color: white;
+        `
+    }
 `;
 
 storiesOf('Basic', module)
     .add('Button', () => (
-        <TrouseredButton>
-            YO!
-        </TrouseredButton>
+        <Fragment>
+            <TrouseredButton>
+                Base
+            </TrouseredButton>
+            <TrouseredButton primary>
+                Primary
+            </TrouseredButton>
+        </Fragment>
     ));

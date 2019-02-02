@@ -1,11 +1,12 @@
-function interpolateStyles(
+function interpolateStyles<P>(
   styles: TemplateStringsArray,
   expressions: any[],
-  props: any,
+  theme: Record<string, any>,
+  props: P,
 ): string {
   return expressions.reduce((result, expression, index) => {
     const value = typeof expression === 'function'
-      ? expression(props)
+      ? expression(theme, props)
       : expression;
 
     return result + value + styles[index + 1];
