@@ -1,0 +1,46 @@
+{
+  "name": "trousers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "author": "Daniel Del Core",
+  "license": "MIT",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "start-storybook -p 9000 -c .storybook",
+    "deploy": "storybook-to-ghpages",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "preversion": "npm run lint && npm run test",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags"
+  },
+  "homepage": "https://github.com/danieldelcore/trousers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danieldelcore/trousers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danieldelcore/trousers/issues"
+  },
+  "dependencies": {
+    "stylis": "^3.5.4"
+  },
+  "devDependencies": {
+    "@storybook/react": "^4.1.11",
+    "@storybook/storybook-deployer": "^2.8.1",
+    "@types/jest": "^23.3.13",
+    "@types/react": "^16.7.22",
+    "jest": "^24.0.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.3.1"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  }
+}
