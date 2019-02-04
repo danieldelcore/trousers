@@ -29,12 +29,14 @@
     "url": "https://github.com/danieldelcore/trousers/issues"
   },
   "dependencies": {
+    "murmurhash": "0.0.2",
     "stylis": "^3.5.4"
   },
   "devDependencies": {
     "@storybook/react": "^4.1.11",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^23.3.13",
+    "@types/murmurhash": "0.0.1",
     "@types/react": "^16.7.22",
     "@types/storybook__react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
