@@ -1,12 +1,8 @@
-import React, { FC, Fragment, ReactNode } from 'react';
 import { storiesOf } from '@storybook/react';
+import React, { FC, Fragment, ReactNode } from 'react';
 
 import { withTrousers } from '../src';
-
-type Theme = Record<string, any>;
-const theme: Theme = {
-    primaryColor: 'red',
-};
+import { Theme } from '../src/types';
 
 interface ButtonProps {
     children: ReactNode;
@@ -24,7 +20,7 @@ const Button: FC<ButtonProps> = ({ className, children }) => (
 
 const TrouseredButton = withTrousers<ButtonProps>(Button)
     .block`
-        background-color: ${(theme: Theme) => theme.primaryColor};
+        background-color: red;
         border: 2px solid black;
         transition: color 300ms;
 
@@ -46,7 +42,7 @@ const TrouseredButton = withTrousers<ButtonProps>(Button)
     .Component;
 
 storiesOf('Basic', module)
-    .add('Button', () => (
+    .add('default', () => (
         <Fragment>
             <TrouseredButton>
                 Base
