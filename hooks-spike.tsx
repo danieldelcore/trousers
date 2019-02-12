@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react';
 
 import { ThemeContext, renderStyles } from './src';
 
-function useTrousers<Props>(componentName: string, props: Props, styles: any) {
+export default function useTrousers<Props>(componentName: string, props: Props, styles: any) {
     const theme = useContext(ThemeContext);
     const elementClassName = useMemo(() => renderStyles(styles.element, props, theme), [styles.element, props, theme]);
     const modifierClassNames = styles.modifiers

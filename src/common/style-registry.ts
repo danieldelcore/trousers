@@ -4,7 +4,7 @@ import interpolateStyles from './interpolate-styles';
 
 const ATTRIBUTE_ID = 'data-trousers';
 
-export function registerStyle<Theme>(className: string, styles: TemplateStringsArray, expressions: any[], theme: Theme) {
+export function renderStyle<Theme>(className: string, styles: TemplateStringsArray, expressions: any[], theme: Theme) {
     if (!isMounted()) mountToHead();
 
     const rawStyles = interpolateStyles(styles, expressions, theme);

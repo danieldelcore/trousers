@@ -1,25 +1,10 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, ReactNode } from 'react';
 
-import { withTrousers } from '../src';
-import { Theme } from '../src/types';
+import { trousers, useTrousers } from '../src';
 
-interface ButtonProps {
-    children: ReactNode;
-    className?: string;
-    primary?: boolean;
-}
-
-const Button: FC<ButtonProps> = ({ className, children }) => (
-    <button className={className}>
-        <span className="button-span">
-            {children}
-        </span>
-    </button>
-);
-
-const TrouseredButton = withTrousers<ButtonProps>(Button)
-    .block`
+const buttonStyles = trousers()
+    .element`
         background-color: red;
         border: 2px solid black;
         transition: color 300ms;
@@ -33,22 +18,38 @@ const TrouseredButton = withTrousers<ButtonProps>(Button)
             font-size: 20px;
         }
     `
-    // Could we override the myComponent styles here?
-    // .element('myComponent')``
-    .modifier((props: ButtonProps) => !!props.primary)`
+    .modifier((props: any) => !!props.primary)`
         background-color: black;
         color: white;
-    `
-    .Component;
+    `;
+
+interface ButtonProps {
+    children: ReactNode;
+    className?: string;
+    primary?: boolean;
+}
+
+const Button: FC<ButtonProps> = ({ className, children }) => {
+    console.log(buttonStyles.get());
+
+
+    return (
+        <button className={className}>
+            <span className="button-span">
+                {children}
+            </span>
+        </button>
+    )
+};
 
 storiesOf('Basic', module)
     .add('default', () => (
         <Fragment>
-            <TrouseredButton>
+            <Button>
                 Base
-            </TrouseredButton>
-            <TrouseredButton primary>
+            </Button>
+            <Button primary>
                 Primary
-            </TrouseredButton>
+            </Button>
         </Fragment>
     ));

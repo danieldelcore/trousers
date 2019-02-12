@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { trousers, useTrousers } from 'trousers';
 
-const buttonStyles = trousers
+const buttonStyles = trousers()
     .element`
         background-color: red;
         border: 2px solid black;

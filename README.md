@@ -10,6 +10,10 @@ If Styled Components and class-names had a baby
 
 ## API
 
+- `trousers.element`: Because the component is the block. And it is made up of elements
+- `trousers.modifier`: Elements can be modified by props. This allows you to extend the look of the element, it also helps you seperate your JS logic from your CSS
+
+
 ### Resources
 - TS lib setup: https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/
 - Read this: https://medium.com/styled-components/how-styled-components-works-618a69970421
