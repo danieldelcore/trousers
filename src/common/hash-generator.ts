@@ -2,6 +2,8 @@ import { v3 as hash } from 'murmurhash';
 
 let count = 0;
 
-export function generateHash() {
+function generateHash() {
     return hash((count++).toString(10));
 };
+
+export default generateHash;

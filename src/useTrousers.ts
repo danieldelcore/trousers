@@ -1,28 +1,41 @@
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 
-import { StyleCollector } from './trousers';
+import { StyleCollector, StyleDefinition } from './trousers';
 import { ThemeContext } from './ThemeContext';
-// import { registerStyle } from './common';
+import { renderStyles, generateHash } from './common';
+
+function mountStyles(
+    componentName: string,
+    styleDefinition: StyleDefinition,
+    theme: Record<string, any>,
+    separator: string = '--'
+): string {
+    const className = `${componentName}${separator}${generateHash()}`
+
+    renderStyles(`.${className}`, styleDefinition, theme);
+
+    return className;
+}
 
 export default function useTrousers<Props>(
     componentName: string,
     props: Props,
     styleCollector: StyleCollector
-) {
-    const theme = useContext(ThemeContext);
+): string {
+    const { theme } = useContext(ThemeContext);
     const styleDefinition = styleCollector.get();
-    // const elementClassName = useMemo(() => renderStyles(styleDefinition[0], props, theme), [styleDefinition[0], props, theme]);
-    // const modifierClassNames = styleDefinition
-    //     .slice(1)
-    //     .reduce((accum: string, modifier) => {
-    //         const className = useMemo(() => renderStyles(modifier, props, theme), [modifier, props, theme]);
-    //         return `${accum}${className}`;
-    //     }, '')
-    //     .trim();
 
-    // const classNames = `${componentName}${elementClassName}${modifierClassNames}`
+    const elementClassName = mountStyles(componentName, styleDefinition[0], theme);
 
-    // return classNames;
+    const modifierClassNames = styleDefinition
+        .slice(1)
+        .filter((modifier: StyleDefinition) => modifier.predicate && modifier.predicate(props))
+        .reduce((accum: string, modifier: StyleDefinition) => {
+            const modifierClassName = mountStyles(componentName, modifier, theme, '__');
 
-    return '';
+            return `${accum}${modifierClassName} `;
+        }, '')
+        .trim();
+
+    return `${elementClassName} ${modifierClassNames}`;
 }

@@ -5,8 +5,10 @@ If Styled Components and class-names had a baby
 
 ## Philosophy 🤔
 - Let CSS do CSS
+- Colocate css and js but don't intermingle them
 - Avoid complex logic in CSS. Prefer modifiers based on predicates
 - Avoid creating subcomponents just to attach styling. Css selectors should be enough
+- Simplify testing. Classnames can be attached to dom and snapshot tested
 
 ## API
 

@@ -1,4 +1,4 @@
-function interpolateStyles(
+export default function interpolateStyles(
   styles: TemplateStringsArray,
   expressions: any[],
   theme: Record<string, any>,
@@ -11,5 +11,3 @@ function interpolateStyles(
     return result + value + styles[index + 1];
   }, styles[0]);
 }
-
-export default interpolateStyles;
