@@ -10,7 +10,7 @@ interface ButtonProps {
     disabled?: boolean;
 }
 
-const buttonStyles = trousers()
+const buttonStyles = trousers<ButtonProps>()
     .element`
         background-color: red;
         border: 2px solid black;
@@ -24,8 +24,8 @@ const buttonStyles = trousers()
             color: white;
         }
     `
-    .modifier((props: any) => props.primary)`
-        background-color: black;
+    .modifier(props => props.primary)`
+        background-color: ${theme => theme.primaryColor};
         border: 2px solid black;
         color: white;
 
@@ -34,20 +34,20 @@ const buttonStyles = trousers()
             color: black;
         }
     `
-    .modifier((props: any) => props.disabled)`
+    .modifier(props => props.disabled)`
         background-color: grey;
         border: 2px solid grey;
         color: darkgrey;
     `;
 
-const buttonSpanStyles = trousers()
+const buttonSpanStyles = trousers<{}>()
     .element`
         font-size: 20px;
     `;
 
-const Button: FC<ButtonProps> = (props) => {
-    const buttonClassNames = useTrousers('button', props, buttonStyles);
-    const buttonSpanClassNames = useTrousers('button-span', props, buttonSpanStyles);
+const Button: FC<ButtonProps> = props => {
+    const buttonClassNames = useTrousers<ButtonProps>('button', props, buttonStyles);
+    const buttonSpanClassNames = useTrousers<{}>('button-span', props, buttonSpanStyles);
 
     return (
         <button className={buttonClassNames}>

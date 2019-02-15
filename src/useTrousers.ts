@@ -4,9 +4,9 @@ import { StyleCollector, StyleDefinition } from './trousers';
 import { ThemeContext } from './ThemeContext';
 import { renderStyles, generateHash } from './common';
 
-function mountStyles(
+function mountStyles<Props>(
     componentName: string,
-    styleDefinition: StyleDefinition,
+    styleDefinition: StyleDefinition<Props>,
     theme: Record<string, any>,
     separator: string = '--'
 ): string {
@@ -20,7 +20,7 @@ function mountStyles(
 export default function useTrousers<Props>(
     componentName: string,
     props: Props,
-    styleCollector: StyleCollector
+    styleCollector: StyleCollector<Props>
 ): string {
     const { theme } = useContext(ThemeContext);
     const styleDefinition = styleCollector.get();
@@ -29,8 +29,8 @@ export default function useTrousers<Props>(
 
     const modifierClassNames = styleDefinition
         .slice(1)
-        .filter((modifier: StyleDefinition) => modifier.predicate && modifier.predicate(props))
-        .reduce((accum: string, modifier: StyleDefinition) => {
+        .filter((modifier: StyleDefinition<Props>) => modifier.predicate && modifier.predicate(props))
+        .reduce((accum: string, modifier: StyleDefinition<Props>) => {
             const modifierClassName = mountStyles(componentName, modifier, theme, '__');
 
             return `${accum}${modifierClassName} `;
