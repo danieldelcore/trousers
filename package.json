@@ -29,6 +29,7 @@
     "url": "https://github.com/danieldelcore/trousers/issues"
   },
   "dependencies": {
+    "fast-memoize": "^2.5.1",
     "murmurhash": "0.0.2",
     "stylis": "^3.5.4"
   },

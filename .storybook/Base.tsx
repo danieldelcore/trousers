@@ -24,8 +24,8 @@ const buttonStyles = trousers<ButtonProps>()
             color: white;
         }
     `
-    .modifier(props => props.primary)`
-        background-color: ${theme => theme.primaryColor};
+    .modifier(props => !!props.primary)`
+        background-color: blue;
         border: 2px solid black;
         color: white;
 
@@ -34,7 +34,7 @@ const buttonStyles = trousers<ButtonProps>()
             color: black;
         }
     `
-    .modifier(props => props.disabled)`
+    .modifier(props => !!props.disabled)`
         background-color: grey;
         border: 2px solid grey;
         color: darkgrey;

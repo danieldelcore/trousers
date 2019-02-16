@@ -1,21 +1,21 @@
 import { useContext } from 'react';
+import memoize from 'fast-memoize';
 
 import { StyleCollector, StyleDefinition } from './trousers';
 import { ThemeContext } from './ThemeContext';
-import { renderStyles, generateHash } from './common';
+import { renderStyles, generateHash, interpolateStyles } from './common';
 
-function mountStyles<Props>(
+const mountStyles = memoize((
     componentName: string,
-    styleDefinition: StyleDefinition<Props>,
-    theme: Record<string, any>,
+    styles: string,
     separator: string = '--'
-): string {
+): string => {
     const className = `${componentName}${separator}${generateHash()}`
 
-    renderStyles(`.${className}`, styleDefinition, theme);
+    renderStyles(`.${className}`, styles);
 
     return className;
-}
+});
 
 export default function useTrousers<Props>(
     componentName: string,
@@ -25,13 +25,25 @@ export default function useTrousers<Props>(
     const { theme } = useContext(ThemeContext);
     const styleDefinition = styleCollector.get();
 
-    const elementClassName = mountStyles(componentName, styleDefinition[0], theme);
+    const elementStyles = interpolateStyles(
+        styleDefinition[0].styles,
+        styleDefinition[0].expressions,
+        theme
+    );
+
+    const elementClassName = mountStyles(componentName, elementStyles);
 
     const modifierClassNames = styleDefinition
         .slice(1)
         .filter((modifier: StyleDefinition<Props>) => modifier.predicate && modifier.predicate(props))
         .reduce((accum: string, modifier: StyleDefinition<Props>) => {
-            const modifierClassName = mountStyles(componentName, modifier, theme, '__');
+            const modifierStyles = interpolateStyles(
+                modifier.styles,
+                modifier.expressions,
+                theme
+            );
+
+            const modifierClassName = mountStyles(componentName, modifierStyles, '__');
 
             return `${accum}${modifierClassName} `;
         }, '')

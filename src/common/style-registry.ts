@@ -1,24 +1,14 @@
 import stylis from 'stylis';
 
-import { StyleDefinition } from '../types';
-import { interpolateStyles } from './';
-
 const ATTRIBUTE_ID = 'data-trousers';
 
 export default function renderStyles<Theme>(
     className: string,
-    styleDefinition: StyleDefinition,
-    theme: Theme
+    styles: string
 ) {
     if (!isMounted()) mountToHead();
 
-    const rawStyles = interpolateStyles(
-        styleDefinition.styles,
-        styleDefinition.expressions,
-        theme
-    );
-
-    const processedStyles = stylis(className, rawStyles);
+    const processedStyles = stylis(className, styles);
 
     appendStyle(`${processedStyles}\n`);
 }
