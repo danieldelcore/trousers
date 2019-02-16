@@ -1,8 +1,7 @@
-import { Theme } from './types';
 import React, { createContext, FC, ReactNode } from 'react';
 
 interface ThemeContext {
-    theme: Theme;
+    theme: Record<string, any>;
 }
 
 export interface ThemeProviderProps extends ThemeContext {

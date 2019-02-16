@@ -2,7 +2,7 @@ import stylis from 'stylis';
 
 const ATTRIBUTE_ID = 'data-trousers';
 
-export default function renderStyles<Theme>(
+export default function renderStyles(
     className: string,
     styles: string
 ) {
