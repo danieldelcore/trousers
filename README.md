@@ -1,9 +1,15 @@
 # Trousers 👖
 If Styled Components and class-names had a baby
 
-[Try it here](link-to-storybook)
+[Try it here](https://danieldelcore.github.io/trousers/)
 
 ## Philosophy 🤔
+Think of trousers like `styled-components` + `classnames` + `BEM`. It allows CSS to just do CSS and JS to handle the rest. 
+
+Trousers is designed to help you co-locate CSS and JS and opinionated in that it helps you avoid intermingling them .ie Using JS and props to determine which CSS property is active at any given time. 
+
+
+- Often is with complex expressions to determine which css property is applied in .
 - Let CSS do CSS
 - Colocate css and js but don't intermingle them
 - Avoid complex logic in CSS. Prefer modifiers based on predicates
@@ -122,6 +128,7 @@ const App = () => (
 ## TODO:
 - [ ] `attachGlobalStyle` function
 - [ ] Server Side Rendering support
+- [ ] Pass `state` into predicates
 - [ ] CSS syntax highlighting for VSCode + Atom
 - [ ] Unit tests
 
