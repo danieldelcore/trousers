@@ -1,46 +1,145 @@
-# Trousers 👖
-
 <p align="center">
-  <img width="300" height="300" src="assets/trousers-logo.png">
+  <img width="300" height="300" src="assets/trousers-logo.png" alt="trousers, a little library for CSS-in-JS, without the mess">
 </p>
 
-If Styled Components and class-names had a baby
+# Trousers 👖
+Give React Components some style with Trousers!
 
 [Try it here](https://danieldelcore.github.io/trousers/)
 
-## Philosophy 🤔
-Think of trousers like `styled-components` + `classnames` + `BEM`. It is designed to allow CSS to just do CSS and lets JS to handle the rest. Trousers is designed to help you co-locate CSS and JS and opinionated in that it helps you avoid using JavaScript where CSS can take over. .ie Using JS and props to determine which CSS property is active at any given time.
+Think of Trousers like `styled-components` + `classnames` + `BEM`, wrapped in a lovely React Hook API <3. Trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like philosiphy, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
 
-- Often is with complex expressions to determine which css property is applied in .
-- Let CSS do CSS
-- Colocate css and js but don't intermingle them
-- Avoid complex logic in CSS. Prefer modifiers based on predicates
-- Avoid creating subcomponents just to attach styling. Css selectors should be enough
-- Simplify testing. Classnames can be attached to dom and snapshot tested
+Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
+
+```jsx
+const Button = styled.button`
+  /* Adapt the colors based on primary prop */
+  background: ${props => props.primary ? "palevioletred" : "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+```
+
+It's quite hard to see at a glance which state will trigger which styles. The logic used to evaluate the CSS property is JavaScript, which means it _probably should_ be tested in some meaningful way. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
+
+Trousers, instead encourages you to group properties for different states, It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
+
+```jsx
+const buttonStyles = trousers()
+    // Base styles, these are static and every modifier will be applied on top
+    .element`
+        background-color: blue;
+    `
+    // A modifier for primary buttons. Note that the `cascade` will handle the color
+    .modifier(props => props.primary)`
+        background-color: red;
+    `
+    // Second modifier that will override the prior background-color rules
+    .modifier(props => props.disabled)`
+        background-color: grey;
+    `;
+```
+
+Notice that you can localise the logic for a particular state in one place. It becomes more obvious to see which conditions will need to be met before a particular style set is applied.
+
+Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human readable class name. Then on, we are simply dealing with class names.
+
+### Enter Hooks
+Hooks is a hot new feature in React, which allows Trousers to access context and state while abstracting the messy details away from the consumer.
+Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human readable classname, which you can then apply to your desired element.
+For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
+
+```jsx
+const Button = props => {
+    const buttonClassNames = useTrousers('button', props, buttonStyles);
+    const spanClassNames = useTrousers('button-span', props, spanStyles);
+
+    return (
+        <button className={buttonClassNames}>
+            <span className={spanClassNames}>
+                {props.children}
+            </span>
+        </button>
+    );
+};
+```
+
+### Theme Support
+Theming is achieved via React's Context API, which provides a lot of flexibility. You can even choose to nest themes and present a section of your app in a different way.
+It looks a little something like this:
+
+```jsx
+import { ThemeProvider } from 'trousers';
+
+const lightTheme = {
+    primaryColor: 'white',
+    secondaryColor: 'blue',
+    disabledColor: 'grey',
+};
+
+const darkTheme = {
+    primaryColor: 'black',
+    secondaryColor: 'purple',
+    disabledColor: 'grey',
+};
+
+const MyApp = () => {
+    return (
+        <ThemeProvider theme={lightTheme}>
+            <h1>Hello World</h1>
+            <p>Rest of my app lives here and has access to the light theme!</p>
+            <ThemeProvider theme={darkTheme}>
+                <p>This subtree will have access to the dark theme!</p>
+            </ThemeProvider>
+        </ThemeProvider>
+    );
+};
+```
+
+When a Trousers component is mounted within a new theme, it will render new styles for that component and apply them to the component.
+
+You can define how your component handles themes like this:
+
+```jsx
+const buttonStyles = trousers()
+    .element`
+        background-color: ${theme => theme.secondaryColor};
+    `
+    .modifier(props => props.primary)`
+        background-color: ${theme => theme.primaryColor};
+    `
+    .modifier(props => props.disabled)`
+        background-color: ${theme => theme.disabledColor};
+    `;
+```
+
+Now your component will render different styles based on the context it is mounted in.
 
 ## Get started 🏗
 
 **Installation**
 
-`npm install trousers` or `yarn install trousers`
+`npm install --save trousers` or `yarn add trousers`
 
 **Basic Example**
 
 Creating a trousered component
 
+`app/components/button.jsx`
+
 ```jsx
-import { trousers, useTrousers, ThemeProvider } from 'trousers';
+import { trousers, useTrousers } from 'trousers';
 
 const styles = trousers()
     .element`
         background-color: ${theme => theme.backgroundColor};
-        border-radius: 6px;
         border: none;
-        box-shadow: inset 0 -4px ${theme => theme.borderColor};
         color: ${theme => theme.textColor};
-        cursor: pointer;
-        display: inline-block;
-        font-weight: 500;
         margin: 0 10px;
         padding: 10px 20px 14px 20px;
 
@@ -48,22 +147,13 @@ const styles = trousers()
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-
-        :active {
-            background-color: ${theme => theme.borderColor};
-        }
     `
     .modifier(props => !!props.primary)`
         background-color: #f95b5b;
-        box-shadow: inset 0 -4px #c54646;
         color: #ffffff;
 
         :hover {
             background-color: #e45454;
-        }
-
-        :active {
-            background-color: #c54646;
         }
     `;
 
@@ -73,7 +163,7 @@ const spanStyles = trousers()
         font-style: italic;
     `;
 
-const Button: FC = props => {
+const Button = props => {
     const buttonClassNames = useTrousers('button', props, styles);
     const spanClassNames = useTrousers('button-span', props, spanStyles);
 
@@ -123,13 +213,21 @@ const App = () => (
 
 ## Unit Testing
 
-`// TODO: ...`
+- Simplify testing. Classnames can be attached to dom and snapshot tested
+- Trousers uses hashes, so the outputted classnames can be snapshot tested
 
 ## TypeScript
 `// TODO: ...`
 
 ## FAQs
-`// TODO: ...`
+
+**Why BEM?**
+
+**Why not styled components?**
+
+**Runtime? Can't we do all of this at compiletime?**
+
+**My modifier overrides another modifier, why?**
 
 ## TODO:
 - [ ] `attachGlobalStyle` function
@@ -137,6 +235,7 @@ const App = () => (
 - [ ] Pass `state` into predicates
 - [ ] CSS syntax highlighting for VSCode + Atom
 - [ ] Unit tests
+- [ ] Pass theme to trousers via a generic
 
 ## Resources
 - [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
