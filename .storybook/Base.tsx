@@ -5,39 +5,54 @@ import { trousers, useTrousers } from '../src';
 
 interface ButtonProps {
     children: ReactNode;
-    className?: string;
     primary?: boolean;
     disabled?: boolean;
 }
 
 const buttonStyles = trousers<ButtonProps>()
     .element`
-        background-color: red;
-        border: 2px solid black;
-        transition: color 300ms;
-        margin: 0 10px;
-        padding: 5px 10px;
-        border-radius: 3px;
+        background-color: #acdeaa;
+        border-radius: 6px;
+        border: none;
+        box-shadow: inset 0 -4px #8fbbaf;
+        color: white;
+        display: inline-block;
+        cursor: pointer;
+        font-weight: 500;
+        letter-spacing: 1px;
+        margin: 0.2px 10px;
+        padding: 10px 20px 14px 20px;
+        text-decoration: none;
+        transition: background-color 300ms, color 300ms;
+        outline: none;
 
         :hover {
-            background-color: blue;
-            color: white;
+            background-color: #a4d4a2;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        :active {
+            background-color: #8fbbaf;
         }
     `
     .modifier(props => !!props.primary)`
-        background-color: blue;
-        border: 2px solid black;
-        color: white;
+        background-color: #f95b5b;
+        box-shadow: inset 0 -4px #c54646;
+        color: #ffffff;
 
         :hover {
-            background-color: yellow;
-            color: black;
+            background-color: #e45454;
+        }
+
+        :active {
+            background-color: #c54646;
         }
     `
     .modifier(props => !!props.disabled)`
-        background-color: grey;
-        border: 2px solid grey;
-        color: darkgrey;
+        background-color: #efefef;
+        box-shadow: inset 0 -4px #afafaf;
+        color: #afafaf;
+        pointer-events: none;
     `;
 
 const buttonSpanStyles = trousers<{}>()
@@ -59,7 +74,7 @@ const Button: FC<ButtonProps> = props => {
 };
 
 storiesOf('Basic', module)
-    .add('default', () => (
+    .add('Default', () => (
         <Fragment>
             <Button>
                 Base
