@@ -11,10 +11,10 @@ interface ButtonProps {
 
 const buttonStyles = trousers<ButtonProps>()
     .element`
-        background-color: #acdeaa;
+        background-color: #b3cde8;
         border-radius: 6px;
         border: none;
-        box-shadow: inset 0 -4px #8fbbaf;
+        box-shadow: inset 0 -4px #9fb8d1;
         color: white;
         display: inline-block;
         cursor: pointer;
@@ -27,12 +27,12 @@ const buttonStyles = trousers<ButtonProps>()
         outline: none;
 
         :hover {
-            background-color: #a4d4a2;
+            background-color: #adc6e0;
             color: rgba(255, 255, 255, 0.8);
         }
 
         :active {
-            background-color: #8fbbaf;
+            background-color: #9fb8d1;
         }
     `
     .modifier(props => !!props.primary)`
