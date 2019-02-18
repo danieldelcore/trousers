@@ -7,7 +7,7 @@ Give React Components some style with trousers!
 
 [Try it here](https://danieldelcore.github.io/trousers/)
 
-Think of trousers like [styled-components](https://www.styled-components.com/) + [classnames](https://github.com/JedWatson/classnames) + [BEM](http://getbem.com/introduction/), wrapped in a lovely [React Hook API ❤️](https://reactjs.org/docs/hooks-overview.html). trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like methodology, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
+Think of trousers like [styled-components](https://www.styled-components.com/) + [classnames](https://github.com/JedWatson/classnames) + [BEM](http://getbem.com/introduction/), wrapped in a lovely [React Hooks API ❤️](https://reactjs.org/docs/hooks-overview.html). trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like methodology, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
 
 ## Get started 🏗
 
@@ -83,7 +83,7 @@ const theme = {
 
 const MyApp = props => {
     return (
-        <ThemeProvider theme={}>
+        <ThemeProvider theme={theme}>
             <Button primary>
                 How do I look?
             </Button>
