@@ -256,13 +256,12 @@ const App = () => (
 
 **My modifier overrides another modifier, why?**
 
-## TODO:
+## TODO
 - [ ] `attachGlobalStyle` function
 - [ ] Server Side Rendering support
 - [ ] Pass `state` into predicates
 - [ ] CSS syntax highlighting for VSCode + Atom
 - [ ] Unit tests
-- [ ] Pass theme to trousers via a generic
 - [ ] Fallback mechanism for components without context?
 
 ## Resources

@@ -1,7 +1,8 @@
 import { useContext } from 'react';
 import memoize from 'fast-memoize';
 
-import { StyleCollector, StyleDefinition } from './trousers';
+import { StyleDefinition } from './types';
+import { StyleCollector } from './trousers';
 import { ThemeContext } from './ThemeContext';
 import { renderStyles, generateHash, interpolateStyles } from './common';
 
@@ -17,10 +18,10 @@ const mountStyles = memoize((
     return className;
 });
 
-export default function useTrousers<Props>(
+export default function useTrousers<Props, Theme>(
     componentName: string,
     props: Props,
-    styleCollector: StyleCollector<Props>
+    styleCollector: StyleCollector<Props, Theme>
 ): string {
     const { theme } = useContext(ThemeContext);
     const styleDefinition = styleCollector.get();
@@ -35,8 +36,8 @@ export default function useTrousers<Props>(
 
     const modifierClassNames = styleDefinition
         .slice(1)
-        .filter((modifier: StyleDefinition<Props>) => modifier.predicate && modifier.predicate(props))
-        .reduce((accum: string, modifier: StyleDefinition<Props>) => {
+        .filter((modifier: StyleDefinition<Props, Theme>) => modifier.predicate && modifier.predicate(props))
+        .reduce((accum: string, modifier: StyleDefinition<Props, Theme>) => {
             const modifierStyles = interpolateStyles(
                 modifier.styles,
                 modifier.expressions,

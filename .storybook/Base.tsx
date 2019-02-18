@@ -9,7 +9,7 @@ interface ButtonProps {
     disabled?: boolean;
 }
 
-const buttonStyles = trousers<ButtonProps>()
+const buttonStyles = trousers<ButtonProps, {}>()
     .element`
         background-color: #b3cde8;
         border-radius: 6px;
@@ -55,14 +55,14 @@ const buttonStyles = trousers<ButtonProps>()
         pointer-events: none;
     `;
 
-const buttonSpanStyles = trousers<{}>()
+const buttonSpanStyles = trousers<{}, {}>()
     .element`
         font-size: 20px;
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const buttonClassNames = useTrousers<ButtonProps>('button', props, buttonStyles);
-    const buttonSpanClassNames = useTrousers<{}>('button-span', props, buttonSpanStyles);
+    const buttonClassNames = useTrousers<ButtonProps, {}>('button', props, buttonStyles);
+    const buttonSpanClassNames = useTrousers<{}, {}>('button-span', props, buttonSpanStyles);
 
     return (
         <button className={buttonClassNames}>

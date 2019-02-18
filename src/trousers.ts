@@ -1,30 +1,24 @@
-export type Predicate<Props> = (props: Props) => boolean;
+import { StyleDefinition, Predicate, Expression } from './types';
 
-export interface StyleDefinition<Props> {
-    styles: TemplateStringsArray;
-    expressions: any[];
-    predicate?: Predicate<Props>;
-}
+export class StyleCollector<Props, Theme> {
+    private styleDefinitions: StyleDefinition<Props, Theme>[] = [];
 
-export class StyleCollector<Props> {
-    private styleDefinitions: StyleDefinition<Props>[] = [];
-
-    element(styles: TemplateStringsArray, ...expressions: any[]) {
+    element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
         return this.registerStyles(styles, expressions);
     }
 
     modifier(predicate: Predicate<Props>) {
-        return (styles: TemplateStringsArray, ...expressions: any[]) =>
+        return (styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) =>
             this.registerStyles(styles, expressions, predicate);
     }
 
-    get(): StyleDefinition<Props>[] {
+    get(): StyleDefinition<Props, Theme>[] {
         return this.styleDefinitions;
     }
 
     private registerStyles(
         styles: TemplateStringsArray,
-        expressions: any[],
+        expressions: Expression<Theme>[],
         predicate?: Predicate<Props>,
     ) {
         this.styleDefinitions.push({
@@ -37,6 +31,6 @@ export class StyleCollector<Props> {
     }
 }
 
-export default function trousers<Props>() {
-    return new StyleCollector<Props>();
+export default function trousers<Props, Theme>() {
+    return new StyleCollector<Props, Theme>();
 }

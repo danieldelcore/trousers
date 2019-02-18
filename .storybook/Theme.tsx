@@ -28,13 +28,13 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = trousers<ButtonProps>()
+const buttonStyles = trousers<ButtonProps, Theme>()
     .element`
-        background-color: ${({ backgroundColor }: Theme) => backgroundColor};
+        background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
-        box-shadow: inset 0 -4px ${({ borderColor }: Theme) => borderColor};
-        color: ${({ textColor }: Theme) => textColor};
+        box-shadow: inset 0 -4px ${({ borderColor }) => borderColor};
+        color: ${({ textColor }) => textColor};
         cursor: pointer;
         display: inline-block;
         font-size: 20px;
@@ -47,17 +47,17 @@ const buttonStyles = trousers<ButtonProps>()
         transition: background-color 300ms, color 300ms;
 
         :hover {
-            background-color: ${({ hoverColor }: Theme) => hoverColor};
+            background-color: ${({ hoverColor }) => hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
 
         :active {
-            background-color: ${({ borderColor }: Theme) => borderColor};
+            background-color: ${({ borderColor }) => borderColor};
         }
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useTrousers<ButtonProps>('button', props, buttonStyles);
+    const classNames = useTrousers<ButtonProps, Theme>('button', props, buttonStyles);
 
     return (
         <button className={classNames}>
@@ -89,4 +89,7 @@ storiesOf('Theme', module)
                 <Button>Nested Dark Theme</Button>
             </ThemeProvider>
         </ThemeProvider>
+    ))
+    .add('No theme in context', () => (
+        <Button>No theme OMG!</Button>
     ));

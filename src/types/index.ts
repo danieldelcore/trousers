@@ -1,1 +1,1 @@
-export { default as StyleDefinition } from './style-definition';
+export { default as StyleDefinition, Predicate, Expression } from './style-definition';

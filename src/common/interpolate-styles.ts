@@ -1,7 +1,7 @@
-export default function interpolateStyles(
+export default function interpolateStyles<Theme>(
   styles: TemplateStringsArray,
   expressions: any[],
-  theme: Record<string, any>,
+  theme: Theme,
 ): string {
   return expressions
     .reduce((result, expression, index) => {
