@@ -68,6 +68,32 @@ const Button = props => {
 export default Button;
 ```
 
+`app/MyApp.jsx`
+
+```jsx
+import { ThemeProvider } from 'trousers';
+
+import Button from './components/button';
+
+const theme = {
+    backgroundColor: 'blue',
+    textColor: 'white',
+    hoverColor: 'lightblue',
+};
+
+const MyApp = props => {
+    return (
+        <ThemeProvider theme={}>
+            <Button primary>
+                How do I look?
+            </Button>
+        </ThemeProvider>
+    );
+};
+
+export default Button;
+```
+
 ## Motivation
 Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
 
@@ -87,7 +113,7 @@ const Button = styled.button`
 
 It's quite hard to see at a glance which state will trigger which styles. The logic used to evaluate the CSS property is JavaScript, which means it _probably should_ be tested in some meaningful way. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
 
-Trousers, instead encourages you to group properties for different states, It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
+Trousers, instead encourages you to group properties for different states. It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
 
 ```jsx
 const buttonStyles = trousers()
@@ -105,13 +131,13 @@ const buttonStyles = trousers()
     `;
 ```
 
-Notice that you can localise the logic for a particular state in one place. It becomes more obvious to see which conditions will need to be met before a particular style set is applied.
+Notice that you can localise the logic for a particular state in one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied.
 
 Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
 Hooks is a hot new feature in React, which allows Trousers to access context and state while abstracting the messy details away from the consumer.
-Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human readable classname, which you can then apply to your desired element.
+Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
 
 ```jsx
@@ -237,6 +263,7 @@ const App = () => (
 - [ ] CSS syntax highlighting for VSCode + Atom
 - [ ] Unit tests
 - [ ] Pass theme to trousers via a generic
+- [ ] Fallback mechanism for components without context?
 
 ## Resources
 - [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
