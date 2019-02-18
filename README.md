@@ -1,13 +1,13 @@
 <p align="center">
-  <img width="300" height="300" src="assets/trousers-logo.png" alt="trousers, a little library for CSS-in-JS, without the mess">
+  <img width="300" height="300" src="assets/trousers-logo.png" alt="Trousers, a little library for CSS-in-JS, without the mess">
 </p>
 
-# trousers 👖
-Give React Components some style with trousers!
+# Trousers 👖
+Give React Components some style with Trousers!
 
 [Try it here](https://danieldelcore.github.io/trousers/)
 
-Think of trousers like [styled-components](https://www.styled-components.com/) + [classnames](https://github.com/JedWatson/classnames) + [BEM](http://getbem.com/introduction/), wrapped in a lovely [React Hooks API ❤️](https://reactjs.org/docs/hooks-overview.html). trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like methodology, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
+Think of Trousers like [styled-components](https://www.styled-components.com/) + [classnames](https://github.com/JedWatson/classnames) + [BEM](http://getbem.com/introduction/), wrapped in a lovely [React Hooks API ❤️](https://reactjs.org/docs/hooks-overview.html). Trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like methodology, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
 
 ## Get started 🏗
 
@@ -95,7 +95,7 @@ export default Button;
 ```
 
 ## Motivation
-Unlike some of the more popular (and great!) CSS-in-JS libraries, trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
+Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
 
 ```jsx
 const Button = styled.button`
@@ -113,7 +113,7 @@ const Button = styled.button`
 
 It's quite hard to see at a glance which state triggers which styles. The logic used to evaluate the CSS property is JavaScript, which means it _probably should_ be tested in some meaningful way. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
 
-trousers, instead encourages you to group properties for different states. It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
+Trousers, instead encourages you to group properties for different states. It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
 
 ```jsx
 const buttonStyles = trousers()
@@ -133,10 +133,10 @@ const buttonStyles = trousers()
 
 Notice that you can localise the logic for a particular state in one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied.
 
-Under the hood, trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
+Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
-[Hooks is a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows trousers to access context and state while abstracting the messy details away from the consumer.
+[Hooks is a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
 
@@ -187,7 +187,7 @@ const MyApp = () => {
 };
 ```
 
-When a trousers component is mounted within a new theme context, it will render new styles and apply them to the component.
+When a Trousers component is mounted within a new theme context, it will render new styles and apply them to the component.
 
 You can define how your component handles themes like this:
 
@@ -211,7 +211,7 @@ Now your component will render different styles based on the context it is mount
 ### `trousers()`
 The `trousers()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and reimport it into your component.
 
-> NOTE! trousers return methods will always return `this`, which means the calls can be chained repeatedly.
+> NOTE! Trousers return methods will always return `this`, which means the calls can be chained repeatedly.
 
 **Returns:**
 - `trousers().element`
