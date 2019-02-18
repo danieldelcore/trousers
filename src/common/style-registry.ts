@@ -2,6 +2,8 @@ import stylis from 'stylis';
 
 const ATTRIBUTE_ID = 'data-trousers';
 
+let styleElement: HTMLStyleElement;
+
 export default function renderStyles(
     className: string,
     styles: string
@@ -14,15 +16,13 @@ export default function renderStyles(
 }
 
 function isMounted(): boolean {
-    const headElement = document.getElementsByTagName('head')[0];
-
-    return !!headElement.querySelectorAll(`style[${ATTRIBUTE_ID}]`).length;
+    return !!styleElement;
 }
 
 function mountToHead() {
     const headElement = document.getElementsByTagName('head')[0];
-    const styleElement = document.createElement('style');
 
+    styleElement = document.createElement('style');
     styleElement.setAttribute(ATTRIBUTE_ID, '');
     styleElement.type = 'text/css';
 
@@ -32,8 +32,5 @@ function mountToHead() {
 function appendStyle(styles: string) {
     const styleNode = document.createTextNode(styles);
 
-    document
-        .getElementsByTagName('head')[0]
-        .querySelectorAll(`style[${ATTRIBUTE_ID}]`)[0]
-        .appendChild(styleNode);
+    styleElement.appendChild(styleNode);
 }
