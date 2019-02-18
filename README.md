@@ -9,6 +9,66 @@ Give React Components some style with Trousers!
 
 Think of Trousers like `styled-components` + `classnames` + `BEM`, wrapped in a lovely React Hook API <3. Trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like philosiphy, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
 
+## Get started 🏗
+
+**Installation**
+
+`npm install --save trousers` or `yarn add trousers`
+
+**Basic Example**
+
+Creating a trousered component
+
+`app/components/button.jsx`
+
+```jsx
+import { trousers, useTrousers } from 'trousers';
+
+const styles = trousers()
+    .element`
+        background-color: ${theme => theme.backgroundColor};
+        border: none;
+        color: ${theme => theme.textColor};
+        margin: 0 10px;
+        padding: 10px 20px 14px 20px;
+
+        :hover {
+            background-color: ${theme => theme.hoverColor};
+            color: rgba(255, 255, 255, 0.8);
+        }
+    `
+    .modifier(props => !!props.primary)`
+        background-color: #f95b5b;
+        color: #ffffff;
+
+        :hover {
+            background-color: #e45454;
+        }
+    `;
+
+const spanStyles = trousers()
+    .element`
+        font-size: 20px;
+        font-style: italic;
+    `;
+
+const Button = props => {
+    const buttonClassNames = useTrousers('button', props, styles);
+    const spanClassNames = useTrousers('button-span', props, spanStyles);
+
+    return (
+        <button className={buttonClassNames}>
+            <span className={spanClassNames}>
+                {props.children}
+            </span>
+        </button>
+    );
+};
+
+export default Button;
+```
+
+## Motivation
 Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
 
 ```jsx
@@ -119,65 +179,6 @@ const buttonStyles = trousers()
 ```
 
 Now your component will render different styles based on the context it is mounted in.
-
-## Get started 🏗
-
-**Installation**
-
-`npm install --save trousers` or `yarn add trousers`
-
-**Basic Example**
-
-Creating a trousered component
-
-`app/components/button.jsx`
-
-```jsx
-import { trousers, useTrousers } from 'trousers';
-
-const styles = trousers()
-    .element`
-        background-color: ${theme => theme.backgroundColor};
-        border: none;
-        color: ${theme => theme.textColor};
-        margin: 0 10px;
-        padding: 10px 20px 14px 20px;
-
-        :hover {
-            background-color: ${theme => theme.hoverColor};
-            color: rgba(255, 255, 255, 0.8);
-        }
-    `
-    .modifier(props => !!props.primary)`
-        background-color: #f95b5b;
-        color: #ffffff;
-
-        :hover {
-            background-color: #e45454;
-        }
-    `;
-
-const spanStyles = trousers()
-    .element`
-        font-size: 20px;
-        font-style: italic;
-    `;
-
-const Button = props => {
-    const buttonClassNames = useTrousers('button', props, styles);
-    const spanClassNames = useTrousers('button-span', props, spanStyles);
-
-    return (
-        <button className={buttonClassNames}>
-            <span className={spanClassNames}>
-                {props.children}
-            </span>
-        </button>
-    );
-};
-
-export default Button;
-```
 
 ## API
 
