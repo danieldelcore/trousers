@@ -289,6 +289,7 @@ const App = () => (
 - [ ] Unit tests
 - [ ] Fallback mechanism for components without context?
 - [ ] Reintroduce `"preversion": "npm run lint && npm run test"`
+- [ ] Add this plugin [storysource](https://github.com/storybooks/storybook/tree/master/addons/storysource)
 
 ## Resources
 - [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
