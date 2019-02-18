@@ -1,6 +1,6 @@
 {
   "name": "trousers",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
   "author": "Daniel Del Core",
@@ -16,7 +16,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "preversion": "npm run lint && npm run test",
     "version": "npm run build",
     "postversion": "git push && git push --tags"
   },
