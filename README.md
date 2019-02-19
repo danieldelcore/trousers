@@ -259,7 +259,7 @@ React Hook responsbile for evaluating the supplied styles, attaching them to the
 - `className`: string
 
 ### `<ThemeProvider />`
-Responsible for pushing the supplied them into React's Context API.
+Responsible for pushing the supplied theme into React's Context API.
 
 **Props:**
 - `theme`: Object
