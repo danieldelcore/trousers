@@ -285,6 +285,17 @@ const App = () => (
 );
 ```
 
+## FAQ 
+
+**Can't you do this in styled-components and emotion by just creating a new `css` block instead of only using it in the value.**
+
+This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the otherhand, aims to be a little more simple and oppinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
+
+**What this has to do with hooks? Can we not compute the classname from a plain-old JS function?**
+
+The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers. 
+There are also plans on leverage hooks more down the line to enable a few new features.
+
 ## TODO
 - [ ] `attachGlobalStyle` function
 - [ ] Server Side Rendering support
