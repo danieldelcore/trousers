@@ -301,9 +301,10 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 - [ ] Server Side Rendering support
 - [ ] Pass `state` into predicates
 - [ ] CSS syntax highlighting for VSCode + Atom
+- [ ] Keyframe animation example
 - [ ] Unit tests
 - [ ] Fallback mechanism for components without context?
-- [ ] Fallback mechanism for non functional components?
+- [ ] Fallback mechanism `withTrousers()` for non functional components? 
 - [ ] Reintroduce `"preversion": "npm run lint && npm run test"`
 - [ ] Add this plugin [storysource](https://github.com/storybooks/storybook/tree/master/addons/storysource)
 
