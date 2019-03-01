@@ -285,7 +285,7 @@ const App = () => (
 );
 ```
 
-## FAQ 
+## FAQ
 
 **Can't you do this in styled-components and emotion by just creating a new `css` block instead of only using it in the value.**
 
@@ -293,7 +293,7 @@ This can most certainly be done in styled-components and emotion! They are both 
 
 **What does this have to do with hooks? Can we not compute the classname from a plain-old JS function?**
 
-The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers. 
+The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
 There are also plans on leverage hooks more down the line to enable a few new features.
 
 ## TODO
@@ -304,7 +304,7 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 - [ ] Keyframe animation example
 - [ ] Unit tests
 - [ ] Fallback mechanism for components without context?
-- [ ] Fallback mechanism `withTrousers()` for non functional components? 
+- [x] Fallback mechanism `withTrousers()` for non functional components?
 - [ ] Reintroduce `"preversion": "npm run lint && npm run test"`
 - [ ] Add this plugin [storysource](https://github.com/storybooks/storybook/tree/master/addons/storysource)
 

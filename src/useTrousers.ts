@@ -2,8 +2,7 @@ import { useContext } from 'react';
 import memoize from 'fast-memoize';
 
 import { StyleDefinition } from './types';
-import { StyleCollector } from './trousers';
-import { ThemeContext } from './ThemeContext';
+import { ThemeContext, StyleCollector } from './';
 import { renderStyles, generateHash, interpolateStyles } from './common';
 
 const mountStyles = memoize((
