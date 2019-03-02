@@ -85,16 +85,16 @@ storiesOf('Basic', module)
             <Fragment>
                 <Button>
                     Base
-            </Button>
+                </Button>
                 <Button primary>
                     Primary
-            </Button>
+                </Button>
                 <Button disabled>
                     Disabled
-            </Button>
+                </Button>
                 <Button primary disabled>
                     Disabled Primary
-            </Button>
+                </Button>
             </Fragment>
         );
     })

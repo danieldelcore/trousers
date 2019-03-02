@@ -10,14 +10,14 @@ interface Theme {
     borderColor: string;
 }
 
-const lightTheme = {
+const lightTheme: Theme = {
     backgroundColor: '#f3f3f3',
     hoverColor: '#dcdcdc',
     textColor: '#6f6f6f',
     borderColor: '#cacaca',
 };
 
-const darkTheme = {
+const darkTheme: Theme = {
     backgroundColor: '#585858',
     hoverColor: '#484848',
     textColor: 'white',

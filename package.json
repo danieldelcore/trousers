@@ -28,7 +28,7 @@
     "url": "https://github.com/danieldelcore/trousers/issues"
   },
   "dependencies": {
-    "fast-memoize": "^2.5.1",
+    "memoizee": "^0.4.14",
     "murmurhash": "0.0.2",
     "stylis": "^3.5.4"
   },
@@ -37,6 +37,7 @@
     "@storybook/react": "^4.1.11",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^23.3.13",
+    "@types/memoizee": "^0.4.2",
     "@types/murmurhash": "0.0.1",
     "@types/react": "^16.8.1",
     "@types/storybook__react": "^4.0.0",
