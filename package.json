@@ -33,6 +33,7 @@
     "stylis": "^3.5.4"
   },
   "devDependencies": {
+    "@storybook/addon-storysource": "^4.1.13",
     "@storybook/react": "^4.1.11",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^23.3.13",
