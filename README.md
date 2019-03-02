@@ -301,7 +301,7 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 - [ ] Server Side Rendering support
 - [ ] Pass `state` into predicates
 - [ ] CSS syntax highlighting for VSCode + Atom
-- [ ] Keyframe animation example
+- [X] Keyframe animation example
 - [ ] Unit tests
 - [ ] Fallback mechanism for components without context?
 - [x] Fallback mechanism `withTrousers()` for non functional components?

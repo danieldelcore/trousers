@@ -10,7 +10,7 @@
     "lib"
   ],
   "scripts": {
-    "dev": "start-storybook -p 9000 -c .storybook",
+    "dev": "start-storybook -p 9000 -c .storybook -s ./assets",
     "deploy": "storybook-to-ghpages",
     "build": "tsc",
     "test": "jest",
@@ -40,8 +40,8 @@
     "@types/react": "^16.8.1",
     "@types/storybook__react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
-    "react": "^16.8.1",
     "jest": "^24.0.0",
+    "react": "^16.8.1",
     "ts-jest": "^23.10.5",
     "typescript": "^3.3.1"
   },

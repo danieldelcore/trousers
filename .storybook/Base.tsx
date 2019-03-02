@@ -22,7 +22,7 @@ storiesOf('Basic', module)
                 cursor: pointer;
                 font-weight: 500;
                 letter-spacing: 1px;
-                margin: 0.2px 10px;
+                margin: 5px 10px;
                 padding: 10px 20px 14px 20px;
                 text-decoration: none;
                 transition: background-color 300ms, color 300ms;
@@ -54,7 +54,13 @@ storiesOf('Basic', module)
                 background-color: #efefef;
                 box-shadow: inset 0 -4px #afafaf;
                 color: #afafaf;
-                pointer-events: none;
+                cursor: not-allowed;
+
+                :hover,
+                :active {
+                    color: #afafaf;
+                    background-color: #efefef;
+                }
             `;
 
         const buttonSpanStyles = trousers<{}, {}>()
@@ -95,6 +101,14 @@ storiesOf('Basic', module)
     .add('Keyframe animations', () => {
         const logoStyles = trousers()
             .element`
+                width: 150px;
+                height: auto;
+                margin: 15px;
+                padding: 15px;
+                background-color: #f6e3e3;
+                border-radius: 150px;
+                animation: rotating 2s linear infinite;
+
                 @keyframes rotating {
                     from {
                         transform: rotate(0deg);
@@ -103,9 +117,7 @@ storiesOf('Basic', module)
                         transform: rotate(360deg);
                     }
                 }
-
-                animation: rotating 2s linear infinite;
-            `;
+            `
 
         const TrousersLogo: FC = () => {
             const logoClassnames = useTrousers<{}, {}>('logo', {}, logoStyles);
@@ -113,7 +125,7 @@ storiesOf('Basic', module)
             return (
                 <img
                     className={logoClassnames}
-                    src="../assets/trousers-logo.png"
+                    src="/trousers-logo.png"
                     alt="Trousers Logo"
                 />
             );

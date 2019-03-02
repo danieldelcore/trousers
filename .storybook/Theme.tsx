@@ -40,7 +40,7 @@ const buttonStyles = trousers<ButtonProps, Theme>()
         font-size: 20px;
         font-weight: 500;
         letter-spacing: 1px;
-        margin: 0.2px 10px;
+        margin: 5px 10px;
         outline: none;
         padding: 10px 20px 14px 20px;
         text-decoration: none;
@@ -48,7 +48,6 @@ const buttonStyles = trousers<ButtonProps, Theme>()
 
         :hover {
             background-color: ${({ hoverColor }) => hoverColor};
-            color: rgba(255, 255, 255, 0.8);
         }
 
         :active {
