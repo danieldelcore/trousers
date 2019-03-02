@@ -8,7 +8,7 @@ import { renderStyles, generateHash, interpolateStyles } from './common';
 const mountStyles = memoize((
     componentName: string,
     styles: string,
-    separator: string = '--'
+    separator: string = '__'
 ): string => {
     const className = `${componentName}${separator}${generateHash()}`
 
@@ -43,7 +43,7 @@ export default function useTrousers<Props, Theme>(
                 theme
             );
 
-            const modifierClassName = mountStyles(componentName, modifierStyles, '__');
+            const modifierClassName = mountStyles(componentName, modifierStyles, '--');
 
             return `${accum}${modifierClassName} `;
         }, '')
