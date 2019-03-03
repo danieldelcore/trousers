@@ -1,9 +1,5 @@
 import { v3 as hash } from 'murmurhash';
 
-let count = 0;
-
-function generateHash() {
-    return hash((count++).toString(10));
+export default function generateHash(key: string, seed?: number) {
+    return hash(key, seed);
 };
-
-export default generateHash;
