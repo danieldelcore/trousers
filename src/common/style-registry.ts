@@ -1,36 +1,44 @@
 import stylis from 'stylis';
 
-const ATTRIBUTE_ID = 'data-trousers';
+class StyleRegistry {
+    private parentElement!: HTMLElement;
+    private styleElement!: HTMLStyleElement;
+    private styles: string[] = [];
 
-let styleElement: HTMLStyleElement;
+    constructor(element: HTMLElement, attributeId: string) {
+        this.mount(element, attributeId);
+    }
 
-export default function renderStyles(
-    className: string,
-    styles: string
-) {
-    if (!isMounted()) mountToHead();
+    register(id: string, styles: string) {
+        if (this.has(id)) return;
 
-    const processedStyles = stylis(className, styles);
+        const processedStyles = stylis(id, styles);
+        const styleNode = document.createTextNode(processedStyles);
 
-    appendStyle(`${processedStyles}\n`);
+        this.styleElement.appendChild(styleNode);
+        this.styles.push(id);
+    }
+
+    has(id: string): boolean {
+        return this.styles.includes(id);
+    }
+
+    private mount(element: HTMLElement, attributeId: string) {
+        this.parentElement = element;
+
+        const styleElement: HTMLStyleElement | null = this.parentElement
+            .querySelector(`style[${attributeId}]`);
+
+        if (!styleElement) {
+            this.styleElement = document.createElement('style');
+            this.styleElement.setAttribute(attributeId, '');
+            this.styleElement.type = 'text/css';
+        } else {
+            this.styleElement = styleElement;
+        }
+
+        this.parentElement.appendChild(this.styleElement);
+    }
 }
 
-function isMounted(): boolean {
-    return !!styleElement;
-}
-
-function mountToHead() {
-    const headElement = document.getElementsByTagName('head')[0];
-
-    styleElement = document.createElement('style');
-    styleElement.setAttribute(ATTRIBUTE_ID, '');
-    styleElement.type = 'text/css';
-
-    headElement.appendChild(styleElement);
-};
-
-function appendStyle(styles: string) {
-    const styleNode = document.createTextNode(styles);
-
-    styleElement.appendChild(styleNode);
-}
+export default StyleRegistry;

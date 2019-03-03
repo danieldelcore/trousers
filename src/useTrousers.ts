@@ -1,51 +1,78 @@
-import { useContext } from 'react';
-import memoize from 'fast-memoize';
+import { useContext, useEffect } from 'react';
+import memoize from 'memoizee';
 
 import { StyleDefinition } from './types';
-import { ThemeContext, StyleCollector } from './';
-import { renderStyles, generateHash, interpolateStyles } from './common';
+import { ThemeContext, ThemeCtx, StyleCollector } from './';
+import { StyleRegistry, interpolateStyles } from './common';
 
-const mountStyles = memoize((
-    componentName: string,
-    styles: string,
-    separator: string = '__'
-): string => {
-    const className = `${componentName}${separator}${generateHash()}`
+const headElement = document.getElementsByTagName('head')[0];
+const styleRegisty = new StyleRegistry(headElement, 'data-trousers');
 
-    renderStyles(`.${className}`, styles);
+const mountStyles = memoize(
+    <Props, Theme>(
+        componentId: string,
+        styleDefinition: StyleDefinition<Props, Theme>,
+        theme: Theme,
+    ): string => {
+        const componentSelector = `.${componentId}`;
 
-    return className;
-});
+        if (!styleRegisty.has(componentSelector)) {
+            const styles = interpolateStyles(
+                styleDefinition.styles,
+                styleDefinition.expressions,
+                theme,
+            );
+
+            styleRegisty.register(componentSelector, styles);
+        }
+
+        return componentId;
+    },
+    { length: 1 }
+);
 
 export default function useTrousers<Props, Theme>(
     componentName: string,
     props: Props,
     styleCollector: StyleCollector<Props, Theme>
 ): string {
-    const { theme } = useContext(ThemeContext);
-    const styleDefinition = styleCollector.get();
+    type CurrentStyle = StyleDefinition<Props, Theme>;
 
-    const elementStyles = interpolateStyles(
-        styleDefinition[0].styles,
-        styleDefinition[0].expressions,
-        theme
-    );
+    const styleDefinitions = styleCollector.get();
+    const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
 
-    const elementClassName = mountStyles(componentName, elementStyles);
+    useEffect(() => () => mountStyles.clear(), []);
 
-    const modifierClassNames = styleDefinition
-        .slice(1)
-        .filter((modifier: StyleDefinition<Props, Theme>) => modifier.predicate && modifier.predicate(props))
-        .reduce((accum: string, modifier: StyleDefinition<Props, Theme>) => {
-            const modifierStyles = interpolateStyles(
-                modifier.styles,
-                modifier.expressions,
-                theme
+    const elementClassName = styleDefinitions
+        .filter(({ type }: CurrentStyle) => type === 'element')
+        .reduce((accum: string, styleDefinition: CurrentStyle) => {
+            const hash = `${styleDefinition.hash}${themeHash}`;
+            const componentId = `${componentName}__${hash}`;
+
+            const className = mountStyles(
+                componentId,
+                styleDefinition,
+                theme as Theme
             );
 
-            const modifierClassName = mountStyles(componentName, modifierStyles, '--');
+            return `${accum}${className} `;
+        }, '')
+        .trim();
 
-            return `${accum}${modifierClassName} `;
+    const modifierClassNames = styleDefinitions
+        .filter(({ type }: CurrentStyle) => type === 'modifier')
+        .filter(({ predicate }: CurrentStyle) => predicate && predicate(props))
+        .reduce((accum: string, styleDefinition: CurrentStyle) => {
+            const hash = `${styleDefinition.hash}${themeHash}`;
+            const componentId = `${componentName}--${hash}`;
+
+            const className = mountStyles(
+                componentId,
+                styleDefinition,
+                theme as Theme
+            );
+
+            return `${accum}${className} `;
         }, '')
         .trim();
 
