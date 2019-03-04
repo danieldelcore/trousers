@@ -223,9 +223,9 @@ The `trousers()` function is designed to collect style definitions and provide s
 - `trousers().get()`
 
 ### `trousers().element`
-A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
+A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates).
 
-You should treat element blocks like you would do with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
+You should treat element blocks like you would with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
 
 - The element name describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
 - The structure of an element's full name is block-name__element-name. The element name is separated from the block name with a double underscore (__).
@@ -254,9 +254,8 @@ A function that accepts a predicate function or boolean and returns a new functi
 
 Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
 
-An entity that defines the appearance, state, or behavior of a block or element.
-
-- A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it.
+- Defines the appearance, state, or behavior of a block or element
+- A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
 - You can have one or multiple modifiers active at any time
 - The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
 
