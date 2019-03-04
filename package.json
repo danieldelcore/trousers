@@ -1,7 +1,7 @@
 {
   "name": "trousers",
   "version": "0.2.0",
-  "description": "",
+  "description": "Give React Components some style with Trousers!",
   "main": "lib/index.js",
   "author": "Daniel Del Core",
   "license": "MIT",
@@ -24,6 +24,14 @@
     "type": "git",
     "url": "git+https://github.com/danieldelcore/trousers.git"
   },
+  "keywords": [
+    "bem",
+    "css-in-js",
+    "react",
+    "hooks",
+    "hook",
+    "css"
+  ],
   "bugs": {
     "url": "https://github.com/danieldelcore/trousers/issues"
   },
