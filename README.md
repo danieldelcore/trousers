@@ -213,28 +213,81 @@ Now your component will render different styles based on the context it is mount
 ## API
 
 ### `trousers()`
-The `trousers()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and reimport it into your component.
+The `trousers()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
 > NOTE! Trousers return methods will always return `this`, which means the calls can be chained repeatedly.
 
 **Returns:**
 - `trousers().element`
 - `trousers().modifier(predicate)`
-- `trousers().get`
+- `trousers().get()`
 
 ### `trousers().element`
 A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
 
+You should treat element blocks like you would do with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
+
+- The element name describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
+- The structure of an element's full name is block-name__element-name. The element name is separated from the block name with a double underscore (__).
+- The block name defines the namespace, which guarantees that the elements are dependent on the block (block__elem)
+- A block can have a nested structure of elements in the DOM tree
+
 **Arugments:**
 - `taggedTemplate`: TaggedTemplate
 
+**Example:**
+
+```jsx
+import { trousers } from 'trousers';
+
+const styles = trousers()
+    .element`
+        background-color: red;
+    `;
+```
+
 ### `trousers().modifier(predicate)`
+
+A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
+
+> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifer will potentially be overriding the style rules defined in the modifiers and elements delcared before it.
+
+Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
+
+An entity that defines the appearance, state, or behavior of a block or element.
+
+- A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it.
+- You can have one or multiple modifiers active at any time
+- The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
 
 **Arguments:**
 - `predicate`: boolean | Function(props) => boolean
 
 **Returns:**
 - `Function(TaggedTemplate)`
+
+**Example:**
+
+```jsx
+import { trousers } from 'trousers';
+
+const styles = trousers()
+    .element``
+    .modifier(props => {
+        return (props.primary)
+            ? true;
+            : false;
+    })`
+        background-color: yellow;
+    `
+    .modifier(props => {
+        return (props.isDisabled)
+            ? true;
+            : false;
+    })`
+        background-color: grey;
+    `;
+```
 
 ### `trousers().get()`
 Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects that trousers passes around internally.
@@ -251,16 +304,84 @@ Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects
 **Returns:**
 - `styleDefinitions`: StyleDefinition[];
 
+**Example:**
+
+```jsx
+import { trousers } from 'trousers';
+
+const styles = trousers()
+    .element``
+    .modifier(...)``;
+
+styles.get(); //
+```
+
 ### `useTrousers()`
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
 **Arguments:**
 - `name`: string
 - `props`: Object
-- `styleDefinitions`: StyleDefinition[]
+- `styleCollector`: StyleCollector
 
 **Returns:**
 - `className`: string
+
+**Example:**
+
+```jsx
+import React from 'react';
+import { trousers, useTrousers } from 'trousers';
+
+const styles = trousers()
+    .element``
+    .modifier(...)``;
+
+const Button = props => {
+    const classNames = useTrousers('button', props, styles);
+
+    return (
+        <button className={classNames}>
+            Submit
+        </button>
+    );
+};
+```
+
+### `withTrousers()`
+A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a trousers style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
+
+Use this HOC in your class components, where hooks (and useTrousers) are not available.
+
+> Note: Remember to apply the supplied className prop to an element in your components render funciton or your styling wont be applied to your element!
+
+**Arguments:**
+- `Component`: React Component
+- `styleCollector`: StyleCollector
+
+**Example:**
+
+```jsx
+import React from 'react';
+import { trousers, withTrousers } from 'trousers';
+
+const styles = trousers()
+    .element``
+    .modifier(...)``;
+
+class Button {
+    render() {
+        return (
+            // Important, apply the className yourself
+            <button className={this.props.className}>
+                Submit
+            </button>
+        )
+    }
+);
+
+export default withTrousers(Button, styles);
+```
 
 ### `<ThemeProvider />`
 Responsible for pushing the supplied theme into React's Context API.
@@ -271,6 +392,7 @@ Responsible for pushing the supplied theme into React's Context API.
 **Example:**
 
 ```jsx
+import React from 'react';
 import { ThemeProvider } from 'trousers';
 
 const theme = {
@@ -306,6 +428,7 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 
 ## Resources
 - [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
+- [BEM](https://en.bem.info/)
 - [BEM - Block Element Modifier](http://getbem.com/introduction/)
 - [How styled-components works](https://medium.com/styled-components/how-styled-components-works-618a69970421)
 - [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
