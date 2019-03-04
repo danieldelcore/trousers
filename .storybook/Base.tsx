@@ -125,7 +125,7 @@ storiesOf('Basic', module)
             return (
                 <img
                     className={logoClassnames}
-                    src="/trousers-logo.png"
+                    src="trousers-logo.png"
                     alt="Trousers Logo"
                 />
             );

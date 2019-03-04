@@ -33,7 +33,7 @@ storiesOf('Miscellaneous', module)
                     <p>{count}</p>
                     <img
                         className={logoClassnames}
-                        src="/trousers-logo.png"
+                        src="trousers-logo.png"
                         alt={`Trousers Logo ${count}`}
                     />
                 </Fragment>
