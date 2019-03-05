@@ -140,7 +140,7 @@ Notice that you can localise the logic for a particular state in one place, whic
 Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
-[Hooks is a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
+[Hooks are a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
 
