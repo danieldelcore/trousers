@@ -4,7 +4,7 @@ import React, { FC, Fragment, ReactNode } from 'react';
 import { trousers, useTrousers } from '../src';
 
 storiesOf('Basic', module)
-    .add('Default', () => {
+    .add('Elements and modifiers', () => {
         interface ButtonProps {
             children: ReactNode;
             primary?: boolean;
@@ -20,6 +20,7 @@ storiesOf('Basic', module)
                 color: white;
                 display: inline-block;
                 cursor: pointer;
+                font-family: sans-serif;
                 font-weight: 500;
                 letter-spacing: 1px;
                 margin: 5px 10px;
@@ -98,8 +99,68 @@ storiesOf('Basic', module)
             </Fragment>
         );
     })
+    .add('Media queries', () => {
+        const styles = trousers()
+            .element`
+                background-color: #eaf2fd;
+                padding: 20px;
+                border: none;
+                border-radius: 6px;
+                color: #3b3b41;
+                letter-spacing: 1px;
+                font-family: sans-serif;
+                font-weight: 400;
+                text-align: center;
+
+                &:before {
+                    content: "Small";
+                    display: block;
+                    font-weight: 800;
+                    font-size: 40px;
+                    margin-bottom: 10px;
+                }
+
+                @media (min-width: 768px) {
+                    &:before {
+                        content: "Medium";
+                    }
+
+                    background-color: #deecff;
+                }
+
+                @media (min-width: 1000px) {
+                    &:before {
+                        content: "Large";
+                    }
+
+                    background-color: #c6cfff;
+                }
+
+                @media (min-width: 1500px) {
+                    &:before {
+                        content: "Extra Large";
+                    }
+
+                    background-color: #e8d3ff;
+                }
+            `;
+
+        const ScreenRuler: FC = () => {
+            const classNames = useTrousers<{}, {}>('logo', {}, styles);
+
+            return (
+                <div className={classNames}>
+                    Resize me!
+                </div>
+            )
+        }
+
+        return (
+            <ScreenRuler />
+        )
+    })
     .add('Keyframe animations', () => {
-        const logoStyles = trousers()
+        const styles = trousers()
             .element`
                 width: 150px;
                 height: auto;
@@ -120,11 +181,11 @@ storiesOf('Basic', module)
             `
 
         const TrousersLogo: FC = () => {
-            const logoClassnames = useTrousers<{}, {}>('logo', {}, logoStyles);
+            const classNames = useTrousers<{}, {}>('logo', {}, styles);
 
             return (
                 <img
-                    className={logoClassnames}
+                    className={classNames}
                     src="trousers-logo.png"
                     alt="Trousers Logo"
                 />
