@@ -28,8 +28,7 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = trousers<ButtonProps, Theme>()
-    .element`
+const buttonStyles = trousers<ButtonProps, Theme>().element`
         background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
@@ -59,11 +58,7 @@ const buttonStyles = trousers<ButtonProps, Theme>()
 const Button: FC<ButtonProps> = props => {
     const classNames = useTrousers<ButtonProps, Theme>('button', props, buttonStyles);
 
-    return (
-        <button className={classNames}>
-            {props.children}
-        </button>
-    );
+    return <button className={classNames}>{props.children}</button>;
 };
 
 storiesOf('Theme', module)
@@ -90,6 +85,4 @@ storiesOf('Theme', module)
             </ThemeProvider>
         </ThemeProvider>
     ))
-    .add('No theme in context', () => (
-        <Button>No theme OMG!</Button>
-    ));
+    .add('No theme in context', () => <Button>No theme OMG!</Button>);

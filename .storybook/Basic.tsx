@@ -11,8 +11,7 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = trousers<ButtonProps, {}>()
-            .element`
+        const buttonStyles = trousers<ButtonProps, {}>().element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -37,8 +36,7 @@ storiesOf('Basic', module)
                 :active {
                     background-color: #9fb8d1;
                 }
-            `
-            .modifier(props => !!props.primary)`
+            `.modifier(props => !!props.primary)`
                 background-color: #f95b5b;
                 box-shadow: inset 0 -4px #c54646;
                 color: #ffffff;
@@ -50,8 +48,7 @@ storiesOf('Basic', module)
                 :active {
                     background-color: #c54646;
                 }
-            `
-            .modifier(props => !!props.disabled)`
+            `.modifier(props => !!props.disabled)`
                 background-color: #efefef;
                 box-shadow: inset 0 -4px #afafaf;
                 color: #afafaf;
@@ -64,35 +61,30 @@ storiesOf('Basic', module)
                 }
             `;
 
-        const buttonSpanStyles = trousers<{}, {}>()
-            .element`
+        const buttonSpanStyles = trousers<{}, {}>().element`
                 font-size: 20px;
             `;
 
         const Button: FC<ButtonProps> = props => {
             const buttonClassNames = useTrousers<ButtonProps, {}>('button', props, buttonStyles);
-            const buttonSpanClassNames = useTrousers<{}, {}>('button-span', props, buttonSpanStyles);
+            const buttonSpanClassNames = useTrousers<{}, {}>(
+                'button-span',
+                props,
+                buttonSpanStyles,
+            );
 
             return (
                 <button className={buttonClassNames}>
-                    <span className={buttonSpanClassNames}>
-                        {props.children}
-                    </span>
+                    <span className={buttonSpanClassNames}>{props.children}</span>
                 </button>
             );
         };
 
         return (
             <Fragment>
-                <Button>
-                    Base
-                </Button>
-                <Button primary>
-                    Primary
-                </Button>
-                <Button disabled>
-                    Disabled
-                </Button>
+                <Button>Base</Button>
+                <Button primary>Primary</Button>
+                <Button disabled>Disabled</Button>
                 <Button primary disabled>
                     Disabled Primary
                 </Button>
@@ -100,8 +92,7 @@ storiesOf('Basic', module)
         );
     })
     .add('Media queries', () => {
-        const styles = trousers()
-            .element`
+        const styles = trousers().element`
                 background-color: #eaf2fd;
                 padding: 20px;
                 border: none;
@@ -148,20 +139,13 @@ storiesOf('Basic', module)
         const ScreenRuler: FC = () => {
             const classNames = useTrousers<{}, {}>('logo', {}, styles);
 
-            return (
-                <div className={classNames}>
-                    Resize me!
-                </div>
-            )
-        }
+            return <div className={classNames}>Resize me!</div>;
+        };
 
-        return (
-            <ScreenRuler />
-        )
+        return <ScreenRuler />;
     })
     .add('Keyframe animations', () => {
-        const styles = trousers()
-            .element`
+        const styles = trousers().element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -178,21 +162,13 @@ storiesOf('Basic', module)
                         transform: rotate(360deg);
                     }
                 }
-            `
+            `;
 
         const TrousersLogo: FC = () => {
             const classNames = useTrousers<{}, {}>('logo', {}, styles);
 
-            return (
-                <img
-                    className={classNames}
-                    src="trousers-logo.png"
-                    alt="Trousers Logo"
-                />
-            );
+            return <img className={classNames} src="trousers-logo.png" alt="Trousers Logo" />;
         };
 
-        return (
-            <TrousersLogo/>
-        );
+        return <TrousersLogo />;
     });

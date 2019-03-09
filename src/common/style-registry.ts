@@ -26,8 +26,9 @@ class StyleRegistry {
     private mount(element: HTMLElement, attributeId: string) {
         this.parentElement = element;
 
-        const styleElement: HTMLStyleElement | null = this.parentElement
-            .querySelector(`style[${attributeId}]`);
+        const styleElement: HTMLStyleElement | null = this.parentElement.querySelector(
+            `style[${attributeId}]`,
+        );
 
         if (!styleElement) {
             this.styleElement = document.createElement('style');

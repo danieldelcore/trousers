@@ -23,9 +23,5 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
     const key = JSON.stringify(theme);
     const hash = generateHash(key);
 
-    return (
-        <ThemeContext.Provider value={{ hash, theme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
-}
+    return <ThemeContext.Provider value={{ hash, theme }}>{children}</ThemeContext.Provider>;
+};

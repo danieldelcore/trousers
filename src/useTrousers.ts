@@ -28,13 +28,13 @@ const mountStyles = memoize(
 
         return componentId;
     },
-    { length: 1 }
+    { length: 1 },
 );
 
 export default function useTrousers<Props, Theme>(
     componentName: string,
     props: Props,
-    styleCollector: StyleCollector<Props, Theme>
+    styleCollector: StyleCollector<Props, Theme>,
 ): string {
     type CurrentStyle = StyleDefinition<Props, Theme>;
 
@@ -49,11 +49,7 @@ export default function useTrousers<Props, Theme>(
             const hash = `${styleDefinition.hash}${themeHash}`;
             const componentId = `${componentName}__${hash}`;
 
-            const className = mountStyles(
-                componentId,
-                styleDefinition,
-                theme as Theme
-            );
+            const className = mountStyles(componentId, styleDefinition, theme as Theme);
 
             return `${accum}${className} `;
         }, '')
@@ -66,11 +62,7 @@ export default function useTrousers<Props, Theme>(
             const hash = `${styleDefinition.hash}${themeHash}`;
             const componentId = `${componentName}--${hash}`;
 
-            const className = mountStyles(
-                componentId,
-                styleDefinition,
-                theme as Theme
-            );
+            const className = mountStyles(componentId, styleDefinition, theme as Theme);
 
             return `${accum}${className} `;
         }, '')
