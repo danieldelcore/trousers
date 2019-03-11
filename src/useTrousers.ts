@@ -2,11 +2,11 @@ import { useContext, useEffect } from 'react';
 import memoize from 'memoizee';
 
 import { StyleDefinition } from './types';
+import { interpolateStyles } from './common';
+import createStyleRegistry from './style-registry';
 import { ThemeContext, ThemeCtx, StyleCollector } from './';
-import { StyleRegistry, interpolateStyles } from './common';
 
-const headElement = document.getElementsByTagName('head')[0];
-const styleRegisty = new StyleRegistry(headElement, 'data-trousers');
+const styleRegisty = createStyleRegistry('data-trousers');
 
 const mountStyles = memoize(
     <Props, Theme>(

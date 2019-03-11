@@ -1,6 +1,8 @@
 import stylis from 'stylis';
 
-class StyleRegistry {
+import { RegistryInterface } from './registry-interface';
+
+class ClientRegistry implements RegistryInterface {
     private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
     private styles: string[] = [];
@@ -42,4 +44,4 @@ class StyleRegistry {
     }
 }
 
-export default StyleRegistry;
+export default ClientRegistry;
