@@ -38,31 +38,38 @@ export default function useTrousers<Props, Theme>(
 ): string {
     type CurrentStyle = StyleDefinition<Props, Theme>;
 
-    const styleDefinitions = styleCollector.get();
     const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
 
     useEffect(() => () => mountStyles.clear(), []);
 
-    const elementClassName = styleDefinitions
-        .filter(({ type }: CurrentStyle) => type === 'element')
+    const elementClassName = styleCollector
+        .get('element')
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
             const componentId = `${componentName}__${hash}`;
 
-            const className = mountStyles(componentId, styleDefinition, theme as Theme);
+            const className = mountStyles(
+                componentId,
+                styleDefinition,
+                theme as Theme,
+            );
 
             return `${accum}${className} `;
         }, '')
         .trim();
 
-    const modifierClassNames = styleDefinitions
-        .filter(({ type }: CurrentStyle) => type === 'modifier')
+    const modifierClassNames = styleCollector
+        .get('modifier')
         .filter(({ predicate }: CurrentStyle) => predicate && predicate(props))
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
             const componentId = `${componentName}--${hash}`;
 
-            const className = mountStyles(componentId, styleDefinition, theme as Theme);
+            const className = mountStyles(
+                componentId,
+                styleDefinition,
+                theme as Theme,
+            );
 
             return `${accum}${className} `;
         }, '')

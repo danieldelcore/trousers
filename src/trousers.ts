@@ -9,12 +9,19 @@ export class StyleCollector<Props, Theme> {
     }
 
     modifier(predicate: Predicate<Props>) {
-        return (styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) =>
-            this.registerStyles(styles, expressions, 'modifier', predicate);
+        return (
+            styles: TemplateStringsArray,
+            ...expressions: Expression<Theme>[]
+        ) => this.registerStyles(styles, expressions, 'modifier', predicate);
     }
 
-    get(): StyleDefinition<Props, Theme>[] {
-        return this.styleDefinitions;
+    get(type?: string): StyleDefinition<Props, Theme>[] {
+        if (!type) return this.styleDefinitions;
+
+        return this.styleDefinitions.filter(
+            (definition: StyleDefinition<Props, Theme>) =>
+                definition.type === type,
+        );
     }
 
     private registerStyles(
