@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServerStyleRegistry renders registered styles in the right format 1`] = `
+"
+1{background-color:red;}
+2{background-color:blue;}"
+`;

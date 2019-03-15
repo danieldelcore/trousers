@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StyleRegistry registering an existing key does not update the style 1`] = `
+<style data-testing-trousers="" type="text/css">
+  1{background-color:red;}
+</style>
+`;
+
+exports[`StyleRegistry registers a new style 1`] = `
+<style data-testing-trousers="" type="text/css">
+  1{background-color:red;}
+</style>
+`;
+
+exports[`StyleRegistry registers multiple styles 1`] = `
+<style data-testing-trousers="" type="text/css">
+  1{background-color:red;}2{background-color:blue;}
+</style>
+`;
