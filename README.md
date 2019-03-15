@@ -210,6 +210,10 @@ const buttonStyles = trousers()
 
 Now your component will render different styles based on the context it is mounted in.
 
+### Server side rendering (SSR)
+
+Docs coming soon...
+
 ## API
 
 ### `trousers()`
@@ -419,11 +423,7 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 
 ## TODO
 - [ ] `attachGlobalStyle` function
-- [ ] Server Side Rendering support
 - [ ] Pass `state` into predicates
-- [ ] CSS syntax highlighting for VSCode + Atom
-- [ ] Unit tests
-- [ ] Reintroduce `"preversion": "npm run lint && npm run test"`
 
 ## Resources
 - [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
