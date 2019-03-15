@@ -1,6 +1,8 @@
 import stylis from 'stylis';
 
-class StyleRegistry {
+import StyleRegistryInterface from './style-registry-interface';
+
+class StyleRegistry implements StyleRegistryInterface {
     private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
     private styles: string[] = [];

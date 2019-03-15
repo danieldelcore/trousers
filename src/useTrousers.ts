@@ -2,28 +2,40 @@ import { useContext, useEffect } from 'react';
 import memoize from 'memoizee';
 
 import { StyleDefinition } from './types';
-import { ThemeContext, ThemeCtx, StyleCollector } from './';
-import { StyleRegistry, interpolateStyles } from './common';
+import { interpolateStyles, isBrowser } from './common';
+import { StyleRegistry, ServerStyleRegistry } from './styles';
+import {
+    ThemeContext,
+    ThemeCtx,
+    StyleCollector,
+    ServerContext,
+    ServerCtx,
+} from './';
 
-const headElement = document.getElementsByTagName('head')[0];
-const styleRegisty = new StyleRegistry(headElement, 'data-trousers');
+let styleRegisty: StyleRegistry;
+
+if (isBrowser()) {
+    const headElement = document.getElementsByTagName('head')[0];
+    styleRegisty = new StyleRegistry(headElement, 'data-trousers');
+}
 
 const mountStyles = memoize(
     <Props, Theme>(
         componentId: string,
         styleDefinition: StyleDefinition<Props, Theme>,
         theme: Theme,
+        registry: StyleRegistry | ServerStyleRegistry,
     ): string => {
         const componentSelector = `.${componentId}`;
 
-        if (!styleRegisty.has(componentSelector)) {
+        if (!registry.has(componentSelector)) {
             const styles = interpolateStyles(
                 styleDefinition.styles,
                 styleDefinition.expressions,
                 theme,
             );
 
-            styleRegisty.register(componentSelector, styles);
+            registry.register(componentSelector, styles);
         }
 
         return componentId;
@@ -39,8 +51,17 @@ export default function useTrousers<Props, Theme>(
     type CurrentStyle = StyleDefinition<Props, Theme>;
 
     const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
+    const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
 
     useEffect(() => () => mountStyles.clear(), []);
+
+    if (!isBrowser() && !serverStyleRegistry) {
+        throw Error(
+            'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
+        );
+    }
+
+    const registry = !serverStyleRegistry ? styleRegisty : serverStyleRegistry;
 
     const elementClassName = styleCollector
         .get('element')
@@ -52,6 +73,7 @@ export default function useTrousers<Props, Theme>(
                 componentId,
                 styleDefinition,
                 theme as Theme,
+                registry,
             );
 
             return `${accum}${className} `;
@@ -69,6 +91,7 @@ export default function useTrousers<Props, Theme>(
                 componentId,
                 styleDefinition,
                 theme as Theme,
+                registry,
             );
 
             return `${accum}${className} `;
