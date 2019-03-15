@@ -12,6 +12,8 @@ import {
     ThemeProvider,
     trousers,
     useTrousers,
+    ServerProvider,
+    ServerStyleRegistry,
 } from './';
 
 interface ButtonProps {
@@ -24,7 +26,7 @@ interface Theme {
     primary: string;
 }
 
-describe('Server side rendering', () => {
+describe('Server side rendering (SSR)', () => {
     let styles: StyleCollector<ButtonProps, Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
@@ -44,14 +46,21 @@ describe('Server side rendering', () => {
             `;
 
         Button = props => {
-            const classNames = useTrousers<ButtonProps, Theme>('button', props, styles);
-
-            return (
-                <button className={classNames}>
-                    {props.children}
-                </button>
+            const classNames = useTrousers<ButtonProps, Theme>(
+                'button',
+                props,
+                styles,
             );
+
+            return <button className={classNames}>{props.children}</button>;
         };
+    });
+
+    afterEach(() => {
+        // @ts-ignore
+        global.window = undefined;
+        // @ts-ignore
+        global.document = undefined;
     });
 
     it('stringify application on server and hydrate on client', () => {
@@ -64,8 +73,13 @@ describe('Server side rendering', () => {
             </ThemeProvider>
         );
 
-        const element = React.createElement(App);
-        const html = renderToString(element);
+        const registry = new ServerStyleRegistry();
+
+        const html = renderToString(
+            <ServerProvider registry={registry}>
+                <App />
+            </ServerProvider>,
+        );
 
         const jsdom = new JSDOM(`<!doctype html><html><body></body></html>`);
         const { window } = jsdom;
@@ -79,6 +93,23 @@ describe('Server side rendering', () => {
         root.innerHTML = html;
 
         expect(() => hydrate(<App />, root)).not.toThrow();
+        expect(html).toMatchSnapshot();
+        expect(registry.get()).toMatchSnapshot();
         expect(console.warn).not.toHaveBeenCalled();
+    });
+
+    it('throws if ServerProvider was not used', () => {
+        const App: FC = () => (
+            <ThemeProvider theme={theme}>
+                <Button>Hello, SSR!</Button>
+                <Button primary>Hello, Hydration!</Button>
+            </ThemeProvider>
+        );
+
+        expect(() => {
+            renderToString(<App />);
+        }).toThrowError(
+            'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
+        );
     });
 });

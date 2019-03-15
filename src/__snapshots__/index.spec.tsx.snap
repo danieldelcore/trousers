@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Server side rendering (SSR) stringify application on server and hydrate on client 1`] = `
+<button class="button__17934672291136642020 ">Hello, SSR!</button>
+<button class="button__17934672291136642020 button--29111114421136642020">Hello, Hydration!</button>
+`;
+
+exports[`Server side rendering (SSR) stringify application on server and hydrate on client 2`] = `
+"
+.button__17934672291136642020{background-color:#b3cde8;color:white;}
+.button--29111114421136642020{background-color:#f95b5b;color:#ffffff;}"
+`;
