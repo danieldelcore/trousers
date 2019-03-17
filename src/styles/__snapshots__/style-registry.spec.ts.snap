@@ -6,6 +6,22 @@ exports[`StyleRegistry registering an existing key does not update the style 1`]
 </style>
 `;
 
+exports[`StyleRegistry registers a global first, with prexisting style tag 1`] = `
+<style data-testing-trousers-global="" type="text/css">
+  {background-color:blue;}
+</style>
+<style data-testing-trousers="" type="text/css">
+  1{background-color:red;}
+</style>
+`;
+
+exports[`StyleRegistry registers a global style 1`] = `
+<style data-testing-trousers-global="" type="text/css">
+  {background-color:red;}
+</style>
+<style data-testing-trousers="" type="text/css"></style>
+`;
+
 exports[`StyleRegistry registers a new style 1`] = `
 <style data-testing-trousers="" type="text/css">
   1{background-color:red;}

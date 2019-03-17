@@ -7,6 +7,8 @@ exports[`Server side rendering (SSR) stringify application on server and hydrate
 
 exports[`Server side rendering (SSR) stringify application on server and hydrate on client 2`] = `
 "
+*{background-color:red;}
+
 .button__17934672291136642020{background-color:#b3cde8;color:white;}
 .button--29111114421136642020{background-color:#f95b5b;color:#ffffff;}"
 `;

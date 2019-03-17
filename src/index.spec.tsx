@@ -12,9 +12,13 @@ import {
     ThemeProvider,
     trousers,
     useTrousers,
+    css,
+    useGlobal,
     ServerProvider,
     ServerStyleRegistry,
 } from './';
+
+import { SingleStyleCollector } from './css';
 
 interface ButtonProps {
     children: ReactNode;
@@ -28,6 +32,7 @@ interface Theme {
 
 describe('Server side rendering (SSR)', () => {
     let styles: StyleCollector<ButtonProps, Theme>;
+    let globalStyles: SingleStyleCollector<Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
 
@@ -36,6 +41,12 @@ describe('Server side rendering (SSR)', () => {
             default: '#b3cde8',
             primary: '#f95b5b',
         };
+
+        globalStyles = css<Theme>`
+            * {
+                background-color: red;
+            }
+        `;
 
         styles = trousers<ButtonProps, Theme>().element`
                 background-color: ${theme => theme.default};
@@ -66,12 +77,16 @@ describe('Server side rendering (SSR)', () => {
     it('stringify application on server and hydrate on client', () => {
         jest.spyOn(console, 'warn');
 
-        const App: FC = () => (
-            <ThemeProvider theme={theme}>
-                <Button>Hello, SSR!</Button>
-                <Button primary>Hello, Hydration!</Button>
-            </ThemeProvider>
-        );
+        const App: FC = () => {
+            useGlobal(globalStyles);
+
+            return (
+                <ThemeProvider theme={theme}>
+                    <Button>Hello, SSR!</Button>
+                    <Button primary>Hello, Hydration!</Button>
+                </ThemeProvider>
+            );
+        };
 
         const registry = new ServerStyleRegistry();
 
@@ -106,9 +121,7 @@ describe('Server side rendering (SSR)', () => {
             </ThemeProvider>
         );
 
-        expect(() => {
-            renderToString(<App />);
-        }).toThrowError(
+        expect(() => renderToString(<App />)).toThrowError(
             'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
         );
     });
