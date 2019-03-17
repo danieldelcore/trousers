@@ -11,7 +11,7 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = trousers<ButtonProps, {}>().element`
+        const buttonStyles = trousers<ButtonProps, {}>('button').element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -61,21 +61,16 @@ storiesOf('Basic', module)
                 }
             `;
 
-        const buttonSpanStyles = trousers<{}, {}>().element`
+        const buttonSpanStyles = trousers('button-span').element`
                 font-size: 20px;
             `;
 
         const Button: FC<ButtonProps> = props => {
             const buttonClassNames = useTrousers<ButtonProps, {}>(
-                'button',
                 props,
                 buttonStyles,
             );
-            const buttonSpanClassNames = useTrousers<{}, {}>(
-                'button-span',
-                props,
-                buttonSpanStyles,
-            );
+            const buttonSpanClassNames = useTrousers(props, buttonSpanStyles);
 
             return (
                 <button className={buttonClassNames}>
@@ -98,7 +93,7 @@ storiesOf('Basic', module)
         );
     })
     .add('Media queries', () => {
-        const styles = trousers().element`
+        const styles = trousers('ruler').element`
                 background-color: #eaf2fd;
                 padding: 20px;
                 border: none;
@@ -143,7 +138,7 @@ storiesOf('Basic', module)
             `;
 
         const ScreenRuler: FC = () => {
-            const classNames = useTrousers<{}, {}>('ruler', {}, styles);
+            const classNames = useTrousers({}, styles);
 
             return <div className={classNames}>Resize me!</div>;
         };
@@ -151,7 +146,7 @@ storiesOf('Basic', module)
         return <ScreenRuler />;
     })
     .add('Keyframe animations', () => {
-        const styles = trousers().element`
+        const styles = trousers('logo').element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -171,7 +166,7 @@ storiesOf('Basic', module)
             `;
 
         const TrousersLogo: FC = () => {
-            const classNames = useTrousers<{}, {}>('logo', {}, styles);
+            const classNames = useTrousers({}, styles);
 
             return (
                 <img

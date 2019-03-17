@@ -4,7 +4,7 @@ import React, { FC, Fragment, useState, useEffect } from 'react';
 import { trousers, useTrousers } from '../src';
 
 storiesOf('Miscellaneous', module).add('State transitions', () => {
-    const logoStyles = trousers().element`
+    const logoStyles = trousers('logo').element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -18,7 +18,7 @@ storiesOf('Miscellaneous', module).add('State transitions', () => {
 
     const TrousersLogo: FC = () => {
         const [count, setCount] = useState(0);
-        const logoClassnames = useTrousers('logo', {}, logoStyles);
+        const logoClassnames = useTrousers({}, logoStyles);
 
         useEffect(() => {
             const ts = setTimeout(() => setCount(count + 1), 1000);

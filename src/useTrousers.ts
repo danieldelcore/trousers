@@ -44,7 +44,6 @@ const mountStyles = memoize(
 );
 
 export default function useTrousers<Props, Theme>(
-    componentName: string,
     props: Props,
     styleCollector: StyleCollector<Props, Theme>,
 ): string {
@@ -62,12 +61,13 @@ export default function useTrousers<Props, Theme>(
     }
 
     const registry = !serverStyleRegistry ? styleRegisty : serverStyleRegistry;
+    const elementName = styleCollector.getElementName();
 
     const elementClassName = styleCollector
         .get('element')
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
-            const componentId = `${componentName}__${hash}`;
+            const componentId = `${elementName}__${hash}`;
 
             const className = mountStyles(
                 componentId,
@@ -85,7 +85,7 @@ export default function useTrousers<Props, Theme>(
         .filter(({ predicate }: CurrentStyle) => predicate && predicate(props))
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
-            const componentId = `${componentName}--${hash}`;
+            const componentId = `${elementName}--${hash}`;
 
             const className = mountStyles(
                 componentId,

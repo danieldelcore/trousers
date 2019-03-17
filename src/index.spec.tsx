@@ -48,7 +48,7 @@ describe('Server side rendering (SSR)', () => {
             }
         `;
 
-        styles = trousers<ButtonProps, Theme>().element`
+        styles = trousers<ButtonProps, Theme>('button').element`
                 background-color: ${theme => theme.default};
                 color: white;
             `.modifier(props => !!props.primary)`
@@ -57,11 +57,7 @@ describe('Server side rendering (SSR)', () => {
             `;
 
         Button = props => {
-            const classNames = useTrousers<ButtonProps, Theme>(
-                'button',
-                props,
-                styles,
-            );
+            const classNames = useTrousers<ButtonProps, Theme>(props, styles);
 
             return <button className={classNames}>{props.children}</button>;
         };
