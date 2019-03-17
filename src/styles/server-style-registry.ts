@@ -13,19 +13,32 @@ class ServerRegistry implements StyleRegistryInterface {
         this.styles.set(id, processedStyles);
     }
 
+    registerGlobal(styles: string) {
+        const processedStyles = stylis('', styles);
+
+        this.styles.set('', processedStyles);
+    }
+
     has(id: string): boolean {
         return this.styles.has(id);
     }
 
     get(): string {
         let renderedStyles = '';
+        let globalStyles = '';
 
-        this.styles.forEach((value) => {
-            renderedStyles = `${renderedStyles}\n${value}`;
+        this.styles.forEach((value, key) => {
+            if (!key) {
+                globalStyles = `${globalStyles}\n${value}\n`;
+            } else {
+                renderedStyles = `${renderedStyles}\n${value}`;
+            }
         });
 
-        return renderedStyles;
+        return `${globalStyles}${renderedStyles}`;
     }
+
+    clear() {}
 }
 
 export default ServerRegistry;

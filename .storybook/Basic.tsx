@@ -66,7 +66,11 @@ storiesOf('Basic', module)
             `;
 
         const Button: FC<ButtonProps> = props => {
-            const buttonClassNames = useTrousers<ButtonProps, {}>('button', props, buttonStyles);
+            const buttonClassNames = useTrousers<ButtonProps, {}>(
+                'button',
+                props,
+                buttonStyles,
+            );
             const buttonSpanClassNames = useTrousers<{}, {}>(
                 'button-span',
                 props,
@@ -75,7 +79,9 @@ storiesOf('Basic', module)
 
             return (
                 <button className={buttonClassNames}>
-                    <span className={buttonSpanClassNames}>{props.children}</span>
+                    <span className={buttonSpanClassNames}>
+                        {props.children}
+                    </span>
                 </button>
             );
         };
@@ -137,7 +143,7 @@ storiesOf('Basic', module)
             `;
 
         const ScreenRuler: FC = () => {
-            const classNames = useTrousers<{}, {}>('logo', {}, styles);
+            const classNames = useTrousers<{}, {}>('ruler', {}, styles);
 
             return <div className={classNames}>Resize me!</div>;
         };
@@ -167,7 +173,13 @@ storiesOf('Basic', module)
         const TrousersLogo: FC = () => {
             const classNames = useTrousers<{}, {}>('logo', {}, styles);
 
-            return <img className={classNames} src="trousers-logo.png" alt="Trousers Logo" />;
+            return (
+                <img
+                    className={classNames}
+                    src="trousers-logo.png"
+                    alt="Trousers Logo"
+                />
+            );
         };
 
         return <TrousersLogo />;

@@ -5,10 +5,16 @@ import StyleRegistryInterface from './style-registry-interface';
 class StyleRegistry implements StyleRegistryInterface {
     private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
+    private globalElement!: HTMLStyleElement;
     private styles: string[] = [];
+    private attributeId: string;
 
     constructor(element: HTMLElement, attributeId: string) {
-        this.mount(element, attributeId);
+        this.attributeId = attributeId;
+        this.parentElement = element;
+
+        this.styleElement = this.mount();
+        this.parentElement.appendChild(this.styleElement);
     }
 
     register(id: string, styles: string) {
@@ -21,26 +27,40 @@ class StyleRegistry implements StyleRegistryInterface {
         this.styles.push(id);
     }
 
+    registerGlobal(styles: string) {
+        const processedStyles = stylis('', styles);
+        const styleNode = document.createTextNode(processedStyles);
+
+        this.globalElement = this.mount(true);
+        this.globalElement.appendChild(styleNode);
+        this.parentElement.insertBefore(this.globalElement, this.styleElement);
+    }
+
     has(id: string): boolean {
         return this.styles.includes(id);
     }
 
-    private mount(element: HTMLElement, attributeId: string) {
-        this.parentElement = element;
+    clear(isGlobal?: boolean) {
+        if (isGlobal) {
+            this.globalElement.remove();
+        } else {
+            this.styleElement.remove();
+        }
+    }
 
-        const styleElement: HTMLStyleElement | null = this.parentElement.querySelector(
-            `style[${attributeId}]`,
+    private mount(isGlobal?: boolean) {
+        const attr = isGlobal ? `${this.attributeId}-global` : this.attributeId;
+        let styleElement: HTMLStyleElement | null = this.parentElement.querySelector(
+            `style[${attr}]`,
         );
 
         if (!styleElement) {
-            this.styleElement = document.createElement('style');
-            this.styleElement.setAttribute(attributeId, '');
-            this.styleElement.type = 'text/css';
-        } else {
-            this.styleElement = styleElement;
+            styleElement = document.createElement('style');
+            styleElement.setAttribute(attr, '');
+            styleElement.type = 'text/css';
         }
 
-        this.parentElement.appendChild(this.styleElement);
+        return styleElement;
     }
 }
 

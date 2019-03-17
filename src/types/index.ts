@@ -1,1 +1,6 @@
-export { default as StyleDefinition, Predicate, Expression } from './style-definition';
+export {
+    StyleDefinition,
+    TaggedTemplate,
+    Predicate,
+    Expression,
+} from './style-definition';
