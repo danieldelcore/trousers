@@ -421,10 +421,6 @@ This can most certainly be done in styled-components and emotion! They are both 
 The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
 There are also plans on leverage hooks more down the line to enable a few new features.
 
-## TODO
-- [ ] `attachGlobalStyle` function
-- [ ] Pass `state` into predicates
-
 ## Resources
 - [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
 - [BEM](https://en.bem.info/)
