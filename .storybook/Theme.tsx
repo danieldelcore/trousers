@@ -28,7 +28,7 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = trousers<ButtonProps, Theme>('button').element`
+const buttonStyles = trousers<ButtonProps, {}, Theme>('button').element`
         background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
@@ -56,7 +56,7 @@ const buttonStyles = trousers<ButtonProps, Theme>('button').element`
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useTrousers<ButtonProps, Theme>(props, buttonStyles);
+    const classNames = useTrousers<ButtonProps, {}, Theme>(buttonStyles, props);
 
     return <button className={classNames}>{props.children}</button>;
 };

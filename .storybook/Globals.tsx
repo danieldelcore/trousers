@@ -5,13 +5,13 @@ import { trousers, css, useTrousers, useGlobal, ThemeProvider } from '../src';
 
 storiesOf('Globals', module)
     .add('Global styles', () => {
-        const globalStyles = css<{}>`
+        const globalStyles = css`
             * {
                 color: #f95b5b;
             }
         `;
 
-        const globalFontStyles = css<{}>`
+        const globalFontStyles = css`
             @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
         `;
 
@@ -34,7 +34,7 @@ storiesOf('Globals', module)
             const [clearFont] = useGlobal(globalFontStyles);
             const [clearStyles] = useGlobal(globalStyles);
 
-            const classNames = useTrousers({}, styles);
+            const classNames = useTrousers(styles);
 
             useEffect(
                 () => () => {
@@ -86,8 +86,7 @@ storiesOf('Globals', module)
 
         const TextBlock: FC = () => {
             const [clearStyles] = useGlobal<Theme>(globalStyles);
-
-            const classNames = useTrousers({}, styles);
+            const classNames = useTrousers(styles);
 
             useEffect(() => () => clearStyles(), []);
 

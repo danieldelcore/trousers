@@ -1,8 +1,8 @@
 import { StyleDefinition, Predicate, Expression } from './types';
 import { generateHash } from './common';
 
-export class StyleCollector<Props, Theme> {
-    private styleDefinitions: StyleDefinition<Props, Theme>[] = [];
+export class StyleCollector<Props, State, Theme> {
+    private styleDefinitions: StyleDefinition<Props, State, Theme>[] = [];
 
     constructor(private elementId: string) {}
 
@@ -10,7 +10,7 @@ export class StyleCollector<Props, Theme> {
         return this.registerStyles(styles, expressions, 'element');
     }
 
-    modifier(predicate: Predicate<Props>) {
+    modifier(predicate: Predicate<Props, State>) {
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
@@ -21,11 +21,11 @@ export class StyleCollector<Props, Theme> {
         return this.elementId;
     }
 
-    get(type?: string): StyleDefinition<Props, Theme>[] {
+    get(type?: string): StyleDefinition<Props, State, Theme>[] {
         if (!type) return this.styleDefinitions;
 
         return this.styleDefinitions.filter(
-            (definition: StyleDefinition<Props, Theme>) =>
+            (definition: StyleDefinition<Props, State, Theme>) =>
                 definition.type === type,
         );
     }
@@ -34,7 +34,7 @@ export class StyleCollector<Props, Theme> {
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
         type: 'element' | 'modifier',
-        predicate?: Predicate<Props>,
+        predicate?: Predicate<Props, State>,
     ) {
         const key = styles.reduce((accum, style) => `${accum}${style}`, '');
         const hash = generateHash(key);
@@ -51,6 +51,6 @@ export class StyleCollector<Props, Theme> {
     }
 }
 
-export default function trousers<Props, Theme>(elementId: string) {
-    return new StyleCollector<Props, Theme>(elementId);
+export default function trousers<Props, State, Theme>(elementId: string) {
+    return new StyleCollector<Props, State, Theme>(elementId);
 }

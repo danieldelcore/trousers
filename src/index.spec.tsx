@@ -31,7 +31,7 @@ interface Theme {
 }
 
 describe('Server side rendering (SSR)', () => {
-    let styles: StyleCollector<ButtonProps, Theme>;
+    let styles: StyleCollector<ButtonProps, {}, Theme>;
     let globalStyles: SingleStyleCollector<Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
@@ -48,16 +48,19 @@ describe('Server side rendering (SSR)', () => {
             }
         `;
 
-        styles = trousers<ButtonProps, Theme>('button').element`
+        styles = trousers<ButtonProps, {}, Theme>('button').element`
                 background-color: ${theme => theme.default};
                 color: white;
-            `.modifier(props => !!props.primary)`
+            `.modifier(props => !!props!.primary)`
                 background-color: ${theme => theme.primary};
                 color: #ffffff;
             `;
 
         Button = props => {
-            const classNames = useTrousers<ButtonProps, Theme>(props, styles);
+            const classNames = useTrousers<ButtonProps, {}, Theme>(
+                styles,
+                props,
+            );
 
             return <button className={classNames}>{props.children}</button>;
         };

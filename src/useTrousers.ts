@@ -20,9 +20,9 @@ if (isBrowser()) {
 }
 
 const mountStyles = memoize(
-    <Props, Theme>(
+    <Props, State, Theme>(
         componentId: string,
-        styleDefinition: StyleDefinition<Props, Theme>,
+        styleDefinition: StyleDefinition<Props, State, Theme>,
         theme: Theme,
         registry: StyleRegistry | ServerStyleRegistry,
     ): string => {
@@ -43,11 +43,12 @@ const mountStyles = memoize(
     { length: 1 },
 );
 
-export default function useTrousers<Props, Theme>(
-    props: Props,
-    styleCollector: StyleCollector<Props, Theme>,
+export default function useTrousers<Props, State, Theme>(
+    styleCollector: StyleCollector<Props, State, Theme>,
+    props?: Props,
+    state?: State,
 ): string {
-    type CurrentStyle = StyleDefinition<Props, Theme>;
+    type CurrentStyle = StyleDefinition<Props, State, Theme>;
 
     const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
@@ -82,7 +83,10 @@ export default function useTrousers<Props, Theme>(
 
     const modifierClassNames = styleCollector
         .get('modifier')
-        .filter(({ predicate }: CurrentStyle) => predicate && predicate(props))
+        .filter(
+            ({ predicate }: CurrentStyle) =>
+                predicate && predicate(props, state),
+        )
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
             const componentId = `${elementName}--${hash}`;
