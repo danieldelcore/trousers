@@ -1,6 +1,6 @@
 {
   "name": "trousers",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Give React Components some style with Trousers!",
   "main": "lib/index.js",
   "author": "Daniel Del Core",
