@@ -28,7 +28,7 @@ Creating a trousered component
 ```jsx
 import { trousers, useTrousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element`
         background-color: ${theme => theme.backgroundColor};
         border: none;
@@ -50,15 +50,15 @@ const styles = trousers()
         }
     `;
 
-const spanStyles = trousers()
+const spanStyles = trousers('button-span')
     .element`
         font-size: 20px;
         font-style: italic;
     `;
 
 const Button = props => {
-    const buttonClassNames = useTrousers('button', props, styles);
-    const spanClassNames = useTrousers('button-span', props, spanStyles);
+    const buttonClassNames = useTrousers(styles, props);
+    const spanClassNames = useTrousers(spanStyles, props);
 
     return (
         <button className={buttonClassNames}>
@@ -120,7 +120,7 @@ It's quite hard to see at a glance which state triggers which styles. The logic 
 Trousers, instead encourages you to group properties for different states. It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
 
 ```jsx
-const buttonStyles = trousers()
+const buttonStyles = trousers('button')
     // Base styles, these are static and every modifier will be applied on top
     .element`
         background-color: blue;
@@ -146,8 +146,8 @@ For example, here we define a style for the button and inner span and apply the 
 
 ```jsx
 const Button = props => {
-    const buttonClassNames = useTrousers('button', props, buttonStyles);
-    const spanClassNames = useTrousers('button-span', props, spanStyles);
+    const buttonClassNames = useTrousers(buttonStyles, props);
+    const spanClassNames = useTrousers(spanStyles, props);
 
     return (
         <button className={buttonClassNames}>
@@ -196,7 +196,7 @@ When a Trousers component is mounted within a new theme context, it will render 
 You can define how your component handles themes like this:
 
 ```jsx
-const buttonStyles = trousers()
+const buttonStyles = trousers('button')
     .element`
         background-color: ${theme => theme.secondaryColor};
     `
@@ -210,9 +210,58 @@ const buttonStyles = trousers()
 
 Now your component will render different styles based on the context it is mounted in.
 
+### Global styles
+Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
+
+Turns out that there's a hook for that, `useGlobal`:
+
+```jsx
+import React, { useEffect } from 'react';
+import { css, useGlobal } from 'trousers';
+
+const globalStyles = css`
+  @font-face {
+    font-family: MyFont;
+    src: url('${MyFont}') format('opentype');
+  }
+`;
+
+const App = () => {
+    const [clearStyles] = useGlobal(globalStyles);
+
+    // clearStyles allows you to remove all global styles mounted by that component
+    useEffect(() => () => clearStyles(), [])
+
+    return (
+        <h1>
+            Welcome to my website!
+        </h1>
+    );
+};
+```
+
 ### Server side rendering (SSR)
 
-Docs coming soon...
+Server side rendering with Trousers follows a similar approach to [styled-components](https://www.styled-components.com/docs/advanced#server-side-rendering). It works by firstly instantiating a `serverStyleRegistry`, wrapping your application in a `ServerProvider`, then passing that registry into the provider as a prop. Then when you render your application to a string with `react-dom/server`, Trousers will push styles into the style registry. You can then pull the styles from the registry and manually append them to the head of your document.
+
+```jsx
+import React, { FC, ReactNode } from 'react';
+import { renderToString } from 'react-dom/server';
+
+import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import App from './';
+
+const registry = new ServerStyleRegistry();
+
+const html = renderToString(
+    <ServerProvider registry={registry}>
+        <App />
+    </ServerProvider>,
+);
+
+// Your styles will be accessible here
+const myStyleString = registry.get();
+```
 
 ## API
 
@@ -220,6 +269,9 @@ Docs coming soon...
 The `trousers()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
 > NOTE! Trousers return methods will always return `this`, which means the calls can be chained repeatedly.
+
+**Arugments:**
+- `componentName`: String
 
 **Returns:**
 - `trousers().element`
@@ -244,7 +296,7 @@ You should treat element blocks like you would with [Elements in BEM](https://en
 ```jsx
 import { trousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element`
         background-color: red;
     `;
@@ -264,7 +316,7 @@ Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/
 - The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
 
 **Arguments:**
-- `predicate`: boolean | Function(props) => boolean
+- `predicate`: boolean | Function(props, state) => boolean
 
 **Returns:**
 - `Function(TaggedTemplate)`
@@ -274,19 +326,20 @@ Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/
 ```jsx
 import { trousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element``
     .modifier(props => {
-        return (props.primary)
-            ? true;
-            : false;
+        return props.primary
     })`
         background-color: yellow;
     `
+    .modifier((props, state) => {
+        return state.isActive
+    })`
+        background-color: purple;
+    `
     .modifier(props => {
-        return (props.isDisabled)
-            ? true;
-            : false;
+        return props.isDisabled
     })`
         background-color: grey;
     `;
@@ -312,20 +365,20 @@ Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects
 ```jsx
 import { trousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element``
     .modifier(...)``;
 
-styles.get(); //
+styles.get();
 ```
 
 ### `useTrousers()`
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
 **Arguments:**
-- `name`: string
-- `props`: Object
 - `styleCollector`: StyleCollector
+- `props`?: Object
+- `state`?: Object
 
 **Returns:**
 - `className`: string
@@ -336,12 +389,12 @@ React Hook responsbile for evaluating the supplied styles, attaching them to the
 import React from 'react';
 import { trousers, useTrousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element``
     .modifier(...)``;
 
 const Button = props => {
-    const classNames = useTrousers('button', props, styles);
+    const classNames = useTrousers(styles, props);
 
     return (
         <button className={classNames}>
@@ -368,14 +421,14 @@ Use this HOC in your class components, where hooks (and useTrousers) are not ava
 import React from 'react';
 import { trousers, withTrousers } from 'trousers';
 
-const styles = trousers()
+const styles = trousers('button')
     .element``
-    .modifier(...)``;
+    .modifier(true)``;
 
 class Button {
     render() {
         return (
-            // Important, apply the className yourself
+            // IMPORTANT: apply the className yourself
             <button className={this.props.className}>
                 Submit
             </button>
@@ -408,6 +461,96 @@ const App = () => (
         {* Every child node will have access to the theme *}
     </ThemeProvider>
 );
+```
+
+### `css`
+Single style defintion
+
+**Arugments:**
+- `taggedTemplate`: TaggedTemplate
+
+**Example:**
+
+```jsx
+import { css } from 'trousers';
+
+const styles = css`
+        background-color: red;
+    `;
+```
+
+### `useGlobal()`
+Mount a single style definition as a global style
+
+**Arguments:**
+- `styleCollector`: StyleCollector
+
+**Returns**
+- `clearStyles`: Function() => void
+
+**Example:**
+```jsx
+import React, { useEffect } from 'react';
+import { css, useGlobal } from 'trousers';
+
+const globalStyles = css`
+  @font-face {
+    font-family: MyFont;
+    src: url('${MyFont}') format('opentype');
+  }
+`;
+
+const App = () => {
+    const [clearStyles] = useGlobal(globalStyles);
+
+    // clearStyles allows you to remove all global styles mounted by that component
+    useEffect(() => () => clearStyles(), [])
+
+    return (
+        <h1>
+            Welcome to my website!
+        </h1>
+    );
+};
+```
+
+### `ServerStyleRegistry`
+A style registry **for use on the server**
+
+**Example:**
+
+```jsx
+import { ServerStyleRegistry, ServerProvider } from 'trousers';
+
+const registry = new ServerStyleRegistry();
+const myStyleString = registry.get();
+```
+
+### `ServerProvider`
+A context provider which tells Trousers to push styles into the supplied registry, rather than `document.head`. **For use on the server.**
+
+**Props:**
+- `registry`: SeverStyleRegistry()
+- `children`: ReactChildren
+
+**Example:**
+
+```jsx
+import React, { FC, ReactNode } from 'react';
+import { renderToString } from 'react-dom/server';
+
+import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import App from './';
+
+const registry = new ServerStyleRegistry();
+
+const html = renderToString(
+    <ServerProvider registry={registry}>
+        <App />
+    </ServerProvider>,
+);
+
+const myStyleString = registry.get();
 ```
 
 ## FAQ
