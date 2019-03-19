@@ -41,7 +41,7 @@ storiesOf('Globals', module)
                     clearFont();
                     clearStyles();
                 },
-                [],
+                [clearStyles, clearFont],
             );
 
             return (
@@ -88,7 +88,7 @@ storiesOf('Globals', module)
             const [clearStyles] = useGlobal<Theme>(globalStyles);
             const classNames = useTrousers(styles);
 
-            useEffect(() => () => clearStyles(), []);
+            useEffect(() => () => clearStyles(), [clearStyles]);
 
             return (
                 <div className={classNames}>
