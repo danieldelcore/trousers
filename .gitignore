@@ -5,3 +5,4 @@ lib
 dist
 .site
 .DS_Store
+storybook-static

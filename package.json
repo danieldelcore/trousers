@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "dev": "start-storybook -p 9000 -c .storybook -s ./assets",
+    "predeploy-storybook": "build-storybook -s assets",
     "deploy-storybook": "storybook-to-ghpages",
-    "build-storybook": "build-storybook -s assets",
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
