@@ -6,7 +6,6 @@ class StyleRegistry implements StyleRegistryInterface {
     private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
     private globalElement!: HTMLStyleElement;
-    private styles: string[] = [];
     private attributeId: string;
 
     constructor(element: HTMLElement, attributeId: string) {
@@ -22,9 +21,13 @@ class StyleRegistry implements StyleRegistryInterface {
 
         const processedStyles = stylis(id, styles);
         const styleNode = document.createTextNode(processedStyles);
+        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
 
         this.styleElement.appendChild(styleNode);
-        this.styles.push(id);
+        this.styleElement.setAttribute(
+            this.attributeId,
+            `${mountedStyles} ${id}`.trim(),
+        );
     }
 
     registerGlobal(styles: string) {
@@ -37,7 +40,9 @@ class StyleRegistry implements StyleRegistryInterface {
     }
 
     has(id: string): boolean {
-        return this.styles.includes(id);
+        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
+
+        return mountedStyles!.includes(id);
     }
 
     clear(isGlobal?: boolean) {

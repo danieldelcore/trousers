@@ -35,10 +35,18 @@ class ServerRegistry implements StyleRegistryInterface {
             }
         });
 
-        return `${globalStyles}${renderedStyles}`;
+        return `
+            ${globalStyles &&
+                `<style data-trousers-global>${globalStyles}</style>`}
+            <style data-trousers={${this.getClassNames()}}>${renderedStyles}</style>
+        `;
     }
 
     clear() {}
+
+    private getClassNames(): string[] {
+        return [...this.styles.keys()].filter(value => !!value);
+    }
 }
 
 export default ServerRegistry;

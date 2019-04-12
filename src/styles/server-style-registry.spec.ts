@@ -17,7 +17,7 @@ describe('ServerStyleRegistry', () => {
 
         registry.register(key, style);
 
-        expect(registry.get().trim()).toEqual(`${key}{${style}}`);
+        expect(registry.get()).toMatchSnapshot();
     });
 
     it('registering an existing key does not update the style', () => {
@@ -28,7 +28,7 @@ describe('ServerStyleRegistry', () => {
         registry.register(key, style);
         registry.register(key, styleBlue);
 
-        expect(registry.get().trim()).toEqual(`${key}{${style}}`);
+        expect(registry.get()).toMatchSnapshot();
     });
 
     it('detects an existing style', () => {

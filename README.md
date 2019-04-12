@@ -260,7 +260,7 @@ const html = renderToString(
 );
 
 // Your styles will be accessible here
-const myStyleString = registry.get();
+const styleTags = registry.get();
 ```
 
 ## API
@@ -523,7 +523,7 @@ A style registry **for use on the server**
 import { ServerStyleRegistry, ServerProvider } from 'trousers';
 
 const registry = new ServerStyleRegistry();
-const myStyleString = registry.get();
+const styleTags = registry.get();
 ```
 
 ### `ServerProvider`
@@ -550,7 +550,7 @@ const html = renderToString(
     </ServerProvider>,
 );
 
-const myStyleString = registry.get();
+const styleTags = registry.get();
 ```
 
 ## FAQ
