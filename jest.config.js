@@ -4,7 +4,6 @@ module.exports = {
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
     testRegex: '^.+\\.spec\\.(ts|tsx|js|jsx)$',
-    snapshotSerializers: [
-        'jest-serializer-html-string',
-    ],
+    testPathIgnorePatterns: ['/node_modules/', 'lib'],
+    snapshotSerializers: ['jest-serializer-html-string'],
 };
