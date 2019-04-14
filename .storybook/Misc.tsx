@@ -3,65 +3,67 @@ import React, { FC, Fragment, useState, useEffect } from 'react';
 
 import { css, trousers, useTrousers } from '../src';
 
-storiesOf('Miscellaneous', module).add('State transitions', () => {
-    const logoStyles = trousers('logo').element`
-                width: 150px;
-                height: auto;
-                margin: 15px;
-                padding: 15px;
-                background-color: #b3cde8;
-                border-radius: 150px;
-                animation: rotating 2s linear infinite;
-                transition: background-color linear 300ms;
-                cursor: pointer;
-            `;
+storiesOf('Miscellaneous', module)
+    .add('State transitions', () => {
+        const logoStyles = trousers('logo').element`
+                    width: 150px;
+                    height: auto;
+                    margin: 15px;
+                    padding: 15px;
+                    background-color: #b3cde8;
+                    border-radius: 150px;
+                    animation: rotating 2s linear infinite;
+                    transition: background-color linear 300ms;
+                    cursor: pointer;
+                `;
 
-    const TrousersLogo: FC = () => {
-        const [count, setCount] = useState(0);
-        const logoClassnames = useTrousers(logoStyles);
+        const TrousersLogo: FC = () => {
+            const [count, setCount] = useState(0);
+            const logoClassnames = useTrousers(logoStyles);
 
-        useEffect(() => {
-            const ts = setTimeout(() => setCount(count + 1), 1000);
+            useEffect(() => {
+                const ts = setTimeout(() => setCount(count + 1), 1000);
 
-            return () => clearTimeout(ts);
-        });
+                return () => clearTimeout(ts);
+            });
 
-        return (
-            <Fragment>
-                <p>{count}</p>
-                <img
-                    className={logoClassnames}
-                    src="trousers-logo.png"
-                    alt={`Trousers Logo ${count}`}
-                />
-            </Fragment>
-        );
-    };
+            return (
+                <Fragment>
+                    <p>{count}</p>
+                    <img
+                        className={logoClassnames}
+                        src="trousers-logo.png"
+                        alt={`Trousers Logo ${count}`}
+                    />
+                </Fragment>
+            );
+        };
 
-    return <TrousersLogo />;
-}).add('CSS function as element', () => {
-    const styles = css`
-        background-color: #b3cde8;
-        border-radius: 150px;
-        color: white;
-        font: 500 20px sans-serif;
-        height: auto;
-        letter-spacing: 1px;
-        margin: 15px;
-        padding: 15px;
-        width: 350px;
-        text-align: center;
-    `;
+        return <TrousersLogo />;
+    })
+    .add('CSS function as element', () => {
+        const styles = css`
+            background-color: #b3cde8;
+            border-radius: 150px;
+            color: white;
+            font: 500 20px sans-serif;
+            height: auto;
+            letter-spacing: 1px;
+            margin: 15px;
+            padding: 15px;
+            width: 350px;
+            text-align: center;
+        `;
 
-    const Element: FC = () => {
-        const className = useTrousers(styles);
+        const Element: FC = () => {
+            const className = useTrousers(styles);
 
-        return (
-            <div className={className}>
-                I'm styled with plain CSS function
-            </div>
-        );
-    };
+            return (
+                <div className={className}>
+                    I am styled with plain CSS function
+                </div>
+            );
+        };
 
-    return <Element />;
-});
+        return <Element />;
+    });

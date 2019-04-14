@@ -7,24 +7,14 @@ export class StyleCollector<Props, State, Theme> {
     constructor(private elementId: string) {}
 
     element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
-        return this.registerStyles(
-            styles,
-            expressions,
-            '__',
-        );
+        return this.registerStyles(styles, expressions, '__');
     }
 
     modifier(predicate: Predicate<Props, State>) {
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
-        ) =>
-            this.registerStyles(
-                styles,
-                expressions,
-                '--',
-                predicate,
-            );
+        ) => this.registerStyles(styles, expressions, '--', predicate);
     }
 
     getElementName() {

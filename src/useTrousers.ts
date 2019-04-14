@@ -45,7 +45,9 @@ const mountStyles = memoize(
 );
 
 export default function useTrousers<Props, State, Theme>(
-    styleCollector: StyleCollector<Props, State, Theme> | SingleStyleCollector<Theme>,
+    styleCollector:
+        | StyleCollector<Props, State, Theme>
+        | SingleStyleCollector<Theme>,
     props?: Props,
     state?: State,
 ): string {
