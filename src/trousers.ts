@@ -7,44 +7,49 @@ export class StyleCollector<Props, State, Theme> {
     constructor(private elementId: string) {}
 
     element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
-        return this.registerStyles(styles, expressions, 'element');
+        return this.registerStyles(
+            styles,
+            expressions,
+            '__',
+        );
     }
 
     modifier(predicate: Predicate<Props, State>) {
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
-        ) => this.registerStyles(styles, expressions, 'modifier', predicate);
+        ) =>
+            this.registerStyles(
+                styles,
+                expressions,
+                '--',
+                predicate,
+            );
     }
 
     getElementName() {
         return this.elementId;
     }
 
-    get(type?: string): StyleDefinition<Props, State, Theme>[] {
-        if (!type) return this.styleDefinitions;
-
-        return this.styleDefinitions.filter(
-            (definition: StyleDefinition<Props, State, Theme>) =>
-                definition.type === type,
-        );
+    get(): StyleDefinition<Props, State, Theme>[] {
+        return this.styleDefinitions;
     }
 
     private registerStyles(
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
-        type: 'element' | 'modifier',
-        predicate?: Predicate<Props, State>,
+        separator: string,
+        predicate: Predicate<Props, State> = () => true,
     ) {
         const key = styles.reduce((accum, style) => `${accum}${style}`, '');
         const hash = generateHash(key);
 
         this.styleDefinitions.push({
             hash,
-            type,
             styles,
             expressions,
             predicate,
+            separator,
         });
 
         return this;

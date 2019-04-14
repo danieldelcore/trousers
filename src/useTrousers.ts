@@ -64,11 +64,14 @@ export default function useTrousers<Props, State, Theme>(
     const registry = !serverStyleRegistry ? styleRegisty : serverStyleRegistry;
     const elementName = styleCollector.getElementName();
 
-    const elementClassName = styleCollector
-        .get('element')
+    return styleCollector
+        .get()
+        .filter(({ predicate }: CurrentStyle) => predicate(props, state))
         .reduce((accum: string, styleDefinition: CurrentStyle) => {
             const hash = `${styleDefinition.hash}${themeHash}`;
-            const componentId = `${elementName}__${hash}`;
+            const componentId = `${elementName}${
+                styleDefinition.separator
+            }${hash}`;
 
             const className = mountStyles(
                 componentId,
@@ -80,27 +83,4 @@ export default function useTrousers<Props, State, Theme>(
             return `${accum}${className} `;
         }, '')
         .trim();
-
-    const modifierClassNames = styleCollector
-        .get('modifier')
-        .filter(
-            ({ predicate }: CurrentStyle) =>
-                predicate && predicate(props, state),
-        )
-        .reduce((accum: string, styleDefinition: CurrentStyle) => {
-            const hash = `${styleDefinition.hash}${themeHash}`;
-            const componentId = `${elementName}--${hash}`;
-
-            const className = mountStyles(
-                componentId,
-                styleDefinition,
-                theme as Theme,
-                registry,
-            );
-
-            return `${accum}${className} `;
-        }, '')
-        .trim();
-
-    return `${elementClassName} ${modifierClassNames}`;
 }
