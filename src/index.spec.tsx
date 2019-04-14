@@ -18,8 +18,6 @@ import {
     ServerStyleRegistry,
 } from './';
 
-import { SingleStyleCollector } from './css';
-
 interface ButtonProps {
     children: ReactNode;
     primary?: boolean;
@@ -32,7 +30,7 @@ interface Theme {
 
 describe('Server side rendering (SSR)', () => {
     let styles: StyleCollector<ButtonProps, {}, Theme>;
-    let globalStyles: SingleStyleCollector<Theme>;
+    let globalStyles: StyleCollector<{}, {}, Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
 

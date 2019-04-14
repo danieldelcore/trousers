@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, useState, useEffect } from 'react';
 
-import { trousers, useTrousers } from '../src';
+import { css, trousers, useTrousers } from '../src';
 
 storiesOf('Miscellaneous', module).add('State transitions', () => {
     const logoStyles = trousers('logo').element`
@@ -39,4 +39,29 @@ storiesOf('Miscellaneous', module).add('State transitions', () => {
     };
 
     return <TrousersLogo />;
+}).add('CSS function as element', () => {
+    const styles = css`
+        background-color: #b3cde8;
+        border-radius: 150px;
+        color: white;
+        font: 500 20px sans-serif;
+        height: auto;
+        letter-spacing: 1px;
+        margin: 15px;
+        padding: 15px;
+        width: 350px;
+        text-align: center;
+    `;
+
+    const Element: FC = () => {
+        const className = useTrousers(styles);
+
+        return (
+            <div className={className}>
+                I'm styled with plain CSS function
+            </div>
+        );
+    };
+
+    return <Element />;
 });
