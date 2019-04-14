@@ -1,5 +1,5 @@
 export { default as trousers, StyleCollector } from './trousers';
-export { default as css } from './css';
+export { default as css, SingleStyleCollector } from './css';
 export { default as useTrousers } from './useTrousers';
 export { default as useGlobal } from './useGlobal';
 export { default as withTrousers } from './withTrousers';

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 
-import { StyleCollector } from './';
+import { SingleStyleCollector } from './';
 import { interpolateStyles, isBrowser } from './common';
 import { StyleRegistry, ServerStyleRegistry } from './styles';
 import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
 export default function useGlobal<Theme>(
-    styleCollector: StyleCollector<{}, {}, Theme>,
+    styleCollector: SingleStyleCollector<Theme>,
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);

@@ -8,6 +8,7 @@ import {
     ThemeContext,
     ThemeCtx,
     StyleCollector,
+    SingleStyleCollector,
     ServerContext,
     ServerCtx,
 } from './';
@@ -44,7 +45,7 @@ const mountStyles = memoize(
 );
 
 export default function useTrousers<Props, State, Theme>(
-    styleCollector: StyleCollector<Props, State, Theme>,
+    styleCollector: StyleCollector<Props, State, Theme> | SingleStyleCollector<Theme>,
     props?: Props,
     state?: State,
 ): string {
