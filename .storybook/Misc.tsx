@@ -41,6 +41,58 @@ storiesOf('Miscellaneous', module)
 
         return <TrousersLogo />;
     })
+    .add('Mount/Dismount', () => {
+        interface LogoProps {
+            primary?: boolean;
+        }
+
+        const logoStyles = trousers<LogoProps, {}, {}>('logo')
+            .element`
+                width: 150px;
+                height: auto;
+                margin: 15px;
+                padding: 15px;
+                background-color: #b3cde8;
+                border-radius: 150px;
+                animation: rotating 2s linear infinite;
+                transition: background-color linear 300ms;
+                cursor: pointer;
+            `
+            .modifier(props => !!props!.primary)`
+                background-color: #f6e3e3;
+            `;
+
+        const Logo: FC<LogoProps> = props => {
+            const classNames = useTrousers<LogoProps, {}, {}>(logoStyles, props);
+
+            return (
+                <img
+                    className={classNames}
+                    src="trousers-logo.png"
+                    alt={`Trousers Logo`}
+                />
+            );
+        };
+
+        const Toggle: FC = () => {
+            const [active, setActive] = useState(false);
+
+            return (
+                <Fragment>
+                    {!active ?
+                        <div onClick={() => setActive(true)}>
+                            <Logo />
+                        </div>
+                        : <div onClick={() => setActive(false)}>
+                            <Logo primary />
+                        </div>
+                    }
+                </Fragment>
+            );
+        };
+
+        return <Toggle />;
+    })
     .add('CSS function as element', () => {
         const styles = css`
             background-color: #b3cde8;
