@@ -4,7 +4,7 @@ import { generateHash } from './common';
 export class StyleCollector<Props, State, Theme> {
     private styleDefinitions: StyleDefinition<Props, State, Theme>[] = [];
 
-    constructor(private elementId: string) {}
+    constructor(private elementName: string) {}
 
     element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
         return this.registerStyles(styles, expressions, '__');
@@ -18,7 +18,7 @@ export class StyleCollector<Props, State, Theme> {
     }
 
     getElementName() {
-        return this.elementId;
+        return this.elementName;
     }
 
     get(): StyleDefinition<Props, State, Theme>[] {
@@ -47,6 +47,6 @@ export class StyleCollector<Props, State, Theme> {
     }
 }
 
-export default function trousers<Props, State, Theme>(elementId: string) {
-    return new StyleCollector<Props, State, Theme>(elementId);
+export default function trousers<Props, State, Theme>(elementName: string) {
+    return new StyleCollector<Props, State, Theme>(elementName);
 }
