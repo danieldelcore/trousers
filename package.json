@@ -40,7 +40,6 @@
         "url": "https://github.com/danieldelcore/trousers/issues"
     },
     "dependencies": {
-        "memoizee": "^0.4.14",
         "murmurhash": "0.0.2",
         "stylis": "^3.5.4"
     },
