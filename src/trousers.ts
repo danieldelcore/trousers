@@ -40,6 +40,7 @@ export class StyleCollector<Props, State, Theme> {
             expressions,
             predicate,
             separator,
+            mounted: false,
         });
 
         return this;
