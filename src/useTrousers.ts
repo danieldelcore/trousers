@@ -1,9 +1,8 @@
-import { useContext, useEffect } from 'react';
-import memoize from 'memoizee';
+import { useContext } from 'react';
 
 import { StyleDefinition } from './types';
 import { interpolateStyles, isBrowser } from './common';
-import { StyleRegistry, ServerStyleRegistry } from './styles';
+import { StyleRegistry } from './styles';
 import {
     ThemeContext,
     ThemeCtx,
@@ -20,30 +19,6 @@ if (isBrowser()) {
     styleRegisty = new StyleRegistry(headElement, 'data-trousers');
 }
 
-const mountStyles = memoize(
-    <Props, State, Theme>(
-        componentId: string,
-        styleDefinition: StyleDefinition<Props, State, Theme>,
-        theme: Theme,
-        registry: StyleRegistry | ServerStyleRegistry,
-    ): string => {
-        const componentSelector = `.${componentId}`;
-
-        if (!registry.has(componentSelector)) {
-            const styles = interpolateStyles(
-                styleDefinition.styles,
-                styleDefinition.expressions,
-                theme,
-            );
-
-            registry.register(componentSelector, styles);
-        }
-
-        return componentId;
-    },
-    { length: 1 },
-);
-
 export default function useTrousers<Props, State, Theme>(
     styleCollector:
         | StyleCollector<Props, State, Theme>
@@ -55,8 +30,6 @@ export default function useTrousers<Props, State, Theme>(
 
     const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
-
-    useEffect(() => () => mountStyles.clear(), []);
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -75,15 +48,20 @@ export default function useTrousers<Props, State, Theme>(
             const componentId = `${elementName}${
                 styleDefinition.separator
             }${hash}`;
+            const className = `.${componentId}`;
 
-            const className = mountStyles(
-                componentId,
-                styleDefinition,
-                theme as Theme,
-                registry,
-            );
+            if (!styleDefinition.mounted && !registry.has(className)) {
+                const styles = interpolateStyles(
+                    styleDefinition.styles,
+                    styleDefinition.expressions,
+                    theme,
+                );
 
-            return `${accum}${className} `;
+                registry.register(className, styles);
+                styleDefinition.mounted = true;
+            }
+
+            return `${accum} ${componentId}`;
         }, '')
         .trim();
 }
