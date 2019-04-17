@@ -14,5 +14,4 @@ export interface StyleDefinition<Props, State, Theme>
     hash: number;
     predicate: Predicate<Props, State>;
     separator?: string;
-    mounted: boolean;
 }

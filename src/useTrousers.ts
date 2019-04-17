@@ -50,7 +50,10 @@ export default function useTrousers<Props, State, Theme>(
             }${hash}`;
             const className = `.${componentId}`;
 
-            if (!styleDefinition.mounted && !registry.has(className)) {
+            if (
+                !styleCollector.isMounted(className) &&
+                !registry.has(className)
+            ) {
                 const styles = interpolateStyles(
                     styleDefinition.styles,
                     styleDefinition.expressions,
@@ -58,7 +61,7 @@ export default function useTrousers<Props, State, Theme>(
                 );
 
                 registry.register(className, styles);
-                styleDefinition.mounted = true;
+                styleCollector.pushMounted(className);
             }
 
             return `${accum} ${componentId}`;
