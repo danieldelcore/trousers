@@ -6,7 +6,7 @@ import { StyleRegistry, ServerStyleRegistry } from './styles';
 import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
 export default function useGlobal<Theme>(
-    styleCollector: SingleStyleCollector<Theme>,
+    ...styleCollectors: SingleStyleCollector<Theme>[]
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
@@ -25,14 +25,16 @@ export default function useGlobal<Theme>(
         );
     }
 
-    const styleDefinition = styleCollector.get()[0];
-    const styles = interpolateStyles(
-        styleDefinition.styles,
-        styleDefinition.expressions,
-        theme,
-    );
+    styleCollectors.forEach(styleCollector => {
+        const styleDefinition = styleCollector.get()[0];
+        const styles = interpolateStyles(
+            styleDefinition.styles,
+            styleDefinition.expressions,
+            theme,
+        );
 
-    registry.registerGlobal(styles);
+        registry.registerGlobal(styles);
+    });
 
     function clear() {
         registry.clear(true);

@@ -103,4 +103,63 @@ storiesOf('Globals', module)
                 <TextBlock />
             </ThemeProvider>
         );
+    })
+    .add('Multiple globals', () => {
+        interface Theme {
+            color: string;
+        }
+
+        const theme: Theme = {
+            color: '#ff5d9e',
+        };
+
+        const globalStyles = css<Theme>`
+            * {
+                color: ${theme => theme.color};
+            }
+        `;
+
+        const typographyStyles = css<Theme>`
+            h2 {
+                color: #f4f65c;
+            }
+        `;
+
+        const styles = trousers('block').element`
+                background-color: #404b69;
+                color: blue;
+                padding: 20px;
+                border: none;
+                border-radius: 6px;
+                letter-spacing: 1px;
+                font-family: 'Press Start 2P', sans-serif;
+                text-align: center;
+
+                h2 {
+                    font-size: 40px;
+                }
+            `;
+
+        const TextBlock: FC = () => {
+            const [clearStyles] = useGlobal<Theme>(
+                globalStyles,
+                typographyStyles,
+            );
+            const classNames = useTrousers(styles);
+
+            useEffect(() => () => clearStyles(), [clearStyles]);
+
+            return (
+                <div className={classNames}>
+                    <h2>I should be yellow!</h2>
+                    <p>I should be pink!</p>
+                </div>
+            );
+        };
+
+        return (
+            <ThemeProvider theme={theme}>
+                <TextBlock />
+            </ThemeProvider>
+        );
     });
