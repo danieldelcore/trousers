@@ -22,7 +22,8 @@
         "lint:fix": "npm run lint -- --fix",
         "preversion": "npm run lint && npm run test",
         "version": "npm run build",
-        "postversion": "git push && git push --tags"
+        "postversion": "git push && git push --tags",
+        "postpublish": "npm run deploy-storybook"
     },
     "homepage": "https://github.com/danieldelcore/trousers#readme",
     "repository": {
