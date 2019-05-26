@@ -1,11 +1,11 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, useState, useEffect } from 'react';
 
-import { css, trousers, useTrousers } from '../src';
+import { css, styleCollector, useStyles } from '../src';
 
 storiesOf('Miscellaneous', module)
     .add('State transitions', () => {
-        const logoStyles = trousers('logo').element`
+        const logoStyles = styleCollector('logo').element`
                     width: 150px;
                     height: auto;
                     margin: 15px;
@@ -19,7 +19,7 @@ storiesOf('Miscellaneous', module)
 
         const TrousersLogo: FC = () => {
             const [count, setCount] = useState(0);
-            const logoClassnames = useTrousers(logoStyles);
+            const logoClassnames = useStyles(logoStyles);
 
             useEffect(() => {
                 const ts = setTimeout(() => setCount(count + 1), 1000);
@@ -46,7 +46,7 @@ storiesOf('Miscellaneous', module)
             primary?: boolean;
         }
 
-        const logoStyles = trousers<LogoProps, {}, {}>('logo').element`
+        const logoStyles = styleCollector<LogoProps, {}, {}>('logo').element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -61,7 +61,7 @@ storiesOf('Miscellaneous', module)
             `;
 
         const Logo: FC<LogoProps> = props => {
-            const classNames = useTrousers<LogoProps, {}, {}>(
+            const classNames = useStyles<LogoProps, {}, {}>(
                 logoStyles,
                 props,
             );
@@ -110,7 +110,7 @@ storiesOf('Miscellaneous', module)
         `;
 
         const Element: FC = () => {
-            const className = useTrousers(styles);
+            const className = useStyles(styles);
 
             return (
                 <div className={className}>
