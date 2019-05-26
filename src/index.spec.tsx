@@ -56,10 +56,7 @@ describe('Server side rendering (SSR)', () => {
             `;
 
         Button = props => {
-            const classNames = useStyles<ButtonProps, {}, Theme>(
-                styles,
-                props,
-            );
+            const classNames = useStyles<ButtonProps, {}, Theme>(styles, props);
 
             return <button className={classNames}>{props.children}</button>;
         };

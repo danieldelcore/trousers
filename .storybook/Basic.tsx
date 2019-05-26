@@ -11,7 +11,8 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = styleCollector<ButtonProps, {}, {}>('button').element`
+        const buttonStyles = styleCollector<ButtonProps, {}, {}>('button')
+            .element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -97,7 +98,8 @@ storiesOf('Basic', module)
             isOn?: boolean;
         }
 
-        const toggleStyles = styleCollector<{}, ButtonState, {}>('toggle').element`
+        const toggleStyles = styleCollector<{}, ButtonState, {}>('toggle')
+            .element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;

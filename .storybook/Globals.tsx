@@ -1,7 +1,13 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, useEffect } from 'react';
 
-import { styleCollector, css, useStyles, useGlobal, ThemeProvider } from '../src';
+import {
+    styleCollector,
+    css,
+    useStyles,
+    useGlobal,
+    ThemeProvider,
+} from '../src';
 
 storiesOf('Globals', module)
     .add('Global styles', () => {

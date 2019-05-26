@@ -61,10 +61,7 @@ storiesOf('Miscellaneous', module)
             `;
 
         const Logo: FC<LogoProps> = props => {
-            const classNames = useStyles<LogoProps, {}, {}>(
-                logoStyles,
-                props,
-            );
+            const classNames = useStyles<LogoProps, {}, {}>(logoStyles, props);
 
             return (
                 <img
