@@ -11,8 +11,8 @@ import {
     StyleCollector,
     SingleStyleCollector,
     ThemeProvider,
-    trousers,
-    useTrousers,
+    styleCollector,
+    useStyles,
     css,
     useGlobal,
     ServerProvider,
@@ -47,7 +47,7 @@ describe('Server side rendering (SSR)', () => {
             }
         `;
 
-        styles = trousers<ButtonProps, {}, Theme>('button').element`
+        styles = styleCollector<ButtonProps, {}, Theme>('button').element`
                 background-color: ${theme => theme.default};
                 color: white;
             `.modifier(props => !!props!.primary)`
@@ -56,7 +56,7 @@ describe('Server side rendering (SSR)', () => {
             `;
 
         Button = props => {
-            const classNames = useTrousers<ButtonProps, {}, Theme>(
+            const classNames = useStyles<ButtonProps, {}, Theme>(
                 styles,
                 props,
             );

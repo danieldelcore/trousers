@@ -26,7 +26,7 @@ Creating a trousered component
 `app/components/button.jsx`
 
 ```jsx
-import { trousers, useTrousers } from 'trousers';
+import { trousers, useStyles } from 'trousers';
 
 const styles = trousers('button')
     .element`
@@ -57,8 +57,8 @@ const spanStyles = trousers('button-span')
     `;
 
 const Button = props => {
-    const buttonClassNames = useTrousers(styles, props);
-    const spanClassNames = useTrousers(spanStyles, props);
+    const buttonClassNames = useStyles(styles, props);
+    const spanClassNames = useStyles(spanStyles, props);
 
     return (
         <button className={buttonClassNames}>
@@ -141,13 +141,13 @@ Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-m
 
 ### Enter Hooks
 [Hooks are a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
-Our `useTrousers` hook accepts a name, some props and an instance of `trousers()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
+Our `useStyles` hook accepts a name, some props and an instance of `styleCollector()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
 
 ```jsx
 const Button = props => {
-    const buttonClassNames = useTrousers(buttonStyles, props);
-    const spanClassNames = useTrousers(spanStyles, props);
+    const buttonClassNames = useStyles(buttonStyles, props);
+    const spanClassNames = useStyles(spanStyles, props);
 
     return (
         <button className={buttonClassNames}>
@@ -196,7 +196,7 @@ When a Trousers component is mounted within a new theme context, it will render 
 You can define how your component handles themes like this:
 
 ```jsx
-const buttonStyles = trousers('button')
+const buttonStyles = styleCollector('button')
     .element`
         background-color: ${theme => theme.secondaryColor};
     `
@@ -265,20 +265,20 @@ const styleTags = registry.get();
 
 ## API
 
-### `trousers()`
-The `trousers()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
+### `styleCollector()` alias `trousers()`
+The `styleCollector()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
-> NOTE! Trousers return methods will always return `this`, which means the calls can be chained repeatedly.
+> NOTE! styleCollector return methods will always return `this`, which means the calls can be chained repeatedly.
 
 **Arugments:**
 - `componentName`: String
 
 **Returns:**
-- `trousers().element`
-- `trousers().modifier(predicate)`
-- `trousers().get()`
+- `styleCollector().element`
+- `styleCollector().modifier(predicate)`
+- `styleCollector().get()`
 
-### `trousers().element`
+### `styleCollector().element`
 A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates).
 
 You should treat element blocks like you would with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
@@ -294,15 +294,15 @@ You should treat element blocks like you would with [Elements in BEM](https://en
 **Example:**
 
 ```jsx
-import { trousers } from 'trousers';
+import { styleCollector } from 'trousers';
 
-const styles = trousers('button')
+const styles = styleCollector('button')
     .element`
         background-color: red;
     `;
 ```
 
-### `trousers().modifier(predicate)`
+### `styleCollector().modifier(predicate)`
 
 A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
 
@@ -324,9 +324,9 @@ Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/
 **Example:**
 
 ```jsx
-import { trousers } from 'trousers';
+import { styleCollector } from 'trousers';
 
-const styles = trousers('button')
+const styles = styleCollector('button')
     .element``
     .modifier(props => {
         return props.primary
@@ -345,7 +345,7 @@ const styles = trousers('button')
     `;
 ```
 
-### `trousers().get()`
+### `styleCollector().get()`
 Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects that trousers passes around internally.
 
 **StyleDefinition:**
@@ -363,16 +363,16 @@ Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects
 **Example:**
 
 ```jsx
-import { trousers } from 'trousers';
+import { styleCollector } from 'trousers';
 
-const styles = trousers('button')
+const styles = styleCollector('button')
     .element``
     .modifier(...)``;
 
 styles.get();
 ```
 
-### `useTrousers()`
+### `useStyles()` alias `useTrousers()`
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
 **Arguments:**
@@ -387,14 +387,14 @@ React Hook responsbile for evaluating the supplied styles, attaching them to the
 
 ```jsx
 import React from 'react';
-import { trousers, useTrousers } from 'trousers';
+import { styleCollector, useStyles } from 'trousers';
 
-const styles = trousers('button')
+const styles = styleCollector('button')
     .element``
     .modifier(...)``;
 
 const Button = props => {
-    const classNames = useTrousers(styles, props);
+    const classNames = useStyles(styles, props);
 
     return (
         <button className={classNames}>
@@ -404,10 +404,10 @@ const Button = props => {
 };
 ```
 
-### `withTrousers()`
+### `withStyles` alias `withTrousers()`
 A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a trousers style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
 
-Use this HOC in your class components, where hooks (and useTrousers) are not available.
+Use this HOC in your class components, where hooks (and useStyles) are not available.
 
 > Note: Remember to apply the supplied className prop to an element in your components render funciton or your styling wont be applied to your element!
 
@@ -419,9 +419,9 @@ Use this HOC in your class components, where hooks (and useTrousers) are not ava
 
 ```jsx
 import React from 'react';
-import { trousers, withTrousers } from 'trousers';
+import { styleCollector, withStyles } from 'trousers';
 
-const styles = trousers('button')
+const styles = styleCollector('button')
     .element``
     .modifier(true)``;
 
@@ -436,7 +436,7 @@ class Button {
     }
 );
 
-export default withTrousers(Button, styles);
+export default withStyles(Button, styles);
 ```
 
 ### `<ThemeProvider />`

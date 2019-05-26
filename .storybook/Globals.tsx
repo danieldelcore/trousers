@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, useEffect } from 'react';
 
-import { trousers, css, useTrousers, useGlobal, ThemeProvider } from '../src';
+import { styleCollector, css, useStyles, useGlobal, ThemeProvider } from '../src';
 
 storiesOf('Globals', module)
     .add('Global styles', () => {
@@ -15,7 +15,7 @@ storiesOf('Globals', module)
             @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
         `;
 
-        const styles = trousers('block').element`
+        const styles = styleCollector('block').element`
                 background-color: #eaf2fd;
                 color: blue;
                 padding: 20px;
@@ -34,7 +34,7 @@ storiesOf('Globals', module)
             const [clearFont] = useGlobal(globalFontStyles);
             const [clearStyles] = useGlobal(globalStyles);
 
-            const classNames = useTrousers(styles);
+            const classNames = useStyles(styles);
 
             useEffect(
                 () => () => {
@@ -69,7 +69,7 @@ storiesOf('Globals', module)
             }
         `;
 
-        const styles = trousers('block').element`
+        const styles = styleCollector('block').element`
                 background-color: #404b69;
                 color: blue;
                 padding: 20px;
@@ -86,7 +86,7 @@ storiesOf('Globals', module)
 
         const TextBlock: FC = () => {
             const [clearStyles] = useGlobal<Theme>(globalStyles);
-            const classNames = useTrousers(styles);
+            const classNames = useStyles(styles);
 
             useEffect(() => () => clearStyles(), [clearStyles]);
 

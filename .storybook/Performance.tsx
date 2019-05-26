@@ -1,14 +1,14 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { trousers, useTrousers } from '../src';
+import { styleCollector, useStyles } from '../src';
 
 storiesOf('Performance', module).add('Many of the same nodes', () => {
     interface ButtonProps {
         children: ReactNode;
     }
 
-    const styles = trousers<ButtonProps, {}, {}>('button').element`
+    const styles = styleCollector<ButtonProps, {}, {}>('button').element`
             background-color: #b3cde8;
             border-radius: 6px;
             border: none;
@@ -36,7 +36,7 @@ storiesOf('Performance', module).add('Many of the same nodes', () => {
         `;
 
     const Button: FC<ButtonProps> = props => {
-        const buttonClassNames = useTrousers<ButtonProps, {}, {}>(
+        const buttonClassNames = useStyles<ButtonProps, {}, {}>(
             styles,
             props,
         );

@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { ThemeProvider, useTrousers, trousers } from '../src';
+import { ThemeProvider, useStyles, styleCollector } from '../src';
 
 interface Theme {
     backgroundColor: string;
@@ -28,7 +28,7 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = trousers<ButtonProps, {}, Theme>('button').element`
+const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
         background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
@@ -56,7 +56,7 @@ const buttonStyles = trousers<ButtonProps, {}, Theme>('button').element`
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useTrousers<ButtonProps, {}, Theme>(buttonStyles, props);
+    const classNames = useStyles<ButtonProps, {}, Theme>(buttonStyles, props);
 
     return <button className={classNames}>{props.children}</button>;
 };

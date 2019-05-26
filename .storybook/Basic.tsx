@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, ReactNode, useState } from 'react';
 
-import { trousers, useTrousers } from '../src';
+import { styleCollector, useStyles } from '../src';
 
 storiesOf('Basic', module)
     .add('Elements and modifiers', () => {
@@ -11,7 +11,7 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = trousers<ButtonProps, {}, {}>('button').element`
+        const buttonStyles = styleCollector<ButtonProps, {}, {}>('button').element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -61,16 +61,16 @@ storiesOf('Basic', module)
                 }
             `;
 
-        const buttonSpanStyles = trousers('button-span').element`
+        const buttonSpanStyles = styleCollector('button-span').element`
                 font-size: 20px;
             `;
 
         const Button: FC<ButtonProps> = props => {
-            const buttonClassNames = useTrousers<ButtonProps, {}, {}>(
+            const buttonClassNames = useStyles<ButtonProps, {}, {}>(
                 buttonStyles,
                 props,
             );
-            const buttonSpanClassNames = useTrousers(buttonSpanStyles);
+            const buttonSpanClassNames = useStyles(buttonSpanStyles);
 
             return (
                 <button className={buttonClassNames}>
@@ -97,7 +97,7 @@ storiesOf('Basic', module)
             isOn?: boolean;
         }
 
-        const toggleStyles = trousers<{}, ButtonState, {}>('toggle').element`
+        const toggleStyles = styleCollector<{}, ButtonState, {}>('toggle').element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -137,7 +137,7 @@ storiesOf('Basic', module)
 
         const Button: FC = () => {
             const [isOn, setToggle] = useState(false);
-            const buttonClassNames = useTrousers<{}, ButtonState, {}>(
+            const buttonClassNames = useStyles<{}, ButtonState, {}>(
                 toggleStyles,
                 {},
                 { isOn },
@@ -156,7 +156,7 @@ storiesOf('Basic', module)
         return <Button />;
     })
     .add('Media queries', () => {
-        const styles = trousers('ruler').element`
+        const styles = styleCollector('ruler').element`
                 background-color: #eaf2fd;
                 padding: 20px;
                 border: none;
@@ -201,7 +201,7 @@ storiesOf('Basic', module)
             `;
 
         const ScreenRuler: FC = () => {
-            const classNames = useTrousers(styles);
+            const classNames = useStyles(styles);
 
             return <div className={classNames}>Resize me!</div>;
         };
@@ -209,7 +209,7 @@ storiesOf('Basic', module)
         return <ScreenRuler />;
     })
     .add('Keyframe animations', () => {
-        const styles = trousers('logo').element`
+        const styles = styleCollector('logo').element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -229,7 +229,7 @@ storiesOf('Basic', module)
             `;
 
         const TrousersLogo: FC = () => {
-            const classNames = useTrousers(styles);
+            const classNames = useStyles(styles);
 
             return (
                 <img
