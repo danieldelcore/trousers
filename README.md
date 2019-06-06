@@ -3,6 +3,7 @@
 </p>
 
 # Trousers 👖
+
 [![min](https://img.shields.io/bundlephobia/min/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![npm](https://img.shields.io/npm/v/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![Downloads per month](https://img.shields.io/npm/dm/trousers.svg)](https://www.npmjs.com/package/trousers)
@@ -26,10 +27,9 @@ Creating a trousered component
 `app/components/button.jsx`
 
 ```jsx
-import { trousers, useStyles } from 'trousers';
+import { styleCollector, useStyles } from 'trousers';
 
-const styles = trousers('button')
-    .element`
+const styles = styleCollector('button').element`
         background-color: ${theme => theme.backgroundColor};
         border: none;
         color: ${theme => theme.textColor};
@@ -40,8 +40,7 @@ const styles = trousers('button')
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-    `
-    .modifier(props => !!props.primary)`
+    `.modifier(props => !!props.primary)`
         background-color: #f95b5b;
         color: #ffffff;
 
@@ -50,8 +49,7 @@ const styles = trousers('button')
         }
     `;
 
-const spanStyles = trousers('button-span')
-    .element`
+const spanStyles = styleCollector('button-span').element`
         font-size: 20px;
         font-style: italic;
     `;
@@ -62,9 +60,7 @@ const Button = props => {
 
     return (
         <button className={buttonClassNames}>
-            <span className={spanClassNames}>
-                {props.children}
-            </span>
+            <span className={spanClassNames}>{props.children}</span>
         </button>
     );
 };
@@ -88,9 +84,7 @@ const theme = {
 const MyApp = props => {
     return (
         <ThemeProvider theme={theme}>
-            <Button primary>
-                How do I look?
-            </Button>
+            <Button primary>How do I look?</Button>
         </ThemeProvider>
     );
 };
@@ -99,38 +93,39 @@ export default Button;
 ```
 
 ## Motivation
+
 Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
 
 ```jsx
 const Button = styled.button`
-  /* Adapt the colors based on primary prop */
-  background: ${props => props.primary ? "palevioletred" : "white"};
-  color: ${props => props.primary ? "white" : "palevioletred"};
+    /* Adapt the colors based on primary prop */
+    background: ${props => (props.primary ? 'palevioletred' : 'white')};
+    color: ${props => (props.primary ? 'white' : 'palevioletred')};
 
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid palevioletred;
+    border-radius: 3px;
 `;
 ```
 
-It's quite hard to see at a glance which state triggers which styles. The logic used to evaluate the CSS property is JavaScript, which means it _probably should_ be tested in some meaningful way. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
+It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
 
-Trousers, instead encourages you to group properties for different states. It leverages the C (cascade) in CSS to determine which styles are applied to an element when a particular state is active.
+Trousers encourages semantics and allows you to group logic for different states into predicates, which are contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
 
 ```jsx
-const buttonStyles = trousers('button')
+const buttonStyles =
     // Base styles, these are static and every modifier will be applied on top
-    .element`
+    styleCollector('button').element`
         background-color: blue;
     `
-    // A modifier for primary buttons. Note that the `cascade` will handle the color
-    .modifier(props => props.primary)`
+        // A modifier for primary buttons. Note that the `cascade` will handle the color
+        .modifier(props => props.primary)`
         background-color: red;
     `
-    // Second modifier that will override the prior background-color rules
-    .modifier(props => props.disabled)`
+        // Second modifier that will override the prior background-color rules
+        .modifier(props => props.disabled)`
         background-color: grey;
     `;
 ```
@@ -140,6 +135,7 @@ Notice that you can localise the logic for a particular state in one place, whic
 Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
+
 [Hooks are a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useStyles` hook accepts a name, some props and an instance of `styleCollector()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
@@ -151,15 +147,14 @@ const Button = props => {
 
     return (
         <button className={buttonClassNames}>
-            <span className={spanClassNames}>
-                {props.children}
-            </span>
+            <span className={spanClassNames}>{props.children}</span>
         </button>
     );
 };
 ```
 
 ### Theme Support
+
 Theming is achieved via React's Context API, which provides a lot of flexibility. You can even choose to nest themes and present a section of your app in a different way.
 It looks a little something like this:
 
@@ -196,14 +191,11 @@ When a Trousers component is mounted within a new theme context, it will render 
 You can define how your component handles themes like this:
 
 ```jsx
-const buttonStyles = styleCollector('button')
-    .element`
+const buttonStyles = styleCollector('button').element`
         background-color: ${theme => theme.secondaryColor};
-    `
-    .modifier(props => props.primary)`
+    `.modifier(props => props.primary)`
         background-color: ${theme => theme.primaryColor};
-    `
-    .modifier(props => props.disabled)`
+    `.modifier(props => props.disabled)`
         background-color: ${theme => theme.disabledColor};
     `;
 ```
@@ -211,6 +203,7 @@ const buttonStyles = styleCollector('button')
 Now your component will render different styles based on the context it is mounted in.
 
 ### Global styles
+
 Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
 
 Turns out that there's a hook for that, `useGlobal`:
@@ -230,13 +223,9 @@ const App = () => {
     const [clearStyles] = useGlobal(globalStyles);
 
     // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), [])
+    useEffect(() => () => clearStyles(), []);
 
-    return (
-        <h1>
-            Welcome to my website!
-        </h1>
-    );
+    return <h1>Welcome to my website!</h1>;
 };
 ```
 
@@ -266,38 +255,42 @@ const styleTags = registry.get();
 ## API
 
 ### `styleCollector()` alias `trousers()`
+
 The `styleCollector()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
 > NOTE! styleCollector return methods will always return `this`, which means the calls can be chained repeatedly.
 
 **Arugments:**
-- `componentName`: String
+
+-   `componentName`: String
 
 **Returns:**
-- `styleCollector().element`
-- `styleCollector().modifier(predicate)`
-- `styleCollector().get()`
+
+-   `styleCollector().element`
+-   `styleCollector().modifier(predicate)`
+-   `styleCollector().get()`
 
 ### `styleCollector().element`
+
 A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates).
 
 You should treat element blocks like you would with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
 
-- The element name describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
-- The structure of an element's full name is block-name__element-name. The element name is separated from the block name with a double underscore (__).
-- The block name defines the namespace, which guarantees that the elements are dependent on the block (block__elem)
-- A block can have a nested structure of elements in the DOM tree
+-   The element name describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
+-   The structure of an element's full name is block-name**element-name. The element name is separated from the block name with a double underscore (**).
+-   The block name defines the namespace, which guarantees that the elements are dependent on the block (block\_\_elem)
+-   A block can have a nested structure of elements in the DOM tree
 
 **Arugments:**
-- `taggedTemplate`: TaggedTemplate
+
+-   `taggedTemplate`: TaggedTemplate
 
 **Example:**
 
 ```jsx
 import { styleCollector } from 'trousers';
 
-const styles = styleCollector('button')
-    .element`
+const styles = styleCollector('button').element`
         background-color: red;
     `;
 ```
@@ -310,45 +303,45 @@ A function that accepts a predicate function or boolean and returns a new functi
 
 Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
 
-- Defines the appearance, state, or behavior of a block or element
-- A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
-- You can have one or multiple modifiers active at any time
-- The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
+-   Defines the appearance, state, or behavior of a block or element
+-   A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
+-   You can have one or multiple modifiers active at any time
+-   The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
 
 **Arguments:**
-- `predicate`: boolean | Function(props, state) => boolean
+
+-   `predicate`: boolean | Function(props, state) => boolean
 
 **Returns:**
-- `Function(TaggedTemplate)`
+
+-   `Function(TaggedTemplate)`
 
 **Example:**
 
 ```jsx
 import { styleCollector } from 'trousers';
 
-const styles = styleCollector('button')
-    .element``
-    .modifier(props => {
-        return props.primary
-    })`
+const styles = styleCollector('button').element``.modifier(props => {
+    return props.primary;
+})`
         background-color: yellow;
-    `
-    .modifier((props, state) => {
-        return state.isActive
-    })`
+    `.modifier((props, state) => {
+    return state.isActive;
+})`
         background-color: purple;
-    `
-    .modifier(props => {
-        return props.isDisabled
-    })`
+    `.modifier(props => {
+    return props.isDisabled;
+})`
         background-color: grey;
     `;
 ```
 
 ### `styleCollector().get()`
+
 Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects that trousers passes around internally.
 
 **StyleDefinition:**
+
 ```
 {
     styles: TemplateStringsArray;
@@ -358,7 +351,8 @@ Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects
 ```
 
 **Returns:**
-- `styleDefinitions`: StyleDefinition[];
+
+-   `styleDefinitions`: StyleDefinition[];
 
 **Example:**
 
@@ -373,15 +367,18 @@ styles.get();
 ```
 
 ### `useStyles()` alias `useTrousers()`
+
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
 **Arguments:**
-- `styleCollector`: StyleCollector
-- `props`?: Object
-- `state`?: Object
+
+-   `styleCollector`: StyleCollector
+-   `props`?: Object
+-   `state`?: Object
 
 **Returns:**
-- `className`: string
+
+-   `className`: string
 
 **Example:**
 
@@ -405,6 +402,7 @@ const Button = props => {
 ```
 
 ### `withStyles` alias `withTrousers()`
+
 A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a trousers style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
 
 Use this HOC in your class components, where hooks (and useStyles) are not available.
@@ -412,8 +410,9 @@ Use this HOC in your class components, where hooks (and useStyles) are not avail
 > Note: Remember to apply the supplied className prop to an element in your components render funciton or your styling wont be applied to your element!
 
 **Arguments:**
-- `Component`: React Component
-- `styleCollector`: StyleCollector
+
+-   `Component`: React Component
+-   `styleCollector`: StyleCollector
 
 **Example:**
 
@@ -440,10 +439,12 @@ export default withStyles(Button, styles);
 ```
 
 ### `<ThemeProvider />`
+
 Responsible for pushing the supplied theme into React's Context API.
 
 **Props:**
-- `theme`: Object
+
+-   `theme`: Object
 
 **Example:**
 
@@ -464,10 +465,12 @@ const App = () => (
 ```
 
 ### `css`
+
 Single style defintion
 
 **Arugments:**
-- `taggedTemplate`: TaggedTemplate
+
+-   `taggedTemplate`: TaggedTemplate
 
 **Example:**
 
@@ -475,20 +478,24 @@ Single style defintion
 import { css } from 'trousers';
 
 const styles = css`
-        background-color: red;
-    `;
+    background-color: red;
+`;
 ```
 
 ### `useGlobal()`
+
 Mount a single style definition as a global style
 
 **Arguments:**
-- `styleCollector`: StyleCollector
+
+-   `styleCollector`: StyleCollector
 
 **Returns**
-- `clearStyles`: Function() => void
+
+-   `clearStyles`: Function() => void
 
 **Example:**
+
 ```jsx
 import React, { useEffect } from 'react';
 import { css, useGlobal } from 'trousers';
@@ -504,17 +511,14 @@ const App = () => {
     const [clearStyles] = useGlobal(globalStyles);
 
     // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), [])
+    useEffect(() => () => clearStyles(), []);
 
-    return (
-        <h1>
-            Welcome to my website!
-        </h1>
-    );
+    return <h1>Welcome to my website!</h1>;
 };
 ```
 
 ### `ServerStyleRegistry`
+
 A style registry **for use on the server**
 
 **Example:**
@@ -527,11 +531,13 @@ const styleTags = registry.get();
 ```
 
 ### `ServerProvider`
+
 A context provider which tells Trousers to push styles into the supplied registry, rather than `document.head`. **For use on the server.**
 
 **Props:**
-- `registry`: SeverStyleRegistry()
-- `children`: ReactChildren
+
+-   `registry`: SeverStyleRegistry()
+-   `children`: ReactChildren
 
 **Example:**
 
@@ -565,13 +571,15 @@ The reason Trousers is a hook was so it could access (consume) the context from 
 There are also plans on leverage hooks more down the line to enable a few new features.
 
 ## Resources
-- [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
-- [BEM](https://en.bem.info/)
-- [BEM - Block Element Modifier](http://getbem.com/introduction/)
-- [How styled-components works](https://medium.com/styled-components/how-styled-components-works-618a69970421)
-- [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
-- [CSS Evolution](https://medium.com/@perezpriego7/css-evolution-from-css-sass-bem-css-modules-to-styled-components-d4c1da3a659b)
+
+-   [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
+-   [BEM](https://en.bem.info/)
+-   [BEM - Block Element Modifier](http://getbem.com/introduction/)
+-   [How styled-components works](https://medium.com/styled-components/how-styled-components-works-618a69970421)
+-   [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
+-   [CSS Evolution](https://medium.com/@perezpriego7/css-evolution-from-css-sass-bem-css-modules-to-styled-components-d4c1da3a659b)
 
 ## Tools
-- [light – weight css preprocessor ](https://github.com/thysultan/stylis.js)
-- [Optimized JavaScript implementation of the MurmurHash algorithms](https://github.com/perezd/node-murmurhash)
+
+-   [light – weight css preprocessor ](https://github.com/thysultan/stylis.js)
+-   [Optimized JavaScript implementation of the MurmurHash algorithms](https://github.com/perezd/node-murmurhash)
