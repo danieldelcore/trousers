@@ -1,9 +1,14 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { SingleStyleCollector } from './';
+import {
+    SingleStyleCollector,
+    ThemeContext,
+    ThemeCtx,
+    ServerContext,
+    ServerCtx,
+} from './';
 import { interpolateStyles, isBrowser } from './common';
 import { StyleRegistry, ServerStyleRegistry } from './styles';
-import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
 export default function useGlobal<Theme>(
     styleCollector: SingleStyleCollector<Theme>,
@@ -13,30 +18,34 @@ export default function useGlobal<Theme>(
 
     let registry: StyleRegistry | ServerStyleRegistry;
 
-    if (isBrowser()) {
-        const headElement = document.getElementsByTagName('head')[0];
-
-        registry = new StyleRegistry(headElement, 'data-trousers');
-    } else if (!isBrowser() && !!serverStyleRegistry) {
-        registry = serverStyleRegistry;
-    } else {
-        throw Error(
-            'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
-        );
-    }
-
-    const styleDefinition = styleCollector.get()[0];
-    const styles = interpolateStyles(
-        styleDefinition.styles,
-        styleDefinition.expressions,
-        theme,
-    );
-
-    registry.registerGlobal(styles);
-
     function clear() {
-        registry.clear(true);
+        registry.clear();
     }
+
+    useEffect(() => {
+        if (isBrowser()) {
+            const headElement = document.getElementsByTagName('head')[0];
+
+            registry = new StyleRegistry(headElement, 'data-trousers-global');
+        } else if (!isBrowser() && !!serverStyleRegistry) {
+            registry = serverStyleRegistry;
+        } else {
+            throw Error(
+                'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
+            );
+        }
+
+        const styleDefinition = styleCollector.get()[0];
+        const styles = interpolateStyles(
+            styleDefinition.styles,
+            styleDefinition.expressions,
+            theme,
+        );
+
+        registry.register(styleDefinition.hash.toString(), styles);
+
+        return () => clear();
+    }, []);
 
     return [clear];
 }
