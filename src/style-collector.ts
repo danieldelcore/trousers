@@ -55,6 +55,8 @@ export class StyleCollector<Props, State, Theme> {
     }
 }
 
-export default function trousers<Props, State, Theme>(elementName: string) {
+export default function styleCollector<Props, State, Theme>(
+    elementName: string,
+) {
     return new StyleCollector<Props, State, Theme>(elementName);
 }

@@ -15,13 +15,13 @@ export {
     ServerCtx,
 } from './ServerContext';
 
-import trousers, { StyleCollector } from './trousers';
 import useTrousers from './useTrousers';
+import styleCollector, { StyleCollector } from './style-collector';
 import withStyles from './withStyles';
 
 export {
-    trousers,
-    trousers as styleCollector,
+    styleCollector,
+    styleCollector as trousers,
     StyleCollector,
     useTrousers,
     useTrousers as useStyles,
