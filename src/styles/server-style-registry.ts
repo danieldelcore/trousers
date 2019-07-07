@@ -13,12 +13,6 @@ class ServerRegistry implements StyleRegistryInterface {
         this.styles.set(id, processedStyles);
     }
 
-    registerGlobal(styles: string) {
-        const processedStyles = stylis('', styles);
-
-        this.styles.set('', processedStyles);
-    }
-
     has(id: string): boolean {
         return this.styles.has(id);
     }

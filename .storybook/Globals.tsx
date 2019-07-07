@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import {
     styleCollector,
@@ -37,18 +37,10 @@ storiesOf('Globals', module)
             `;
 
         const TextBlock: FC = () => {
-            const [clearFont] = useGlobal(globalFontStyles);
-            const [clearStyles] = useGlobal(globalStyles);
+            useGlobal(globalFontStyles);
+            useGlobal(globalStyles);
 
             const classNames = useStyles(styles);
-
-            useEffect(
-                () => () => {
-                    clearFont();
-                    clearStyles();
-                },
-                [clearStyles, clearFont],
-            );
 
             return (
                 <div className={classNames}>
@@ -91,10 +83,8 @@ storiesOf('Globals', module)
             `;
 
         const TextBlock: FC = () => {
-            const [clearStyles] = useGlobal<Theme>(globalStyles);
+            useGlobal<Theme>(globalStyles);
             const classNames = useStyles(styles);
-
-            useEffect(() => () => clearStyles(), [clearStyles]);
 
             return (
                 <div className={classNames}>

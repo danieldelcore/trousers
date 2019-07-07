@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 
 import { StyleDefinition } from './types';
+import { STYLE_ID } from './constants';
 import { interpolateStyles, isBrowser } from './common';
-import { StyleRegistry } from './styles';
+import { StyleRegistry, ServerStyleRegistry } from './styles';
 import {
     ThemeContext,
     ThemeCtx,
@@ -12,14 +13,7 @@ import {
     ServerCtx,
 } from './';
 
-let styleRegisty: StyleRegistry;
-
-if (isBrowser()) {
-    const headElement = document.getElementsByTagName('head')[0];
-    styleRegisty = new StyleRegistry(headElement, 'data-trousers');
-}
-
-export default function useTrousers<Props, State, Theme>(
+export default function useStyles<Props, State, Theme>(
     styleCollector:
         | StyleCollector<Props, State, Theme>
         | SingleStyleCollector<Theme>,
@@ -28,17 +22,23 @@ export default function useTrousers<Props, State, Theme>(
 ): string {
     type CurrentStyle = StyleDefinition<Props, State, Theme>;
 
+    let registry: StyleRegistry | ServerStyleRegistry;
+
     const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
+    const elementName = styleCollector.getElementName();
 
-    if (!isBrowser() && !serverStyleRegistry) {
+    if (isBrowser()) {
+        const headElement = document.getElementsByTagName('head')[0];
+
+        registry = new StyleRegistry(headElement, STYLE_ID);
+    } else if (!isBrowser() && !!serverStyleRegistry) {
+        registry = serverStyleRegistry;
+    } else {
         throw Error(
             'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
         );
     }
-
-    const registry = !serverStyleRegistry ? styleRegisty : serverStyleRegistry;
-    const elementName = styleCollector.getElementName();
 
     return styleCollector
         .get()

@@ -2,25 +2,49 @@ import stylis from 'stylis';
 
 import StyleRegistryInterface from './style-registry-interface';
 
+interface RegistryOptions {
+    forceNewNode: boolean;
+    appendBefore?: string;
+}
+
 class StyleRegistry implements StyleRegistryInterface {
     private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
-    private globalElement!: HTMLStyleElement;
     private attributeId: string;
 
-    constructor(element: HTMLElement, attributeId: string) {
+    constructor(
+        parentElement: HTMLElement,
+        attributeId: string,
+        private options: RegistryOptions = {
+            forceNewNode: false,
+            appendBefore: undefined,
+        },
+    ) {
         this.attributeId = attributeId;
-        this.parentElement = element;
+        this.parentElement = parentElement;
 
-        this.styleElement = this.mount();
-        this.parentElement.appendChild(this.styleElement);
+        this.styleElement = this.options.forceNewNode
+            ? this.createStyleElement()
+            : this.getStyleElement();
+
+        if (!this.options.appendBefore) {
+            this.parentElement.appendChild(this.styleElement);
+        } else {
+            this.parentElement.insertBefore(
+                this.styleElement,
+                this.parentElement.querySelector<HTMLStyleElement>(
+                    `style[${this.options.appendBefore}]`,
+                ),
+            );
+        }
     }
 
-    register(id: string, styles: string) {
+    register(id: string, styles: string, isGlobal?: boolean) {
         if (this.has(id)) return;
 
-        const processedStyles = stylis(id, styles);
-        const styleNode = document.createTextNode(processedStyles);
+        const selector = !isGlobal ? id : ``;
+        const processedStyles = stylis(selector, styles);
+        const styleNode = document.createTextNode(`${processedStyles}\n`);
         const mountedStyles = this.styleElement.getAttribute(this.attributeId);
 
         this.styleElement.appendChild(styleNode);
@@ -30,42 +54,31 @@ class StyleRegistry implements StyleRegistryInterface {
         );
     }
 
-    registerGlobal(styles: string) {
-        const processedStyles = stylis('', styles);
-        const styleNode = document.createTextNode(processedStyles);
-
-        this.globalElement = this.mount(true);
-        this.globalElement.appendChild(styleNode);
-        this.parentElement.insertBefore(this.globalElement, this.styleElement);
-    }
-
     has(id: string): boolean {
         const mountedStyles = this.styleElement.getAttribute(this.attributeId);
 
         return mountedStyles!.includes(id);
     }
 
-    clear(isGlobal?: boolean) {
-        if (isGlobal) {
-            this.globalElement.remove();
-        } else {
-            this.styleElement.remove();
-        }
+    clear() {
+        this.styleElement.remove();
     }
 
-    private mount(isGlobal?: boolean) {
-        const attr = isGlobal ? `${this.attributeId}-global` : this.attributeId;
-        let styleElement: HTMLStyleElement | null = this.parentElement.querySelector(
-            `style[${attr}]`,
+    private getStyleElement(): HTMLStyleElement {
+        const element = this.parentElement.querySelector<HTMLStyleElement>(
+            `style[${this.attributeId}]`,
         );
 
-        if (!styleElement) {
-            styleElement = document.createElement('style');
-            styleElement.setAttribute(attr, '');
-            styleElement.type = 'text/css';
-        }
+        return !!element ? element : this.createStyleElement();
+    }
 
-        return styleElement;
+    private createStyleElement(): HTMLStyleElement {
+        const element = document.createElement<'style'>('style');
+        element.setAttribute(this.attributeId, '');
+        element.setAttribute('type', 'text/css');
+        element.type = 'text/css';
+
+        return element;
     }
 }
 

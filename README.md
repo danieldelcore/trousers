@@ -220,10 +220,7 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    const [clearStyles] = useGlobal(globalStyles);
-
-    // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), []);
+    useGlobal(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
@@ -492,7 +489,7 @@ Mount a single style definition as a global style
 
 **Returns**
 
--   `clearStyles`: Function() => void
+-   void
 
 **Example:**
 
@@ -508,10 +505,7 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    const [clearStyles] = useGlobal(globalStyles);
-
-    // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), []);
+    useGlobal(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
