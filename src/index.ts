@@ -17,7 +17,7 @@ export {
 
 import trousers, { StyleCollector } from './trousers';
 import useTrousers from './useTrousers';
-import withTrousers from './withTrousers';
+import withStyles from './withStyles';
 
 export {
     trousers,
@@ -25,6 +25,6 @@ export {
     StyleCollector,
     useTrousers,
     useTrousers as useStyles,
-    withTrousers,
-    withTrousers as withStyles,
+    withStyles,
+    withStyles as withTrousers,
 };
