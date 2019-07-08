@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import { SingleStyleCollector } from './';
 import { GLOBAL_STYLE_ID, STYLE_ID } from './constants';
@@ -12,33 +12,31 @@ export default function useGlobal<Theme>(
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
 
-    useEffect(() => {
-        let registry: StyleRegistry | ServerStyleRegistry;
+    let registry: StyleRegistry | ServerStyleRegistry;
 
-        if (isBrowser()) {
-            const headElement = document.getElementsByTagName('head')[0];
+    if (isBrowser()) {
+        const headElement = document.getElementsByTagName('head')[0];
 
-            registry = new StyleRegistry(headElement, GLOBAL_STYLE_ID, {
-                forceNewNode: true,
-                appendBefore: STYLE_ID,
-            });
-        } else if (!isBrowser() && !!serverStyleRegistry) {
-            registry = serverStyleRegistry;
-        } else {
-            throw Error(
-                'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
-            );
-        }
-
-        const styleDefinition = styleCollector.get()[0];
-        const styles = interpolateStyles(
-            styleDefinition.styles,
-            styleDefinition.expressions,
-            theme,
+        registry = new StyleRegistry(headElement, GLOBAL_STYLE_ID, {
+            forceNewNode: true,
+            appendBefore: STYLE_ID,
+        });
+    } else if (!isBrowser() && !!serverStyleRegistry) {
+        registry = serverStyleRegistry;
+    } else {
+        throw Error(
+            'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
         );
+    }
 
-        registry.register(styleDefinition.hash.toString(), styles, true);
+    const styleDefinition = styleCollector.get()[0];
+    const styles = interpolateStyles(
+        styleDefinition.styles,
+        styleDefinition.expressions,
+        theme,
+    );
 
-        return () => registry.clear();
-    }, []);
+    registry.register(styleDefinition.hash.toString(), styles, true);
+
+    return () => registry.clear();
 }

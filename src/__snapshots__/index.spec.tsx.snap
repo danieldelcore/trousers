@@ -6,11 +6,17 @@ exports[`Server side rendering (SSR) stringify application on server and hydrate
 `;
 
 exports[`Server side rendering (SSR) stringify application on server and hydrate on client 2`] = `
-<style data-trousers-global>
-  *{background-color:red;}
-</style>
-<style data-trousers={.button__17934672291136642020,.button--29111114421136642020}>
-  .button__17934672291136642020{background-color:#b3cde8;color:white;}
-  .button--29111114421136642020{background-color:#f95b5b;color:#ffffff;}
-</style>
+Array [
+  <style
+    data-trousers-global="2032734217"
+  >
+    *{background-color:red;}
+  </style>,
+  <style
+    data-trousers=".button__17934672291136642020,.button--29111114421136642020"
+  >
+    .button__17934672291136642020{background-color:#b3cde8;color:white;}
+.button--29111114421136642020{background-color:#f95b5b;color:#ffffff;}
+  </style>,
+]
 `;
