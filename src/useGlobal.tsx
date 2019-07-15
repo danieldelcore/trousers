@@ -23,15 +23,34 @@ function getStyles<Theme>(
     };
 }
 
+function registerGlobals<Theme>(
+    styleCollectors:
+        | SingleStyleCollector<Theme>
+        | SingleStyleCollector<Theme>[],
+    theme: Theme,
+    registry: StyleRegistry | ServerStyleRegistry,
+) {
+    [...styleCollectors].forEach(styleCollector => {
+        const { id, styles } = getStyles<Theme>(styleCollector, theme);
+        registry.register(id, styles, true);
+    });
+}
+
 export default function useGlobal<Theme>(
-    styleCollector: SingleStyleCollector<Theme>,
+    styleCollectors:
+        | SingleStyleCollector<Theme>
+        | SingleStyleCollector<Theme>[],
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        const { id, styles } = getStyles<Theme>(styleCollector, theme as Theme);
-        serverStyleRegistry.register(id, styles, true);
+        registerGlobals<Theme>(
+            styleCollectors,
+            theme as Theme,
+            serverStyleRegistry,
+        );
+
         return;
     }
 
@@ -48,9 +67,8 @@ export default function useGlobal<Theme>(
             appendBefore: STYLE_ID,
         });
 
-        const { id, styles } = getStyles<Theme>(styleCollector, theme as Theme);
-        registry.register(id, styles, true);
+        registerGlobals<Theme>(styleCollectors, theme as Theme, registry);
 
         return () => registry.clear();
-    }, [theme, styleCollector]);
+    }, [theme, styleCollectors]);
 }

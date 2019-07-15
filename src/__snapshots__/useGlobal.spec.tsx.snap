@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useGlobal attaches an array of styles to the head 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506 1211230107"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+    *{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches an array of themed styles to the head 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506 664824792"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+    *{background-color:red;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches new styles when a new style collector is supplied 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches new styles when a new style collector is supplied 2`] = `
+<head>
+  <style
+    data-trousers-global="1211230107"
+    type="text/css"
+  >
+    *{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches styles before data-trousers 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+  </style>
+  <style
+    data-trousers=".hello__11148054330"
+    type="text/css"
+  >
+    .hello__11148054330{color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches styles to the head 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal attaches themed styles to the head 1`] = `
+<head>
+  <style
+    data-trousers-global="664824792"
+    type="text/css"
+  >
+    *{background-color:red;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobal styles are not duplicated on rerender 1`] = `
+<head>
+  <style
+    data-trousers-global="436679506"
+    type="text/css"
+  >
+    *{box-sizing:border-box;}
+
+  </style>
+</head>
+`;

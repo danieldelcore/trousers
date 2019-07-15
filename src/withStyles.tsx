@@ -2,7 +2,7 @@ import React, { FC, ComponentType } from 'react';
 
 import { useStyles, StyleCollector } from './';
 
-const withTrousers = <Props, State, Theme>(
+const withStyles = <Props, State, Theme>(
     Component: ComponentType<Props>,
     styleCollector: StyleCollector<Props, State, Theme>,
 ) => {
@@ -19,4 +19,4 @@ const withTrousers = <Props, State, Theme>(
     return WrappedComponent;
 };
 
-export default withTrousers;
+export default withStyles;
