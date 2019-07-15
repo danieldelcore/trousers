@@ -1,5 +1,6 @@
 export { default as css, SingleStyleCollector } from './css';
 export { default as useGlobal } from './useGlobal';
+export { default as withGlobal } from './withGlobal';
 export { ServerStyleRegistry } from './styles';
 export {
     ThemeProvider,
@@ -18,7 +19,6 @@ export {
 import styleCollector, { StyleCollector } from './style-collector';
 import useStyles from './useStyles';
 import withStyles from './withStyles';
-import withGlobal from './withGlobal';
 
 export {
     styleCollector,
@@ -28,5 +28,4 @@ export {
     useStyles as useTrousers,
     withStyles,
     withStyles as withTrousers,
-    withGlobal,
 };
