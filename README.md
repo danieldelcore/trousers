@@ -400,7 +400,7 @@ const Button = props => {
 
 ### `withStyles` alias `withTrousers()`
 
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a trousers style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
+A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
 
 Use this HOC in your class components, where hooks (and useStyles) are not available.
 
@@ -485,7 +485,7 @@ Mount a single style definition as a global style
 
 **Arguments:**
 
--   `styleCollector`: StyleCollector
+-   `styleCollector`: SingleStyleCollector | SingleStyleCollector[]
 
 **Returns**
 
@@ -509,6 +509,56 @@ const App = () => {
 
     return <h1>Welcome to my website!</h1>;
 };
+```
+
+`useGlobal` also accepts an array of styles...
+
+```jsx
+import React, { useEffect } from 'react';
+import { css, useGlobal } from 'trousers';
+
+const globalStyles = css`...`;
+const moreGlobalStyles = css`...`;
+
+const App = () => {
+    useGlobal([globalStyles, moreGlobalStyles]);
+
+    return <h1>Welcome to my website!</h1>;
+};
+```
+
+### `withGlobal`
+
+A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a single style collector. Returns a new component, with the supplied global styles rendered to the document head.
+
+Use this HOC in your class components, where hooks (and useGlobal) are not available.
+
+**Arguments:**
+
+-   `Component`: React Component
+-   `css`: SingleStyleCollector
+
+**Example:**
+
+```jsx
+import React from 'react';
+import { css, withGlobal } from 'trousers';
+
+class Button {
+    render() {
+        return (
+            <button>
+                Submit
+            </button>
+        )
+    }
+);
+
+export default withStyles(Button, css`
+    * {
+        box-sizing: border-box;
+    }
+`);
 ```
 
 ### `ServerStyleRegistry`
@@ -555,7 +605,7 @@ const styleTags = registry.get();
 
 ## FAQ
 
-**Can't you do this in styled-components and emotion by just creating a new `css` block instead of only using it in the value.**
+**Can't you do this in styled-components and emotion?**
 
 This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the otherhand, aims to be a little more simple and oppinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
 
