@@ -1,6 +1,7 @@
-import React, { ReactNode, ReactChild, Fragment } from 'react';
+import React, { ReactNode, ReactChild } from 'react';
 import stylis from 'stylis';
 
+import { STYLE_ID, GLOBAL_STYLE_ID } from '../constants';
 import StyleRegistryInterface from './style-registry-interface';
 
 class ServerRegistry implements StyleRegistryInterface {
@@ -40,7 +41,13 @@ class ServerRegistry implements StyleRegistryInterface {
         });
 
         return (
-            <style data-trousers={ids.toString()}>{styles.join('\n')}</style>
+            <style
+                {...{
+                    [STYLE_ID]: ids.toString(),
+                }}
+            >
+                {styles.join('\n')}
+            </style>
         );
     }
 
@@ -48,7 +55,15 @@ class ServerRegistry implements StyleRegistryInterface {
         const styles: ReactChild[] = [];
 
         this.globals.forEach((value, key) => {
-            styles.push(<style data-trousers-global={key}>{value}</style>);
+            styles.push(
+                <style
+                    {...{
+                        [GLOBAL_STYLE_ID]: key,
+                    }}
+                >
+                    {value}
+                </style>,
+            );
         });
 
         return styles;
