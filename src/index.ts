@@ -1,6 +1,6 @@
 export { default as css, SingleStyleCollector } from './css';
-export { default as useGlobal } from './useGlobal';
-export { default as withGlobal } from './withGlobal';
+export { default as useGlobals } from './useGlobals';
+export { default as withGlobals } from './withGlobals';
 export { ServerStyleRegistry } from './styles';
 export {
     ThemeProvider,

@@ -1,6 +1,6 @@
 import React, { FC, ComponentType } from 'react';
 
-import { useGlobal, SingleStyleCollector } from './';
+import { useGlobals, SingleStyleCollector } from './';
 
 const withGlobal = <Props, Theme>(
     Component: ComponentType<Props>,
@@ -9,7 +9,7 @@ const withGlobal = <Props, Theme>(
         | SingleStyleCollector<Theme>[],
 ) => {
     const WrappedComponent: FC<Props> = props => {
-        useGlobal<Theme>(styleCollectors);
+        useGlobals<Theme>(styleCollectors);
 
         return <Component {...props} />;
     };

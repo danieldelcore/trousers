@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useGlobal attaches an array of styles to the head 1`] = `
+exports[`useGlobals attaches an array of styles to the head 1`] = `
 <head>
   <style
     data-trousers-global="436679506 1211230107"
@@ -14,7 +14,7 @@ exports[`useGlobal attaches an array of styles to the head 1`] = `
 </head>
 `;
 
-exports[`useGlobal attaches an array of themed styles to the head 1`] = `
+exports[`useGlobals attaches an array of themed styles to the head 1`] = `
 <head>
   <style
     data-trousers-global="436679506 664824792"
@@ -28,7 +28,7 @@ exports[`useGlobal attaches an array of themed styles to the head 1`] = `
 </head>
 `;
 
-exports[`useGlobal attaches new styles when a new style collector is supplied 1`] = `
+exports[`useGlobals attaches new styles when a new style collector is supplied 1`] = `
 <head>
   <style
     data-trousers-global="436679506"
@@ -40,7 +40,7 @@ exports[`useGlobal attaches new styles when a new style collector is supplied 1`
 </head>
 `;
 
-exports[`useGlobal attaches new styles when a new style collector is supplied 2`] = `
+exports[`useGlobals attaches new styles when a new style collector is supplied 2`] = `
 <head>
   <style
     data-trousers-global="1211230107"
@@ -52,7 +52,7 @@ exports[`useGlobal attaches new styles when a new style collector is supplied 2`
 </head>
 `;
 
-exports[`useGlobal attaches styles before data-trousers 1`] = `
+exports[`useGlobals attaches styles before data-trousers 1`] = `
 <head>
   <style
     data-trousers-global="436679506"
@@ -71,7 +71,7 @@ exports[`useGlobal attaches styles before data-trousers 1`] = `
 </head>
 `;
 
-exports[`useGlobal attaches styles to the head 1`] = `
+exports[`useGlobals attaches styles to the head 1`] = `
 <head>
   <style
     data-trousers-global="436679506"
@@ -83,7 +83,7 @@ exports[`useGlobal attaches styles to the head 1`] = `
 </head>
 `;
 
-exports[`useGlobal attaches themed styles to the head 1`] = `
+exports[`useGlobals attaches themed styles to the head 1`] = `
 <head>
   <style
     data-trousers-global="664824792"
@@ -95,7 +95,7 @@ exports[`useGlobal attaches themed styles to the head 1`] = `
 </head>
 `;
 
-exports[`useGlobal styles are not duplicated on rerender 1`] = `
+exports[`useGlobals styles are not duplicated on rerender 1`] = `
 <head>
   <style
     data-trousers-global="436679506"

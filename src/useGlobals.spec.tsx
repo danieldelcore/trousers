@@ -3,7 +3,7 @@ import { render, cleanup } from '@testing-library/react';
 
 import {
     css,
-    useGlobal,
+    useGlobals,
     SingleStyleCollector,
     ThemeProvider,
     useStyles,
@@ -18,7 +18,7 @@ interface FixtureProps {
     styles: SingleStyleCollector<Theme> | SingleStyleCollector<Theme>[];
 }
 
-describe('useGlobal', () => {
+describe('useGlobals', () => {
     let theme: Theme;
     let globalStyles: SingleStyleCollector<Theme>;
     let GlobalyStyledComponent: React.FC<FixtureProps>;
@@ -35,7 +35,7 @@ describe('useGlobal', () => {
         };
 
         GlobalyStyledComponent = ({ styles }: FixtureProps) => {
-            useGlobal(styles);
+            useGlobals(styles);
 
             return <span>Ahoy!</span>;
         };

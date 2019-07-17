@@ -14,7 +14,7 @@ import {
     styleCollector,
     useStyles,
     css,
-    useGlobal,
+    useGlobals,
     ServerProvider,
     ServerStyleRegistry,
 } from './';
@@ -74,7 +74,7 @@ describe('Server side rendering (SSR)', () => {
         jest.spyOn(console, 'error');
 
         const App: FC = () => {
-            useGlobal(globalStyles);
+            useGlobals(globalStyles);
 
             return (
                 <ThemeProvider theme={theme}>

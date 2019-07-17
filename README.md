@@ -206,11 +206,11 @@ Now your component will render different styles based on the context it is mount
 
 Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
 
-Turns out that there's a hook for that, `useGlobal`:
+Turns out that there's a hook for that, `useGlobals`:
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobal } from 'trousers';
+import { css, useGlobals } from 'trousers';
 
 const globalStyles = css`
   @font-face {
@@ -220,7 +220,7 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    useGlobal(globalStyles);
+    useGlobals(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
@@ -479,7 +479,7 @@ const styles = css`
 `;
 ```
 
-### `useGlobal()`
+### `useGlobals()`
 
 Mount a single style definition as a global style
 
@@ -495,7 +495,7 @@ Mount a single style definition as a global style
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobal } from 'trousers';
+import { css, useGlobals } from 'trousers';
 
 const globalStyles = css`
   @font-face {
@@ -505,33 +505,33 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    useGlobal(globalStyles);
+    useGlobals(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
 ```
 
-`useGlobal` also accepts an array of styles...
+`useGlobals` also accepts an array of styles...
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobal } from 'trousers';
+import { css, useGlobals } from 'trousers';
 
 const globalStyles = css`...`;
 const moreGlobalStyles = css`...`;
 
 const App = () => {
-    useGlobal([globalStyles, moreGlobalStyles]);
+    useGlobals([globalStyles, moreGlobalStyles]);
 
     return <h1>Welcome to my website!</h1>;
 };
 ```
 
-### `withGlobal`
+### `withGlobals`
 
 A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a single style collector. Returns a new component, with the supplied global styles rendered to the document head.
 
-Use this HOC in your class components, where hooks (and useGlobal) are not available.
+Use this HOC in your class components, where hooks (and useGlobals) are not available.
 
 **Arguments:**
 
@@ -542,7 +542,7 @@ Use this HOC in your class components, where hooks (and useGlobal) are not avail
 
 ```jsx
 import React from 'react';
-import { css, withGlobal } from 'trousers';
+import { css, withGlobals } from 'trousers';
 
 class Button {
     render() {
@@ -554,7 +554,7 @@ class Button {
     }
 );
 
-export default withStyles(Button, css`
+export default withGlobals(Button, css`
     * {
         box-sizing: border-box;
     }

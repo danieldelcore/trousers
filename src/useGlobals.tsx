@@ -36,7 +36,7 @@ function registerGlobals<Theme>(
     });
 }
 
-export default function useGlobal<Theme>(
+export default function useGlobals<Theme>(
     styleCollectors:
         | SingleStyleCollector<Theme>
         | SingleStyleCollector<Theme>[],

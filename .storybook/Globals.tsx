@@ -5,7 +5,7 @@ import {
     styleCollector,
     css,
     useStyles,
-    useGlobal,
+    useGlobals,
     ThemeProvider,
 } from '../src';
 
@@ -37,8 +37,8 @@ storiesOf('Globals', module)
             `;
 
         const TextBlock: FC = () => {
-            useGlobal(globalFontStyles);
-            useGlobal(globalStyles);
+            useGlobals(globalFontStyles);
+            useGlobals(globalStyles);
 
             const classNames = useStyles(styles);
 
@@ -83,7 +83,7 @@ storiesOf('Globals', module)
             `;
 
         const TextBlock: FC = () => {
-            useGlobal<Theme>(globalStyles);
+            useGlobals<Theme>(globalStyles);
             const classNames = useStyles(styles);
 
             return (
