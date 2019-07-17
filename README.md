@@ -251,7 +251,7 @@ const styleTags = registry.get();
 
 ## API
 
-### `styleCollector()` alias `trousers()`
+### `styleCollector()`
 
 The `styleCollector()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
@@ -363,7 +363,7 @@ const styles = styleCollector('button')
 styles.get();
 ```
 
-### `useStyles()` alias `useTrousers()`
+### `useStyles()`
 
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
@@ -398,7 +398,7 @@ const Button = props => {
 };
 ```
 
-### `withStyles` alias `withTrousers()`
+### `withStyles`
 
 A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
 

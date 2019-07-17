@@ -1,3 +1,6 @@
+export { default as styleCollector, StyleCollector } from './style-collector';
+export { default as useStyles } from './useStyles';
+export { default as withStyles } from './withStyles';
 export { default as css, SingleStyleCollector } from './css';
 export { default as useGlobals } from './useGlobals';
 export { default as withGlobals } from './withGlobals';
@@ -15,17 +18,3 @@ export {
     ServerContext,
     ServerCtx,
 } from './ServerContext';
-
-import styleCollector, { StyleCollector } from './style-collector';
-import useStyles from './useStyles';
-import withStyles from './withStyles';
-
-export {
-    styleCollector,
-    styleCollector as trousers,
-    StyleCollector,
-    useStyles,
-    useStyles as useTrousers,
-    withStyles,
-    withStyles as withTrousers,
-};
