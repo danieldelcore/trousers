@@ -3,7 +3,6 @@ import { generateHash } from './common';
 
 export class StyleCollector<Props, State, Theme> {
     private styleDefinitions: StyleDefinition<Props, State, Theme>[] = [];
-    private mounted: string[] = [];
 
     constructor(private elementName: string) {}
 
@@ -24,14 +23,6 @@ export class StyleCollector<Props, State, Theme> {
 
     get(): StyleDefinition<Props, State, Theme>[] {
         return this.styleDefinitions;
-    }
-
-    isMounted(className: string) {
-        return this.mounted.includes(className);
-    }
-
-    pushMounted(className: string) {
-        this.mounted.push(className);
     }
 
     private registerStyles(

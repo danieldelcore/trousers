@@ -8,13 +8,11 @@ interface RegistryOptions {
 }
 
 class StyleRegistry implements StyleRegistryInterface {
-    private parentElement!: HTMLElement;
     private styleElement!: HTMLStyleElement;
-    private attributeId: string;
 
     constructor(
-        parentElement: HTMLElement,
-        attributeId: string,
+        private parentElement: HTMLElement,
+        private attributeId: string,
         private options: RegistryOptions = {
             forceNewNode: false,
             appendBefore: undefined,

@@ -4,8 +4,6 @@ import { Expression, StyleDefinition } from './types';
 export interface SingleStyleCollector<Theme> {
     get: () => StyleDefinition<{}, {}, Theme>[];
     getElementName: () => string;
-    isMounted: (className: string) => boolean;
-    pushMounted: (className: string) => void;
 }
 
 export default function css<Theme>(
@@ -19,8 +17,5 @@ export default function css<Theme>(
     return {
         get: () => styleCollector.get(),
         getElementName: () => styleCollector.getElementName(),
-        isMounted: (className: string) => styleCollector.isMounted(className),
-        pushMounted: (className: string) =>
-            styleCollector.pushMounted(className),
     };
 }

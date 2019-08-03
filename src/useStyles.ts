@@ -1,17 +1,48 @@
-import { useContext } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 
-import { StyleDefinition } from './types';
 import { STYLE_ID } from './constants';
+import { StyleDefinition } from './types';
 import { interpolateStyles, isBrowser } from './common';
 import { StyleRegistry, ServerStyleRegistry } from './styles';
-import {
-    ThemeContext,
-    ThemeCtx,
-    StyleCollector,
-    SingleStyleCollector,
-    ServerContext,
-    ServerCtx,
-} from './';
+import { StyleCollector } from './style-collector';
+import { SingleStyleCollector } from './css';
+import { ThemeContext, ThemeCtx } from './ThemeContext';
+import { ServerContext, ServerCtx } from './ServerContext';
+
+function getComponentId<Props, State, Theme>(
+    styleDefinition: StyleDefinition<Props, State, Theme>,
+    elementName: string,
+    themeCtx: ThemeCtx,
+) {
+    const hash = `${styleDefinition.hash}${themeCtx.hash}`;
+    return `${elementName}${styleDefinition.separator}${hash}`;
+}
+
+function registerStyles<Props, State, Theme>(
+    styleDefintions: StyleDefinition<Props, State, Theme>[],
+    elementName: string,
+    registry: StyleRegistry | ServerStyleRegistry,
+    themeCtx: ThemeCtx,
+) {
+    styleDefintions.forEach(styleDefinition => {
+        const componentId = getComponentId(
+            styleDefinition,
+            elementName,
+            themeCtx,
+        );
+        const className = `.${componentId}`;
+
+        if (!registry.has(className)) {
+            const styles = interpolateStyles(
+                styleDefinition.styles,
+                styleDefinition.expressions,
+                themeCtx.theme,
+            );
+
+            registry.register(className, styles);
+        }
+    });
+}
 
 export default function useStyles<Props, State, Theme>(
     styleCollector:
@@ -20,49 +51,42 @@ export default function useStyles<Props, State, Theme>(
     props?: Props,
     state?: State,
 ): string {
-    type CurrentStyle = StyleDefinition<Props, State, Theme>;
-
-    let registry: StyleRegistry | ServerStyleRegistry;
-
-    const { theme, hash: themeHash } = useContext<ThemeCtx>(ThemeContext);
-    const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
+    const themeCtx = useContext<ThemeCtx>(ThemeContext);
+    const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
     const elementName = styleCollector.getElementName();
+    const styleDefintions = styleCollector
+        .get()
+        .filter(({ predicate }) => predicate(props, state));
 
-    if (isBrowser()) {
-        const headElement = document.getElementsByTagName('head')[0];
-
-        registry = new StyleRegistry(headElement, STYLE_ID);
-    } else if (!isBrowser() && !!serverStyleRegistry) {
-        registry = serverStyleRegistry;
-    } else {
+    if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
             'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
         );
     }
 
-    return styleCollector
-        .get()
-        .filter(({ predicate }: CurrentStyle) => predicate(props, state))
-        .reduce((accum: string, styleDefinition: CurrentStyle) => {
-            const hash = `${styleDefinition.hash}${themeHash}`;
-            const componentId = `${elementName}${
-                styleDefinition.separator
-            }${hash}`;
-            const className = `.${componentId}`;
+    if (!isBrowser() && !!serverStyleRegistry) {
+        registerStyles(
+            styleDefintions,
+            elementName,
+            serverStyleRegistry,
+            themeCtx,
+        );
+    }
 
-            if (
-                !styleCollector.isMounted(className) &&
-                !registry.has(className)
-            ) {
-                const styles = interpolateStyles(
-                    styleDefinition.styles,
-                    styleDefinition.expressions,
-                    theme,
-                );
+    useLayoutEffect(() => {
+        const headElement = document.getElementsByTagName('head')[0];
+        const registry = new StyleRegistry(headElement, STYLE_ID);
 
-                registry.register(className, styles);
-                styleCollector.pushMounted(className);
-            }
+        registerStyles(styleDefintions, elementName, registry, themeCtx);
+    }, [styleDefintions, elementName, themeCtx]);
+
+    return styleDefintions
+        .reduce((accum, styleDefinition) => {
+            const componentId = getComponentId(
+                styleDefinition,
+                elementName,
+                themeCtx,
+            );
 
             return `${accum} ${componentId}`;
         }, '')

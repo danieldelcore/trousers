@@ -71,7 +71,6 @@ describe('Server side rendering (SSR)', () => {
 
     it('stringify application on server and hydrate on client', () => {
         jest.spyOn(console, 'warn');
-        jest.spyOn(console, 'error');
 
         const App: FC = () => {
             useGlobals(globalStyles);
@@ -107,7 +106,6 @@ describe('Server side rendering (SSR)', () => {
         expect(html).toMatchSnapshot();
         expect(registry.get()).toMatchSnapshot();
         expect(console.warn).not.toHaveBeenCalled();
-        expect(console.error).not.toHaveBeenCalled();
     });
 
     it('throws if ServerProvider was not used', () => {
