@@ -31,12 +31,10 @@ export default function useGlobals<Theme>(
         | SingleStyleCollector<Theme>[],
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
-    const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
+    const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
 
     if (!isBrowser() && !!serverStyleRegistry) {
         registerGlobals(styleCollectors, theme as Theme, serverStyleRegistry);
-
-        return;
     }
 
     if (!isBrowser() && !serverStyleRegistry) {

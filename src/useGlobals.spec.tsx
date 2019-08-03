@@ -21,7 +21,7 @@ interface FixtureProps {
 describe('useGlobals', () => {
     let theme: Theme;
     let globalStyles: SingleStyleCollector<Theme>;
-    let GlobalyStyledComponent: React.FC<FixtureProps>;
+    let GloballyStyledComponent: React.FC<FixtureProps>;
 
     beforeEach(() => {
         globalStyles = css`
@@ -34,7 +34,7 @@ describe('useGlobals', () => {
             backgroundColor: 'red',
         };
 
-        GlobalyStyledComponent = ({ styles }: FixtureProps) => {
+        GloballyStyledComponent = ({ styles }: FixtureProps) => {
             useGlobals(styles);
 
             return <span>Ahoy!</span>;
@@ -48,7 +48,7 @@ describe('useGlobals', () => {
     });
 
     it('attaches styles to the head', () => {
-        render(<GlobalyStyledComponent styles={globalStyles} />);
+        render(<GloballyStyledComponent styles={globalStyles} />);
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });
@@ -61,7 +61,7 @@ describe('useGlobals', () => {
         `;
 
         render(
-            <GlobalyStyledComponent
+            <GloballyStyledComponent
                 styles={[globalStyles, additionalStyles]}
             />,
         );
@@ -77,22 +77,22 @@ describe('useGlobals', () => {
         `;
 
         const { rerender } = render(
-            <GlobalyStyledComponent styles={globalStyles} />,
+            <GloballyStyledComponent styles={globalStyles} />,
         );
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
 
-        rerender(<GlobalyStyledComponent styles={additionalStyles} />);
+        rerender(<GloballyStyledComponent styles={additionalStyles} />);
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });
 
     it('styles are not duplicated on rerender', () => {
         const { rerender } = render(
-            <GlobalyStyledComponent styles={globalStyles} />,
+            <GloballyStyledComponent styles={globalStyles} />,
         );
-        rerender(<GlobalyStyledComponent styles={globalStyles} />);
-        rerender(<GlobalyStyledComponent styles={globalStyles} />);
+        rerender(<GloballyStyledComponent styles={globalStyles} />);
+        rerender(<GloballyStyledComponent styles={globalStyles} />);
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });
@@ -106,7 +106,7 @@ describe('useGlobals', () => {
 
         render(
             <ThemeProvider theme={theme}>
-                <GlobalyStyledComponent styles={themedStyles} />
+                <GloballyStyledComponent styles={themedStyles} />
             </ThemeProvider>,
         );
 
@@ -122,7 +122,9 @@ describe('useGlobals', () => {
 
         render(
             <ThemeProvider theme={theme}>
-                <GlobalyStyledComponent styles={[globalStyles, themedStyles]} />
+                <GloballyStyledComponent
+                    styles={[globalStyles, themedStyles]}
+                />
             </ThemeProvider>,
         );
 
@@ -143,7 +145,7 @@ describe('useGlobals', () => {
         render(
             <React.Fragment>
                 <MyComponent />
-                <GlobalyStyledComponent styles={globalStyles} />
+                <GloballyStyledComponent styles={globalStyles} />
             </React.Fragment>,
         );
 
@@ -152,7 +154,7 @@ describe('useGlobals', () => {
 
     it('clears styles', () => {
         const { unmount } = render(
-            <GlobalyStyledComponent styles={globalStyles} />,
+            <GloballyStyledComponent styles={globalStyles} />,
         );
 
         expect(document.querySelectorAll('style').length).toEqual(1);
@@ -170,7 +172,7 @@ describe('useGlobals', () => {
         `;
 
         const { unmount } = render(
-            <GlobalyStyledComponent
+            <GloballyStyledComponent
                 styles={[globalStyles, additionalStyles]}
             />,
         );
@@ -190,12 +192,12 @@ describe('useGlobals', () => {
         `;
 
         const { rerender, unmount } = render(
-            <GlobalyStyledComponent styles={globalStyles} />,
+            <GloballyStyledComponent styles={globalStyles} />,
         );
 
         expect(document.querySelectorAll('style').length).toEqual(1);
 
-        rerender(<GlobalyStyledComponent styles={additionalStyles} />);
+        rerender(<GloballyStyledComponent styles={additionalStyles} />);
 
         unmount();
 
