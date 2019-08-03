@@ -21,7 +21,7 @@ export class StyleCollector<Props, State, Theme> {
         return this.elementName;
     }
 
-    get(): StyleDefinition<Props, State, Theme>[] {
+    get() {
         return this.styleDefinitions;
     }
 
