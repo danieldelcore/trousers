@@ -6,23 +6,6 @@ import { interpolateStyles, isBrowser } from './common';
 import { StyleRegistry, ServerStyleRegistry } from './styles';
 import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
-function getStyles<Theme>(
-    styleCollector: SingleStyleCollector<Theme>,
-    theme: Theme,
-): Record<string, string> {
-    const styleDefinition = styleCollector.get()[0];
-    const styles = interpolateStyles(
-        styleDefinition.styles,
-        styleDefinition.expressions,
-        theme,
-    );
-
-    return {
-        id: styleDefinition.hash.toString(),
-        styles,
-    };
-}
-
 function registerGlobals<Theme>(
     styleCollectors:
         | SingleStyleCollector<Theme>
@@ -31,8 +14,14 @@ function registerGlobals<Theme>(
     registry: StyleRegistry | ServerStyleRegistry,
 ) {
     [...styleCollectors].forEach(styleCollector => {
-        const { id, styles } = getStyles<Theme>(styleCollector, theme);
-        registry.register(id, styles, true);
+        const styleDefinition = styleCollector.get()[0];
+        const styles = interpolateStyles(
+            styleDefinition.styles,
+            styleDefinition.expressions,
+            theme,
+        );
+
+        registry.register(styleDefinition.hash.toString(), styles, true);
     });
 }
 
@@ -45,11 +34,7 @@ export default function useGlobals<Theme>(
     const { serverStyleRegistry } = useContext<ServerCtx>(ServerContext);
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerGlobals<Theme>(
-            styleCollectors,
-            theme as Theme,
-            serverStyleRegistry,
-        );
+        registerGlobals(styleCollectors, theme as Theme, serverStyleRegistry);
 
         return;
     }
