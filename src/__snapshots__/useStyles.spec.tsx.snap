@@ -3,12 +3,12 @@
 exports[`useStyles attaches new styles when a new style collector is supplied 1`] = `
 <head>
   <style
-    data-trousers=".foo__26524557390 .foo--23561639410"
+    data-trousers=".foo__38890833250 .foo--4911895800"
     type="text/css"
   >
-    .foo__26524557390{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--23561639410{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
   </style>
 </head>
@@ -17,16 +17,16 @@ exports[`useStyles attaches new styles when a new style collector is supplied 1`
 exports[`useStyles attaches new styles when a new style collector is supplied 2`] = `
 <head>
   <style
-    data-trousers=".foo__26524557390 .foo--23561639410 .foo__4827752910 .foo--23495128240"
+    data-trousers=".foo__38890833250 .foo--4911895800 .foo__30169568310 .foo--38262462060"
     type="text/css"
   >
-    .foo__26524557390{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--23561639410{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
-    .foo__4827752910{background-color:purple;}
+    .foo__30169568310{background-color:purple;}
 
-    .foo--23495128240{background-color:green;}
+    .foo--38262462060{background-color:green;}
 
   </style>
 </head>
@@ -35,10 +35,10 @@ exports[`useStyles attaches new styles when a new style collector is supplied 2`
 exports[`useStyles attaches single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__40657472120"
+    data-trousers=".css__2934395490"
     type="text/css"
   >
-    .css__40657472120{background-color:blue;}
+    .css__2934395490{background-color:blue;}
 
   </style>
 </head>
@@ -47,10 +47,10 @@ exports[`useStyles attaches single style to the head 1`] = `
 exports[`useStyles attaches styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__26524557390"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
-    .foo__26524557390{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -59,10 +59,10 @@ exports[`useStyles attaches styles to the head 1`] = `
 exports[`useStyles attaches styles with modifiers to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__26524557390"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
-    .foo__26524557390{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -71,12 +71,12 @@ exports[`useStyles attaches styles with modifiers to the head 1`] = `
 exports[`useStyles attaches styles with modifiers to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__26524557390 .foo--23561639410"
+    data-trousers=".foo__38890833250 .foo--4911895800"
     type="text/css"
   >
-    .foo__26524557390{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--23561639410{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
   </style>
 </head>
@@ -85,10 +85,10 @@ exports[`useStyles attaches styles with modifiers to the head 2`] = `
 exports[`useStyles attaches themed single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__14182296162789151078"
+    data-trousers=".css__42468333793516409327"
     type="text/css"
   >
-    .css__14182296162789151078{background-color:Atomic Tangerine;}
+    .css__42468333793516409327{background-color:Atomic Tangerine;}
 
   </style>
 </head>
@@ -97,10 +97,10 @@ exports[`useStyles attaches themed single style to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__26749786011547705526"
+    data-trousers=".foo__38783974113106931827"
     type="text/css"
   >
-    .foo__26749786011547705526{background-color:purple;}
+    .foo__38783974113106931827{background-color:purple;}
 
   </style>
 </head>
@@ -109,12 +109,12 @@ exports[`useStyles attaches themed styles to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__26749786011547705526 .foo--26749786011547705526"
+    data-trousers=".foo__38783974113106931827 .foo--38783974113106931827"
     type="text/css"
   >
-    .foo__26749786011547705526{background-color:purple;}
+    .foo__38783974113106931827{background-color:purple;}
 
-    .foo--26749786011547705526{background-color:purple;}
+    .foo--38783974113106931827{background-color:purple;}
 
   </style>
 </head>

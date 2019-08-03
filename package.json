@@ -42,7 +42,6 @@
         "url": "https://github.com/danieldelcore/trousers/issues"
     },
     "dependencies": {
-        "murmurhash": "0.0.2",
         "stylis": "^3.5.4"
     },
     "devDependencies": {

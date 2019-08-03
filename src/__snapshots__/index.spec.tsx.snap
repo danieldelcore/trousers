@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Server side rendering (SSR) stringify application on server and hydrate on client 1`] = `
-<button class="button__17934672291136642020">Hello, SSR!</button>
-<button class="button__17934672291136642020 button--29111114421136642020">Hello, Hydration!</button>
+<button class="button__11079579703130397219">Hello, SSR!</button>
+<button class="button__11079579703130397219 button--26780284923130397219">Hello, Hydration!</button>
 `;
 
 exports[`Server side rendering (SSR) stringify application on server and hydrate on client 2`] = `
 Array [
   <style
-    data-trousers-global="2032734217"
+    data-trousers-global="1957078772"
   >
     *{background-color:red;}
   </style>,
   <style
-    data-trousers=".button__17934672291136642020,.button--29111114421136642020"
+    data-trousers=".button__11079579703130397219,.button--26780284923130397219"
   >
-    .button__17934672291136642020{background-color:#b3cde8;color:white;}
-.button--29111114421136642020{background-color:#f95b5b;color:#ffffff;}
+    .button__11079579703130397219{background-color:#b3cde8;color:white;}
+.button--26780284923130397219{background-color:#f95b5b;color:#ffffff;}
   </style>,
 ]
 `;

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`styleCollector registers an element 1`] = `610082889`;
+exports[`styleCollector registers an element 1`] = `2111092729`;
 
-exports[`styleCollector registers an element and modifier 1`] = `1630367430`;
+exports[`styleCollector registers an element and modifier 1`] = `2064733655`;
 
-exports[`styleCollector registers an element and multiple modifiers 1`] = `610082889`;
+exports[`styleCollector registers an element and multiple modifiers 1`] = `2111092729`;
 
-exports[`styleCollector registers an element and multiple modifiers 2`] = `1630367430`;
+exports[`styleCollector registers an element and multiple modifiers 2`] = `2064733655`;
 
-exports[`styleCollector registers an element and multiple modifiers 3`] = `2922779886`;
+exports[`styleCollector registers an element and multiple modifiers 3`] = `2172502402`;
