@@ -1,30 +1,20 @@
+export { default as styleCollector, StyleCollector } from './style-collector';
+export { default as useStyles } from './useStyles';
+export { default as withStyles, WithStylesProps } from './withStyles';
 export { default as css, SingleStyleCollector } from './css';
-export { default as useGlobal } from './useGlobal';
+export { default as useGlobals } from './useGlobals';
+export { default as withGlobals } from './withGlobals';
 export { ServerStyleRegistry } from './styles';
 export {
     ThemeProvider,
-    ThemeConumser,
+    ThemeConsumer,
     ThemeContext,
     ThemeCtx,
     ThemeProviderProps,
 } from './ThemeContext';
 export {
     ServerProvider,
-    ServerConumser,
+    ServerConsumer,
     ServerContext,
     ServerCtx,
 } from './ServerContext';
-
-import trousers, { StyleCollector } from './trousers';
-import useTrousers from './useTrousers';
-import withTrousers from './withTrousers';
-
-export {
-    trousers,
-    trousers as styleCollector,
-    StyleCollector,
-    useTrousers,
-    useTrousers as useStyles,
-    withTrousers,
-    withTrousers as withStyles,
-};

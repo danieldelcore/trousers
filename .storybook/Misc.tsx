@@ -46,7 +46,7 @@ storiesOf('Miscellaneous', module)
             primary?: boolean;
         }
 
-        const logoStyles = styleCollector<LogoProps, {}, {}>('logo').element`
+        const logoStyles = styleCollector<LogoProps>('logo').element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -61,7 +61,7 @@ storiesOf('Miscellaneous', module)
             `;
 
         const Logo: FC<LogoProps> = props => {
-            const classNames = useStyles<LogoProps, {}, {}>(logoStyles, props);
+            const classNames = useStyles(logoStyles, props);
 
             return (
                 <img

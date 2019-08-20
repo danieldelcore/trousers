@@ -6,20 +6,17 @@ exports[`StyleRegistry registering an existing key does not update the style 1`]
 </style>
 `;
 
-exports[`StyleRegistry registers a global first, with prexisting style tag 1`] = `
-<style data-testing-trousers-global="" type="text/css">
-  {background-color:blue;}
-</style>
+exports[`StyleRegistry registers a global style 1`] = `
 <style data-testing-trousers="1" type="text/css">
-  1{background-color:red;}
+  {background-color:red;}
 </style>
 `;
 
-exports[`StyleRegistry registers a global style 1`] = `
-<style data-testing-trousers-global="" type="text/css">
-  {background-color:red;}
+exports[`StyleRegistry registers a global, with prexisting style tag 1`] = `
+<style data-testing-trousers="1 2" type="text/css">
+  1{background-color:red;}
+  {background-color:blue;}
 </style>
-<style data-testing-trousers="" type="text/css"></style>
 `;
 
 exports[`StyleRegistry registers a new style 1`] = `
@@ -30,6 +27,32 @@ exports[`StyleRegistry registers a new style 1`] = `
 
 exports[`StyleRegistry registers multiple styles 1`] = `
 <style data-testing-trousers="1 2" type="text/css">
-  1{background-color:red;}2{background-color:blue;}
+  1{background-color:red;}
+  2{background-color:blue;}
+</style>
+`;
+
+exports[`StyleRegistry registries can hoist style tags to the top 1`] = `
+<style data-testing-secondary="2" type="text/css">
+  {background-color:blue;}
+</style>
+<style data-testing-trousers="1" type="text/css">
+  1{background-color:red;}
+</style>
+`;
+
+exports[`StyleRegistry registries can mount their own style tags 1`] = `
+<style data-testing-trousers="1" type="text/css">
+  1{background-color:red;}
+</style>
+<style data-testing-secondary="2" type="text/css">
+  2{background-color:blue;}
+</style>
+`;
+
+exports[`StyleRegistry registries will append style node if append before selector returns null 1`] = `
+<style data-testing-trousers="" type="text/css"></style>
+<style data-testing-secondary="1" type="text/css">
+  1{background-color:blue;}
 </style>
 `;

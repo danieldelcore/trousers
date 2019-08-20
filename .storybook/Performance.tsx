@@ -8,7 +8,7 @@ storiesOf('Performance', module).add('Many of the same nodes', () => {
         children: ReactNode;
     }
 
-    const styles = styleCollector<ButtonProps, {}, {}>('button').element`
+    const styles = styleCollector<ButtonProps>('button').element`
             background-color: #b3cde8;
             border-radius: 6px;
             border: none;
@@ -36,7 +36,7 @@ storiesOf('Performance', module).add('Many of the same nodes', () => {
         `;
 
     const Button: FC<ButtonProps> = props => {
-        const buttonClassNames = useStyles<ButtonProps, {}, {}>(styles, props);
+        const buttonClassNames = useStyles(styles, props);
 
         return <button className={buttonClassNames}>{props.children}</button>;
     };

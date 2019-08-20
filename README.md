@@ -94,7 +94,7 @@ export default Button;
 
 ## Motivation
 
-Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
+Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the conscious decision to avoid letting you directly apply Props to your CSS properties like this:
 
 ```jsx
 const Button = styled.button`
@@ -110,9 +110,9 @@ const Button = styled.button`
 `;
 ```
 
-It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
+It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
 
-Trousers encourages semantics and allows you to group logic for different states into predicates, which are contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
+Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
 
 ```jsx
 const buttonStyles =
@@ -132,7 +132,7 @@ const buttonStyles =
 
 Notice that you can localise the logic for a particular state in one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied.
 
-Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
+Under the hood, Trousers will generate a hash, mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
 
@@ -206,11 +206,11 @@ Now your component will render different styles based on the context it is mount
 
 Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
 
-Turns out that there's a hook for that, `useGlobal`:
+Turns out that there's a hook for that, `useGlobals`:
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobal } from 'trousers';
+import { css, useGlobals } from 'trousers';
 
 const globalStyles = css`
   @font-face {
@@ -220,10 +220,7 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    const [clearStyles] = useGlobal(globalStyles);
-
-    // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), []);
+    useGlobals(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
@@ -254,7 +251,7 @@ const styleTags = registry.get();
 
 ## API
 
-### `styleCollector()` alias `trousers()`
+### `styleCollector()`
 
 The `styleCollector()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
 
@@ -299,9 +296,9 @@ const styles = styleCollector('button').element`
 
 A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
 
-> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifer will potentially be overriding the style rules defined in the modifiers and elements delcared before it.
+> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifier will potentially be overriding the style rules defined in the modifiers and elements declared before it.
 
-Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
+Modifiers follow the same methodology as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
 
 -   Defines the appearance, state, or behavior of a block or element
 -   A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
@@ -366,7 +363,7 @@ const styles = styleCollector('button')
 styles.get();
 ```
 
-### `useStyles()` alias `useTrousers()`
+### `useStyles()`
 
 React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
 
@@ -401,9 +398,9 @@ const Button = props => {
 };
 ```
 
-### `withStyles` alias `withTrousers()`
+### `withStyles`
 
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a trousers style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
+A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
 
 Use this HOC in your class components, where hooks (and useStyles) are not available.
 
@@ -482,23 +479,23 @@ const styles = css`
 `;
 ```
 
-### `useGlobal()`
+### `useGlobals()`
 
 Mount a single style definition as a global style
 
 **Arguments:**
 
--   `styleCollector`: StyleCollector
+-   `styleCollector`: SingleStyleCollector | SingleStyleCollector[]
 
 **Returns**
 
--   `clearStyles`: Function() => void
+-   void
 
 **Example:**
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobal } from 'trousers';
+import { css, useGlobals } from 'trousers';
 
 const globalStyles = css`
   @font-face {
@@ -508,13 +505,60 @@ const globalStyles = css`
 `;
 
 const App = () => {
-    const [clearStyles] = useGlobal(globalStyles);
-
-    // clearStyles allows you to remove all global styles mounted by that component
-    useEffect(() => () => clearStyles(), []);
+    useGlobals(globalStyles);
 
     return <h1>Welcome to my website!</h1>;
 };
+```
+
+`useGlobals` also accepts an array of styles...
+
+```jsx
+import React, { useEffect } from 'react';
+import { css, useGlobals } from 'trousers';
+
+const globalStyles = css`...`;
+const moreGlobalStyles = css`...`;
+
+const App = () => {
+    useGlobals([globalStyles, moreGlobalStyles]);
+
+    return <h1>Welcome to my website!</h1>;
+};
+```
+
+### `withGlobals`
+
+A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a single style collector. Returns a new component, with the supplied global styles rendered to the document head.
+
+Use this HOC in your class components, where hooks (and useGlobals) are not available.
+
+**Arguments:**
+
+-   `Component`: React Component
+-   `css`: SingleStyleCollector
+
+**Example:**
+
+```jsx
+import React from 'react';
+import { css, withGlobals } from 'trousers';
+
+class Button {
+    render() {
+        return (
+            <button>
+                Submit
+            </button>
+        )
+    }
+);
+
+export default withGlobals(Button, css`
+    * {
+        box-sizing: border-box;
+    }
+`);
 ```
 
 ### `ServerStyleRegistry`
@@ -561,13 +605,13 @@ const styleTags = registry.get();
 
 ## FAQ
 
-**Can't you do this in styled-components and emotion by just creating a new `css` block instead of only using it in the value.**
+**Can't you do this in styled-components and emotion?**
 
-This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the otherhand, aims to be a little more simple and oppinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
+This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the other hand, aims to be a little more simple and opinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
 
 **What does this have to do with hooks? Can we not compute the classname from a plain-old JS function?**
 
-The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
+The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implementation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
 There are also plans on leverage hooks more down the line to enable a few new features.
 
 ## Resources

@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useStyles attaches new styles when a new style collector is supplied 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250 .foo--4911895800"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+    .foo--4911895800{background-color:red;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches new styles when a new style collector is supplied 2`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250 .foo--4911895800 .foo__30169568310 .foo--38262462060"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+    .foo--4911895800{background-color:red;}
+
+    .foo__30169568310{background-color:purple;}
+
+    .foo--38262462060{background-color:green;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches single style to the head 1`] = `
+<head>
+  <style
+    data-trousers=".css__2934395490"
+    type="text/css"
+  >
+    .css__2934395490{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches styles to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches styles with modifiers to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches styles with modifiers to the head 2`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250 .foo--4911895800"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+    .foo--4911895800{background-color:red;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches themed single style to the head 1`] = `
+<head>
+  <style
+    data-trousers=".css__42468333793516409327"
+    type="text/css"
+  >
+    .css__42468333793516409327{background-color:Atomic Tangerine;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches themed styles to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38783974113106931827"
+    type="text/css"
+  >
+    .foo__38783974113106931827{background-color:purple;}
+
+  </style>
+</head>
+`;
+
+exports[`useStyles attaches themed styles to the head 2`] = `
+<head>
+  <style
+    data-trousers=".foo__38783974113106931827 .foo--38783974113106931827"
+    type="text/css"
+  >
+    .foo__38783974113106931827{background-color:purple;}
+
+    .foo--38783974113106931827{background-color:purple;}
+
+  </style>
+</head>
+`;

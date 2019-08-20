@@ -3,7 +3,6 @@ import { generateHash } from './common';
 
 export class StyleCollector<Props, State, Theme> {
     private styleDefinitions: StyleDefinition<Props, State, Theme>[] = [];
-    private mounted: string[] = [];
 
     constructor(private elementName: string) {}
 
@@ -22,16 +21,8 @@ export class StyleCollector<Props, State, Theme> {
         return this.elementName;
     }
 
-    get(): StyleDefinition<Props, State, Theme>[] {
+    get() {
         return this.styleDefinitions;
-    }
-
-    isMounted(className: string) {
-        return this.mounted.includes(className);
-    }
-
-    pushMounted(className: string) {
-        this.mounted.push(className);
     }
 
     private registerStyles(
@@ -55,6 +46,8 @@ export class StyleCollector<Props, State, Theme> {
     }
 }
 
-export default function trousers<Props, State, Theme>(elementName: string) {
+export default function styleCollector<Props = {}, State = {}, Theme = {}>(
+    elementName: string,
+) {
     return new StyleCollector<Props, State, Theme>(elementName);
 }

@@ -6,4 +6,5 @@ module.exports = {
     testRegex: '^.+\\.spec\\.(ts|tsx|js|jsx)$',
     testPathIgnorePatterns: ['/node_modules/', 'lib'],
     snapshotSerializers: ['jest-serializer-html-string'],
+    setupFilesAfterEnv: ['@testing-library/react/cleanup-after-each'],
 };

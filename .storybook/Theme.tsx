@@ -56,7 +56,7 @@ const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useStyles<ButtonProps, {}, Theme>(buttonStyles, props);
+    const classNames = useStyles(buttonStyles, props);
 
     return <button className={classNames}>{props.children}</button>;
 };

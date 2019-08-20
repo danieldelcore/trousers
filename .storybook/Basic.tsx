@@ -11,8 +11,7 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = styleCollector<ButtonProps, {}, {}>('button')
-            .element`
+        const buttonStyles = styleCollector<ButtonProps>('button').element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -67,10 +66,7 @@ storiesOf('Basic', module)
             `;
 
         const Button: FC<ButtonProps> = props => {
-            const buttonClassNames = useStyles<ButtonProps, {}, {}>(
-                buttonStyles,
-                props,
-            );
+            const buttonClassNames = useStyles(buttonStyles, props);
             const buttonSpanClassNames = useStyles(buttonSpanStyles);
 
             return (
@@ -98,8 +94,7 @@ storiesOf('Basic', module)
             isOn?: boolean;
         }
 
-        const toggleStyles = styleCollector<{}, ButtonState, {}>('toggle')
-            .element`
+        const toggleStyles = styleCollector<{}, ButtonState>('toggle').element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -139,11 +134,7 @@ storiesOf('Basic', module)
 
         const Button: FC = () => {
             const [isOn, setToggle] = useState(false);
-            const buttonClassNames = useStyles<{}, ButtonState, {}>(
-                toggleStyles,
-                {},
-                { isOn },
-            );
+            const buttonClassNames = useStyles(toggleStyles, {}, { isOn });
 
             return (
                 <button

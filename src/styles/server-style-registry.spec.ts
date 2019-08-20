@@ -50,4 +50,12 @@ describe('ServerStyleRegistry', () => {
 
         expect(registry.get()).toMatchSnapshot();
     });
+
+    it('globals are rendered before styles', () => {
+        // TO-DO
+    });
+
+    it('multiple globals are rendered in their own tags', () => {
+        // TO-DO
+    });
 });

@@ -14,7 +14,7 @@ import {
     styleCollector,
     useStyles,
     css,
-    useGlobal,
+    useGlobals,
     ServerProvider,
     ServerStyleRegistry,
 } from './';
@@ -56,7 +56,7 @@ describe('Server side rendering (SSR)', () => {
             `;
 
         Button = props => {
-            const classNames = useStyles<ButtonProps, {}, Theme>(styles, props);
+            const classNames = useStyles(styles, props);
 
             return <button className={classNames}>{props.children}</button>;
         };
@@ -73,7 +73,7 @@ describe('Server side rendering (SSR)', () => {
         jest.spyOn(console, 'warn');
 
         const App: FC = () => {
-            useGlobal(globalStyles);
+            useGlobals(globalStyles);
 
             return (
                 <ThemeProvider theme={theme}>
