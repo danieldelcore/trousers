@@ -21,7 +21,7 @@ describe('withStyles', () => {
     });
 
     it('attaches styles to the head', () => {
-        const styles = styleCollector<Props, {}, {}>('foo').element`
+        const styles = styleCollector<Props>('foo').element`
             background-color: blue;
         `;
 
@@ -35,7 +35,7 @@ describe('withStyles', () => {
     });
 
     it('attaches styles with modifiers to the head', () => {
-        const styles = styleCollector<Props, {}, {}>('foo').element`
+        const styles = styleCollector<Props>('foo').element`
             background-color: blue;
         `.modifier(props => !!props!.isRed)`
             background-color: red;
@@ -93,7 +93,7 @@ describe('withStyles', () => {
     });
 
     it('attaches single style to the head', () => {
-        const StyledComponent = withStyles<Props, {}>(
+        const StyledComponent = withStyles<Props>(
             ({ className }) => <span className={className}>Ahoy!</span>,
             css`
                 background-color: blue;

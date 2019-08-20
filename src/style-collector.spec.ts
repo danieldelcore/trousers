@@ -17,7 +17,7 @@ describe('styleCollector', () => {
     });
 
     it('registers an element and modifier', () => {
-        const collector = styleCollector<{ isBold: boolean }, {}, {}>('myBlock')
+        const collector = styleCollector<{ isBold: boolean }>('myBlock')
             .element`u
                 font-style: normal;
             `.modifier(props => !!props!.isBold)`
@@ -35,7 +35,7 @@ describe('styleCollector', () => {
             isItalic?: boolean;
         }
 
-        const collector = styleCollector<Props, {}, {}>('myBlock').element`
+        const collector = styleCollector<Props>('myBlock').element`
                 font-style: normal;
             `.modifier(props => !!props!.isBold)`
                 font-style: bold;

@@ -10,7 +10,7 @@ interface Theme {
 describe('useGlobals', () => {
     let theme: Theme;
     let globalStyles: SingleStyleCollector<Theme>;
-    let UnstyledComponent: React.FC<{}>;
+    let UnstyledComponent: React.FC;
 
     beforeEach(() => {
         globalStyles = css`

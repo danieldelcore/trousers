@@ -44,7 +44,7 @@ function registerStyles<Props, State, Theme>(
     });
 }
 
-export default function useStyles<Props, State, Theme>(
+export default function useStyles<Props = {}, State = {}, Theme = {}>(
     styleCollector:
         | StyleCollector<Props, State, Theme>
         | SingleStyleCollector<Theme>,

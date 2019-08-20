@@ -6,7 +6,7 @@ export interface SingleStyleCollector<Theme> {
     getElementName: () => string;
 }
 
-export default function css<Theme>(
+export default function css<Theme = {}>(
     styles: TemplateStringsArray,
     ...expressions: Expression<Theme>[]
 ): SingleStyleCollector<Theme> {
