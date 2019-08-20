@@ -626,4 +626,3 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 ## Tools
 
 -   [light – weight css preprocessor ](https://github.com/thysultan/stylis.js)
--   [Optimized JavaScript implementation of the MurmurHash algorithms](https://github.com/perezd/node-murmurhash)
