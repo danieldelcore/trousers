@@ -94,7 +94,7 @@ export default Button;
 
 ## Motivation
 
-Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the concious decision to avoid letting you directly apply Props to your CSS properties like this:
+Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the conscious decision to avoid letting you directly apply Props to your CSS properties like this:
 
 ```jsx
 const Button = styled.button`
@@ -110,9 +110,9 @@ const Button = styled.button`
 `;
 ```
 
-It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across mutlitple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
+It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
 
-Trousers encourages semantics and allows you to group logic for different states into predicates, which are contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
+Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
 
 ```jsx
 const buttonStyles =
@@ -132,7 +132,7 @@ const buttonStyles =
 
 Notice that you can localise the logic for a particular state in one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied.
 
-Under the hood, Trousers will generate a [hash](https://github.com/perezd/node-murmurhash), mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
+Under the hood, Trousers will generate a hash, mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
 
 ### Enter Hooks
 
@@ -296,9 +296,9 @@ const styles = styleCollector('button').element`
 
 A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
 
-> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifer will potentially be overriding the style rules defined in the modifiers and elements delcared before it.
+> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifier will potentially be overriding the style rules defined in the modifiers and elements declared before it.
 
-Modifiers follow the same methodoligy as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
+Modifiers follow the same methodology as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
 
 -   Defines the appearance, state, or behavior of a block or element
 -   A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
@@ -607,11 +607,11 @@ const styleTags = registry.get();
 
 **Can't you do this in styled-components and emotion?**
 
-This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the otherhand, aims to be a little more simple and oppinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
+This can most certainly be done in styled-components and emotion! They are both great libraries, packed with loads of features. Trousers on the other hand, aims to be a little more simple and opinionated, it urges you to be deliberate about how styles are defined for particular states so that they can be clearer and more maintainable.
 
 **What does this have to do with hooks? Can we not compute the classname from a plain-old JS function?**
 
-The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implmentation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
+The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implementation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
 There are also plans on leverage hooks more down the line to enable a few new features.
 
 ## Resources
