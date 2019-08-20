@@ -11,7 +11,7 @@ export interface ServerProviderProps {
 
 export const ServerContext = createContext<ServerCtx>(undefined);
 
-export const ServerConumser = ServerContext.Consumer;
+export const ServerConsumer = ServerContext.Consumer;
 
 export const ServerProvider: FC<ServerProviderProps> = ({
     registry,

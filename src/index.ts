@@ -7,14 +7,14 @@ export { default as withGlobals } from './withGlobals';
 export { ServerStyleRegistry } from './styles';
 export {
     ThemeProvider,
-    ThemeConumser,
+    ThemeConsumer,
     ThemeContext,
     ThemeCtx,
     ThemeProviderProps,
 } from './ThemeContext';
 export {
     ServerProvider,
-    ServerConumser,
+    ServerConsumer,
     ServerContext,
     ServerCtx,
 } from './ServerContext';

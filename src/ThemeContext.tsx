@@ -17,7 +17,7 @@ export const ThemeContext = createContext<ThemeCtx>({
     theme: {},
 });
 
-export const ThemeConumser = ThemeContext.Consumer;
+export const ThemeConsumer = ThemeContext.Consumer;
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
     const key = JSON.stringify(theme);
