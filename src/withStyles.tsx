@@ -1,20 +1,29 @@
-import React, { FC, ComponentType } from 'react';
+import React, { FC } from 'react';
 
 import { useStyles, StyleCollector } from './';
+import { SingleStyleCollector } from './css';
 
-const withStyles = <Props, State, Theme>(
-    Component: ComponentType<Props>,
-    styleCollector: StyleCollector<Props, State, Theme>,
+export interface WithStylesProps {
+    className?: string;
+}
+
+const withStyles = <
+    Props extends WithStylesProps = WithStylesProps,
+    Theme = {}
+>(
+    Component: React.ComponentType<Props>,
+    styleCollector:
+        | StyleCollector<Props, {}, Theme>
+        | SingleStyleCollector<Theme>,
 ) => {
-    const WrappedComponent: FC<Props> = (props, state) => {
-        const className = useStyles<Props, State, Theme>(
-            styleCollector,
-            props,
-            state,
-        );
+    const WrappedComponent: FC<Props> = props => {
+        const className = useStyles(styleCollector, props);
 
         return <Component {...props} className={className} />;
     };
+
+    WrappedComponent.displayName =
+        Component.displayName || Component.name || 'Component';
 
     return WrappedComponent;
 };

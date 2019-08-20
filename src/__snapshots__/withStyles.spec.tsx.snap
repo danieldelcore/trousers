@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withStyles attaches single style to the head 1`] = `
+<head>
+  <style
+    data-trousers=".css__2934395490"
+    type="text/css"
+  >
+    .css__2934395490{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches styles to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches styles with modifiers to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches styles with modifiers to the head 2`] = `
+<head>
+  <style
+    data-trousers=".foo__38890833250 .foo--4911895800"
+    type="text/css"
+  >
+    .foo__38890833250{background-color:blue;}
+
+    .foo--4911895800{background-color:red;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches themed single style to the head 1`] = `
+<head>
+  <style
+    data-trousers=".css__36256131553516409327"
+    type="text/css"
+  >
+    .css__36256131553516409327{background-color:Atomic Tangerine;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches themed styles to the head 1`] = `
+<head>
+  <style
+    data-trousers=".foo__38783974113106931827"
+    type="text/css"
+  >
+    .foo__38783974113106931827{background-color:purple;}
+
+  </style>
+</head>
+`;
+
+exports[`withStyles attaches themed styles to the head 2`] = `
+<head>
+  <style
+    data-trousers=".foo__38783974113106931827 .foo--38783974113106931827"
+    type="text/css"
+  >
+    .foo__38783974113106931827{background-color:purple;}
+
+    .foo--38783974113106931827{background-color:purple;}
+
+  </style>
+</head>
+`;
