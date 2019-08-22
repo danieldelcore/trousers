@@ -3,10 +3,10 @@
 exports[`withStyles attaches single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__2934395490"
+    data-trousers=".css__293439549"
     type="text/css"
   >
-    .css__2934395490{background-color:blue;}
+    .css__293439549{background-color:blue;}
 
   </style>
 </head>
@@ -15,10 +15,10 @@ exports[`withStyles attaches single style to the head 1`] = `
 exports[`withStyles attaches styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__38890833250"
+    data-trousers=".foo__3889083325"
     type="text/css"
   >
-    .foo__38890833250{background-color:blue;}
+    .foo__3889083325{background-color:blue;}
 
   </style>
 </head>
@@ -27,10 +27,10 @@ exports[`withStyles attaches styles to the head 1`] = `
 exports[`withStyles attaches styles with modifiers to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__38890833250"
+    data-trousers=".foo__3889083325"
     type="text/css"
   >
-    .foo__38890833250{background-color:blue;}
+    .foo__3889083325{background-color:blue;}
 
   </style>
 </head>
@@ -39,12 +39,12 @@ exports[`withStyles attaches styles with modifiers to the head 1`] = `
 exports[`withStyles attaches styles with modifiers to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__38890833250 .foo--4911895800"
+    data-trousers=".foo__3889083325 .foo--491189580"
     type="text/css"
   >
-    .foo__38890833250{background-color:blue;}
+    .foo__3889083325{background-color:blue;}
 
-    .foo--4911895800{background-color:red;}
+    .foo--491189580{background-color:red;}
 
   </style>
 </head>

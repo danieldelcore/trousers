@@ -11,7 +11,7 @@ export interface TaggedTemplate<Theme> {
 
 export interface StyleDefinition<Props, State, Theme>
     extends TaggedTemplate<Theme> {
-    hash: number;
+    hash: string;
     predicate: Predicate<Props, State>;
     separator?: string;
 }

@@ -5,6 +5,7 @@ import { css, useStyles, ThemeProvider, styleCollector } from './';
 
 interface Props {
     isRed?: boolean;
+    isBlue?: boolean;
 }
 
 describe('useStyles', () => {
@@ -12,6 +13,98 @@ describe('useStyles', () => {
         document.getElementsByTagName('html')[0].innerHTML = '';
 
         cleanup();
+    });
+
+    it('returns correct className', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `;
+
+        const StyledComponent = () => {
+            const classNames = useStyles(styles);
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        const { container } = render(<StyledComponent />);
+
+        expect(container.querySelector('span')!.className).toEqual(
+            'foo__3889083325',
+        );
+    });
+
+    it('returns correct classNames for multiple modifiers', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `.modifier(props => !!props!.isRed)`
+            background-color: red;
+        `;
+
+        const StyledComponent: React.FC<Props> = props => {
+            const classNames = useStyles(styles, props);
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        const { container } = render(<StyledComponent />);
+
+        expect(container.querySelector('span')!.className).toEqual(
+            'foo__3889083325',
+        );
+
+        const { container: secondContainer } = render(
+            <StyledComponent isRed />,
+        );
+
+        expect(secondContainer.querySelector('span')!.className).toEqual(
+            'foo__3889083325 foo--491189580',
+        );
+    });
+
+    it('returns correct classNames for multiple named modifiers', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `.modifier('primary', props => !!props!.isRed)`
+            background-color: red;
+        `.modifier('secondary', props => !!props!.isBlue)`
+            background-color: isBlue;
+        `;
+
+        const StyledComponent: React.FC<Props> = props => {
+            const classNames = useStyles(styles, props);
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        const { container } = render(<StyledComponent />);
+
+        expect(container.querySelector('span')!.className).toEqual(
+            'foo__3889083325',
+        );
+
+        const { container: secondContainer } = render(
+            <StyledComponent isRed />,
+        );
+
+        expect(secondContainer.querySelector('span')!.className).toEqual(
+            'foo__3889083325 foo--primary491189580',
+        );
+
+        const { container: thirdContainer } = render(
+            <StyledComponent isBlue />,
+        );
+
+        expect(thirdContainer.querySelector('span')!.className).toEqual(
+            'foo__3889083325 foo--secondary112991879',
+        );
+
+        const { container: forthContainer } = render(
+            <StyledComponent isRed isBlue />,
+        );
+
+        expect(forthContainer.querySelector('span')!.className).toEqual(
+            'foo__3889083325 foo--primary491189580 foo--secondary112991879',
+        );
     });
 
     it('attaches styles to the head', () => {
@@ -48,6 +141,60 @@ describe('useStyles', () => {
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
 
         render(<StyledComponent isRed />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('attaches styles with named modifiers to the head', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `.modifier('primary', props => !!props!.isRed)`
+            background-color: red;
+        `;
+
+        const StyledComponent: React.FC<Props> = props => {
+            const classNames = useStyles(styles, props);
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+
+        render(<StyledComponent isRed />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('attaches styles with multiple named modifiers to the head', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `.modifier('primary', props => !!props!.isRed)`
+            background-color: red;
+        `.modifier('secondary', props => !!props!.isBlue)`
+            background-color: isBlue;
+        `;
+
+        const StyledComponent: React.FC<Props> = props => {
+            const classNames = useStyles(styles, props);
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+
+        render(<StyledComponent isRed />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+
+        render(<StyledComponent isBlue />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+
+        render(<StyledComponent isRed isBlue />);
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });

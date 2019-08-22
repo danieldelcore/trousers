@@ -62,10 +62,10 @@ exports[`useGlobals attaches styles before data-trousers 1`] = `
 
   </style>
   <style
-    data-trousers=".hello__18556946640"
+    data-trousers=".hello__1855694664"
     type="text/css"
   >
-    .hello__18556946640{color:blue;}
+    .hello__1855694664{color:blue;}
 
   </style>
 </head>

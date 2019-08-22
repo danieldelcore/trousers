@@ -20,6 +20,48 @@ describe('withStyles', () => {
         cleanup();
     });
 
+    it('returns correct className', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `;
+
+        const StyledComponent = withStyles(({ className }) => {
+            return <span className={className}>Ahoy!</span>;
+        }, styles);
+
+        const { container } = render(<StyledComponent />);
+
+        expect(container.querySelector('span')!.className).toEqual(
+            'foo__3889083325',
+        );
+    });
+
+    it('returns correct classNames for multiple modifiers', () => {
+        const styles = styleCollector<Props>('foo').element`
+            background-color: blue;
+        `.modifier(props => !!props!.isRed)`
+            background-color: red;
+        `;
+
+        const StyledComponent = withStyles(({ className }) => {
+            return <span className={className}>Ahoy!</span>;
+        }, styles);
+
+        const { container } = render(<StyledComponent />);
+
+        expect(container.querySelector('span')!.className).toEqual(
+            'foo__3889083325',
+        );
+
+        const { container: secondContainer } = render(
+            <StyledComponent isRed />,
+        );
+
+        expect(secondContainer.querySelector('span')!.className).toEqual(
+            'foo__3889083325 foo--491189580',
+        );
+    });
+
     it('attaches styles to the head', () => {
         const styles = styleCollector<Props>('foo').element`
             background-color: blue;
