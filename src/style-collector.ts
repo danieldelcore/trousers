@@ -10,11 +10,37 @@ export class StyleCollector<Props, State, Theme> {
         return this.registerStyles(styles, expressions, '__');
     }
 
-    modifier(predicate: Predicate<Props, State>) {
+    modifier(
+        predicate: Predicate<Props, State>,
+    ): (
+        styles: TemplateStringsArray,
+        ...expressions: Expression<Theme>[]
+    ) => this;
+
+    modifier(
+        id: string,
+        predicate: Predicate<Props, State>,
+    ): (
+        styles: TemplateStringsArray,
+        ...expressions: Expression<Theme>[]
+    ) => this;
+
+    modifier(
+        idOrPredicate: string | Predicate<Props, State>,
+        predicate?: Predicate<Props, State>,
+    ) {
+        let id: string;
+
+        if (typeof idOrPredicate === 'string') {
+            id = idOrPredicate;
+        } else {
+            predicate = idOrPredicate;
+        }
+
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
-        ) => this.registerStyles(styles, expressions, '--', predicate);
+        ) => this.registerStyles(styles, expressions, '--', predicate, id);
     }
 
     getElementName() {
@@ -25,14 +51,20 @@ export class StyleCollector<Props, State, Theme> {
         return this.styleDefinitions;
     }
 
+    private getHash(styles: TemplateStringsArray) {
+        const key = styles.reduce((accum, style) => `${accum}${style}`, '');
+
+        return generateHash(key);
+    }
+
     private registerStyles(
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
         separator: string,
         predicate: Predicate<Props, State> = () => true,
+        id: string = '',
     ) {
-        const key = styles.reduce((accum, style) => `${accum}${style}`, '');
-        const hash = generateHash(key);
+        let hash = id + this.getHash(styles).toString();
 
         this.styleDefinitions.push({
             hash,

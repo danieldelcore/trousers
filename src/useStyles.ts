@@ -14,7 +14,7 @@ function getComponentId<Props, State, Theme>(
     elementName: string,
     themeCtx: ThemeCtx,
 ) {
-    const hash = `${styleDefinition.hash}${themeCtx.hash}`;
+    const hash = `${styleDefinition.hash}${themeCtx.hash || ''}`;
     return `${elementName}${styleDefinition.separator}${hash}`;
 }
 

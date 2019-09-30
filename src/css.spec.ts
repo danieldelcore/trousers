@@ -15,6 +15,6 @@ describe('css', () => {
         `;
 
         expect(collector.get().length).toBe(1);
-        expect(collector.get()[0].hash).toMatchSnapshot();
+        expect(collector.get()[0].hash).toEqual('4061766009');
     });
 });
