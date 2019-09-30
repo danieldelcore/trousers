@@ -22,7 +22,7 @@ Think of Trousers like [styled-components](https://www.styled-components.com/) +
 
 **Basic Example**
 
-Creating a trousered component
+Creating a 'trousered component'
 
 `app/components/button.jsx`
 
@@ -40,7 +40,7 @@ const styles = styleCollector('button').element`
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-    `.modifier(props => !!props.primary)`
+    `.modifier('primary', props => !!props.primary)`
         background-color: #f95b5b;
         color: #ffffff;
 
@@ -49,20 +49,10 @@ const styles = styleCollector('button').element`
         }
     `;
 
-const spanStyles = styleCollector('button-span').element`
-        font-size: 20px;
-        font-style: italic;
-    `;
-
 const Button = props => {
     const buttonClassNames = useStyles(styles, props);
-    const spanClassNames = useStyles(spanStyles, props);
 
-    return (
-        <button className={buttonClassNames}>
-            <span className={spanClassNames}>{props.children}</span>
-        </button>
-    );
+    return <button className={buttonClassNames}>{props.children}</button>;
 };
 
 export default Button;
@@ -110,7 +100,7 @@ const Button = styled.button`
 `;
 ```
 
-It's quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, consider the same example with multiple states like disabled, loading etc.
+Because it can be quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, but consider the same example with multiple states like disabled, loading etc.
 
 Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
 
@@ -121,18 +111,16 @@ const buttonStyles =
         background-color: blue;
     `
         // A modifier for primary buttons. Note that the `cascade` will handle the color
-        .modifier(props => props.primary)`
+        .modifier('primary', props => props.primary)`
         background-color: red;
     `
         // Second modifier that will override the prior background-color rules
-        .modifier(props => props.disabled)`
+        .modifier('disabled', props => props.disabled)`
         background-color: grey;
     `;
 ```
 
-Notice that you can localise the logic for a particular state in one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied.
-
-Under the hood, Trousers will generate a hash, mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply dealing with class names.
+Notice that you can localise the logic for a particular state to one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied. Under the hood Trousers will generate a hash, mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply toggling class names on and off as the props/state changes.
 
 ### Enter Hooks
 
@@ -292,7 +280,7 @@ const styles = styleCollector('button').element`
     `;
 ```
 
-### `styleCollector().modifier(predicate)`
+### `styleCollector().modifier(modifierName, predicate)`
 
 A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
 
@@ -307,6 +295,7 @@ Modifiers follow the same methodology as [Modifiers in BEM](https://en.bem.info/
 
 **Arguments:**
 
+-   `modifierName`: (optional) string
 -   `predicate`: boolean | Function(props, state) => boolean
 
 **Returns:**
@@ -322,11 +311,11 @@ const styles = styleCollector('button').element``.modifier(props => {
     return props.primary;
 })`
         background-color: yellow;
-    `.modifier((props, state) => {
+    `.modifier('active', (props, state) => {
     return state.isActive;
 })`
         background-color: purple;
-    `.modifier(props => {
+    `.modifier('disabled', props => {
     return props.isDisabled;
 })`
         background-color: grey;
