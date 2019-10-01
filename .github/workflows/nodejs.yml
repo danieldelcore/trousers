@@ -1,6 +1,6 @@
-name: Node CI
+name: Pull request checks
 
-on: [push]
+on: [opened, edited]
 
 jobs:
   build:
