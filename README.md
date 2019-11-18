@@ -8,7 +8,7 @@
 [![npm](https://img.shields.io/npm/v/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![Downloads per month](https://img.shields.io/npm/dm/trousers.svg)](https://www.npmjs.com/package/trousers)
 
-Give React Components some style with Trousers!
+Style your React components with Trousers!
 
 [Try it here](https://danieldelcore.github.io/trousers/)
 
