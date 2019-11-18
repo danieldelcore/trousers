@@ -20,9 +20,33 @@ Think of Trousers like [styled-components](https://www.styled-components.com/) +
 
 `npm install --save trousers` or `yarn add trousers`
 
-**Basic Example**
+**Basic example**
 
-Creating a 'trousered component'
+A basic purple button:
+
+```jsx
+import { css, useStyles } from 'trousers';
+
+const Button = props => {
+    const className = useStyles(css`
+      background-color: rebeccapurple;
+      color: white;
+    `);
+
+    return (
+      <button className={className}>
+        {props.children}
+      </button>
+    );
+};
+
+export default Button;
+```
+
+
+**Complete example**
+
+A themed button with a _primary_ variant:
 
 `app/components/button.jsx`
 
@@ -100,9 +124,9 @@ const Button = styled.button`
 `;
 ```
 
-Because it can be quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, but consider the same example with multiple states like disabled, loading etc.
+It can be quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, but consider the same example with multiple states like disabled, loading etc.
 
-Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to reason about at a glance. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
+Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to comprehend. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
 
 ```jsx
 const buttonStyles =
