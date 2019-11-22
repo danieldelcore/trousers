@@ -21,11 +21,11 @@ class ServerRegistry implements StyleRegistryInterface {
         }
     }
 
-    has(id: string): boolean {
+    has(id: string) {
         return this.styles.has(id);
     }
 
-    get(): ReactNode {
+    get() {
         return [...this.renderGlobals(), ...this.renderStyles()];
     }
 
@@ -51,7 +51,7 @@ class ServerRegistry implements StyleRegistryInterface {
         );
     }
 
-    private renderGlobals(): ReactNode {
+    private renderGlobals() {
         const styles: ReactChild[] = [];
 
         this.globals.forEach((value, key) => {

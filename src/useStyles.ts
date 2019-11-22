@@ -18,30 +18,24 @@ function getComponentId<Props, State, Theme>(
     return `${elementName}${styleDefinition.separator}${hash}`;
 }
 
-function registerStyles<Props, State, Theme>(
-    styleDefinitions: StyleDefinition<Props, State, Theme>[],
+function registerStyle<Props, State, Theme>(
+    styleDefinition: StyleDefinition<Props, State, Theme>,
     elementName: string,
     registry: StyleRegistry | ServerStyleRegistry,
     themeCtx: ThemeCtx,
 ) {
-    styleDefinitions.forEach(styleDefinition => {
-        const componentId = getComponentId(
-            styleDefinition,
-            elementName,
-            themeCtx,
+    const componentId = getComponentId(styleDefinition, elementName, themeCtx);
+    const className = `.${componentId}`;
+
+    if (!registry.has(className)) {
+        const styles = interpolateStyles(
+            styleDefinition.styles,
+            styleDefinition.expressions,
+            themeCtx.theme,
         );
-        const className = `.${componentId}`;
 
-        if (!registry.has(className)) {
-            const styles = interpolateStyles(
-                styleDefinition.styles,
-                styleDefinition.expressions,
-                themeCtx.theme,
-            );
-
-            registry.register(className, styles);
-        }
-    });
+        registry.register(className, styles);
+    }
 }
 
 export default function useStyles<Props = {}, State = {}, Theme = {}>(
@@ -50,13 +44,10 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
         | SingleStyleCollector<Theme>,
     props?: Props,
     state?: State,
-): string {
+) {
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
     const elementName = styleCollector.getElementName();
-    const styleDefinitions = styleCollector
-        .get()
-        .filter(({ predicate }) => predicate(props, state));
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -65,8 +56,8 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyles(
-            styleDefinitions,
+        registerStyle(
+            styleCollector.get()[0],
             elementName,
             serverStyleRegistry,
             themeCtx,
@@ -74,13 +65,22 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
     }
 
     useLayoutEffect(() => {
+        console.log('useLayoutEffect');
+
         const headElement = document.getElementsByTagName('head')[0];
         const registry = new StyleRegistry(headElement, STYLE_ID);
 
-        registerStyles(styleDefinitions, elementName, registry, themeCtx);
-    }, [styleDefinitions, elementName, themeCtx]);
+        styleCollector
+            .get()
+            .filter(({ predicate }) => predicate(props, state))
+            .forEach(styleDefinition => {
+                registerStyle(styleDefinition, elementName, registry, themeCtx);
+            });
+    }, [props, state, styleCollector, elementName, themeCtx]);
 
-    return styleDefinitions
+    return styleCollector
+        .get()
+        .filter(({ predicate }) => predicate(props, state))
         .reduce((accum, styleDefinition) => {
             const componentId = getComponentId(
                 styleDefinition,
