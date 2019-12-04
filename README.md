@@ -8,11 +8,11 @@
 [![npm](https://img.shields.io/npm/v/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![Downloads per month](https://img.shields.io/npm/dm/trousers.svg)](https://www.npmjs.com/package/trousers)
 
-Style your React components with Trousers!
+React components are more stylish with Trousers!
 
 [Try it here](https://danieldelcore.github.io/trousers/)
 
-Think of Trousers like [styled-components](https://www.styled-components.com/) + [classnames](https://github.com/JedWatson/classnames) + [BEM](http://getbem.com/introduction/), wrapped in a lovely [React Hooks API ❤️](https://reactjs.org/docs/hooks-overview.html). Trousers is designed to help you co-locate CSS and JS but opinionated in that it helps you avoid using JavaScript where CSS can take over. It loosely follows a BEM-like methodology, borrowing the concept of Blocks (the component), Elements (the child node you want to apply styles to) and Modifiers (apply styles when your component has particular props or state) to reduce the complexity that normally comes with CSS-in-JS.
+Trousers is a [hooks-first](https://reactjs.org/docs/hooks-overview.html) CSS-in-JS library, designed to help developers author React apps with performant and semantic CSS. It is heavily influenced by the conventions introduced by [BEM](http://getbem.com/introduction/), borrowing the concept of Blocks (the component), Elements (children nodes) and Modifiers (styles as a function of state). Through this API, Trousers encourages semantic organisation of styles without inadvertently increasing the runtime implications often associated with CSS-in-JS libraries.
 
 ## Get started 🏗
 
@@ -107,44 +107,44 @@ export default Button;
 ```
 
 ## Motivation
+Components often require many **variations** and **states** to be flexible and truly reusable. Think about a *simple* Button, it can have variations like `primary`, `secondary`, `subtle` and each variation has it's own states, `clicked`, `hover`, `loading`. But with modern CSS-in-JS libraries it can be hard to represent these variations and states in a way that makes sense to everyone and is repeatable without having to memorise specific syntax.
 
-Unlike some of the more popular (and great!) CSS-in-JS libraries, Trousers has made the conscious decision to avoid letting you directly apply Props to your CSS properties like this:
+Consider this example: 
 
 ```jsx
 const Button = styled.button`
-    /* Adapt the colors based on primary prop */
     background: ${props => (props.primary ? 'palevioletred' : 'white')};
     color: ${props => (props.primary ? 'white' : 'palevioletred')};
-
-    font-size: 1em;
     margin: 1em;
     padding: 0.25em 1em;
     border: 2px solid palevioletred;
-    border-radius: 3px;
 `;
 ```
 
-It can be quite hard to see at a glance which state triggers which styles. The logic for a particular state can also tend to be duplicated across multiple properties. This is a simple example, but consider the same example with multiple states like disabled, loading etc.
+We have a button with two variants, `default` and `primary`. Functionally it works, but semantically it's really hard to see at a glance what color will be applied when it's primary. How would we extend this further, if say, we wanted primary buttons to have a `disabled` state? 
 
-Trousers allows you to semantically group logic for different states into predicates, which are self-contained and easy to comprehend. It leverages the C (cascade) in CSS to determine which styles are applied to an element when one or many states are active.
+I think [@MadeByMike](https://github.com/MadeByMike) articulated this perfectly in: [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/) 👌
+
+> BEM gave semantic meaning to classnames and one of the biggest unseen values in this was we could immediately transfer our intentions to other developers across teams and even projects. If you know BEM you can look at a classname, e.g. `button--state-success` and immediately recognise this as a modifier for a button class.
+
+What's more, for every permutation of props, a new class will be created and attached to the `head`. Every class that is created incurs additional runtime cost, this can **grow exponentially** if you're not careful, resulting in a combinatorial explosion of classnames 💥. Consider a component with 3 variants and 3 possible states, that is 3 x 3 = 9, 9 eventual classes generated for one component. It doesn't scale, but we could take another approach:
 
 ```jsx
-const buttonStyles =
-    // Base styles, these are static and every modifier will be applied on top
-    styleCollector('button').element`
-        background-color: blue;
-    `
-        // A modifier for primary buttons. Note that the `cascade` will handle the color
-        .modifier('primary', props => props.primary)`
-        background-color: red;
-    `
-        // Second modifier that will override the prior background-color rules
-        .modifier('disabled', props => props.disabled)`
-        background-color: grey;
-    `;
+const Button = styled.button`
+  background: white;
+  color: palevioletred;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+
+  ${props => props.primary && css`
+    background: palevioletred;
+    color: white;
+  `}
+}
 ```
 
-Notice that you can localise the logic for a particular state to one place, which makes it more obvious to see which conditions will need to be met before a particular style set is applied. Under the hood Trousers will generate a hash, mount styles to the `<head>` of the page and return a human-readable class name. Then on, we are simply toggling class names on and off as the props/state changes.
+Now that's more like it! This can be extended and scales to many variations and states. But there's still a problem, this syntax has to be memorised and there's nothing stopping you from falling back into the previous example. This is where an API can protect us and scale that knowledge across your codebase. This is where Trousers can help 🎉...
 
 ### Enter Hooks
 
@@ -629,12 +629,13 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 
 ## Resources
 
--   [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
+-   [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/)
+-   [CSS Evolution](https://medium.com/@perezpriego7/css-evolution-from-css-sass-bem-css-modules-to-styled-components-d4c1da3a659b)
 -   [BEM](https://en.bem.info/)
 -   [BEM - Block Element Modifier](http://getbem.com/introduction/)
 -   [How styled-components works](https://medium.com/styled-components/how-styled-components-works-618a69970421)
+-   [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
 -   [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
--   [CSS Evolution](https://medium.com/@perezpriego7/css-evolution-from-css-sass-bem-css-modules-to-styled-components-d4c1da3a659b)
 
 ## Tools
 
