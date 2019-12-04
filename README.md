@@ -263,7 +263,7 @@ const html = renderToString(
 const styleTags = registry.get();
 ```
 
-## API
+## API 🤖
 
 ### `styleCollector()`
 
@@ -618,7 +618,7 @@ const html = renderToString(
 const styleTags = registry.get();
 ```
 
-## FAQ
+## FAQ 🤷‍♀️
 
 **Can't you do this in styled-components and emotion?**
 
