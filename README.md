@@ -106,7 +106,7 @@ const MyApp = props => {
 export default Button;
 ```
 
-## Motivation
+## Motivation 🧠
 Components often require many **variations** and **states** to be flexible and truly reusable. Think about a *simple* Button, it can have variations like `primary`, `secondary`, `subtle` and each variation has it's own states, `clicked`, `hover`, `loading`. But with modern CSS-in-JS libraries it can be hard to represent these variations and states in a way that makes sense to everyone and is repeatable without having to memorise specific syntax.
 
 Consider this example: 
@@ -146,9 +146,11 @@ const Button = styled.button`
 
 Now that's more like it! This can be extended and scales to many variations and states. But there's still a problem, this syntax has to be memorised and there's nothing stopping you from falling back into the previous example. This is where an API can protect us and scale that knowledge across your codebase. This is where Trousers can help 🎉...
 
-### Enter Hooks
+## Features ✨
 
-[Hooks are a hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
+### Hooks-first API 
+
+[Hooks are a (relatively) hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useStyles` hook accepts a name, some props and an instance of `styleCollector()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
 For example, here we define a style for the button and inner span and apply the resulting classes to their respective elements.
 
