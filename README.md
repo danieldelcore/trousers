@@ -14,6 +14,10 @@ React components are more stylish with Trousers!
 
 Trousers is a [hooks-first](https://reactjs.org/docs/hooks-overview.html) CSS-in-JS library, designed to help developers author React apps with performant and semantic CSS. It is heavily influenced by the conventions introduced by [BEM](http://getbem.com/introduction/), borrowing the concept of Blocks (the component), Elements (children nodes) and Modifiers (styles as a function of state). Through this API, Trousers encourages semantic organisation of styles without inadvertently increasing the runtime implications often associated with CSS-in-JS libraries.
 
+<p align="center">
+  <img width="600" height="470" src="assets/trousers-demo-web.jpg" alt="Trousers, a little library for CSS-in-JS, without the mess">
+</p>
+
 ## Get started 🏗
 
 **Installation**
@@ -29,20 +33,15 @@ import { css, useStyles } from 'trousers';
 
 const Button = props => {
     const className = useStyles(css`
-      background-color: rebeccapurple;
-      color: white;
+        background-color: rebeccapurple;
+        color: white;
     `);
 
-    return (
-      <button className={className}>
-        {props.children}
-      </button>
-    );
+    return <button className={className}>{props.children}</button>;
 };
 
 export default Button;
 ```
-
 
 **Complete example**
 
@@ -107,9 +106,10 @@ export default Button;
 ```
 
 ## Motivation 🧠
-Components often require many **variations** and **states** to be flexible and truly reusable. Think about a *simple* Button, it can have variations like `primary`, `secondary`, `subtle` and each variation has it's own states, `clicked`, `hover`, `loading`. But with modern CSS-in-JS libraries it can be hard to represent these variations and states in a way that makes sense to everyone and is repeatable without having to memorise specific syntax.
 
-Consider this example: 
+Components often require many **variations** and **states** to be flexible and truly reusable. Think about a _simple_ Button, it can have variations like `primary`, `secondary`, `subtle` and each variation has it's own states, `clicked`, `hover`, `loading`. But with modern CSS-in-JS libraries it can be hard to represent these variations and states in a way that makes sense to everyone and is repeatable without having to memorise specific syntax.
+
+Consider this example:
 
 ```jsx
 const Button = styled.button`
@@ -121,7 +121,7 @@ const Button = styled.button`
 `;
 ```
 
-We have a button with two variants, `default` and `primary`. Functionally it works, but semantically it's really hard to see at a glance what color will be applied when it's primary. How would we extend this further, if say, we wanted primary buttons to have a `disabled` state? 
+We have a button with two variants, `default` and `primary`. Functionally it works, but semantically it's really hard to see at a glance what color will be applied when it's primary. How would we extend this further, if say, we wanted primary buttons to have a `disabled` state?
 
 I think [@MadeByMike](https://github.com/MadeByMike) articulated this perfectly in: [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/) 👌
 
@@ -148,7 +148,7 @@ Now that's more like it! This can be extended and scales to many variations and 
 
 ## Features ✨
 
-### Hooks-first API 
+### Hooks-first API
 
 [Hooks are a (relatively) hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useStyles` hook accepts a name, some props and an instance of `styleCollector()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
