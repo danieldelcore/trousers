@@ -638,4 +638,4 @@ There are also plans on leverage hooks more down the line to enable a few new fe
 
 ## Tools
 
--   [light – weight css preprocessor ](https://github.com/thysultan/stylis.js)
+-   [Stylis – a light weight css preprocessor ](https://github.com/thysultan/stylis.js)
