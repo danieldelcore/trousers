@@ -6,7 +6,7 @@ describe('css', () => {
             font-style: normal;
         `;
 
-        expect(collector.getElementName()).toEqual('css');
+        expect(collector.get()[0].name).toEqual('css__');
     });
 
     it('registers styles', () => {

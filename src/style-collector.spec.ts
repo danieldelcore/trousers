@@ -2,9 +2,9 @@ import styleCollector from './style-collector';
 
 describe('styleCollector', () => {
     it('returns the correct element name', () => {
-        const collector = styleCollector('my-element-name');
+        const collector = styleCollector('my-element-name').element``;
 
-        expect(collector.getElementName()).toEqual('my-element-name');
+        expect(collector.get()[0].name).toEqual('my-element-name__');
     });
 
     it('registers an element', () => {
@@ -24,9 +24,11 @@ describe('styleCollector', () => {
                 font-style: bold;
             `;
 
-        expect(collector.get().length).toBe(2);
-        expect(collector.get()[1].hash).toEqual('2064733655');
-        expect(collector.get()[1].predicate({ isBold: true })).toBe(true);
+        const styleDefinitions = collector.get();
+
+        expect(styleDefinitions.length).toBe(2);
+        expect(styleDefinitions[1].hash).toEqual('2064733655');
+        expect(styleDefinitions[1].predicate({ isBold: true })).toBe(true);
     });
 
     it('registers an element and named modifier', () => {
@@ -37,9 +39,11 @@ describe('styleCollector', () => {
                 font-style: bold;
             `;
 
-        expect(collector.get().length).toBe(2);
-        expect(collector.get()[1].hash).toEqual('bold2064733655');
-        expect(collector.get()[1].predicate({ isBold: true })).toBe(true);
+        const styleDefinitions = collector.get();
+
+        expect(styleDefinitions.length).toBe(2);
+        expect(styleDefinitions[1].hash).toEqual('bold2064733655');
+        expect(styleDefinitions[1].predicate({ isBold: true })).toBe(true);
     });
 
     it('registers an element and multiple modifiers', () => {
@@ -56,9 +60,11 @@ describe('styleCollector', () => {
                 font-style: italic;
             `;
 
-        expect(collector.get().length).toBe(3);
-        expect(collector.get()[0].hash).toEqual('2111092729');
-        expect(collector.get()[1].hash).toEqual('2064733655');
-        expect(collector.get()[2].hash).toEqual('2172502402');
+        const styleDefinitions = collector.get();
+
+        expect(styleDefinitions.length).toBe(3);
+        expect(styleDefinitions[0].hash).toEqual('2111092729');
+        expect(styleDefinitions[1].hash).toEqual('2064733655');
+        expect(styleDefinitions[2].hash).toEqual('2172502402');
     });
 });

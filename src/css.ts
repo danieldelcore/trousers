@@ -3,7 +3,6 @@ import { Expression, StyleDefinition } from './types';
 
 export interface SingleStyleCollector<Theme> {
     get: () => StyleDefinition<{}, {}, Theme>[];
-    getElementName: () => string;
 }
 
 export default function css<Theme = {}>(
@@ -16,6 +15,5 @@ export default function css<Theme = {}>(
 
     return {
         get: () => styleCollector.get(),
-        getElementName: () => styleCollector.getElementName(),
     };
 }
