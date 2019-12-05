@@ -13,10 +13,9 @@ Array [
     *{background-color:red;}
   </style>,
   <style
-    data-trousers=".button__11079579703130397219,.button--26780284923130397219"
+    data-trousers=".button__11079579703130397219"
   >
     .button__11079579703130397219{background-color:#b3cde8;color:white;}
-.button--26780284923130397219{background-color:#f95b5b;color:#ffffff;}
   </style>,
 ]
 `;

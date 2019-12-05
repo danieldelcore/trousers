@@ -7,7 +7,11 @@ export class StyleCollector<Props, State, Theme> {
     constructor(private elementName: string) {}
 
     element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
-        return this.registerStyles(styles, expressions, '__');
+        return this.registerStyles(
+            styles,
+            expressions,
+            `${this.elementName}__`,
+        );
     }
 
     modifier(
@@ -40,11 +44,14 @@ export class StyleCollector<Props, State, Theme> {
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
-        ) => this.registerStyles(styles, expressions, '--', predicate, id);
-    }
-
-    getElementName() {
-        return this.elementName;
+        ) =>
+            this.registerStyles(
+                styles,
+                expressions,
+                `${this.elementName}--`,
+                predicate,
+                id,
+            );
     }
 
     get() {
@@ -60,7 +67,7 @@ export class StyleCollector<Props, State, Theme> {
     private registerStyles(
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
-        separator: string,
+        name: string,
         predicate: Predicate<Props, State> = () => true,
         id: string = '',
     ) {
@@ -71,7 +78,7 @@ export class StyleCollector<Props, State, Theme> {
             styles,
             expressions,
             predicate,
-            separator,
+            name,
         });
 
         return this;

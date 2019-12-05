@@ -11,37 +11,29 @@ import { ServerContext, ServerCtx } from './ServerContext';
 
 function getComponentId<Props, State, Theme>(
     styleDefinition: StyleDefinition<Props, State, Theme>,
-    elementName: string,
     themeCtx: ThemeCtx,
 ) {
-    const hash = `${styleDefinition.hash}${themeCtx.hash || ''}`;
-    return `${elementName}${styleDefinition.separator}${hash}`;
+    return `${styleDefinition.name}${styleDefinition.hash}${themeCtx.hash ||
+        ''}`;
 }
 
-function registerStyles<Props, State, Theme>(
-    styleDefinitions: StyleDefinition<Props, State, Theme>[],
-    elementName: string,
+function registerStyle<Props, State, Theme>(
+    styleDefinition: StyleDefinition<Props, State, Theme>,
     registry: StyleRegistry | ServerStyleRegistry,
     themeCtx: ThemeCtx,
 ) {
-    styleDefinitions.forEach(styleDefinition => {
-        const componentId = getComponentId(
-            styleDefinition,
-            elementName,
-            themeCtx,
+    const componentId = getComponentId(styleDefinition, themeCtx);
+    const className = `.${componentId}`;
+
+    if (!registry.has(className)) {
+        const styles = interpolateStyles(
+            styleDefinition.styles,
+            styleDefinition.expressions,
+            themeCtx.theme,
         );
-        const className = `.${componentId}`;
 
-        if (!registry.has(className)) {
-            const styles = interpolateStyles(
-                styleDefinition.styles,
-                styleDefinition.expressions,
-                themeCtx.theme,
-            );
-
-            registry.register(className, styles);
-        }
-    });
+        registry.register(className, styles);
+    }
 }
 
 export default function useStyles<Props = {}, State = {}, Theme = {}>(
@@ -50,10 +42,9 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
         | SingleStyleCollector<Theme>,
     props?: Props,
     state?: State,
-): string {
+) {
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
-    const elementName = styleCollector.getElementName();
     const styleDefinitions = styleCollector
         .get()
         .filter(({ predicate }) => predicate(props, state));
@@ -65,30 +56,21 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyles(
-            styleDefinitions,
-            elementName,
-            serverStyleRegistry,
-            themeCtx,
-        );
+        registerStyle(styleCollector.get()[0], serverStyleRegistry, themeCtx);
     }
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
         const registry = new StyleRegistry(headElement, STYLE_ID);
 
-        registerStyles(styleDefinitions, elementName, registry, themeCtx);
-    }, [styleDefinitions, elementName, themeCtx]);
+        styleDefinitions.forEach(styleDefinition => {
+            registerStyle(styleDefinition, registry, themeCtx);
+        });
+    }, [styleDefinitions, themeCtx]);
 
     return styleDefinitions
         .reduce((accum, styleDefinition) => {
-            const componentId = getComponentId(
-                styleDefinition,
-                elementName,
-                themeCtx,
-            );
-
-            return `${accum} ${componentId}`;
+            return `${accum} ${getComponentId(styleDefinition, themeCtx)}`;
         }, '')
         .trim();
 }
