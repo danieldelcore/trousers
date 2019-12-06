@@ -22,10 +22,16 @@ export const ThemeConsumer = ThemeContext.Consumer;
 export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
     const key = JSON.stringify(theme);
     const hash = generateHash(key);
+    const value = React.useMemo(
+        () => ({
+            hash,
+            theme,
+        }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [hash],
+    );
 
     return (
-        <ThemeContext.Provider value={{ hash, theme }}>
-            {children}
-        </ThemeContext.Provider>
+        <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
     );
 };
