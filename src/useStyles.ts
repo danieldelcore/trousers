@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect, useMemo } from 'react';
 
 import { STYLE_ID } from './constants';
 import { StyleDefinition } from './types';
@@ -45,9 +45,12 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
 ) {
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
-    const styleDefinitions = styleCollector
-        .get()
-        .filter(({ predicate }) => predicate(props, state));
+
+    const styleDefinitions = useMemo(() => {
+        return styleCollector
+            .get()
+            .filter(({ predicate }) => predicate(props, state));
+    }, [styleCollector, props, state]);
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -63,14 +66,16 @@ export default function useStyles<Props = {}, State = {}, Theme = {}>(
         const headElement = document.getElementsByTagName('head')[0];
         const registry = new StyleRegistry(headElement, STYLE_ID);
 
-        styleDefinitions.forEach(styleDefinition => {
-            registerStyle(styleDefinition, registry, themeCtx);
-        });
+        styleDefinitions.forEach(styleDefinition =>
+            registerStyle(styleDefinition, registry, themeCtx),
+        );
     }, [styleDefinitions, themeCtx]);
 
     return styleDefinitions
-        .reduce((accum, styleDefinition) => {
-            return `${accum} ${getComponentId(styleDefinition, themeCtx)}`;
-        }, '')
+        .reduce(
+            (accum, styleDefinition) =>
+                `${accum} ${getComponentId(styleDefinition, themeCtx)}`,
+            '',
+        )
         .trim();
 }
