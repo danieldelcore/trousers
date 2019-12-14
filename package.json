@@ -46,8 +46,11 @@
         "stylis": "^3.5.4"
     },
     "devDependencies": {
-        "@storybook/addon-storysource": "^5.0.0",
-        "@storybook/react": "^5.0.0",
+        "@babel/core": "^7.7.5",
+        "@storybook/addon-storysource": "^5.2.8",
+        "@storybook/addons": "^5.2.8",
+        "@storybook/react": "^5.2.8",
+        "@storybook/source-loader": "^5.2.8",
         "@storybook/storybook-deployer": "^2.8.1",
         "@testing-library/react": "^8.0.5",
         "@types/jest": "^23.3.13",
@@ -59,7 +62,7 @@
         "@types/storybook__react": "^4.0.0",
         "@typescript-eslint/eslint-plugin": "^1.4.2",
         "@typescript-eslint/parser": "^1.4.2",
-        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.0.6",
         "eslint": "^5.15.1",
         "eslint-config-prettier": "^4.1.0",
         "eslint-plugin-prettier": "^3.0.1",
@@ -72,6 +75,7 @@
         "react": "^16.8.1",
         "react-dom": "^16.8.4",
         "ts-jest": "^24.0.2",
+        "ts-loader": "^6.2.1",
         "typescript": "^3.3.1"
     },
     "peerDependencies": {
