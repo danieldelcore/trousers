@@ -160,7 +160,9 @@ storiesOf('Miscellaneous', module)
             onClick: MouseEventHandler;
         }
 
-        const logoStyles = styleCollector<LogoProps>('logo').element`
+        const logoStyles = (props: LogoProps) => styleCollector<LogoProps>(
+            'logo',
+        ).element`
                 width: 150px;
                 height: auto;
                 margin: 15px;
@@ -170,12 +172,12 @@ storiesOf('Miscellaneous', module)
                 animation: rotating 2s linear infinite;
                 transition: background-color linear 300ms;
                 cursor: pointer;
-            `.modifier(props => !!props!.primary)`
+            `.modifier(!!props.primary)`
                 background-color: #f6e3e3;
             `;
 
         const Logo: FC<LogoProps> = props => {
-            const classNames = useStyles(logoStyles, props);
+            const classNames = useStyles(logoStyles(props));
 
             return (
                 <img

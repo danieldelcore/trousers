@@ -17,33 +17,35 @@ describe('styleCollector', () => {
     });
 
     it('registers an element and modifier', () => {
-        const collector = styleCollector<{ isBold: boolean }>('myBlock')
-            .element`
+        const collector = (props: { isBold: boolean }) => styleCollector(
+            'myBlock',
+        ).element`
                 font-style: normal;
-            `.modifier(props => !!props!.isBold)`
+            `.modifier(!!props.isBold)`
                 font-style: bold;
             `;
 
-        const styleDefinitions = collector.get();
+        const styleDefinitions = collector({ isBold: true }).get();
 
         expect(styleDefinitions.length).toBe(2);
         expect(styleDefinitions[1].hash).toEqual('2064733655');
-        expect(styleDefinitions[1].predicate({ isBold: true })).toBe(true);
+        expect(styleDefinitions[1].predicate).toBe(true);
     });
 
     it('registers an element and named modifier', () => {
-        const collector = styleCollector<{ isBold: boolean }>('myBlock')
-            .element`
+        const collector = (props: { isBold: boolean }) => styleCollector(
+            'myBlock',
+        ).element`
                 font-style: normal;
-            `.modifier('bold', props => !!props!.isBold)`
+            `.modifier('bold', !!props.isBold)`
                 font-style: bold;
             `;
 
-        const styleDefinitions = collector.get();
+        const styleDefinitions = collector({ isBold: true }).get();
 
         expect(styleDefinitions.length).toBe(2);
         expect(styleDefinitions[1].hash).toEqual('bold2064733655');
-        expect(styleDefinitions[1].predicate({ isBold: true })).toBe(true);
+        expect(styleDefinitions[1].predicate).toBe(true);
     });
 
     it('registers an element and multiple modifiers', () => {
@@ -52,15 +54,18 @@ describe('styleCollector', () => {
             isItalic?: boolean;
         }
 
-        const collector = styleCollector<Props>('myBlock').element`
+        const collector = (props: Props) => styleCollector('myBlock').element`
                 font-style: normal;
-            `.modifier(props => !!props!.isBold)`
+            `.modifier(!!props.isBold)`
                 font-style: bold;
-            `.modifier(props => !!props!.isItalic)`
+            `.modifier(!!props.isItalic)`
                 font-style: italic;
             `;
 
-        const styleDefinitions = collector.get();
+        const styleDefinitions = collector({
+            isBold: true,
+            isItalic: true,
+        }).get();
 
         expect(styleDefinitions.length).toBe(3);
         expect(styleDefinitions[0].hash).toEqual('2111092729');

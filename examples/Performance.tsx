@@ -36,7 +36,7 @@ storiesOf('Performance', module).add('Many of the same nodes', () => {
         `;
 
     const Button: FC<ButtonProps> = props => {
-        const buttonClassNames = useStyles(styles, props);
+        const buttonClassNames = useStyles(styles);
 
         return <button className={buttonClassNames}>{props.children}</button>;
     };
