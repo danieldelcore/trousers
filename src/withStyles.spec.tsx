@@ -21,13 +21,16 @@ describe('withStyles', () => {
     });
 
     it('returns correct className', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = styleCollector('foo').element`
             background-color: blue;
         `;
 
-        const StyledComponent = withStyles(({ className }) => {
-            return <span className={className}>Ahoy!</span>;
-        }, styles);
+        const StyledComponent = withStyles(
+            ({ className }) => {
+                return <span className={className}>Ahoy!</span>;
+            },
+            () => styles,
+        );
 
         const { container } = render(<StyledComponent />);
 
@@ -37,15 +40,18 @@ describe('withStyles', () => {
     });
 
     it('returns correct classNames for multiple modifiers', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: red;
         `;
 
-        const StyledComponent = withStyles(({ className }) => {
-            return <span className={className}>Ahoy!</span>;
-        }, styles);
+        const StyledComponent = withStyles(
+            ({ className }: Props) => {
+                return <span className={className}>Ahoy!</span>;
+            },
+            props => styles(props),
+        );
 
         const { container } = render(<StyledComponent />);
 
@@ -63,13 +69,16 @@ describe('withStyles', () => {
     });
 
     it('attaches styles to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = styleCollector('foo').element`
             background-color: blue;
         `;
 
-        const StyledComponent = withStyles(({ className }) => {
-            return <span className={className}>Ahoy!</span>;
-        }, styles);
+        const StyledComponent = withStyles(
+            ({ className }) => {
+                return <span className={className}>Ahoy!</span>;
+            },
+            () => styles,
+        );
 
         render(<StyledComponent />);
 
@@ -77,15 +86,18 @@ describe('withStyles', () => {
     });
 
     it('attaches styles with modifiers to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: red;
         `;
 
-        const StyledComponent = withStyles(({ className }) => {
-            return <span className={className}>Ahoy!</span>;
-        }, styles);
+        const StyledComponent = withStyles(
+            ({ className }: Props) => {
+                return <span className={className}>Ahoy!</span>;
+            },
+            props => styles(props),
+        );
 
         render(<StyledComponent />);
 
@@ -107,15 +119,18 @@ describe('withStyles', () => {
             backgroundColorSecondary: 'green',
         };
 
-        const styles = styleCollector<Props, {}, Theme>('foo').element`
+        const styles = (props: Props) => styleCollector<Theme>('foo').element`
             background-color: ${theme => theme.backgroundColor};
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: ${theme => theme.backgroundColor};
         `;
 
-        const StyledComponent = withStyles(({ className }) => {
-            return <span className={className}>Ahoy!</span>;
-        }, styles);
+        const StyledComponent = withStyles<Props, Theme>(
+            ({ className }) => {
+                return <span className={className}>Ahoy!</span>;
+            },
+            props => styles(props),
+        );
 
         render(
             <ThemeProvider theme={theme}>
@@ -135,9 +150,9 @@ describe('withStyles', () => {
     });
 
     it('attaches single style to the head', () => {
-        const StyledComponent = withStyles<Props>(
-            ({ className }) => <span className={className}>Ahoy!</span>,
-            css`
+        const StyledComponent = withStyles(
+            ({ className }: Props) => <span className={className}>Ahoy!</span>,
+            () => css`
                 background-color: blue;
             `,
         );
@@ -158,7 +173,7 @@ describe('withStyles', () => {
 
         const StyledComponent = withStyles<Props, Theme>(
             ({ className }) => <span className={className}>Ahoy!</span>,
-            css<Theme>`
+            () => css<Theme>`
                 background-color: ${theme => theme.backgroundColor};
             `,
         );

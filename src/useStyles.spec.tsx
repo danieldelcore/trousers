@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import { css, useStyles, ThemeProvider, styleCollector } from './';
+import { css, ThemeProvider, styleCollector } from './';
+import useStyles from './useStyles';
 
 interface Props {
     isRed?: boolean;
@@ -16,7 +17,7 @@ describe('useStyles', () => {
     });
 
     it('returns correct className', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = styleCollector('foo').element`
             background-color: blue;
         `;
 
@@ -34,14 +35,14 @@ describe('useStyles', () => {
     });
 
     it('returns correct classNames for multiple modifiers', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: red;
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -62,16 +63,16 @@ describe('useStyles', () => {
     });
 
     it('returns correct classNames for multiple named modifiers', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier('primary', props => !!props!.isRed)`
+        `.modifier('primary', !!props.isRed)`
             background-color: red;
-        `.modifier('secondary', props => !!props!.isBlue)`
+        `.modifier('secondary', !!props.isBlue)`
             background-color: isBlue;
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -108,7 +109,7 @@ describe('useStyles', () => {
     });
 
     it('attaches styles to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = styleCollector('foo').element`
             background-color: blue;
         `;
 
@@ -124,14 +125,14 @@ describe('useStyles', () => {
     });
 
     it('attaches styles with modifiers to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: red;
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -146,14 +147,14 @@ describe('useStyles', () => {
     });
 
     it('attaches styles with named modifiers to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier('primary', props => !!props!.isRed)`
+        `.modifier('primary', !!props.isRed)`
             background-color: red;
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -168,16 +169,16 @@ describe('useStyles', () => {
     });
 
     it('attaches styles with multiple named modifiers to the head', () => {
-        const styles = styleCollector<Props>('foo').element`
+        const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier('primary', props => !!props!.isRed)`
+        `.modifier('primary', !!props.isRed)`
             background-color: red;
-        `.modifier('secondary', props => !!props!.isBlue)`
+        `.modifier('secondary', !!props.isBlue)`
             background-color: isBlue;
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -210,14 +211,14 @@ describe('useStyles', () => {
             backgroundColorSecondary: 'green',
         };
 
-        const styles = styleCollector<Props, {}, Theme>('foo').element`
+        const styles = (props: Props) => styleCollector<Theme>('foo').element`
             background-color: ${theme => theme.backgroundColor};
-        `.modifier(props => !!props!.isRed)`
+        `.modifier(!!props.isRed)`
             background-color: ${theme => theme.backgroundColor};
         `;
 
         const StyledComponent: React.FC<Props> = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <span className={classNames}>Ahoy!</span>;
         };
@@ -246,13 +247,13 @@ describe('useStyles', () => {
 
         const styles = styleCollector<ToggleProps>('foo').element`
             background-color: blue;
-        `.modifier(() => true)`
+        `.modifier(true)`
             background-color: red;
         `;
 
-        const stylesAlt = styleCollector<ToggleProps>('foo').element`
+        const stylesAlt = styleCollector('foo').element`
             background-color: purple;
-        `.modifier(() => true)`
+        `.modifier(true)`
             background-color: green;
         `;
 
@@ -263,7 +264,7 @@ describe('useStyles', () => {
                 activeStyles = stylesAlt;
             }
 
-            const classNames = useStyles(activeStyles, props);
+            const classNames = useStyles(activeStyles);
 
             return <span className={classNames}>Ahoy!</span>;
         };

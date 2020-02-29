@@ -12,12 +12,12 @@ const withStyles = <
     Theme = {}
 >(
     Component: React.ComponentType<Props>,
-    styleCollector:
-        | StyleCollector<Props, {}, Theme>
-        | SingleStyleCollector<Theme>,
+    styleCollector: (
+        props: Props,
+    ) => StyleCollector<Theme> | SingleStyleCollector<Theme>,
 ) => {
     const WrappedComponent: FC<Props> = props => {
-        const className = useStyles(styleCollector, props);
+        const className = useStyles(styleCollector(props));
 
         return <Component {...props} className={className} />;
     };
