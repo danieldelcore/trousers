@@ -9,16 +9,16 @@ import { SingleStyleCollector } from './css';
 import { ThemeContext, ThemeCtx } from './ThemeContext';
 import { ServerContext, ServerCtx } from './ServerContext';
 
-function getComponentId<Props, State, Theme>(
-    styleDefinition: StyleDefinition<Props, State, Theme>,
+function getComponentId<Theme>(
+    styleDefinition: StyleDefinition<Theme>,
     themeCtx: ThemeCtx,
 ) {
     return `${styleDefinition.name}${styleDefinition.hash}${themeCtx.hash ||
         ''}`;
 }
 
-function registerStyle<Props, State, Theme>(
-    styleDefinition: StyleDefinition<Props, State, Theme>,
+function registerStyle<Theme>(
+    styleDefinition: StyleDefinition<Theme>,
     registry: StyleRegistry | ServerStyleRegistry,
     themeCtx: ThemeCtx,
 ) {
@@ -36,21 +36,15 @@ function registerStyle<Props, State, Theme>(
     }
 }
 
-export default function useStyles<Props = {}, State = {}, Theme = {}>(
-    styleCollector:
-        | StyleCollector<Props, State, Theme>
-        | SingleStyleCollector<Theme>,
-    props?: Props,
-    state?: State,
+export default function useStyles<Theme = {}>(
+    styleCollector: StyleCollector<Theme> | SingleStyleCollector<Theme>,
 ) {
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
 
     const styleDefinitions = useMemo(() => {
-        return styleCollector
-            .get()
-            .filter(({ predicate }) => predicate(props, state));
-    }, [styleCollector, props, state]);
+        return styleCollector.get().filter(({ predicate }) => !!predicate);
+    }, [styleCollector]);
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(

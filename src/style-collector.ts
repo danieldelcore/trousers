@@ -1,8 +1,8 @@
 import { StyleDefinition, Predicate, Expression } from './types';
 import { generateHash } from './common';
 
-export class StyleCollector<Props, State, Theme> {
-    private styleDefinitions: StyleDefinition<Props, State, Theme>[] = [];
+export class StyleCollector<Theme = {}> {
+    private styleDefinitions: StyleDefinition<Theme>[] = [];
 
     constructor(private elementName: string) {}
 
@@ -15,7 +15,7 @@ export class StyleCollector<Props, State, Theme> {
     }
 
     modifier(
-        predicate: Predicate<Props, State>,
+        predicate: Predicate,
     ): (
         styles: TemplateStringsArray,
         ...expressions: Expression<Theme>[]
@@ -23,16 +23,13 @@ export class StyleCollector<Props, State, Theme> {
 
     modifier(
         id: string,
-        predicate: Predicate<Props, State>,
+        predicate: Predicate,
     ): (
         styles: TemplateStringsArray,
         ...expressions: Expression<Theme>[]
     ) => this;
 
-    modifier(
-        idOrPredicate: string | Predicate<Props, State>,
-        predicate?: Predicate<Props, State>,
-    ) {
+    modifier(idOrPredicate: string | Predicate, predicate?: Predicate) {
         let id: string;
 
         if (typeof idOrPredicate === 'string') {
@@ -68,7 +65,7 @@ export class StyleCollector<Props, State, Theme> {
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
         name: string,
-        predicate: Predicate<Props, State> = () => true,
+        predicate: Predicate = true,
         id: string = '',
     ) {
         let hash = id + this.getHash(styles).toString();
@@ -85,8 +82,6 @@ export class StyleCollector<Props, State, Theme> {
     }
 }
 
-export default function styleCollector<Props = {}, State = {}, Theme = {}>(
-    elementName: string,
-) {
-    return new StyleCollector<Props, State, Theme>(elementName);
+export default function styleCollector<Theme = {}>(elementName: string) {
+    return new StyleCollector<Theme>(elementName);
 }
