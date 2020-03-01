@@ -211,7 +211,7 @@ const buttonStyles = props => styleCollector('button').element`
 
 Now your component will render different styles based on the context it is mounted in.
 
-### Global styles
+### Global styles 🌏
 
 Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
 
@@ -257,6 +257,30 @@ const html = renderToString(
 // Your styles will be accessible here
 const styleTags = registry.get();
 ```
+
+### CSS Prop
+
+Trousers supports a `css` prop, similar to that of `emotion` and `styled-components`! This is handy when you want to skip declaring `useStyles` hooks in your components and instead just pass style collectors directly to the components you wish to style.
+
+For example...
+
+```jsx
+/** @jsx jsx */
+import { jsx, css } from 'trousers';
+
+const Button = ({ children }) => (
+    <button
+        css={css`
+            background-color: #b3cde8;
+            color: white;
+        `}
+    >
+        {children}
+    </button>
+);
+```
+
+Just remember to import `jsx` and set it as the pragma at the top of the file.
 
 ## API 🤖
 
