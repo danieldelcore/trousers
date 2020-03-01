@@ -51,7 +51,7 @@ describe('Server side rendering (SSR)', () => {
             .element`
                 background-color: ${theme => theme.default};
                 color: white;
-            `.modifier(!!props.primary)`
+            `.modifier(props.primary)`
                 background-color: ${theme => theme.primary};
                 color: #ffffff;
             `;
