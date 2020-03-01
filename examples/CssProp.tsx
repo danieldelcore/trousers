@@ -10,8 +10,8 @@ interface ButtonProps {
 }
 storiesOf('CSS Prop', module)
     .add('Elements and modifiers', () => {
-        const Button: FC<ButtonProps> = props => {
-            const buttonStyles = styleCollector<ButtonProps>('button').element`
+        const buttonStyles = (props: ButtonProps) => styleCollector('button')
+            .element`
                 background-color: #b3cde8;
                 border-radius: 6px;
                 border: none;
@@ -35,7 +35,7 @@ storiesOf('CSS Prop', module)
                 :active {
                     background-color: #9fb8d1;
                 }
-            `.modifier(() => !!props!.primary)`
+            `.modifier(props.primary)`
                 background-color: #f95b5b;
                 box-shadow: inset 0 -4px #c54646;
                 color: #ffffff;
@@ -45,7 +45,7 @@ storiesOf('CSS Prop', module)
                 :active {
                     background-color: #c54646;
                 }
-            `.modifier(() => !!props!.disabled)`
+            `.modifier(props.disabled)`
                 background-color: #efefef;
                 box-shadow: inset 0 -4px #afafaf;
                 color: #afafaf;
@@ -57,8 +57,9 @@ storiesOf('CSS Prop', module)
                 }
             `;
 
-            return <button css={buttonStyles}>{props.children}</button>;
-        };
+        const Button: FC<ButtonProps> = props => (
+            <button css={buttonStyles(props)}>{props.children}</button>
+        );
 
         return (
             <Fragment>
