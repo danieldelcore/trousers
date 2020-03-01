@@ -1,4 +1,4 @@
-export type Predicate<Props, State> = (props?: Props, state?: State) => boolean;
+export type Predicate = boolean;
 export type Expression<Theme> =
     | string
     | number
@@ -9,9 +9,8 @@ export interface TaggedTemplate<Theme> {
     expressions: Expression<Theme>[];
 }
 
-export interface StyleDefinition<Props, State, Theme>
-    extends TaggedTemplate<Theme> {
+export interface StyleDefinition<Theme> extends TaggedTemplate<Theme> {
     hash: string;
-    predicate: Predicate<Props, State>;
+    predicate: Predicate;
     name: string;
 }

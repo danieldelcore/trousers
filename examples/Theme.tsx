@@ -28,7 +28,7 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
+const buttonStyles = styleCollector<Theme>('button').element`
         background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
@@ -56,7 +56,7 @@ const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useStyles(buttonStyles, props);
+    const classNames = useStyles(buttonStyles);
 
     return <button className={classNames}>{props.children}</button>;
 };

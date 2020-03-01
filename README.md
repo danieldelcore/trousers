@@ -52,7 +52,7 @@ A themed button with a _primary_ variant:
 ```jsx
 import { styleCollector, useStyles } from 'trousers';
 
-const styles = styleCollector('button').element`
+const styles = props => styleCollector('button').element`
         background-color: ${theme => theme.backgroundColor};
         border: none;
         color: ${theme => theme.textColor};
@@ -63,7 +63,7 @@ const styles = styleCollector('button').element`
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-    `.modifier('primary', props => !!props.primary)`
+    `.modifier('primary', !!props.primary)`
         background-color: #f95b5b;
         color: #ffffff;
 
@@ -73,7 +73,7 @@ const styles = styleCollector('button').element`
     `;
 
 const Button = props => {
-    const buttonClassNames = useStyles(styles, props);
+    const buttonClassNames = useStyles(styles(props));
 
     return <button className={buttonClassNames}>{props.children}</button>;
 };
@@ -156,14 +156,9 @@ For example, here we define a style for the button and inner span and apply the 
 
 ```jsx
 const Button = props => {
-    const buttonClassNames = useStyles(buttonStyles, props);
-    const spanClassNames = useStyles(spanStyles, props);
+    const buttonClassNames = useStyles(buttonStyles(props));
 
-    return (
-        <button className={buttonClassNames}>
-            <span className={spanClassNames}>{props.children}</span>
-        </button>
-    );
+    return <button className={buttonClassNames}>{props.children}</button>;
 };
 ```
 
@@ -205,11 +200,11 @@ When a Trousers component is mounted within a new theme context, it will render 
 You can define how your component handles themes like this:
 
 ```jsx
-const buttonStyles = styleCollector('button').element`
+const buttonStyles = props => styleCollector('button').element`
         background-color: ${theme => theme.secondaryColor};
-    `.modifier(props => props.primary)`
+    `.modifier(props.primary)`
         background-color: ${theme => theme.primaryColor};
-    `.modifier(props => props.disabled)`
+    `.modifier(props.disabled)`
         background-color: ${theme => theme.disabledColor};
     `;
 ```
@@ -333,17 +328,13 @@ Modifiers follow the same methodology as [Modifiers in BEM](https://en.bem.info/
 ```jsx
 import { styleCollector } from 'trousers';
 
-const styles = styleCollector('button').element``.modifier(props => {
-    return props.primary;
-})`
+const styles = (props, state) => styleCollector('button').element``.modifier(
+    props.primary,
+)`
         background-color: yellow;
-    `.modifier('active', (props, state) => {
-    return state.isActive;
-})`
+    `.modifier('active', state.isActive)`
         background-color: purple;
-    `.modifier('disabled', props => {
-    return props.isDisabled;
-})`
+    `.modifier('disabled', props.isDisabled)`
         background-color: grey;
     `;
 ```
@@ -398,12 +389,12 @@ React Hook responsbile for evaluating the supplied styles, attaching them to the
 import React from 'react';
 import { styleCollector, useStyles } from 'trousers';
 
-const styles = styleCollector('button')
+const styles = props => styleCollector('button')
     .element``
     .modifier(...)``;
 
 const Button = props => {
-    const classNames = useStyles(styles, props);
+    const classNames = useStyles(styles(props));
 
     return (
         <button className={classNames}>
@@ -424,17 +415,13 @@ Use this HOC in your class components, where hooks (and useStyles) are not avail
 **Arguments:**
 
 -   `Component`: React Component
--   `styleCollector`: StyleCollector
+-   `(props) => styleCollector`: Function returning a StyleCollector
 
 **Example:**
 
 ```jsx
 import React from 'react';
 import { styleCollector, withStyles } from 'trousers';
-
-const styles = styleCollector('button')
-    .element``
-    .modifier(true)``;
 
 class Button {
     render() {
@@ -447,7 +434,9 @@ class Button {
     }
 );
 
-export default withStyles(Button, styles);
+export default withStyles(Button, (props) => styleCollector('button')
+    .element``
+    .modifier(props.primary)``);
 ```
 
 ### `<ThemeProvider />`

@@ -30,7 +30,7 @@ interface Theme {
 }
 
 describe('Server side rendering (SSR)', () => {
-    let styles: StyleCollector<ButtonProps, {}, Theme>;
+    let styles: (props: ButtonProps) => StyleCollector<Theme>;
     let globalStyles: SingleStyleCollector<Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
@@ -47,16 +47,17 @@ describe('Server side rendering (SSR)', () => {
             }
         `;
 
-        styles = styleCollector<ButtonProps, {}, Theme>('button').element`
+        styles = (props: ButtonProps) => styleCollector<Theme>('button')
+            .element`
                 background-color: ${theme => theme.default};
                 color: white;
-            `.modifier(props => !!props!.primary)`
+            `.modifier(!!props.primary)`
                 background-color: ${theme => theme.primary};
                 color: #ffffff;
             `;
 
         Button = props => {
-            const classNames = useStyles(styles, props);
+            const classNames = useStyles(styles(props));
 
             return <button className={classNames}>{props.children}</button>;
         };
