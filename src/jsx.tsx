@@ -18,21 +18,23 @@ declare module 'react' {
 }
 
 const jsx = <
-    P extends { css: StyleCollector<Theme> | SingleStyleCollector<Theme> },
+    Props extends { css: StyleCollector<Theme> | SingleStyleCollector<Theme> },
     Theme extends {} = {}
 >(
-    type: ElementType<P>,
-    props: P,
+    type: ElementType<Omit<Props, 'css'>>,
+    props: Props,
     ...children: ReactNode[]
 ) => {
     if (props == null || !hasOwnProperty.call(props, 'css')) {
         return createElement(type, props, ...children);
     }
 
+    const { css, ...rest } = props;
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const className = useStyles<Theme>(props.css);
 
-    return createElement(type, { ...props, className }, ...children);
+    return createElement(type, { ...rest, className }, ...children);
 };
 
 export default jsx;
