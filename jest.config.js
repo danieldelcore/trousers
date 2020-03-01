@@ -7,4 +7,8 @@ module.exports = {
     testPathIgnorePatterns: ['/node_modules/', 'lib'],
     snapshotSerializers: ['jest-serializer-html-string'],
     setupFilesAfterEnv: ['@testing-library/react/cleanup-after-each'],
+    watchPlugins: [
+        'jest-watch-typeahead/filename',
+        'jest-watch-typeahead/testname',
+    ],
 };
