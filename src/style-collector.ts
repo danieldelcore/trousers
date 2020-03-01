@@ -11,6 +11,7 @@ export class StyleCollector<Theme = {}> {
             styles,
             expressions,
             `${this.elementName}__`,
+            true,
         );
     }
 
@@ -65,7 +66,7 @@ export class StyleCollector<Theme = {}> {
         styles: TemplateStringsArray,
         expressions: Expression<Theme>[],
         name: string,
-        predicate: Predicate = true,
+        predicate: Predicate,
         id: string = '',
     ) {
         let hash = id + this.getHash(styles).toString();
@@ -74,7 +75,7 @@ export class StyleCollector<Theme = {}> {
             hash,
             styles,
             expressions,
-            predicate,
+            predicate: !!predicate,
             name,
         });
 

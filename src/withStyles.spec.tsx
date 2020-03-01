@@ -42,7 +42,7 @@ describe('withStyles', () => {
     it('returns correct classNames for multiple modifiers', () => {
         const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(!!props.isRed)`
+        `.modifier(props.isRed)`
             background-color: red;
         `;
 
@@ -88,7 +88,7 @@ describe('withStyles', () => {
     it('attaches styles with modifiers to the head', () => {
         const styles = (props: Props) => styleCollector('foo').element`
             background-color: blue;
-        `.modifier(!!props.isRed)`
+        `.modifier(props.isRed)`
             background-color: red;
         `;
 
@@ -121,7 +121,7 @@ describe('withStyles', () => {
 
         const styles = (props: Props) => styleCollector<Theme>('foo').element`
             background-color: ${theme => theme.backgroundColor};
-        `.modifier(!!props.isRed)`
+        `.modifier(props.isRed)`
             background-color: ${theme => theme.backgroundColor};
         `;
 
