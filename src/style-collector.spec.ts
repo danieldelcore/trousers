@@ -21,7 +21,7 @@ describe('styleCollector', () => {
             'myBlock',
         ).element`
                 font-style: normal;
-            `.modifier(!!props.isBold)`
+            `.modifier(props.isBold)`
                 font-style: bold;
             `;
 
@@ -37,7 +37,7 @@ describe('styleCollector', () => {
             'myBlock',
         ).element`
                 font-style: normal;
-            `.modifier('bold', !!props.isBold)`
+            `.modifier('bold', props.isBold)`
                 font-style: bold;
             `;
 
@@ -56,9 +56,9 @@ describe('styleCollector', () => {
 
         const collector = (props: Props) => styleCollector('myBlock').element`
                 font-style: normal;
-            `.modifier(!!props.isBold)`
+            `.modifier(props.isBold)`
                 font-style: bold;
-            `.modifier(!!props.isItalic)`
+            `.modifier(props.isItalic)`
                 font-style: italic;
             `;
 

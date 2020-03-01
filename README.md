@@ -63,7 +63,7 @@ const styles = props => styleCollector('button').element`
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-    `.modifier('primary', !!props.primary)`
+    `.modifier('primary', props.primary)`
         background-color: #f95b5b;
         color: #ffffff;
 

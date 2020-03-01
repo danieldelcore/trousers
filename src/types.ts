@@ -1,4 +1,4 @@
-export type Predicate = boolean;
+export type Predicate = boolean | undefined | null;
 export type Expression<Theme> =
     | string
     | number
