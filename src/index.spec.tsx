@@ -2,12 +2,16 @@
  * @jest-environment node
  */
 
+/** @jsx jsx */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { FC, ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
 import { hydrate } from 'react-dom';
 import { JSDOM } from 'jsdom';
 
 import {
+    jsx,
     StyleCollector,
     SingleStyleCollector,
     ThemeProvider,
@@ -70,18 +74,87 @@ describe('Server side rendering (SSR)', () => {
         global.document = undefined;
     });
 
-    it('stringify application on server and hydrate on client', () => {
+    it('stringify styles on server and hydrate on client', () => {
+        jest.spyOn(console, 'warn');
+
+        const App: FC = () => (
+            <ThemeProvider theme={theme}>
+                <Button>Hello, SSR!</Button>
+                <Button primary>Hello, Hydration!</Button>
+            </ThemeProvider>
+        );
+
+        const registry = new ServerStyleRegistry();
+
+        const html = renderToString(
+            <ServerProvider registry={registry}>
+                <App />
+            </ServerProvider>,
+        );
+
+        const jsdom = new JSDOM(`<!doctype html><html><body></body></html>`);
+        const { window } = jsdom;
+
+        // @ts-ignore
+        global.window = window;
+        // @ts-ignore
+        global.document = window.document;
+
+        const root = document.createElement('div');
+        root.innerHTML = html;
+
+        expect(() => hydrate(<App />, root)).not.toThrow();
+        expect(html).toMatchSnapshot();
+        expect(registry.get()).toMatchSnapshot();
+        expect(console.warn).not.toHaveBeenCalled();
+    });
+
+    it('stringify styles(css prop) on server and hydrate on client', () => {
+        jest.spyOn(console, 'warn');
+
+        Button = props => {
+            return <button css={styles(props)}>{props.children}</button>;
+        };
+
+        const App: FC = () => (
+            <ThemeProvider theme={theme}>
+                <Button>Hello, SSR!</Button>
+                <Button primary>Hello, Hydration!</Button>
+            </ThemeProvider>
+        );
+
+        const registry = new ServerStyleRegistry();
+
+        const html = renderToString(
+            <ServerProvider registry={registry}>
+                <App />
+            </ServerProvider>,
+        );
+
+        const jsdom = new JSDOM(`<!doctype html><html><body></body></html>`);
+        const { window } = jsdom;
+
+        // @ts-ignore
+        global.window = window;
+        // @ts-ignore
+        global.document = window.document;
+
+        const root = document.createElement('div');
+        root.innerHTML = html;
+
+        expect(() => hydrate(<App />, root)).not.toThrow();
+        expect(html).toMatchSnapshot();
+        expect(registry.get()).toMatchSnapshot();
+        expect(console.warn).not.toHaveBeenCalled();
+    });
+
+    it('stringify globals on server and hydrate on client', () => {
         jest.spyOn(console, 'warn');
 
         const App: FC = () => {
             useGlobals(globalStyles);
 
-            return (
-                <ThemeProvider theme={theme}>
-                    <Button>Hello, SSR!</Button>
-                    <Button primary>Hello, Hydration!</Button>
-                </ThemeProvider>
-            );
+            return <p>Hello world</p>;
         };
 
         const registry = new ServerStyleRegistry();
