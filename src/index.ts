@@ -5,6 +5,7 @@ export { default as css, SingleStyleCollector } from './css';
 export { default as useGlobals } from './useGlobals';
 export { default as withGlobals } from './withGlobals';
 export { ServerStyleRegistry } from './styles';
+export { default as jsx } from './jsx';
 export {
     ThemeProvider,
     ThemeConsumer,
