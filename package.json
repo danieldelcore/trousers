@@ -19,7 +19,7 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
-        "lint": "eslint ./src/ ./.storybook/ --config .eslintrc.js --ext tsx,ts",
+        "lint": "eslint --config .eslintrc.js --ext tsx,ts ./src/ ./examples",
         "lint:fix": "npm run lint -- --fix",
         "preversion": "npm run lint && npm run typecheck && npm run test",
         "version": "npm run build",
