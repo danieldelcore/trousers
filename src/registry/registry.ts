@@ -1,13 +1,13 @@
 import stylis from 'stylis';
 
-import StyleRegistryInterface from './style-registry-interface';
+import RegistryInterface from './registry-interface';
 
 interface RegistryOptions {
     forceNewNode: boolean;
     appendBefore?: string;
 }
 
-class StyleRegistry implements StyleRegistryInterface {
+class Registry implements RegistryInterface {
     private styleElement!: HTMLStyleElement;
 
     constructor(
@@ -80,4 +80,4 @@ class StyleRegistry implements StyleRegistryInterface {
     }
 }
 
-export default StyleRegistry;
+export default Registry;

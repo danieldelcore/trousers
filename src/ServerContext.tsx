@@ -1,11 +1,11 @@
 import React, { createContext, FC, ReactNode } from 'react';
 
-import { ServerStyleRegistry } from './styles';
+import { ServerRegistry } from './registry';
 
-export type ServerCtx = ServerStyleRegistry | undefined;
+export type ServerCtx = ServerRegistry | undefined;
 
 export interface ServerProviderProps {
-    registry: ServerStyleRegistry;
+    registry: ServerRegistry;
     children: ReactNode;
 }
 

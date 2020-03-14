@@ -1,7 +1,7 @@
-import StyleRegistry from './style-registry';
+import Registry from './registry';
 
-describe('StyleRegistry', () => {
-    let registry: StyleRegistry;
+describe('Registry', () => {
+    let registry: Registry;
     let element: HTMLHeadElement;
     let attributeId: string;
 
@@ -9,7 +9,7 @@ describe('StyleRegistry', () => {
         element = document.createElement('head');
         attributeId = 'data-testing-trousers';
 
-        registry = new StyleRegistry(element, attributeId);
+        registry = new Registry(element, attributeId);
     });
 
     it('registers a new style', () => {
@@ -37,7 +37,7 @@ describe('StyleRegistry', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it('registers a global, with prexisting style tag', () => {
+    it('registers a global, with preexisting style tag', () => {
         registry.register('1', 'background-color:red;');
         registry.register('2', 'background-color:blue;', true);
 
@@ -69,7 +69,7 @@ describe('StyleRegistry', () => {
     });
 
     it('registries can mount their own style tags', () => {
-        const secondaryRegistry = new StyleRegistry(
+        const secondaryRegistry = new Registry(
             element,
             'data-testing-secondary',
             {
@@ -84,7 +84,7 @@ describe('StyleRegistry', () => {
     });
 
     it('registries can hoist style tags to the top', () => {
-        const secondaryRegistry = new StyleRegistry(
+        const secondaryRegistry = new Registry(
             element,
             'data-testing-secondary',
             {
@@ -100,7 +100,7 @@ describe('StyleRegistry', () => {
     });
 
     it('registries will append style node if append before selector returns null', () => {
-        const secondaryRegistry = new StyleRegistry(
+        const secondaryRegistry = new Registry(
             element,
             'data-testing-secondary',
             {
@@ -114,8 +114,8 @@ describe('StyleRegistry', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it('clears mutliple mounted style tags', () => {
-        const secondaryRegistry = new StyleRegistry(
+    it('clears multiple mounted style tags', () => {
+        const secondaryRegistry = new Registry(
             element,
             'data-testing-secondary',
             {
