@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ServerStyleRegistry registering an existing key does not update the style 1`] = `
+exports[`ServerRegistry registering an existing key does not update the style 1`] = `
 Array [
   <style
     data-trousers="1"
@@ -10,7 +10,7 @@ Array [
 ]
 `;
 
-exports[`ServerStyleRegistry registers a new style 1`] = `
+exports[`ServerRegistry registers a new style 1`] = `
 Array [
   <style
     data-trousers="1"
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`ServerStyleRegistry renders registered styles in the right format 1`] = `
+exports[`ServerRegistry renders registered styles in the right format 1`] = `
 Array [
   <style
     data-trousers="1,2"

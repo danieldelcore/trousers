@@ -2,9 +2,9 @@ import React, { ReactNode, ReactChild } from 'react';
 import stylis from 'stylis';
 
 import { STYLE_ID, GLOBAL_STYLE_ID } from '../constants';
-import StyleRegistryInterface from './style-registry-interface';
+import RegistryInterface from './registry-interface';
 
-class ServerRegistry implements StyleRegistryInterface {
+class ServerRegistry implements RegistryInterface {
     private globals: Map<string, string> = new Map();
     private styles: Map<string, string> = new Map();
 

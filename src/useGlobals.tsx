@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect } from 'react';
 import { SingleStyleCollector } from './';
 import { GLOBAL_STYLE_ID, STYLE_ID } from './constants';
 import { interpolateStyles, isBrowser } from './common';
-import { StyleRegistry, ServerStyleRegistry } from './styles';
+import { Registry, ServerRegistry } from './registry';
 import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
 function registerGlobals<Theme>(
@@ -11,7 +11,7 @@ function registerGlobals<Theme>(
         | SingleStyleCollector<Theme>
         | SingleStyleCollector<Theme>[],
     theme: Theme,
-    registry: StyleRegistry | ServerStyleRegistry,
+    registry: Registry | ServerRegistry,
 ) {
     [...styleCollectors].forEach(styleCollector => {
         const styleDefinition = styleCollector.get()[0];
@@ -45,7 +45,7 @@ export default function useGlobals<Theme>(
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
-        const registry = new StyleRegistry(headElement, GLOBAL_STYLE_ID, {
+        const registry = new Registry(headElement, GLOBAL_STYLE_ID, {
             forceNewNode: true,
             appendBefore: STYLE_ID,
         });

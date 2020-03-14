@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect, useMemo } from 'react';
 import { STYLE_ID } from './constants';
 import { StyleDefinition } from './types';
 import { interpolateStyles, isBrowser } from './common';
-import { StyleRegistry, ServerStyleRegistry } from './styles';
+import { Registry, ServerRegistry } from './registry';
 import { StyleCollector } from './style-collector';
 import { SingleStyleCollector } from './css';
 import { ThemeContext, ThemeCtx } from './ThemeContext';
@@ -19,7 +19,7 @@ function getComponentId<Theme>(
 
 function registerStyle<Theme>(
     styleDefinition: StyleDefinition<Theme>,
-    registry: StyleRegistry | ServerStyleRegistry,
+    registry: Registry | ServerRegistry,
     themeCtx: ThemeCtx,
 ) {
     const componentId = getComponentId(styleDefinition, themeCtx);
@@ -58,7 +58,7 @@ export default function useStyles<Theme = {}>(
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
-        const registry = new StyleRegistry(headElement, STYLE_ID);
+        const registry = new Registry(headElement, STYLE_ID);
 
         styleDefinitions.forEach(styleDefinition =>
             registerStyle(styleDefinition, registry, themeCtx),

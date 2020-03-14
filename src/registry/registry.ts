@@ -1,22 +1,13 @@
 import stylis from 'stylis';
 
-import StyleRegistryInterface from './style-registry-interface';
+import RegistryInterface from './registry-interface';
 
 interface RegistryOptions {
     forceNewNode: boolean;
     appendBefore?: string;
 }
 
-const toMatrix = (arr: any[], width: number) =>
-    arr.reduce(
-        (rows, key, index) =>
-            (index % width == 0
-                ? rows.push([key])
-                : rows[rows.length - 1].push(key)) && rows,
-        [],
-    );
-
-class StyleRegistry implements StyleRegistryInterface {
+class Registry implements RegistryInterface {
     private styleElement!: HTMLStyleElement;
 
     constructor(
@@ -50,25 +41,11 @@ class StyleRegistry implements StyleRegistryInterface {
         if (this.has(id)) return;
 
         const selector = !isGlobal ? id : ``;
+        const processedStyles = stylis(selector, styles);
+        const styleNode = document.createTextNode(`${processedStyles}\n`);
         const mountedStyles = this.styleElement.getAttribute(this.attributeId);
-        const processedStyles: string[] = stylis(selector, styles)
-            .split(/\{([^\}]+)\}/)
-            .filter((style: string) => !!style);
 
-        try {
-            //@ts-ignore
-            var foo: Record<string, string> = Object.fromEntries(
-                toMatrix(processedStyles, 2),
-            );
-
-            Object.keys(foo).forEach(key => {
-                this.styleElement.sheet.insertRule(`${key} {${foo[key]}}`);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-        console.log(this.styleElement.sheet);
-
+        this.styleElement.appendChild(styleNode);
         this.styleElement.setAttribute(
             this.attributeId,
             `${mountedStyles} ${id}`.trim(),
@@ -103,4 +80,4 @@ class StyleRegistry implements StyleRegistryInterface {
     }
 }
 
-export default StyleRegistry;
+export default Registry;
