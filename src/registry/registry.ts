@@ -1,82 +1,54 @@
 import stylis from 'stylis';
 
+import { arrayToMatrix } from '../common';
+import styleSheet from '../style-sheet';
 import RegistryInterface from './registry-interface';
 
-interface RegistryOptions {
-    forceNewNode: boolean;
-    appendBefore?: string;
-}
-
 class Registry implements RegistryInterface {
-    private styleElement!: HTMLStyleElement;
+    sheet: CSSStyleSheet;
+    registry: Map<string, number>;
 
-    constructor(
-        private parentElement: HTMLElement,
-        private attributeId: string,
-        private options: RegistryOptions = {
-            forceNewNode: false,
-            appendBefore: undefined,
-        },
-    ) {
-        this.attributeId = attributeId;
-        this.parentElement = parentElement;
-
-        this.styleElement = this.options.forceNewNode
-            ? this.createStyleElement()
-            : this.getStyleElement();
-
-        if (!this.options.appendBefore) {
-            this.parentElement.appendChild(this.styleElement);
-        } else {
-            this.parentElement.insertBefore(
-                this.styleElement,
-                this.parentElement.querySelector<HTMLStyleElement>(
-                    `style[${this.options.appendBefore}]`,
-                ),
-            );
-        }
+    constructor(private attributeId: string) {
+        this.sheet = styleSheet({ [this.attributeId]: '' });
+        this.registry = new Map();
     }
 
-    register(id: string, styles: string, isGlobal?: boolean) {
-        if (this.has(id)) return;
+    register(id: string, styles: string, isGlobal?: boolean): number {
+        if (this.has(id)) {
+            return this.registry.get(id)!;
+        }
 
         const selector = !isGlobal ? id : ``;
-        const processedStyles = stylis(selector, styles);
-        const styleNode = document.createTextNode(`${processedStyles}\n`);
-        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
 
-        this.styleElement.appendChild(styleNode);
-        this.styleElement.setAttribute(
-            this.attributeId,
-            `${mountedStyles} ${id}`.trim(),
+        const processedStyles: string[] = stylis(selector, styles)
+            .split(/\{([^\}]+)\}/)
+            .filter((style: string) => !!style);
+
+        // TODO - remove this stuff and just iterate over the processedStyles array
+        // @ts-ignore
+        const styleMatrix = Object.fromEntries(
+            arrayToMatrix(processedStyles, 2),
         );
+
+        Object.keys(styleMatrix).forEach(key => {
+            this.sheet.insertRule(`${key} {${styleMatrix[key]}}`);
+        });
+
+        console.log('inserting: ', id, this.sheet.cssRules.length);
+
+        this.registry.set(id, this.sheet.cssRules.length);
+
+        return this.sheet.cssRules.length;
     }
 
     has(id: string): boolean {
-        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
-
-        return mountedStyles!.includes(id);
+        return this.registry.has(id);
     }
 
-    clear() {
-        this.styleElement.remove();
-    }
-
-    private getStyleElement(): HTMLStyleElement {
-        const element = this.parentElement.querySelector<HTMLStyleElement>(
-            `style[${this.attributeId}]`,
-        );
-
-        return !!element ? element : this.createStyleElement();
-    }
-
-    private createStyleElement(): HTMLStyleElement {
-        const element = document.createElement<'style'>('style');
-        element.setAttribute(this.attributeId, '');
-        element.setAttribute('type', 'text/css');
-        element.type = 'text/css';
-
-        return element;
+    clear(id: string) {
+        const index = this.registry.get(id);
+        this.registry.delete(id);
+        this.sheet.deleteRule(index);
     }
 }
 

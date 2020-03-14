@@ -9,6 +9,8 @@ import { SingleStyleCollector } from './css';
 import { ThemeContext, ThemeCtx } from './ThemeContext';
 import { ServerContext, ServerCtx } from './ServerContext';
 
+const registrySingleton = new Registry(STYLE_ID);
+
 function getComponentId<Theme>(
     styleDefinition: StyleDefinition<Theme>,
     themeCtx: ThemeCtx,
@@ -57,11 +59,8 @@ export default function useStyles<Theme = {}>(
     }
 
     useLayoutEffect(() => {
-        const headElement = document.getElementsByTagName('head')[0];
-        const registry = new Registry(headElement, STYLE_ID);
-
         styleDefinitions.forEach(styleDefinition =>
-            registerStyle(styleDefinition, registry, themeCtx),
+            registerStyle(styleDefinition, registrySingleton, themeCtx),
         );
     }, [styleDefinitions, themeCtx]);
 
