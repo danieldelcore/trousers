@@ -123,11 +123,7 @@ const Button = styled.button`
 
 We have a button with two variants, `default` and `primary`. Functionally it works, but semantically it's really hard to see at a glance what color will be applied when it's primary. How would we extend this further, if say, we wanted primary buttons to have a `disabled` state?
 
-I think [@MadeByMike](https://github.com/MadeByMike) articulated this perfectly in: [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/) 👌
-
-> BEM gave semantic meaning to classnames and one of the biggest unseen values in this was we could immediately transfer our intentions to other developers across teams and even projects. If you know BEM you can look at a classname, e.g. `button--state-success` and immediately recognise this as a modifier for a button class.
-
-What's more, for every permutation of props, a new class will be created and attached to the `head`. Every class that is created incurs additional runtime cost, this can **grow exponentially** if you're not careful, resulting in a combinatorial explosion of classnames 💥. Consider a component with 3 variants and 3 possible states, that is 3 x 3 = 9, 9 eventual classes generated for one component. It doesn't scale, but we could take another approach:
+What's more, for every permutation of props, a new class will be created and attached to the `<head>`. Every class that is created incurs additional runtime cost, this can **grow exponentially** if you're not careful, resulting in a combinatorial explosion of classnames 💥. Consider a component with 3 variants and 3 possible states, that is 3 x 3 = 9, 9 eventual classes generated for one component. It doesn't scale, but we could take another approach:
 
 ```jsx
 const Button = styled.button`
@@ -144,7 +140,45 @@ const Button = styled.button`
 }
 ```
 
-Now that's more like it! This can be extended and scales to many variations and states. But there's still a problem, this syntax has to be memorised and there's nothing stopping you from falling back into the previous example. This is where an API can protect us and scale that knowledge across your codebase. This is where Trousers can help 🎉...
+Now that's more like it! This can be extended and scales to many variations and states. 
+
+I think [@MadeByMike](https://github.com/MadeByMike) articulated this perfectly in: [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/) 👌
+
+> BEM gave semantic meaning to classnames and one of the biggest unseen values in this was we could immediately transfer our intentions to other developers across teams and even projects. If you know BEM you can look at a classname, e.g. `button--state-success` and immediately recognise this as a modifier for a button class.
+
+But there's still a problem, this syntax has to be memorised and there's nothing stopping you from falling back into the previous example. This is where an abstraction can protect us and scale that knowledge across your codebase. This is where Trousers can help 🎉...
+
+Using our style collector you can express these variants and states like so:
+
+```jsx
+import { styleCollector, useStyles } from 'trousers';
+
+const styles = styleCollector('button')
+    .element` 
+        // Base styles applied to all buttons
+        color: white;
+    `.modifier('primary', props => !!props.primary)`  
+        // A modifier for the primary variant
+        color: black;
+    `.modifier('secondary', props => !!props.secondary)`
+        color: blue;
+    `.modifier('subtle', props => !!props.subtle)`
+        color: blue;
+    `;
+
+const Button = props => {
+    const classNames = useStyles(styles, props);
+
+    return <button className={buttonClassNames}>{props.children}</button>;
+};
+
+export default Button;
+
+```
+
+In this scenario, Trousers will only ever mount 3 classes to the `<head>` and toggle them on and off using the predicates provided to the style collector. It will only ever mount what it needs so, if a `subtle` button is never used you wont pay the run-time cost of processing and mounting those styles. 
+
+Under the hood, style collectors are simply an array of styles. This opens the door to a lot of possibilites because it is possible to **create your own style collectors** that suit your specific needs. What if you want a state machine style collector? Or a style collector that accepts objects instead of template literals? You can simply define one and pass it straight into Trouses 😲!
 
 ## Features ✨
 
