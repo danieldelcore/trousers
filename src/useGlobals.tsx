@@ -14,7 +14,7 @@ function registerGlobals<Theme>(
     registry: Registry | ServerRegistry,
 ) {
     [...styleCollectors].forEach(styleCollector => {
-        const styleDefinition = styleCollector.get()[0];
+        const styleDefinition = styleCollector.get();
         const styles = interpolateStyles(
             styleDefinition.styles,
             styleDefinition.expressions,

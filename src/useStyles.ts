@@ -43,7 +43,7 @@ export default function useStyles<Theme = {}>(
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
 
     const styleDefinitions = useMemo(() => {
-        return styleCollector.get().filter(({ predicate }) => !!predicate);
+        return [...styleCollector.get()].filter(({ predicate }) => !!predicate);
     }, [styleCollector]);
 
     if (!isBrowser() && !serverStyleRegistry) {
@@ -53,7 +53,11 @@ export default function useStyles<Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyle(styleCollector.get()[0], serverStyleRegistry, themeCtx);
+        registerStyle(
+            [...styleCollector.get()][0],
+            serverStyleRegistry,
+            themeCtx,
+        );
     }
 
     useLayoutEffect(() => {

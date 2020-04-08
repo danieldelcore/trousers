@@ -59,7 +59,7 @@ export class StyleCollector<Theme = {}> {
     private getHash(styles: TemplateStringsArray) {
         const key = styles.reduce((accum, style) => `${accum}${style}`, '');
 
-        return generateHash(key);
+        return generateHash(key).toString();
     }
 
     private registerStyles(
@@ -69,7 +69,7 @@ export class StyleCollector<Theme = {}> {
         predicate: Predicate,
         id: string = '',
     ) {
-        let hash = id + this.getHash(styles).toString();
+        const hash = id + this.getHash(styles);
 
         this.styleDefinitions.push({
             hash,
