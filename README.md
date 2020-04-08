@@ -4,7 +4,7 @@
 
 # Trousers 👖
 
-[![min](https://img.shields.io/bundlephobia/min/trousers.svg)](https://www.npmjs.com/package/trousers)
+[![Financial Contributors on Open Collective](https://opencollective.com/trousers/all/badge.svg?label=financial+contributors)](https://opencollective.com/trousers) [![min](https://img.shields.io/bundlephobia/min/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![npm](https://img.shields.io/npm/v/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![Downloads per month](https://img.shields.io/npm/dm/trousers.svg)](https://www.npmjs.com/package/trousers)
 
@@ -684,3 +684,33 @@ Thanks goes to all our backers! [[Become a backer](https://opencollective.com/tr
 ## Tools
 
 -   [Stylis – a light weight css preprocessor ](https://github.com/thysultan/stylis.js)
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/danieldelcore/trousers/graphs/contributors"><img src="https://opencollective.com/trousers/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/trousers/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/trousers"><img src="https://opencollective.com/trousers/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/trousers/contribute)]
+
+<a href="https://opencollective.com/trousers/organization/0/website"><img src="https://opencollective.com/trousers/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/1/website"><img src="https://opencollective.com/trousers/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/2/website"><img src="https://opencollective.com/trousers/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/3/website"><img src="https://opencollective.com/trousers/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/4/website"><img src="https://opencollective.com/trousers/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/5/website"><img src="https://opencollective.com/trousers/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/6/website"><img src="https://opencollective.com/trousers/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/7/website"><img src="https://opencollective.com/trousers/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/8/website"><img src="https://opencollective.com/trousers/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/trousers/organization/9/website"><img src="https://opencollective.com/trousers/organization/9/avatar.svg"></a>
