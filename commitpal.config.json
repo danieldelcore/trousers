@@ -1,0 +1,32 @@
+{
+  "name": "Emoji",
+  "steps": [
+    {
+      "type": "option",
+      "message": "What type of change?",
+      "after": " ",
+      "options": [
+        { "value": "🎉", "description": "🎉 Initial commit" },
+        { "value": "✨", "description": "✨ New feature" },
+        { "value": "🐛", "description": "🐛 Bugfix" },
+        { "value": "📚", "description": "📚 Documentation" },
+        { "value": "🐎", "description": "🐎 Performance" },
+        { "value": "💄", "description": "💄 Cosmetic" },
+        { "value": "🚨", "description": "🚨 Tests" },
+        { "value": "🎨", "description": "🎨 Improve format/structure" },
+        { "value": "🔨", "description": "🔨 Refactor code" },
+        { "value": "🚑", "description": "🚑 Critical hotfix" },
+        { "value": "🚧", "description": "🚧 Work in progress" },
+        { "value": "🔧", "description": "🔧 Configuration files" },
+        { "value": "💩", "description": "💩 Bad code" },
+        { "value": "⏪", "description": "⏪ Reverting changes" },
+        { "value": "💥", "description": "💥 Breaking changes" }
+      ]
+    },
+    {
+      "type": "text",
+      "max": 50,
+      "message": "Summarise this change..."
+    }
+  ]
+}
