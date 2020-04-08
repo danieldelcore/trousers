@@ -5,4 +5,5 @@ lib
 dist
 .site
 .DS_Store
+.vscode
 storybook-static
