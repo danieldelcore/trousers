@@ -1,11 +1,6 @@
 import { storiesOf } from '@storybook/react';
-import React, {
-    FC,
-    Fragment,
-    useState,
-    useEffect,
-    MouseEventHandler,
-} from 'react';
+import React, { FC, Fragment, useState, MouseEventHandler } from 'react';
+import { useStableRefTester, RenderCount } from 'react-stable-ref';
 
 import { css, styleCollector, useStyles, ThemeProvider } from '../src';
 
@@ -21,22 +16,19 @@ storiesOf('Miscellaneous', module)
         `;
 
         const TrousersLogo: FC = () => {
-            const [count, setCount] = useState(0);
             const logoClassnames = useStyles(logoStyles);
 
-            useEffect(() => {
-                const ts = setTimeout(() => setCount(count + 1), 1000);
-
-                return () => clearTimeout(ts);
-            });
+            useStableRefTester();
 
             return (
                 <Fragment>
-                    <p>{count}</p>
+                    <p>
+                        Render count: <RenderCount />
+                    </p>
                     <img
                         className={logoClassnames}
                         src="trousers-logo.png"
-                        alt={`Trousers Logo ${count}`}
+                        alt={`Trousers Logo`}
                     />
                 </Fragment>
             );
@@ -63,27 +55,16 @@ storiesOf('Miscellaneous', module)
         `;
 
         const TrousersLogo: FC = () => {
-            const [count, setCount] = useState(0);
-            const [styleCollector, setStyleCollector] = useState(logoStylesAlt);
-            const logoClassnames = useStyles(styleCollector);
-
-            useEffect(() => {
-                const ts = setTimeout(() => {
-                    const nextTick = count + 1;
-
-                    setStyleCollector(
-                        nextTick % 2 ? logoStyles : logoStylesAlt,
-                    );
-
-                    setCount(nextTick);
-                }, 1000);
-
-                return () => clearTimeout(ts);
-            });
+            const count = useStableRefTester();
+            const logoClassnames = useStyles(
+                count % 2 ? logoStyles : logoStylesAlt,
+            );
 
             return (
                 <Fragment>
-                    <p>{count}</p>
+                    <p>
+                        Render count: <RenderCount />
+                    </p>
                     <img
                         className={logoClassnames}
                         src="trousers-logo.png"
@@ -100,11 +81,11 @@ storiesOf('Miscellaneous', module)
             primaryColor: string;
         }
 
-        const lightTheme: Theme = {
+        const lightTheme = {
             primaryColor: '#b3cde8',
         };
 
-        const darkTheme: Theme = {
+        const darkTheme = {
             primaryColor: '#f6e3e3',
         };
 
@@ -128,25 +109,15 @@ storiesOf('Miscellaneous', module)
                 />
             );
         };
+
         const Alternator: FC = () => {
-            const [count, setCount] = useState(0);
-            const [theme, setTheme] = useState(darkTheme);
-
-            useEffect(() => {
-                const ts = setTimeout(() => {
-                    const nextTick = count + 1;
-                    console.log(nextTick);
-
-                    setTheme(nextTick % 2 ? lightTheme : darkTheme);
-                    setCount(nextTick);
-                }, 1000);
-
-                return () => clearTimeout(ts);
-            });
+            const count = useStableRefTester();
 
             return (
-                <ThemeProvider theme={theme}>
-                    <p>{count}</p>
+                <ThemeProvider theme={count % 2 ? lightTheme : darkTheme}>
+                    <p>
+                        Render count: <RenderCount />
+                    </p>
                     <TrousersLogo />
                 </ThemeProvider>
             );
