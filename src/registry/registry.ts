@@ -7,8 +7,29 @@ interface RegistryOptions {
     appendBefore?: string;
 }
 
+const parse = (str: string) =>
+    str
+        .split('}')
+        .filter(str => str !== '')
+        .reduce((accum: string[], str, i) => {
+            if (i > 0) {
+                const prev = accum.length - 1;
+                const openCount = (accum[prev].match(/{/g) || []).length;
+                const closeCount = (accum[prev].match(/}/g) || []).length;
+
+                if (openCount > closeCount) {
+                    accum[prev] = accum[prev] + str + '}';
+                    return accum;
+                }
+            }
+
+            accum.push(str + '}');
+            return accum;
+        }, []);
+
 class Registry implements RegistryInterface {
     private styleElement!: HTMLStyleElement;
+    private stylis: ReturnType<typeof stylis>;
 
     constructor(
         private parentElement: HTMLElement,
@@ -42,14 +63,28 @@ class Registry implements RegistryInterface {
 
         const selector = !isGlobal ? id : ``;
         const processedStyles = stylis(selector, styles);
-        const styleNode = document.createTextNode(`${processedStyles}\n`);
-        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
 
-        this.styleElement.appendChild(styleNode);
-        this.styleElement.setAttribute(
-            this.attributeId,
-            `${mountedStyles} ${id}`.trim(),
-        );
+        if (process.env.NODE_ENV === 'development') {
+            const styleNode = document.createTextNode(`${processedStyles}\n`);
+            const mountedStyles = this.styleElement.getAttribute(
+                this.attributeId,
+            );
+
+            this.styleElement.appendChild(styleNode);
+            this.styleElement.setAttribute(
+                this.attributeId,
+                `${mountedStyles} ${id}`.trim(),
+            );
+        } else {
+            parse(processedStyles).forEach(styles => {
+                // @ts-ignore
+                this.styleElement.sheet.insertRule(
+                    styles,
+                    // @ts-ignore
+                    this.styleElement.sheet.cssRules.length,
+                );
+            });
+        }
     }
 
     has(id: string): boolean {
@@ -75,6 +110,7 @@ class Registry implements RegistryInterface {
         element.setAttribute(this.attributeId, '');
         element.setAttribute('type', 'text/css');
         element.type = 'text/css';
+        element.appendChild(document.createTextNode(''));
 
         return element;
     }
