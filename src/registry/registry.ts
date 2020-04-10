@@ -1,6 +1,10 @@
 import stylis from 'stylis';
 
-import RegistryInterface from './registry-interface';
+export interface Registry {
+    register: (id: string, styles: string, isGlobal?: boolean) => void;
+    has: (id: string) => boolean;
+    clear: (isGlobal?: boolean) => void;
+}
 
 interface RegistryOptions {
     forceNewNode: boolean;
@@ -11,7 +15,7 @@ const parse = (str: string) =>
     str
         .split('}')
         .filter(str => str !== '')
-        .reduce((accum: string[], str, i) => {
+        .reduce<string[]>((accum, str, i) => {
             if (i > 0) {
                 const prev = accum.length - 1;
                 const openCount = (accum[prev].match(/{/g) || []).length;
@@ -27,93 +31,79 @@ const parse = (str: string) =>
             return accum;
         }, []);
 
-class Registry implements RegistryInterface {
-    private styleElement!: HTMLStyleElement;
-    private stylis: ReturnType<typeof stylis>;
+const createStyleElement = (attributeId: string) => {
+    const element = document.createElement<'style'>('style');
+    element.setAttribute(attributeId, '');
+    element.setAttribute('type', 'text/css');
+    return element;
+};
 
-    constructor(
-        private parentElement: HTMLElement,
-        private attributeId: string,
-        private options: RegistryOptions = {
-            forceNewNode: false,
-            appendBefore: undefined,
-        },
-    ) {
-        this.attributeId = attributeId;
-        this.parentElement = parentElement;
+const getStyleElement = (targetElement: HTMLElement, attributeId: string) => {
+    const element = targetElement.querySelector<HTMLStyleElement>(
+        `style[${attributeId}]`,
+    );
 
-        this.styleElement = this.options.forceNewNode
-            ? this.createStyleElement()
-            : this.getStyleElement();
+    return !!element ? element : createStyleElement(attributeId);
+};
 
-        if (!this.options.appendBefore) {
-            this.parentElement.appendChild(this.styleElement);
-        } else {
-            this.parentElement.insertBefore(
-                this.styleElement,
-                this.parentElement.querySelector<HTMLStyleElement>(
-                    `style[${this.options.appendBefore}]`,
-                ),
-            );
-        }
+const registry = (
+    parentElement: HTMLElement,
+    attributeId: string,
+    options: RegistryOptions = {
+        forceNewNode: false,
+        appendBefore: undefined,
+    },
+): Registry => {
+    const styleElement = options.forceNewNode
+        ? createStyleElement(attributeId)
+        : getStyleElement(parentElement, attributeId);
+
+    if (!options.appendBefore) {
+        parentElement.appendChild(styleElement);
+    } else {
+        parentElement.insertBefore(
+            styleElement,
+            parentElement.querySelector<HTMLStyleElement>(
+                `style[${options.appendBefore}]`,
+            ),
+        );
     }
 
-    register(id: string, styles: string, isGlobal?: boolean) {
-        if (this.has(id)) return;
+    const clear = () => styleElement.remove();
+    const has = (id: string): boolean =>
+        styleElement.getAttribute(attributeId)!.includes(id);
+
+    const register = (id: string, styles: string, isGlobal?: boolean) => {
+        if (has(id)) return;
 
         const selector = !isGlobal ? id : ``;
         const processedStyles = stylis(selector, styles);
 
-        if (process.env.NODE_ENV === 'development') {
-            const styleNode = document.createTextNode(`${processedStyles}\n`);
-            const mountedStyles = this.styleElement.getAttribute(
-                this.attributeId,
-            );
-
-            this.styleElement.appendChild(styleNode);
-            this.styleElement.setAttribute(
-                this.attributeId,
-                `${mountedStyles} ${id}`.trim(),
-            );
-        } else {
+        if (process.env.NODE_ENV === 'production') {
             parse(processedStyles).forEach(styles => {
                 // @ts-ignore
-                this.styleElement.sheet.insertRule(
+                styleElement.sheet.insertRule(
                     styles,
                     // @ts-ignore
-                    this.styleElement.sheet.cssRules.length,
+                    styleElement.sheet.cssRules.length,
                 );
             });
+
+            return;
         }
-    }
 
-    has(id: string): boolean {
-        const mountedStyles = this.styleElement.getAttribute(this.attributeId);
+        const styleNode = document.createTextNode(`${processedStyles}\n`);
+        const mountedStyles = styleElement.getAttribute(attributeId);
 
-        return mountedStyles!.includes(id);
-    }
+        styleElement.appendChild(styleNode);
+        styleElement.setAttribute(attributeId, `${mountedStyles} ${id}`.trim());
+    };
 
-    clear() {
-        this.styleElement.remove();
-    }
+    return {
+        has,
+        clear,
+        register,
+    };
+};
 
-    private getStyleElement(): HTMLStyleElement {
-        const element = this.parentElement.querySelector<HTMLStyleElement>(
-            `style[${this.attributeId}]`,
-        );
-
-        return !!element ? element : this.createStyleElement();
-    }
-
-    private createStyleElement(): HTMLStyleElement {
-        const element = document.createElement<'style'>('style');
-        element.setAttribute(this.attributeId, '');
-        element.setAttribute('type', 'text/css');
-        element.type = 'text/css';
-        element.appendChild(document.createTextNode(''));
-
-        return element;
-    }
-}
-
-export default Registry;
+export default registry;

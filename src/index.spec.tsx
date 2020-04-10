@@ -19,7 +19,7 @@ import {
     css,
     useGlobals,
     ServerProvider,
-    ServerRegistry,
+    serverRegistry,
 } from './';
 
 interface ButtonProps {
@@ -83,7 +83,7 @@ describe('Server side rendering (SSR)', () => {
             </ThemeProvider>
         );
 
-        const registry = new ServerRegistry();
+        const registry = serverRegistry();
 
         const html = renderToString(
             <ServerProvider registry={registry}>
@@ -122,7 +122,7 @@ describe('Server side rendering (SSR)', () => {
             </ThemeProvider>
         );
 
-        const registry = new ServerRegistry();
+        const registry = serverRegistry();
 
         const html = renderToString(
             <ServerProvider registry={registry}>
@@ -156,7 +156,7 @@ describe('Server side rendering (SSR)', () => {
             return <p>Hello world</p>;
         };
 
-        const registry = new ServerRegistry();
+        const registry = serverRegistry();
 
         const html = renderToString(
             <ServerProvider registry={registry}>

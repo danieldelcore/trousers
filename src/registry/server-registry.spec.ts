@@ -2,13 +2,13 @@
  * @jest-environment node
  */
 
-import ServerRegistry from './server-registry';
+import serverRegistry, { ServerRegistry } from './server-registry';
 
 describe('ServerRegistry', () => {
     let registry: ServerRegistry;
 
     beforeEach(() => {
-        registry = new ServerRegistry();
+        registry = serverRegistry();
     });
 
     it('registers a new style', () => {

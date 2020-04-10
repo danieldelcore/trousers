@@ -1,7 +1,7 @@
-import Registry from './registry';
+import registry, { Registry } from './registry';
 
 describe('Registry', () => {
-    let registry: Registry;
+    let clientRegistry: Registry;
     let element: HTMLHeadElement;
     let attributeId: string;
 
@@ -9,21 +9,21 @@ describe('Registry', () => {
         element = document.createElement('head');
         attributeId = 'data-testing-trousers';
 
-        registry = new Registry(element, attributeId);
+        clientRegistry = registry(element, attributeId);
     });
 
     it('registers a new style', () => {
         const key = '1';
         const style = 'background-color:red;';
 
-        registry.register(key, style);
+        clientRegistry.register(key, style);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
     it('registers multiple styles', () => {
-        registry.register('1', 'background-color:red;');
-        registry.register('2', 'background-color:blue;');
+        clientRegistry.register('1', 'background-color:red;');
+        clientRegistry.register('2', 'background-color:blue;');
 
         expect(element.innerHTML).toMatchSnapshot();
     });
@@ -32,14 +32,14 @@ describe('Registry', () => {
         const key = '1';
         const style = 'background-color:red;';
 
-        registry.register(key, style, true);
+        clientRegistry.register(key, style, true);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
     it('registers a global, with preexisting style tag', () => {
-        registry.register('1', 'background-color:red;');
-        registry.register('2', 'background-color:blue;', true);
+        clientRegistry.register('1', 'background-color:red;');
+        clientRegistry.register('2', 'background-color:blue;', true);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
@@ -49,8 +49,8 @@ describe('Registry', () => {
         const style = 'background-color:red;';
         const styleBlue = 'background-color:blue;';
 
-        registry.register(key, style);
-        registry.register(key, styleBlue);
+        clientRegistry.register(key, style);
+        clientRegistry.register(key, styleBlue);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
@@ -59,55 +59,43 @@ describe('Registry', () => {
         const key = '1';
         const style = 'background-color:red;';
 
-        registry.register(key, style);
+        clientRegistry.register(key, style);
 
-        expect(registry.has('1')).toBe(true);
+        expect(clientRegistry.has('1')).toBe(true);
     });
 
     it('detects a non existing style', () => {
-        expect(registry.has('123')).toBe(false);
+        expect(clientRegistry.has('123')).toBe(false);
     });
 
     it('registries can mount their own style tags', () => {
-        const secondaryRegistry = new Registry(
-            element,
-            'data-testing-secondary',
-            {
-                forceNewNode: true,
-            },
-        );
+        const secondaryRegistry = registry(element, 'data-testing-secondary', {
+            forceNewNode: true,
+        });
 
-        registry.register('1', 'background-color:red;');
+        clientRegistry.register('1', 'background-color:red;');
         secondaryRegistry.register('2', 'background-color:blue;');
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
     it('registries can hoist style tags to the top', () => {
-        const secondaryRegistry = new Registry(
-            element,
-            'data-testing-secondary',
-            {
-                forceNewNode: true,
-                appendBefore: attributeId,
-            },
-        );
+        const secondaryRegistry = registry(element, 'data-testing-secondary', {
+            forceNewNode: true,
+            appendBefore: attributeId,
+        });
 
-        registry.register('1', 'background-color:red;');
+        clientRegistry.register('1', 'background-color:red;');
         secondaryRegistry.register('2', 'background-color:blue;', true);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
     it('registries will append style node if append before selector returns null', () => {
-        const secondaryRegistry = new Registry(
-            element,
-            'data-testing-secondary',
-            {
-                forceNewNode: true,
-                appendBefore: 'data-unknown-element',
-            },
-        );
+        const secondaryRegistry = registry(element, 'data-testing-secondary', {
+            forceNewNode: true,
+            appendBefore: 'data-unknown-element',
+        });
 
         secondaryRegistry.register('1', 'background-color:blue;');
 
@@ -115,15 +103,11 @@ describe('Registry', () => {
     });
 
     it('clears multiple mounted style tags', () => {
-        const secondaryRegistry = new Registry(
-            element,
-            'data-testing-secondary',
-            {
-                forceNewNode: true,
-            },
-        );
+        const secondaryRegistry = registry(element, 'data-testing-secondary', {
+            forceNewNode: true,
+        });
 
-        registry.register('1', 'background-color:red;');
+        clientRegistry.register('1', 'background-color:red;');
         secondaryRegistry.register('2', 'background-color:blue;');
 
         expect(element.childElementCount).toEqual(2);
@@ -132,7 +116,7 @@ describe('Registry', () => {
 
         expect(element.childElementCount).toEqual(1);
 
-        registry.clear();
+        clientRegistry.clear();
 
         expect(element.childElementCount).toEqual(0);
     });

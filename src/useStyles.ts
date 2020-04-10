@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect, useMemo } from 'react';
 import { STYLE_ID } from './constants';
 import { StyleDefinition, StyleCollector } from './types';
 import { interpolateStyles, isBrowser } from './common';
-import { Registry, ServerRegistry } from './registry';
+import { registry, Registry } from './registry';
 import { ThemeContext, ThemeCtx } from './ThemeContext';
 import { ServerContext, ServerCtx } from './ServerContext';
 
@@ -16,22 +16,23 @@ function getComponentId<Theme>(
 }
 
 function registerStyle<Theme>(
+    registry: Registry,
     styleDefinition: StyleDefinition<Theme>,
-    registry: Registry | ServerRegistry,
     themeCtx: ThemeCtx,
 ) {
     const componentId = getComponentId(styleDefinition, themeCtx);
     const className = `.${componentId}`;
 
-    if (!registry.has(className)) {
-        const styles = interpolateStyles(
+    if (registry.has(className)) return;
+
+    registry.register(
+        className,
+        interpolateStyles(
             styleDefinition.styles,
             styleDefinition.expressions,
             themeCtx.theme,
-        );
-
-        registry.register(className, styles);
-    }
+        ),
+    );
 }
 
 export default function useStyles<Theme = {}>(
@@ -40,9 +41,10 @@ export default function useStyles<Theme = {}>(
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
 
-    const styleDefinitions = useMemo(() => {
-        return styleCollector.get().filter(({ predicate }) => !!predicate);
-    }, [styleCollector]);
+    const styleDefinitions = useMemo(
+        () => styleCollector.get().filter(({ predicate }) => !!predicate),
+        [styleCollector],
+    );
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -51,15 +53,15 @@ export default function useStyles<Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyle(styleCollector.get()[0], serverStyleRegistry, themeCtx);
+        registerStyle(serverStyleRegistry, styleCollector.get()[0], themeCtx);
     }
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
-        const registry = new Registry(headElement, STYLE_ID);
+        const clientRegistry = registry(headElement, STYLE_ID);
 
         styleDefinitions.forEach(styleDefinition =>
-            registerStyle(styleDefinition, registry, themeCtx),
+            registerStyle(clientRegistry, styleDefinition, themeCtx),
         );
     }, [styleDefinitions, themeCtx]);
 

@@ -1,2 +1,2 @@
-export { default as Registry } from './registry';
-export { default as ServerRegistry } from './server-registry';
+export { default as registry, Registry } from './registry';
+export { default as serverRegistry, ServerRegistry } from './server-registry';

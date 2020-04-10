@@ -2,40 +2,34 @@ import React, { ReactNode, ReactChild } from 'react';
 import stylis from 'stylis';
 
 import { STYLE_ID, GLOBAL_STYLE_ID } from '../constants';
-import RegistryInterface from './registry-interface';
+import { Registry } from './registry';
 
-class ServerRegistry implements RegistryInterface {
-    private globals: Map<string, string> = new Map();
-    private styles: Map<string, string> = new Map();
+export type ServerRegistry = Registry & { get: () => ReactNode };
 
-    register(id: string, styles: string, isGlobal?: boolean) {
-        if (this.has(id)) return;
+const serverRegistry = (): ServerRegistry => {
+    const globalMap = new Map<string, string>();
+    const styleMap = new Map<string, string>();
+    const has = (id: string) => styleMap.has(id);
+
+    const clear = () => {};
+    const register = (id: string, style: string, isGlobal?: boolean) => {
+        if (has(id)) return;
 
         const selector = !isGlobal ? id : ``;
-        const processedStyles = stylis(selector, styles);
+        const processedStyles: string = stylis(selector, style);
 
         if (!isGlobal) {
-            this.styles.set(id, processedStyles);
+            styleMap.set(id, processedStyles);
         } else {
-            this.globals.set(id, processedStyles);
+            globalMap.set(id, processedStyles);
         }
-    }
+    };
 
-    has(id: string): boolean {
-        return this.styles.has(id);
-    }
-
-    get() {
-        return [...this.renderGlobals(), ...this.renderStyles()];
-    }
-
-    clear() {}
-
-    private renderStyles(): ReactNode {
+    const renderStyles = (): ReactNode => {
         const ids: string[] = [];
         const styles: string[] = [];
 
-        this.styles.forEach((value, key) => {
+        styleMap.forEach((value, key) => {
             ids.push(key);
             styles.push(value);
         });
@@ -49,12 +43,12 @@ class ServerRegistry implements RegistryInterface {
                 {styles.join('\n')}
             </style>
         );
-    }
+    };
 
-    private renderGlobals() {
+    const renderGlobals = (): ReactNode => {
         const styles: ReactChild[] = [];
 
-        this.globals.forEach((value, key) => {
+        globalMap.forEach((value, key) => {
             styles.push(
                 <style
                     {...{
@@ -67,7 +61,16 @@ class ServerRegistry implements RegistryInterface {
         });
 
         return styles;
-    }
-}
+    };
 
-export default ServerRegistry;
+    const get = () => [...renderGlobals(), ...renderStyles()];
+
+    return {
+        get,
+        has,
+        clear,
+        register,
+    };
+};
+
+export default serverRegistry;

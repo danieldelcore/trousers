@@ -15,7 +15,7 @@ export default function styleCollector<Theme = {}>(elementName: string) {
         idOrPredicate: string | Predicate,
         predicate?: Predicate,
     ) => {
-        let id: string;
+        let id = '';
 
         if (typeof idOrPredicate === 'string') {
             id = idOrPredicate;
