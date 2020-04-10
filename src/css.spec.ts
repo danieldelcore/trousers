@@ -6,7 +6,7 @@ describe('css', () => {
             font-style: normal;
         `;
 
-        expect(collector.get().name).toEqual('css__');
+        expect(collector.get()[0].name).toEqual('css__');
     });
 
     it('registers styles', () => {
@@ -14,6 +14,6 @@ describe('css', () => {
             font-style: normal;
         `;
 
-        expect(collector.get().hash).toEqual('4061766009');
+        expect(collector.get()[0].hash).toEqual('4061766009');
     });
 });

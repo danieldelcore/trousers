@@ -14,3 +14,7 @@ export interface StyleDefinition<Theme> extends TaggedTemplate<Theme> {
     predicate: Predicate;
     name: string;
 }
+
+export interface StyleCollector<Theme = {}> {
+    get: () => StyleDefinition<Theme>[];
+}

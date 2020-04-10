@@ -1,11 +1,9 @@
 import { useContext, useLayoutEffect, useMemo } from 'react';
 
 import { STYLE_ID } from './constants';
-import { StyleDefinition } from './types';
+import { StyleDefinition, StyleCollector } from './types';
 import { interpolateStyles, isBrowser } from './common';
 import { Registry, ServerRegistry } from './registry';
-import { StyleCollector } from './style-collector';
-import { SingleStyleCollector } from './css';
 import { ThemeContext, ThemeCtx } from './ThemeContext';
 import { ServerContext, ServerCtx } from './ServerContext';
 
@@ -37,13 +35,13 @@ function registerStyle<Theme>(
 }
 
 export default function useStyles<Theme = {}>(
-    styleCollector: StyleCollector<Theme> | SingleStyleCollector<Theme>,
+    styleCollector: StyleCollector<Theme>,
 ) {
     const themeCtx = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
 
     const styleDefinitions = useMemo(() => {
-        return [...styleCollector.get()].filter(({ predicate }) => !!predicate);
+        return styleCollector.get().filter(({ predicate }) => !!predicate);
     }, [styleCollector]);
 
     if (!isBrowser() && !serverStyleRegistry) {
@@ -53,11 +51,7 @@ export default function useStyles<Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyle(
-            [...styleCollector.get()][0],
-            serverStyleRegistry,
-            themeCtx,
-        );
+        registerStyle(styleCollector.get()[0], serverStyleRegistry, themeCtx);
     }
 
     useLayoutEffect(() => {

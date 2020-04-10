@@ -4,7 +4,7 @@ import { render, cleanup } from '@testing-library/react';
 import {
     css,
     useGlobals,
-    SingleStyleCollector,
+    StyleCollector,
     ThemeProvider,
     useStyles,
     styleCollector,
@@ -15,12 +15,12 @@ interface Theme {
 }
 
 interface FixtureProps {
-    styles: SingleStyleCollector<Theme> | SingleStyleCollector<Theme>[];
+    styles: StyleCollector<Theme> | StyleCollector<Theme>[];
 }
 
 describe('useGlobals', () => {
     let theme: Theme;
-    let globalStyles: SingleStyleCollector<Theme>;
+    let globalStyles: StyleCollector<Theme>;
     let GloballyStyledComponent: React.FC<FixtureProps>;
 
     beforeEach(() => {

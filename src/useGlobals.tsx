@@ -1,20 +1,18 @@
 import { useContext, useLayoutEffect } from 'react';
 
-import { SingleStyleCollector } from './';
+import { StyleCollector } from './types';
 import { GLOBAL_STYLE_ID, STYLE_ID } from './constants';
 import { interpolateStyles, isBrowser } from './common';
 import { Registry, ServerRegistry } from './registry';
 import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
 
 function registerGlobals<Theme>(
-    styleCollectors:
-        | SingleStyleCollector<Theme>
-        | SingleStyleCollector<Theme>[],
+    styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],
     theme: Theme,
     registry: Registry | ServerRegistry,
 ) {
     [...styleCollectors].forEach(styleCollector => {
-        const styleDefinition = styleCollector.get();
+        const styleDefinition = styleCollector.get()[0];
         const styles = interpolateStyles(
             styleDefinition.styles,
             styleDefinition.expressions,
@@ -26,9 +24,7 @@ function registerGlobals<Theme>(
 }
 
 export default function useGlobals<Theme>(
-    styleCollectors:
-        | SingleStyleCollector<Theme>
-        | SingleStyleCollector<Theme>[],
+    styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);

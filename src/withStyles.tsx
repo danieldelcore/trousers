@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { useStyles, StyleCollector } from './';
-import { SingleStyleCollector } from './css';
 
 export interface WithStylesProps {
     className?: string;
@@ -12,9 +11,7 @@ const withStyles = <
     Theme = {}
 >(
     Component: React.ComponentType<Props>,
-    styleCollector: (
-        props: Props,
-    ) => StyleCollector<Theme> | SingleStyleCollector<Theme>,
+    styleCollector: (props: Props) => StyleCollector<Theme>,
 ) => {
     const WrappedComponent: FC<Props> = props => {
         const className = useStyles(styleCollector(props));

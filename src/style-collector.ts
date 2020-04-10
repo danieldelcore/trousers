@@ -1,36 +1,20 @@
 import { StyleDefinition, Predicate, Expression } from './types';
 import { generateHash } from './common';
 
-export class StyleCollector<Theme = {}> {
-    private styleDefinitions: StyleDefinition<Theme>[] = [];
+const getHash = (styles: TemplateStringsArray) => {
+    const key = styles.reduce((accum, style) => `${accum}${style}`, '');
 
-    constructor(private elementName: string) {}
+    return generateHash(key).toString();
+};
 
-    element(styles: TemplateStringsArray, ...expressions: Expression<Theme>[]) {
-        return this.registerStyles(
-            styles,
-            expressions,
-            `${this.elementName}__`,
-            true,
-        );
-    }
+export default function styleCollector<Theme = {}>(elementName: string) {
+    const styleDefinitions: StyleDefinition<Theme>[] = [];
+    const get = () => styleDefinitions;
 
-    modifier(
-        predicate: Predicate,
-    ): (
-        styles: TemplateStringsArray,
-        ...expressions: Expression<Theme>[]
-    ) => this;
-
-    modifier(
-        id: string,
-        predicate: Predicate,
-    ): (
-        styles: TemplateStringsArray,
-        ...expressions: Expression<Theme>[]
-    ) => this;
-
-    modifier(idOrPredicate: string | Predicate, predicate?: Predicate) {
+    const modifier = (
+        idOrPredicate: string | Predicate,
+        predicate?: Predicate,
+    ) => {
         let id: string;
 
         if (typeof idOrPredicate === 'string') {
@@ -42,47 +26,37 @@ export class StyleCollector<Theme = {}> {
         return (
             styles: TemplateStringsArray,
             ...expressions: Expression<Theme>[]
-        ) =>
-            this.registerStyles(
+        ) => {
+            styleDefinitions.push({
+                hash: id + getHash(styles),
                 styles,
                 expressions,
-                `${this.elementName}--`,
-                predicate,
-                id,
-            );
-    }
+                predicate: !!predicate,
+                name: `${elementName}--`,
+            });
 
-    get() {
-        return this.styleDefinitions;
-    }
+            return { modifier, get };
+        };
+    };
 
-    private getHash(styles: TemplateStringsArray) {
-        const key = styles.reduce((accum, style) => `${accum}${style}`, '');
-
-        return generateHash(key).toString();
-    }
-
-    private registerStyles(
+    const element = (
         styles: TemplateStringsArray,
-        expressions: Expression<Theme>[],
-        name: string,
-        predicate: Predicate,
-        id: string = '',
-    ) {
-        const hash = id + this.getHash(styles);
-
-        this.styleDefinitions.push({
-            hash,
+        ...expressions: Expression<Theme>[]
+    ) => {
+        styleDefinitions.push({
+            hash: getHash(styles),
             styles,
             expressions,
-            predicate: !!predicate,
-            name,
+            predicate: true,
+            name: `${elementName}__`,
         });
 
-        return this;
-    }
-}
+        return { modifier, get };
+    };
 
-export default function styleCollector<Theme = {}>(elementName: string) {
-    return new StyleCollector<Theme>(elementName);
+    return {
+        element,
+        modifier,
+        get,
+    };
 }

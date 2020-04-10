@@ -13,7 +13,6 @@ import { JSDOM } from 'jsdom';
 import {
     jsx,
     StyleCollector,
-    SingleStyleCollector,
     ThemeProvider,
     styleCollector,
     useStyles,
@@ -35,7 +34,7 @@ interface Theme {
 
 describe('Server side rendering (SSR)', () => {
     let styles: (props: ButtonProps) => StyleCollector<Theme>;
-    let globalStyles: SingleStyleCollector<Theme>;
+    let globalStyles: StyleCollector<Theme>;
     let Button: FC<ButtonProps>;
     let theme: Theme;
 

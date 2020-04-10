@@ -1,9 +1,5 @@
 import { generateHash } from './common';
-import { Expression, StyleDefinition } from './types';
-
-export interface SingleStyleCollector<Theme = {}> {
-    get: () => StyleDefinition<Theme>;
-}
+import { Expression, StyleCollector } from './types';
 
 function getHash(styles: TemplateStringsArray) {
     const key = styles.reduce((accum, style) => `${accum}${style}`, '');
@@ -14,14 +10,16 @@ function getHash(styles: TemplateStringsArray) {
 const css = <Theme = {}>(
     styles: TemplateStringsArray,
     ...expressions: Expression<Theme>[]
-): SingleStyleCollector<Theme> => ({
-    get: () => ({
-        styles,
-        expressions,
-        hash: getHash(styles),
-        predicate: true,
-        name: 'css__',
-    }),
+): StyleCollector<Theme> => ({
+    get: () => [
+        {
+            styles,
+            expressions,
+            hash: getHash(styles),
+            predicate: true,
+            name: 'css__',
+        },
+    ],
 });
 
 export default css;

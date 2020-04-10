@@ -1,24 +1,24 @@
 import { createElement, hasOwnProperty, ElementType, ReactNode } from 'react';
-import { StyleCollector, SingleStyleCollector } from './';
+import { StyleCollector } from './';
 import useStyles from './useStyles';
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace JSX {
         interface IntrinsicAttributes {
-            css?: StyleCollector<any> | SingleStyleCollector<any>;
+            css?: StyleCollector<any>;
         }
     }
 }
 
 declare module 'react' {
     interface DOMAttributes<T> {
-        css?: StyleCollector<any> | SingleStyleCollector<any>;
+        css?: StyleCollector<any>;
     }
 }
 
 const jsx = <
-    Props extends { css: StyleCollector<Theme> | SingleStyleCollector<Theme> },
+    Props extends { css: StyleCollector<Theme> },
     Theme extends {} = {}
 >(
     type: ElementType<Omit<Props, 'css'>>,

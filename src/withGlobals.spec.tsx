@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import { css, withGlobals, SingleStyleCollector, ThemeProvider } from './';
+import { css, withGlobals, StyleCollector, ThemeProvider } from './';
 
 interface Theme {
     backgroundColor: string;
@@ -9,7 +9,7 @@ interface Theme {
 
 describe('useGlobals', () => {
     let theme: Theme;
-    let globalStyles: SingleStyleCollector<Theme>;
+    let globalStyles: StyleCollector<Theme>;
     let UnstyledComponent: React.FC;
 
     beforeEach(() => {
