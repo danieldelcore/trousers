@@ -74,6 +74,7 @@
         "react": "^16.8.1",
         "react-dom": "^16.8.4",
         "react-stable-ref": "^0.4.0",
+        "storybook-addon-performance": "^0.7.0",
         "ts-jest": "^24.0.2",
         "ts-loader": "^6.2.1",
         "typescript": "^3.6.2"

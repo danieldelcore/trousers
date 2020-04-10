@@ -4,9 +4,6 @@ module.exports = ({ config }) => {
         use: [
             {
                 loader: require.resolve('ts-loader'),
-                options: {
-                    transpileOnly: true,
-                },
             },
         ],
     });
