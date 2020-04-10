@@ -67,7 +67,7 @@ storiesOf('Theme', module)
             <Button>Themed Button!</Button>
         </ThemeProvider>
     ))
-    .add('Sibling ThemeProviders', () => (
+    .add('Sibling themes', () => (
         <Fragment>
             <ThemeProvider theme={lightTheme}>
                 <Button>Light Theme</Button>
@@ -77,7 +77,7 @@ storiesOf('Theme', module)
             </ThemeProvider>
         </Fragment>
     ))
-    .add('Nested ThemeProviders', () => (
+    .add('Nested themes', () => (
         <ThemeProvider theme={lightTheme}>
             <Button>Light Theme</Button>
             <ThemeProvider theme={darkTheme}>
