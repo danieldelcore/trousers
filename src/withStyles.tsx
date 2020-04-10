@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import { useStyles, StyleCollector } from './';
+import { StyleCollector } from './types';
+import useStyles from './useStyles';
 
 export interface WithStylesProps {
     className?: string;

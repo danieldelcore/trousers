@@ -1,6 +1,7 @@
 import React, { FC, ComponentType } from 'react';
 
-import { useGlobals, StyleCollector } from './';
+import { StyleCollector } from './types';
+import useGlobals from './useGlobals';
 
 const withGlobal = <Props, Theme>(
     Component: ComponentType<Props>,

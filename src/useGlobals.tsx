@@ -4,7 +4,8 @@ import { StyleCollector } from './types';
 import { GLOBAL_STYLE_ID, STYLE_ID } from './constants';
 import { interpolateStyles, isBrowser } from './common';
 import { Registry, ServerRegistry } from './registry';
-import { ThemeContext, ThemeCtx, ServerContext, ServerCtx } from './';
+import { ThemeContext, ThemeCtx } from './ThemeContext';
+import { ServerContext, ServerCtx } from './ServerContext';
 
 function registerGlobals<Theme>(
     styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],

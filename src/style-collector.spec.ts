@@ -1,4 +1,4 @@
-import styleCollector from './style-collector';
+import { styleCollector } from './';
 
 describe('styleCollector', () => {
     it('returns the correct element name', () => {

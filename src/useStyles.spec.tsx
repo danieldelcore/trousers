@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import { css, ThemeProvider, styleCollector } from './';
-import useStyles from './useStyles';
+import { css, ThemeProvider, styleCollector, useStyles } from './';
 
 interface Props {
     isRed?: boolean;
