@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { styleCollector, useStyles } from '../src';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
 
 storiesOf('Performance', module).add('Many of the same nodes', () => {
     interface ButtonProps {

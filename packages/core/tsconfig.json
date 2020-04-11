@@ -1,0 +1,17 @@
+{
+    "include": ["src"],
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "src",
+        "baseUrl": "src"
+    },
+    "references": [
+        { "path": "../hash" },
+        { "path": "../collector" },
+        { "path": "../server" },
+        { "path": "../theme" },
+        { "path": "../registry" },
+        { "path": "../utils" }
+    ]
+}

@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { jsx, css, styleCollector } from '../src';
+import { jsx, css } from '@trousers/core';
+import styleCollector from '@trousers/collector';
 import { storiesOf } from '@storybook/react';
 import { FC, Fragment, ReactNode } from 'react';
 

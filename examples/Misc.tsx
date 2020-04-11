@@ -2,7 +2,9 @@ import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, useState, MouseEventHandler } from 'react';
 import { useStableRefTester, RenderCount } from 'react-stable-ref';
 
-import { css, styleCollector, useStyles, ThemeProvider } from '../src';
+import { css, useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
+import { ThemeProvider } from '@trousers/theme';
 
 storiesOf('Miscellaneous', module)
     .add('State transitions', () => {

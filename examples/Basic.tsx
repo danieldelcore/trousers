@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, ReactNode, useState } from 'react';
 
-import { styleCollector, useStyles } from '../src';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
 
 storiesOf('Basic', module)
     .add('Elements and modifiers', () => {

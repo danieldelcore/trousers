@@ -1,7 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { ThemeProvider, useStyles, styleCollector } from '../src';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
+import { ThemeProvider } from '@trousers/theme';
 
 interface Theme {
     backgroundColor: string;
