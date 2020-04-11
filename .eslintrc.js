@@ -21,6 +21,7 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'warn',
         'react/prop-types': 'off',
         'react/display-name': 'off',
+        '@typescript-eslint/no-namespace': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',

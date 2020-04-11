@@ -4,4 +4,5 @@ export {
     StyleDefinition,
     Predicate,
     Expression,
+    CSSProps,
 } from './types';

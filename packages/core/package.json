@@ -7,13 +7,13 @@
     "license": "MIT",
     "dependencies": {
         "@trousers/hash": "1.0.0",
+        "@trousers/parser": "1.0.0",
         "@trousers/registry": "1.0.0",
         "@trousers/server": "1.0.0",
         "@trousers/theme": "1.0.0",
         "@trousers/utils": "1.0.0"
     },
     "devDependencies": {
-        "@trousers/collector": "*",
         "react": "^16.8.1"
     },
     "peerDependencies": {

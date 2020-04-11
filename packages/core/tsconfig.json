@@ -8,10 +8,10 @@
     },
     "references": [
         { "path": "../hash" },
-        { "path": "../collector" },
+        { "path": "../parser" },
+        { "path": "../registry" },
         { "path": "../server" },
         { "path": "../theme" },
-        { "path": "../registry" },
         { "path": "../utils" }
     ]
 }

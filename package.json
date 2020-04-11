@@ -8,7 +8,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "yarn dev",
+        "start": "yarn build && yarn dev",
         "dev": "start-storybook -p 9000 -s ./assets",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
         "validate": "yarn build && yarn lint && yarn monorepo:check",
@@ -17,7 +17,6 @@
         "monorepo:fix": "manypkg fix",
         "predeploy-storybook": "build-storybook -s assets",
         "deploy-storybook": "storybook-to-ghpages",
-        "prebuild": "yarn clean",
         "build": "tsc --build",
         "test": "jest",
         "test:watch": "jest --watch",
@@ -43,7 +42,6 @@
         "@types/jsdom": "^12.2.3",
         "@types/react": "^16.8.1",
         "@types/react-dom": "^16.8.2",
-        "@types/storybook__react": "^4.0.0",
         "@typescript-eslint/eslint-plugin": "^1.4.2",
         "@typescript-eslint/parser": "^1.4.2",
         "babel-loader": "^8.0.6",
@@ -64,6 +62,6 @@
         "storybook-addon-performance": "^0.7.0",
         "ts-jest": "^25.3.1",
         "ts-loader": "^6.2.1",
-        "typescript": "^3.7.3"
+        "typescript": "^3.8.1"
     }
 }

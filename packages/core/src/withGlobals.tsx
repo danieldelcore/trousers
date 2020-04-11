@@ -1,11 +1,15 @@
 import React, { FC, ComponentType } from 'react';
 
-import { StyleCollector } from '@trousers/utils';
+import { CSSProps, StyleCollector } from '@trousers/utils';
 import useGlobals from './useGlobals';
 
 const withGlobal = <Props, Theme>(
     Component: ComponentType<Props>,
-    styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],
+    styleCollectors:
+        | StyleCollector<Theme>
+        | StyleCollector<Theme>[]
+        | CSSProps
+        | CSSProps[],
 ) => {
     const WrappedComponent: FC<Props> = props => {
         useGlobals<Theme>(styleCollectors);

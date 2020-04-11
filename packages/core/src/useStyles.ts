@@ -1,11 +1,17 @@
 import { useContext, useLayoutEffect, useMemo } from 'react';
-
-import { STYLE_ID, StyleDefinition, StyleCollector } from '@trousers/utils';
+import {
+    STYLE_ID,
+    StyleDefinition,
+    StyleCollector,
+    CSSProps,
+} from '@trousers/utils';
 import { useTheme, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
 import { registry, Registry } from '@trousers/registry';
+import { parseObject, stringToTemplate } from '@trousers/parser';
 
 import { interpolateStyles, isBrowser } from './common';
+import css from './css';
 
 function getComponentId<Theme>(
     styleDefinition: StyleDefinition<Theme>,
@@ -36,15 +42,13 @@ function registerStyle<Theme>(
 }
 
 export default function useStyles<Theme = {}>(
-    styleCollector: StyleCollector<Theme>,
+    collector: StyleCollector<Theme> | CSSProps,
 ) {
     const themeCtx = useTheme();
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
-
-    const styleDefinitions = useMemo(
-        () => styleCollector.get().filter(({ predicate }) => !!predicate),
-        [styleCollector],
-    );
+    const styleCollector = !(collector as StyleCollector<Theme>).get
+        ? css(stringToTemplate(parseObject(collector as CSSProps)))
+        : (collector as StyleCollector<Theme>);
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -55,6 +59,11 @@ export default function useStyles<Theme = {}>(
     if (!isBrowser() && !!serverStyleRegistry) {
         registerStyle(serverStyleRegistry, styleCollector.get()[0], themeCtx);
     }
+
+    const styleDefinitions = useMemo(
+        () => styleCollector.get().filter(({ predicate }) => !!predicate),
+        [styleCollector],
+    );
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];

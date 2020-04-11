@@ -1,25 +1,24 @@
 import { createElement, hasOwnProperty, ElementType, ReactNode } from 'react';
 
-import { StyleCollector } from '@trousers/utils';
+import { StyleCollector, CSSProps } from '@trousers/utils';
 import useStyles from './useStyles';
 
+declare module 'react' {
+    interface DOMAttributes<T> {
+        css?: StyleCollector<any> | CSSProps;
+    }
+}
+
 declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace JSX {
         interface IntrinsicAttributes {
-            css?: StyleCollector<any>;
+            css?: StyleCollector<any> | CSSProps;
         }
     }
 }
 
-declare module 'react' {
-    interface DOMAttributes<T> {
-        css?: StyleCollector<any>;
-    }
-}
-
 const jsx = <
-    Props extends { css: StyleCollector<Theme> },
+    Props extends { css: StyleCollector<Theme> | CSSProps },
     Theme extends {} = {}
 >(
     type: ElementType<Omit<Props, 'css'>>,
@@ -39,3 +38,4 @@ const jsx = <
 };
 
 export default jsx;
+export { CSSProps };

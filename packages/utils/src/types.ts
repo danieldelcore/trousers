@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export type Predicate = boolean | undefined | null;
 export type Expression<Theme> =
     | string
@@ -18,3 +20,5 @@ export interface StyleDefinition<Theme> extends TaggedTemplate<Theme> {
 export interface StyleCollector<Theme = {}> {
     get: () => StyleDefinition<Theme>[];
 }
+
+export type CSSProps = CSSProperties | { [key: string]: CSSProperties };

@@ -1,2 +1,5 @@
-const stringToTemplate = (str: string) => eval(str);
+const stringToTemplate = (str: string) => {
+    return ([str] as unknown) as TemplateStringsArray;
+};
+
 export default stringToTemplate;

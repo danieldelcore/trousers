@@ -1,22 +1,37 @@
 import { useContext, useLayoutEffect } from 'react';
 
-import { StyleCollector, GLOBAL_STYLE_ID, STYLE_ID } from '@trousers/utils';
+import {
+    StyleCollector,
+    GLOBAL_STYLE_ID,
+    STYLE_ID,
+    CSSProps,
+} from '@trousers/utils';
 import { registry, Registry } from '@trousers/registry';
 import { ThemeContext, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
+import { parseObject, stringToTemplate } from '@trousers/parser';
 
 import { interpolateStyles, isBrowser } from './common';
+import css from './css';
 
 function registerGlobals<Theme>(
-    styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],
+    styleCollectors:
+        | StyleCollector<Theme>
+        | StyleCollector<Theme>[]
+        | CSSProps
+        | CSSProps[],
     theme: Theme,
     registry: Registry,
 ) {
     const collectors =
         styleCollectors instanceof Array ? styleCollectors : [styleCollectors];
 
-    collectors.forEach(styleCollector => {
-        const styleDefinition = styleCollector.get()[0];
+    collectors.forEach(collector => {
+        const parsedCollector = !(collector as StyleCollector<Theme>).get
+            ? css(stringToTemplate(parseObject(collector)))
+            : (collector as StyleCollector<Theme>);
+
+        const styleDefinition = parsedCollector.get()[0];
         const styles = interpolateStyles(
             styleDefinition.styles,
             styleDefinition.expressions,
@@ -28,7 +43,11 @@ function registerGlobals<Theme>(
 }
 
 export default function useGlobals<Theme>(
-    styleCollectors: StyleCollector<Theme> | StyleCollector<Theme>[],
+    styleCollectors:
+        | StyleCollector<Theme>
+        | StyleCollector<Theme>[]
+        | CSSProps
+        | CSSProps[],
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
