@@ -1,6 +1,6 @@
 import React, { createContext, FC, ReactNode } from 'react';
 
-import { generateHash } from '@trousers/hash';
+import { toHash } from '@trousers/hash';
 
 export interface ThemeCtx {
     hash: number;
@@ -21,7 +21,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
     const key = JSON.stringify(theme);
-    const hash = generateHash(key);
+    const hash = toHash(key);
     const value = React.useMemo(
         () => ({
             hash,

@@ -1,15 +1,15 @@
-import generateHash from './hash-generator';
+import toHash from './hash';
 
 describe('hach-generator', () => {
     it('generates a consistent hash', () => {
-        const first = generateHash('Hello, world!');
-        const second = generateHash('Hello, world!');
+        const first = toHash('Hello, world!');
+        const second = toHash('Hello, world!');
 
         expect(first).toEqual(second);
     });
 
     it('handles css', () => {
-        const hash = generateHash(`
+        const hash = toHash(`
             .yomama {
                 width: 99999999px;
             }
@@ -19,7 +19,7 @@ describe('hach-generator', () => {
     });
 
     it('handles long css', () => {
-        const hash = generateHash(`
+        const hash = toHash(`
             background-color: #b3cde8;
             border-radius: 6px;
             border: none;

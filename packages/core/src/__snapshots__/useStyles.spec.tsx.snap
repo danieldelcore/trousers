@@ -169,10 +169,10 @@ exports[`useStyles attaches styles with named modifiers to the head 2`] = `
 exports[`useStyles attaches themed single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__42468333793516409327"
+    data-trousers=".css__12650447753516409327"
     type="text/css"
   >
-    .css__42468333793516409327{background-color:Atomic Tangerine;}
+    .css__12650447753516409327{background-color:Atomic Tangerine;}
 
   </style>
 </head>
@@ -181,10 +181,10 @@ exports[`useStyles attaches themed single style to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__38783974113106931827"
+    data-trousers=".foo__12257674633106931827"
     type="text/css"
   >
-    .foo__38783974113106931827{background-color:purple;}
+    .foo__12257674633106931827{background-color:purple;}
 
   </style>
 </head>
@@ -193,12 +193,12 @@ exports[`useStyles attaches themed styles to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__38783974113106931827 .foo--38783974113106931827"
+    data-trousers=".foo__12257674633106931827 .foo--12257674633106931827"
     type="text/css"
   >
-    .foo__38783974113106931827{background-color:purple;}
+    .foo__12257674633106931827{background-color:purple;}
 
-    .foo--38783974113106931827{background-color:purple;}
+    .foo--12257674633106931827{background-color:purple;}
 
   </style>
 </head>

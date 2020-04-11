@@ -1,1 +1,1 @@
-export { default as generateHash } from './hash-generator';
+export { default as toHash } from './hash';

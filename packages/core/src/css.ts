@@ -1,11 +1,5 @@
-import { generateHash } from '@trousers/hash';
+import { toHash } from '@trousers/hash';
 import { Expression, StyleCollector } from '@trousers/utils';
-
-function getHash(styles: TemplateStringsArray) {
-    const key = styles.reduce((accum, style) => `${accum}${style}`, '');
-
-    return generateHash(key).toString();
-}
 
 const css = <Theme = {}>(
     styles: TemplateStringsArray,
@@ -15,7 +9,7 @@ const css = <Theme = {}>(
         {
             styles,
             expressions,
-            hash: getHash(styles),
+            hash: toHash(styles.toString()).toString(),
             predicate: true,
             name: 'css__',
         },

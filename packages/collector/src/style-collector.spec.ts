@@ -72,4 +72,15 @@ describe('styleCollector', () => {
         expect(styleDefinitions[1].hash).toEqual('2064733655');
         expect(styleDefinitions[2].hash).toEqual('2172502402');
     });
+
+    it('duplicate styles generate the same hash', () => {
+        const collector = styleCollector('firstblock').element`
+                font-style: normal;
+            `;
+        const collector2 = styleCollector('firstblock').element`
+                font-style: normal;
+            `;
+
+        expect(collector.get()[0].hash).toEqual(collector2.get()[0].hash);
+    });
 });

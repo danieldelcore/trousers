@@ -85,7 +85,7 @@ const registry = (
                 styleElement.sheet.insertRule(
                     styles,
                     // @ts-ignore
-                    styleElement.sheet.cssRules.length,
+                    isGlobal ? 0 : styleElement.sheet.cssRules.length,
                 );
             });
 
