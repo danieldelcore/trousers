@@ -1,0 +1,19 @@
+{
+    "name": "@trousers/theme-css",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "license": "MIT",
+    "dependencies": {
+        "@trousers/hash": "1.0.0",
+        "@trousers/theme": "1.0.0"
+    },
+    "devDependencies": {
+        "react": "^16.8.1"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    },
+    "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/theme-css"
+}

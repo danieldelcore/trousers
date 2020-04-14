@@ -20,11 +20,9 @@ export const ThemeContext = createContext<ThemeCtx>({
 export const ThemeConsumer = ThemeContext.Consumer;
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
-    const key = JSON.stringify(theme);
-    const hash = toHash(key);
-    const value = React.useMemo(
+    const hash = toHash(JSON.stringify(theme));
+    const { theme: cachedTheme } = React.useMemo(
         () => ({
-            hash,
             theme,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,6 +30,8 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
     );
 
     return (
-        <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+        <ThemeContext.Provider value={{ theme: cachedTheme, hash }}>
+            {children}
+        </ThemeContext.Provider>
     );
 };
