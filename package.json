@@ -8,8 +8,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "yarn build && yarn dev",
-        "dev": "start-storybook -p 9000 -s ./assets",
+        "start": "yarn build && nodemon --exec \"start-storybook -p 9000\" --watch packages/*/src -e tsx",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
         "validate": "yarn build && yarn lint && yarn monorepo:check",
         "postinstall": "yarn monorepo:check",
@@ -54,6 +53,7 @@
         "jest-serializer-html-string": "^1.0.1",
         "jest-watch-typeahead": "^0.4.2",
         "jsdom": "^14.0.0",
+        "nodemon": "^2.0.3",
         "prettier": "^1.16.4",
         "react": "^16.8.1",
         "react-dom": "^16.8.4",
