@@ -17,8 +17,7 @@ const withGlobal = <Props, Theme>(
         return <Component {...props} />;
     };
 
-    WrappedComponent.displayName =
-        Component.displayName || Component.name || 'Component';
+    WrappedComponent.displayName = Component.displayName || Component.name;
 
     return WrappedComponent;
 };

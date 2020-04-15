@@ -6,5 +6,5 @@
         "rootDir": "src",
         "baseUrl": "src"
     },
-    "references": []
+    "references": [{ "path": "../parser" }]
 }

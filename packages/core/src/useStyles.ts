@@ -47,7 +47,7 @@ export default function useStyles<Theme = {}>(
     const themeCtx = useTheme();
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
     const styleCollector = !(collector as StyleCollector<Theme>).get
-        ? css(parseObject(collector as CSSProps))
+        ? css([parseObject(collector as CSSProps)])
         : (collector as StyleCollector<Theme>);
 
     if (!isBrowser() && !serverStyleRegistry) {

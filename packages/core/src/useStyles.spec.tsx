@@ -336,4 +336,76 @@ describe('useStyles', () => {
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });
+
+    it('attaches object style to the head', () => {
+        const StyledComponent = () => {
+            const classNames = useStyles({
+                backgroundColor: 'blue',
+            });
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('attaches object style with pseudo states to the head', () => {
+        const StyledComponent = () => {
+            const classNames = useStyles({
+                backgroundColor: 'blue',
+                ':hover': {
+                    backgroundColor: 'brown',
+                },
+            });
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('attaches object style with media queries to the head', () => {
+        const StyledComponent = () => {
+            const classNames = useStyles({
+                backgroundColor: 'blue',
+                '@media (min-width: 768px)': {
+                    backgroundColor: '#deecff',
+                },
+            });
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('attaches object style with keyframe animations to the head', () => {
+        const StyledComponent = () => {
+            const classNames = useStyles({
+                //@ts-ignore
+                backgroundColor: 'blue',
+                '@keyframes rotating': {
+                    //@ts-ignore
+                    from: {
+                        transform: 'rotate(0deg)',
+                    },
+                    to: {
+                        transform: 'rotate(360deg)',
+                    },
+                },
+            });
+
+            return <span className={classNames}>Ahoy!</span>;
+        };
+
+        render(<StyledComponent />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
 });

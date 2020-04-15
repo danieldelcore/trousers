@@ -174,6 +174,18 @@ describe('Server side rendering (SSR)', () => {
         expect(console.warn).not.toHaveBeenCalled();
     });
 
+    it('throws if ServerProvider was not used with globals', () => {
+        const App: FC = () => {
+            useGlobals(globalStyles);
+
+            return <p>Hello world</p>;
+        };
+
+        expect(() => renderToString(<App />)).toThrowError(
+            'Server style registry is required for SSR, did you forget to use <ServerProvider/>?',
+        );
+    });
+
     it('throws if ServerProvider was not used', () => {
         const App: FC = () => (
             <ThemeProvider theme={theme}>

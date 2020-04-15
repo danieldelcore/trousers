@@ -1,4 +1,5 @@
 import stylis from 'stylis';
+import { splitRules } from '@trousers/parser';
 
 export interface Registry {
     register: (id: string, styles: string, isGlobal?: boolean) => void;
@@ -10,26 +11,6 @@ interface RegistryOptions {
     forceNewNode: boolean;
     appendBefore?: string;
 }
-
-const parse = (str: string) =>
-    str
-        .split('}')
-        .filter(str => str !== '')
-        .reduce<string[]>((accum, str, i) => {
-            if (i > 0) {
-                const prev = accum.length - 1;
-                const openCount = (accum[prev].match(/{/g) || []).length;
-                const closeCount = (accum[prev].match(/}/g) || []).length;
-
-                if (openCount > closeCount) {
-                    accum[prev] = accum[prev] + str + '}';
-                    return accum;
-                }
-            }
-
-            accum.push(str + '}');
-            return accum;
-        }, []);
 
 const createStyleElement = (attributeId: string) => {
     const element = document.createElement<'style'>('style');
@@ -80,7 +61,7 @@ const registry = (
         const processedStyles = stylis(selector, styles);
 
         if (process.env.NODE_ENV === 'production') {
-            parse(processedStyles).forEach(styles => {
+            splitRules(processedStyles).forEach(styles => {
                 // @ts-ignore
                 styleElement.sheet.insertRule(
                     styles,

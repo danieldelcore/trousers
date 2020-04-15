@@ -19,6 +19,7 @@
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
+        "downlevelIteration": true,
         "paths": {
             "@trousers/*": ["packages/*/src"],
             "@emotion/core": ["typings/emotion.d.ts"]

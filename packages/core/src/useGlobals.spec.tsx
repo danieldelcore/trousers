@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import { StyleCollector } from '@trousers/utils';
+import { StyleCollector, CSSProps } from '@trousers/utils';
 import { ThemeProvider } from '@trousers/theme';
 import styleCollector from '@trousers/collector';
 
@@ -12,7 +12,11 @@ interface Theme {
 }
 
 interface FixtureProps {
-    styles: StyleCollector<Theme> | StyleCollector<Theme>[];
+    styles:
+        | StyleCollector<Theme>
+        | StyleCollector<Theme>[]
+        | CSSProps
+        | CSSProps[];
 }
 
 describe('useGlobals', () => {
@@ -183,9 +187,9 @@ describe('useGlobals', () => {
 
     it('clears altered styles', () => {
         const additionalStyles = css`
-            * {
-                background-color: blue;
-            }
+            '*': {
+                backgroundColor: 'blue',
+            },
         `;
 
         const { rerender, unmount } = render(
@@ -199,5 +203,38 @@ describe('useGlobals', () => {
         unmount();
 
         expect(document.querySelectorAll('style').length).toEqual(0);
+    });
+
+    it('mounts object styles', () => {
+        const objectStyles = {
+            '*': {
+                backgroundColor: 'blue',
+            },
+        };
+
+        render(<GloballyStyledComponent styles={objectStyles} />);
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('mounts an array of object styles', () => {
+        render(
+            <GloballyStyledComponent
+                styles={[
+                    {
+                        '*': {
+                            backgroundColor: 'blue',
+                        },
+                    },
+                    {
+                        a: {
+                            color: 'brown',
+                        },
+                    },
+                ]}
+            />,
+        );
+
+        expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
     });
 });

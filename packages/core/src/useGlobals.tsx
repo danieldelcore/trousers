@@ -28,7 +28,7 @@ function registerGlobals<Theme>(
 
     collectors.forEach(collector => {
         const parsedCollector = !(collector as StyleCollector<Theme>).get
-            ? css(parseObject(collector))
+            ? css([parseObject(collector)])
             : (collector as StyleCollector<Theme>);
 
         const styleDefinition = parsedCollector.get()[0];

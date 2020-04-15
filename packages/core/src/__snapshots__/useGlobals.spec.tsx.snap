@@ -95,6 +95,32 @@ exports[`useGlobals attaches themed styles to the head 1`] = `
 </head>
 `;
 
+exports[`useGlobals mounts an array of object styles 1`] = `
+<head>
+  <style
+    data-trousers-global="966792741 4216978995"
+    type="text/css"
+  >
+    *{background-color:blue;}
+
+    a{color:brown;}
+
+  </style>
+</head>
+`;
+
+exports[`useGlobals mounts object styles 1`] = `
+<head>
+  <style
+    data-trousers-global="966792741"
+    type="text/css"
+  >
+    *{background-color:blue;}
+
+  </style>
+</head>
+`;
+
 exports[`useGlobals styles are not duplicated on rerender 1`] = `
 <head>
   <style

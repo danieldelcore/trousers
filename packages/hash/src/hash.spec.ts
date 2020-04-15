@@ -1,6 +1,6 @@
 import toHash from './hash';
 
-describe('hach-generator', () => {
+describe('toHash', () => {
     it('generates a consistent hash', () => {
         const first = toHash('Hello, world!');
         const second = toHash('Hello, world!');
