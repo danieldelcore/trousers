@@ -9,7 +9,7 @@ import {
 import { registry, Registry } from '@trousers/registry';
 import { ThemeContext, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
-import { parseObject, stringToTemplate } from '@trousers/parser';
+import { parseObject } from '@trousers/parser';
 
 import { interpolateStyles, isBrowser } from './common';
 import css from './css';
@@ -28,7 +28,7 @@ function registerGlobals<Theme>(
 
     collectors.forEach(collector => {
         const parsedCollector = !(collector as StyleCollector<Theme>).get
-            ? css(stringToTemplate(parseObject(collector)))
+            ? css(parseObject(collector))
             : (collector as StyleCollector<Theme>);
 
         const styleDefinition = parsedCollector.get()[0];

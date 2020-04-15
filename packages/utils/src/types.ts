@@ -7,7 +7,7 @@ export type Expression<Theme> =
     | ((theme: Theme) => string | number);
 
 export interface TaggedTemplate<Theme> {
-    styles: TemplateStringsArray;
+    styles: TemplateStringsArray | string;
     expressions: Expression<Theme>[];
 }
 

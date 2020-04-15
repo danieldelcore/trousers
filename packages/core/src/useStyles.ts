@@ -8,7 +8,7 @@ import {
 import { useTheme, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
 import { registry, Registry } from '@trousers/registry';
-import { parseObject, stringToTemplate } from '@trousers/parser';
+import { parseObject } from '@trousers/parser';
 
 import { interpolateStyles, isBrowser } from './common';
 import css from './css';
@@ -47,7 +47,7 @@ export default function useStyles<Theme = {}>(
     const themeCtx = useTheme();
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
     const styleCollector = !(collector as StyleCollector<Theme>).get
-        ? css(stringToTemplate(parseObject(collector as CSSProps)))
+        ? css(parseObject(collector as CSSProps))
         : (collector as StyleCollector<Theme>);
 
     if (!isBrowser() && !serverStyleRegistry) {

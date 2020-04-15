@@ -1,5 +1,5 @@
 const interpolateStyles = <Theme>(
-    styles: TemplateStringsArray,
+    styles: TemplateStringsArray | string,
     expressions: any[],
     theme: Theme,
 ) =>
