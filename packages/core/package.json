@@ -1,17 +1,17 @@
 {
     "name": "@trousers/core",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/hash": "1.0.0",
-        "@trousers/parser": "1.0.0",
-        "@trousers/registry": "1.0.0",
-        "@trousers/server": "1.0.0",
-        "@trousers/theme": "1.0.0",
-        "@trousers/utils": "1.0.0"
+        "@trousers/hash": "0.1.0",
+        "@trousers/parser": "0.1.0",
+        "@trousers/registry": "0.1.0",
+        "@trousers/server": "0.1.0",
+        "@trousers/theme": "0.1.0",
+        "@trousers/utils": "0.1.0"
     },
     "devDependencies": {
         "react": "^16.8.1"
