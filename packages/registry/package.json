@@ -6,8 +6,8 @@
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "stylis": "^3.5.4",
-        "@trousers/parser": "^1.0.0"
+        "@trousers/parser": "^1.0.0",
+        "stylis": "^3.5.4"
     },
     "devDependencies": {},
     "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/registry"

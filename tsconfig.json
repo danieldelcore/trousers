@@ -21,6 +21,7 @@
         "sourceMap": true,
         "downlevelIteration": true,
         "paths": {
+            "trousers": ["packages/trousers/src"],
             "@trousers/*": ["packages/*/src"],
             "@emotion/core": ["typings/emotion.d.ts"]
         }
@@ -43,6 +44,7 @@
         { "path": "packages/server" },
         { "path": "packages/theme" },
         { "path": "packages/theme-css" },
+        { "path": "packages/trousers" },
         { "path": "packages/utils" }
     ]
 }

@@ -8,12 +8,17 @@ import { renderToString } from 'react-dom/server';
 import { hydrate } from 'react-dom';
 import { JSDOM } from 'jsdom';
 
-import styleCollector from '@trousers/collector';
-import { ServerProvider, serverRegistry } from '@trousers/server';
-import { ThemeProvider } from '@trousers/theme';
-import { StyleCollector } from '@trousers/utils';
-
-import { jsx, useStyles, useGlobals, css } from './';
+import {
+    styleCollector,
+    ServerProvider,
+    serverRegistry,
+    ThemeProvider,
+    StyleCollector,
+    jsx,
+    useStyles,
+    useGlobals,
+    css,
+} from './';
 
 interface ButtonProps {
     children: ReactNode;
