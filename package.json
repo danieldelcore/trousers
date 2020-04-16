@@ -22,10 +22,8 @@
         "test:coverage": "jest --coverage",
         "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./examples",
         "lint:fix": "yarn lint -- --fix",
-        "preversion": "yarn lint && yarn typecheck && yarn test",
-        "version": "yarn build",
-        "postversion": "git push && git push --tags",
-        "postpublish": "yarn deploy-storybook"
+        "prerelease": "yarn lint && yarn monorepo:check && yarn test",
+        "release": "yarn build && yarn changeset publish"
     },
     "dependencies": {
         "@babel/core": "^7.7.5",
