@@ -16,7 +16,7 @@ const createStyleElement = (attributeId: string) => {
     const element = document.createElement<'style'>('style');
     element.setAttribute(attributeId, '');
     element.setAttribute('type', 'text/css');
-    element.appendChild(document.createTextNode(""));
+    element.appendChild(document.createTextNode(''));
 
     return element;
 };
