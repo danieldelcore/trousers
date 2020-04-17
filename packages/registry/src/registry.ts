@@ -17,7 +17,6 @@ const createStyleElement = (attributeId: string) => {
     element.setAttribute(attributeId, '');
     element.setAttribute('type', 'text/css');
     element.appendChild(document.createTextNode(''));
-
     return element;
 };
 
@@ -27,6 +26,22 @@ const getStyleElement = (targetElement: HTMLElement, attributeId: string) => {
     );
 
     return !!element ? element : createStyleElement(attributeId);
+};
+
+const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
+    if (tag.sheet) {
+        // @ts-ignore
+        return tag.sheet;
+    }
+
+    for (let i = 0; i < document.styleSheets.length; i++) {
+        if (document.styleSheets[i].ownerNode === tag) {
+            // @ts-ignore
+            return document.styleSheets[i];
+        }
+    }
+
+    throw 'Unable to get StyleSheet';
 };
 
 const registry = (
@@ -63,16 +78,22 @@ const registry = (
         const processedStyles = stylis(selector, styles);
 
         if (process.env.NODE_ENV === 'production') {
-            splitRules(processedStyles).forEach(styles => {
-                // @ts-ignore
-                styleElement.sheet.insertRule(
-                    styles,
-                    // @ts-ignore
-                    isGlobal ? 0 : styleElement.sheet.cssRules.length,
+            try {
+                const sheet = getSheet(styleElement);
+                splitRules(processedStyles).forEach(styles =>
+                    sheet.insertRule(
+                        styles,
+                        isGlobal ? 0 : sheet.cssRules.length,
+                    ),
                 );
-            });
 
-            return;
+                return;
+            } catch (error) {
+                console.warn(
+                    `Trousers: unable to insert rule: ${styles}`,
+                    error,
+                );
+            }
         }
 
         const styleNode = document.createTextNode(`${processedStyles}\n`);
