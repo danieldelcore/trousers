@@ -6,6 +6,7 @@ exports[`useGlobals attaches an array of styles to the head 1`] = `
     data-trousers-global="3964264859 935387663"
     type="text/css"
   >
+    
     *{box-sizing:border-box;}
 
     *{background-color:blue;}
@@ -20,6 +21,7 @@ exports[`useGlobals attaches an array of themed styles to the head 1`] = `
     data-trousers-global="3964264859 839332687"
     type="text/css"
   >
+    
     *{box-sizing:border-box;}
 
     *{background-color:red;}
@@ -34,6 +36,7 @@ exports[`useGlobals attaches styles to the head 1`] = `
     data-trousers-global="3964264859"
     type="text/css"
   >
+    
     *{box-sizing:border-box;}
 
   </style>
@@ -46,6 +49,7 @@ exports[`useGlobals attaches themed styles to the head 1`] = `
     data-trousers-global="839332687"
     type="text/css"
   >
+    
     *{background-color:red;}
 
   </style>
@@ -58,6 +62,7 @@ exports[`useGlobals styles are not duplicated on rerender 1`] = `
     data-trousers-global="3964264859"
     type="text/css"
   >
+    
     *{box-sizing:border-box;}
 
   </style>

@@ -6,6 +6,7 @@ exports[`useStyles attaches new styles when a new style collector is supplied 1`
     data-trousers=".foo__3889083325 .foo--491189580"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--491189580{background-color:red;}
@@ -20,6 +21,7 @@ exports[`useStyles attaches new styles when a new style collector is supplied 2`
     data-trousers=".foo__3889083325 .foo--491189580 .foo__3016956831 .foo--3826246206"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--491189580{background-color:red;}
@@ -38,6 +40,7 @@ exports[`useStyles attaches object style to the head 1`] = `
     data-trousers=".css__2304954679"
     type="text/css"
   >
+    
     .css__2304954679{background-color:blue;}
 
   </style>
@@ -50,6 +53,7 @@ exports[`useStyles attaches object style with keyframe animations to the head 1`
     data-trousers=".css__4070925666"
     type="text/css"
   >
+    
     .css__4070925666{background-color:blue;}@-webkit-keyframes rotating-css__4070925666{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}@keyframes rotating-css__4070925666{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}
 
   </style>
@@ -62,6 +66,7 @@ exports[`useStyles attaches object style with media queries to the head 1`] = `
     data-trousers=".css__278897963"
     type="text/css"
   >
+    
     .css__278897963{background-color:blue;}@media (min-width:768px){.css__278897963{background-color:#deecff;}}
 
   </style>
@@ -74,6 +79,7 @@ exports[`useStyles attaches object style with pseudo states to the head 1`] = `
     data-trousers=".css__3748122140"
     type="text/css"
   >
+    
     .css__3748122140{background-color:blue;}.css__3748122140:hover{background-color:brown;}
 
   </style>
@@ -86,6 +92,7 @@ exports[`useStyles attaches single style to the head 1`] = `
     data-trousers=".css__293439549"
     type="text/css"
   >
+    
     .css__293439549{background-color:blue;}
 
   </style>
@@ -98,6 +105,7 @@ exports[`useStyles attaches styles to the head 1`] = `
     data-trousers=".foo__3889083325"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
   </style>
@@ -110,6 +118,7 @@ exports[`useStyles attaches styles with modifiers to the head 1`] = `
     data-trousers=".foo__3889083325"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
   </style>
@@ -122,6 +131,7 @@ exports[`useStyles attaches styles with modifiers to the head 2`] = `
     data-trousers=".foo__3889083325 .foo--491189580"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--491189580{background-color:red;}
@@ -136,6 +146,7 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 1`]
     data-trousers=".foo__3889083325"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
   </style>
@@ -148,6 +159,7 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 2`]
     data-trousers=".foo__3889083325 .foo--primary491189580"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--primary491189580{background-color:red;}
@@ -162,6 +174,7 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 3`]
     data-trousers=".foo__3889083325 .foo--primary491189580 .foo--secondary112991879"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--primary491189580{background-color:red;}
@@ -178,6 +191,7 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 4`]
     data-trousers=".foo__3889083325 .foo--primary491189580 .foo--secondary112991879"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--primary491189580{background-color:red;}
@@ -194,6 +208,7 @@ exports[`useStyles attaches styles with named modifiers to the head 1`] = `
     data-trousers=".foo__3889083325"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
   </style>
@@ -206,6 +221,7 @@ exports[`useStyles attaches styles with named modifiers to the head 2`] = `
     data-trousers=".foo__3889083325 .foo--primary491189580"
     type="text/css"
   >
+    
     .foo__3889083325{background-color:blue;}
 
     .foo--primary491189580{background-color:red;}
@@ -220,6 +236,7 @@ exports[`useStyles attaches themed single style to the head 1`] = `
     data-trousers=".css__12650447753516409327"
     type="text/css"
   >
+    
     .css__12650447753516409327{background-color:Atomic Tangerine;}
 
   </style>
@@ -232,6 +249,7 @@ exports[`useStyles attaches themed styles to the head 1`] = `
     data-trousers=".foo__12257674633106931827"
     type="text/css"
   >
+    
     .foo__12257674633106931827{background-color:purple;}
 
   </style>
@@ -244,6 +262,7 @@ exports[`useStyles attaches themed styles to the head 2`] = `
     data-trousers=".foo__12257674633106931827 .foo--12257674633106931827"
     type="text/css"
   >
+    
     .foo__12257674633106931827{background-color:purple;}
 
     .foo--12257674633106931827{background-color:purple;}
