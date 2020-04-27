@@ -1,8 +1,21 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@1.0.1/schema.json",
-  "changelog": "@changesets/cli/changelog",
-  "commit": false,
-  "linked": [],
-  "access": "restricted",
-  "baseBranch": "master"
+    "$schema": "https://unpkg.com/@changesets/config@1.0.1/schema.json",
+    "changelog": "@changesets/cli/changelog",
+    "commit": false,
+    "linked": [
+        [
+            "@trousers/collector",
+            "@trousers/core",
+            "@trousers/hash",
+            "@trousers/parser",
+            "@trousers/registry",
+            "@trousers/server",
+            "@trousers/theme-css",
+            "@trousers/theme",
+            "@trousers/utils",
+            "trousers"
+        ]
+    ],
+    "access": "public",
+    "baseBranch": "master"
 }
