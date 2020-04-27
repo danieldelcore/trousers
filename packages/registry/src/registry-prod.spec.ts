@@ -16,7 +16,7 @@ describe('Registry (Prod mode)', () => {
         process.env.NODE_ENV = 'test';
     });
 
-    it.todo('registers a new style', () => {
+    it.skip('registers a new style', () => {
         const key = '1';
         const style = 'background-color:red;';
 
@@ -25,14 +25,14 @@ describe('Registry (Prod mode)', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('registers multiple styles', () => {
+    it.skip('registers multiple styles', () => {
         clientRegistry.register('1', 'background-color:red;');
         clientRegistry.register('2', 'background-color:blue;');
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('registers a global style', () => {
+    it.skip('registers a global style', () => {
         const key = '1';
         const style = 'background-color:red;';
 
@@ -41,14 +41,14 @@ describe('Registry (Prod mode)', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('registers a global, with preexisting style tag', () => {
+    it.skip('registers a global, with preexisting style tag', () => {
         clientRegistry.register('1', 'background-color:red;');
         clientRegistry.register('2', 'background-color:blue;', true);
 
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('registering an existing key does not update the style', () => {
+    it.skip('registering an existing key does not update the style', () => {
         const key = '1';
         const style = 'background-color:red;';
         const styleBlue = 'background-color:blue;';
@@ -59,7 +59,7 @@ describe('Registry (Prod mode)', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('detects an existing style', () => {
+    it.skip('detects an existing style', () => {
         const key = '1';
         const style = 'background-color:red;';
 
@@ -68,11 +68,11 @@ describe('Registry (Prod mode)', () => {
         expect(clientRegistry.has('1')).toBe(true);
     });
 
-    it.todo('detects a non existing style', () => {
+    it.skip('detects a non existing style', () => {
         expect(clientRegistry.has('123')).toBe(false);
     });
 
-    it.todo('registries can mount their own style tags', () => {
+    it.skip('registries can mount their own style tags', () => {
         const secondaryRegistry = registry(element, 'data-testing-secondary', {
             forceNewNode: true,
         });
@@ -83,7 +83,7 @@ describe('Registry (Prod mode)', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo('registries can hoist style tags to the top', () => {
+    it.skip('registries can hoist style tags to the top', () => {
         const secondaryRegistry = registry(element, 'data-testing-secondary', {
             forceNewNode: true,
             appendBefore: attributeId,
@@ -95,25 +95,18 @@ describe('Registry (Prod mode)', () => {
         expect(element.innerHTML).toMatchSnapshot();
     });
 
-    it.todo(
-        'registries will append style node if append before selector returns null',
-        () => {
-            const secondaryRegistry = registry(
-                element,
-                'data-testing-secondary',
-                {
-                    forceNewNode: true,
-                    appendBefore: 'data-unknown-element',
-                },
-            );
+    it.skip('registries will append style node if append before selector returns null', () => {
+        const secondaryRegistry = registry(element, 'data-testing-secondary', {
+            forceNewNode: true,
+            appendBefore: 'data-unknown-element',
+        });
 
-            secondaryRegistry.register('1', 'background-color:blue;');
+        secondaryRegistry.register('1', 'background-color:blue;');
 
-            expect(element.innerHTML).toMatchSnapshot();
-        },
-    );
+        expect(element.innerHTML).toMatchSnapshot();
+    });
 
-    it.todo('clears multiple mounted style tags', () => {
+    it.skip('clears multiple mounted style tags', () => {
         const secondaryRegistry = registry(element, 'data-testing-secondary', {
             forceNewNode: true,
         });
