@@ -3,19 +3,7 @@ import { createElement, hasOwnProperty, ElementType, ReactNode } from 'react';
 import { StyleCollector, CSSProps } from '@trousers/utils';
 import useStyles from './useStyles';
 
-declare module 'react' {
-    interface DOMAttributes<T> {
-        css?: StyleCollector<any> | CSSProps;
-    }
-}
-
-declare global {
-    namespace JSX {
-        interface IntrinsicAttributes {
-            css?: StyleCollector<any> | CSSProps;
-        }
-    }
-}
+import './types';
 
 const jsx = <
     Props extends { css: StyleCollector<Theme> | CSSProps },
