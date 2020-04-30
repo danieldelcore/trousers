@@ -6,11 +6,11 @@
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/collector": "0.1.0",
-        "@trousers/core": "0.1.0",
-        "@trousers/server": "0.1.0",
-        "@trousers/theme": "0.1.0",
-        "@trousers/utils": "0.1.0"
+        "@trousers/collector": "2.1.1",
+        "@trousers/core": "2.1.1",
+        "@trousers/server": "2.1.1",
+        "@trousers/theme": "2.1.1",
+        "@trousers/utils": "2.1.1"
     },
     "devDependencies": {
         "react": "^16.8.1"

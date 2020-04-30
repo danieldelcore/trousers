@@ -35,3 +35,4 @@ Including:
 -   Adds [storybook-addon-performance](https://github.com/atlassian-labs/storybook-addon-performance)
 -   Adds [react-stable-ref](https://github.com/danieldelcore/react-stable-ref) to test for re-renders
 -   Adds [atlassian/changesets](https://github.com/atlassian/changesets)
+-   Adds [manypkg](https://github.com/Thinkmill/manypkg)
