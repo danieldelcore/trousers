@@ -1,6 +1,6 @@
 {
     "name": "@trousers/hash",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
