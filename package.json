@@ -8,7 +8,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "yarn build && nodemon --exec \"start-storybook -p 9000\" --watch packages/*/src -e tsx",
+        "start": "yarn build && nodemon --exec \"start-storybook -p 9000 -s assets\" --watch packages/*/src -e tsx",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
         "validate": "yarn build && yarn lint && yarn monorepo:check",
         "postinstall": "yarn monorepo:check",
