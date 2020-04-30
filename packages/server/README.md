@@ -8,10 +8,10 @@ SSR with Trousers follows a similar approach to [styled-components](https://www.
 import React, { FC, ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import { serverRegistry, ServerProvider } from 'trousers';
 import App from './';
 
-const registry = new ServerStyleRegistry();
+const registry = serverRegistry();
 
 const html = renderToString(
     <ServerProvider registry={registry}>
@@ -25,16 +25,16 @@ const styleTags = registry.get();
 
 ## API
 
-### `ServerStyleRegistry`
+### `serverRegistry`
 
 A style registry **for use on the server**
 
 **Example:**
 
 ```jsx
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import { serverRegistry, ServerProvider } from 'trousers';
 
-const registry = new ServerStyleRegistry();
+const registry = serverRegistry();
 const styleTags = registry.get();
 ```
 
@@ -44,7 +44,7 @@ A context provider which tells Trousers to push styles into the supplied registr
 
 **Props:**
 
--   `registry`: SeverStyleRegistry()
+-   `registry`: serverRegistry
 -   `children`: ReactChildren
 
 **Example:**
@@ -53,10 +53,10 @@ A context provider which tells Trousers to push styles into the supplied registr
 import React, { FC, ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import { serverRegistry, ServerProvider } from 'trousers';
 import App from './';
 
-const registry = new ServerStyleRegistry();
+const registry = serverRegistry();
 
 const html = renderToString(
     <ServerProvider registry={registry}>

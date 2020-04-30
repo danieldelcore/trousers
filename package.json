@@ -22,6 +22,7 @@
         "test:coverage": "jest --coverage",
         "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./examples",
         "lint:fix": "yarn lint -- --fix",
+        "docs:update": "markdown-toc -i ./README.md --maxdepth 3",
         "prerelease": "yarn lint && yarn monorepo:check && yarn test",
         "release": "yarn build && yarn changeset publish"
     },
@@ -51,6 +52,7 @@
         "jest-serializer-html-string": "^1.0.1",
         "jest-watch-typeahead": "^0.4.2",
         "jsdom": "^14.0.0",
+        "markdown-toc": "^1.2.0",
         "nodemon": "^2.0.3",
         "prettier": "^1.16.4",
         "react": "^16.8.1",
