@@ -22,21 +22,21 @@ Trousers is a [hooks-first](https://reactjs.org/docs/hooks-overview.html) CSS-in
 
 <!-- toc -->
 
--   [Get started ⚡️](#get-started-%E2%9A%A1%EF%B8%8F)
--   [Motivation 🧠](#motivation-%F0%9F%A7%A0)
--   [Features ✨](#features-%E2%9C%A8)
-    -   [Hooks-first 🎣](#hooks-first-%F0%9F%8E%A3)
-    -   [Composable API 🏗](#composable-api-%F0%9F%8F%97)
-    -   [CSS Prop 👩‍🎤](#css-prop-%F0%9F%91%A9%E2%80%8D%F0%9F%8E%A4)
-    -   [Theme Support 🎨](#theme-support-%F0%9F%8E%A8)
-    -   [Global styles 🌏](#global-styles-%F0%9F%8C%8F)
-    -   [Server side rendering (SSR) 🤖](#server-side-rendering-ssr-%F0%9F%A4%96)
-    -   [Object notation support 📚](#object-notation-support-%F0%9F%93%9A)
-    -   [Custom Style Collectors 🕺](#custom-style-collectors-%F0%9F%95%BA)
--   [API Reference 📖](#api-reference-%F0%9F%93%96)
--   [FAQ 🤷‍♀️](#faq-%F0%9F%A4%B7%E2%80%8D%E2%99%80%EF%B8%8F)
--   [Backers](#backers)
--   [Contributors](#contributors)
+- [Get started ⚡️](#get-started-%E2%9A%A1%EF%B8%8F)
+- [Motivation 🧠](#motivation-%F0%9F%A7%A0)
+- [Features ✨](#features-%E2%9C%A8)
+  * [Hooks-first 🎣](#hooks-first-%F0%9F%8E%A3)
+  * [Composable API 🏗](#composable-api-%F0%9F%8F%97)
+  * [CSS Prop 👩‍🎤](#css-prop-%F0%9F%91%A9%E2%80%8D%F0%9F%8E%A4)
+  * [Theme Support 🎨](#theme-support-%F0%9F%8E%A8)
+  * [Global styles 🌏](#global-styles-%F0%9F%8C%8F)
+  * [Server side rendering (SSR) 🤖](#server-side-rendering-ssr-%F0%9F%A4%96)
+  * [Object notation support 📚](#object-notation-support-%F0%9F%93%9A)
+  * [Custom Style Collectors 🕺](#custom-style-collectors-%F0%9F%95%BA)
+- [API Reference 📖](#api-reference-%F0%9F%93%96)
+- [FAQ 🤷‍♀️](#faq-%F0%9F%A4%B7%E2%80%8D%E2%99%80%EF%B8%8F)
+- [Backers](#backers)
+- [Contributors](#contributors)
 
 <!-- tocstop -->
 
