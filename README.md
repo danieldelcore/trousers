@@ -18,7 +18,29 @@ Trousers is a [hooks-first](https://reactjs.org/docs/hooks-overview.html) CSS-in
   <img width="600" height="470" src="assets/trousers-demo-web.jpg" alt="Trousers, a little library for CSS-in-JS, without the mess">
 </p>
 
-## Get started 🏗
+## Table of Contents
+
+<!-- toc -->
+
+- [Get started ⚡️](#get-started-%E2%9A%A1%EF%B8%8F)
+- [Motivation 🧠](#motivation-%F0%9F%A7%A0)
+- [Features ✨](#features-%E2%9C%A8)
+  * [Hooks-first 🎣](#hooks-first-%F0%9F%8E%A3)
+  * [Composable API 🏗](#composable-api-%F0%9F%8F%97)
+  * [CSS Prop 👩‍🎤](#css-prop-%F0%9F%91%A9%E2%80%8D%F0%9F%8E%A4)
+  * [Theme Support 🎨](#theme-support-%F0%9F%8E%A8)
+  * [Global styles 🌏](#global-styles-%F0%9F%8C%8F)
+  * [Server side rendering (SSR) 🤖](#server-side-rendering-ssr-%F0%9F%A4%96)
+  * [Object notation support 📚](#object-notation-support-%F0%9F%93%9A)
+  * [Custom Style Collectors 🕺](#custom-style-collectors-%F0%9F%95%BA)
+- [API Reference 📖](#api-reference-%F0%9F%93%96)
+- [FAQ 🤷‍♀️](#faq-%F0%9F%A4%B7%E2%80%8D%E2%99%80%EF%B8%8F)
+- [Backers](#backers)
+- [Contributors](#contributors)
+
+<!-- tocstop -->
+
+## Get started ⚡️
 
 **Installation**
 
@@ -29,7 +51,7 @@ Trousers is a [hooks-first](https://reactjs.org/docs/hooks-overview.html) CSS-in
 A basic purple button:
 
 ```jsx
-import { css, useStyles } from 'trousers';
+import { css, useStyles } from '@trousers/core';
 
 const Button = props => {
     const className = useStyles(css`
@@ -50,9 +72,10 @@ A themed button with a _primary_ variant:
 `app/components/button.jsx`
 
 ```jsx
-import { styleCollector, useStyles } from 'trousers';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
 
-const styles = styleCollector('button').element`
+const styles = props => styleCollector('button').element`
         background-color: ${theme => theme.backgroundColor};
         border: none;
         color: ${theme => theme.textColor};
@@ -63,7 +86,7 @@ const styles = styleCollector('button').element`
             background-color: ${theme => theme.hoverColor};
             color: rgba(255, 255, 255, 0.8);
         }
-    `.modifier('primary', props => !!props.primary)`
+    `.modifier('primary', props.primary)`
         background-color: #f95b5b;
         color: #ffffff;
 
@@ -73,7 +96,7 @@ const styles = styleCollector('button').element`
     `;
 
 const Button = props => {
-    const buttonClassNames = useStyles(styles, props);
+    const buttonClassNames = useStyles(styles(props));
 
     return <button className={buttonClassNames}>{props.children}</button>;
 };
@@ -84,7 +107,7 @@ export default Button;
 `app/MyApp.jsx`
 
 ```jsx
-import { ThemeProvider } from 'trousers';
+import { ThemeProvider } from '@trousers/theme';
 
 import Button from './components/button';
 
@@ -140,7 +163,7 @@ const Button = styled.button`
 }
 ```
 
-Now that's more like it! This can be extended and scales to many variations and states. 
+Now that's more like it! This can be extended and scales to many variations and states.
 
 I think [@MadeByMike](https://github.com/MadeByMike) articulated this perfectly in: [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/) 👌
 
@@ -153,11 +176,10 @@ Using our style collector you can express these variants and states like so:
 ```jsx
 import { styleCollector, useStyles } from 'trousers';
 
-const styles = styleCollector('button')
-    .element` 
+const styles = styleCollector('button').element`
         // Base styles applied to all buttons
         color: white;
-    `.modifier('primary', props => !!props.primary)`  
+    `.modifier('primary', props => !!props.primary)`
         // A modifier for the primary variant
         color: black;
     `.modifier('secondary', props => !!props.secondary)`
@@ -173,16 +195,15 @@ const Button = props => {
 };
 
 export default Button;
-
 ```
 
-In this scenario, Trousers will only ever mount 3 classes to the `<head>` and toggle them on and off using the predicates provided to the style collector. It will only ever mount what it needs so, if a `subtle` button is never used you wont pay the run-time cost of processing and mounting those styles. 
+In this scenario, Trousers will only ever mount 3 classes to the `<head>` and toggle them on and off using the predicates provided to the style collector. It will only ever mount what it needs so, if a `subtle` button is never used you wont pay the run-time cost of processing and mounting those styles.
 
 Under the hood, style collectors are simply an array of styles. This opens the door to a lot of possibilites because it is possible to **create your own style collectors** that suit your specific needs. What if you want a state machine style collector? Or a style collector that accepts objects instead of template literals? You can simply define one and pass it straight into Trouses 😲!
 
 ## Features ✨
 
-### Hooks-first API
+### Hooks-first 🎣
 
 [Hooks are a (relatively) hot new feature in React](https://reactjs.org/docs/hooks-intro.html), which allows Trousers to access context and state while abstracting the messy details away from the consumer.
 Our `useStyles` hook accepts a name, some props and an instance of `styleCollector()`. It will then evaluate everything for you and return a human-readable class name, which you can then apply to your desired element.
@@ -190,24 +211,60 @@ For example, here we define a style for the button and inner span and apply the 
 
 ```jsx
 const Button = props => {
-    const buttonClassNames = useStyles(buttonStyles, props);
-    const spanClassNames = useStyles(spanStyles, props);
+    const buttonClassNames = useStyles(buttonStyles(props));
 
-    return (
-        <button className={buttonClassNames}>
-            <span className={spanClassNames}>{props.children}</span>
-        </button>
-    );
+    return <button className={buttonClassNames}>{props.children}</button>;
 };
 ```
 
-### Theme Support
+### Composable API 🏗
+
+Trousers is based on a monorepo architecture, meaning that the internals of the repo have been decomposed into a group of smaller stand-alone packages. This allows you to opt-in to features such as SSR, Theming and BEM-style collectors. Doing this will reduce your bundlesizes and tailor (lol) trousers to suit your application.
+
+-   [@trousers/core](./packages/core): The most minimal version of Trousers
+-   [@trousers/collector](./packages/collector): BEM Style collector
+-   [@trousers/server](./packages/server): Tools for SSR
+-   [@trousers/theme](./packages/theme): Theming API
+-   [@trousers/theme-css](./packages/theme-css): Theming implemeneted as CSS variables
+-   [@trousers/hash](./packages/hash): Simple hashing methods
+-   [@trousers/registry](./packages/registry): Style registry
+-   [@trousers/util](./packages/util): Types and utility methods
+
+Otherwise you can use the base Trousers package which is an out-of-the-box composition for the above.
+
+-   [trousers](./packages/trousers)
+
+### CSS Prop 👩‍🎤
+
+Trousers supports a `css` prop, similar to that of [emotion](https://emotion.sh/docs/css-prop) and [styled-components](https://styled-components.com/docs/api#css-prop)! This is handy when you want to skip the boilerplate of declaring `useStyles` hooks in your components and instead just pass style collectors directly to the components you wish to style.
+
+Just remember to import `jsx` and set it as the pragma at the top of the file.
+
+For example...
+
+```jsx
+/** @jsx jsx */
+import { jsx, css } from '@trousers/core';
+
+const Button = ({ children }) => (
+    <button
+        css={css`
+            background-color: #b3cde8;
+            color: white;
+        `}
+    >
+        {children}
+    </button>
+);
+```
+
+### Theme Support 🎨
 
 Theming is achieved via React's Context API, which provides a lot of flexibility. You can even choose to nest themes and present a section of your app in a different way.
 It looks a little something like this:
 
 ```jsx
-import { ThemeProvider } from 'trousers';
+import { ThemeProvider } from '@trousers/theme';
 
 const lightTheme = {
     primaryColor: 'white',
@@ -239,18 +296,18 @@ When a Trousers component is mounted within a new theme context, it will render 
 You can define how your component handles themes like this:
 
 ```jsx
-const buttonStyles = styleCollector('button').element`
+const buttonStyles = props => styleCollector('button').element`
         background-color: ${theme => theme.secondaryColor};
-    `.modifier(props => props.primary)`
+    `.modifier(props.primary)`
         background-color: ${theme => theme.primaryColor};
-    `.modifier(props => props.disabled)`
+    `.modifier(props.disabled)`
         background-color: ${theme => theme.disabledColor};
     `;
 ```
 
 Now your component will render different styles based on the context it is mounted in.
 
-### Global styles
+### Global styles 🌏
 
 Every app needs _some_ form of global styling in order to import fonts or reset native styling, for example using [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) would be quite challenging to use without access to globals.
 
@@ -258,7 +315,7 @@ Turns out that there's a hook for that, `useGlobals`:
 
 ```jsx
 import React, { useEffect } from 'react';
-import { css, useGlobals } from 'trousers';
+import { css, useGlobals } from '@trousers/core';
 
 const globalStyles = css`
   @font-face {
@@ -274,7 +331,7 @@ const App = () => {
 };
 ```
 
-### Server side rendering (SSR)
+### Server side rendering (SSR) 🤖
 
 Server side rendering with Trousers follows a similar approach to [styled-components](https://www.styled-components.com/docs/advanced#server-side-rendering). It works by firstly instantiating a `serverStyleRegistry`, wrapping your application in a `ServerProvider`, then passing that registry into the provider as a prop. Then when you render your application to a string with `react-dom/server`, Trousers will push styles into the style registry. You can then pull the styles from the registry and manually append them to the head of your document.
 
@@ -282,7 +339,7 @@ Server side rendering with Trousers follows a similar approach to [styled-compon
 import React, { FC, ReactNode } from 'react';
 import { renderToString } from 'react-dom/server';
 
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
+import { ServerStyleRegistry, ServerProvider } from '@trousers/server';
 import App from './';
 
 const registry = new ServerStyleRegistry();
@@ -297,360 +354,86 @@ const html = renderToString(
 const styleTags = registry.get();
 ```
 
-## API 🤖
+### Object notation support 📚
 
-### `styleCollector()`
+If template strings aren't for you it's easy to leverage css as objects.
 
-The `styleCollector()` function is designed to collect style definitions and provide some portability. If you deside to define CSS in another file, you can do and re-import it into your component.
-
-> NOTE! styleCollector return methods will always return `this`, which means the calls can be chained repeatedly.
-
-**Arugments:**
-
--   `componentName`: String
-
-**Returns:**
-
--   `styleCollector().element`
--   `styleCollector().modifier(predicate)`
--   `styleCollector().get()`
-
-### `styleCollector().element`
-
-A function which accepts a [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates).
-
-You should treat element blocks like you would with [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
-
--   The element name describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
--   The structure of an element's full name is block-name**element-name. The element name is separated from the block name with a double underscore (**).
--   The block name defines the namespace, which guarantees that the elements are dependent on the block (block\_\_elem)
--   A block can have a nested structure of elements in the DOM tree
-
-**Arugments:**
-
--   `taggedTemplate`: TaggedTemplate
-
-**Example:**
+Simply pass a css compliant object to Trousers.
 
 ```jsx
-import { styleCollector } from 'trousers';
-
-const styles = styleCollector('button').element`
-        background-color: red;
-    `;
+const classNames = useStyles({
+    backgroundColor: 'blue';
+    color: 'white'
+})
 ```
 
-### `styleCollector().modifier(modifierName, predicate)`
+### Custom Style Collectors 🕺
 
-A function that accepts a predicate function or boolean and returns a new function which accepts a tagged template. The tagged template will only be rendered if the predicate returns a truthy value.
+Don't like the style collector API? That's fine, Trousers lets you supply your own!
+Under the hood a style collector is simply an array of objects which makes it easy to say, build a state-machine style collector.
 
-> Note: Modifiers are dependant on order. Be sure to organise the order of your modifiers with the understanding that the bottom most modifier will potentially be overriding the style rules defined in the modifiers and elements declared before it.
-
-Modifiers follow the same methodology as [Modifiers in BEM](https://en.bem.info/methodology/quick-start/#modifier).
-
--   Defines the appearance, state, or behavior of a block or element
--   A modifier can't be used alone, a modifier can't be used in isolation from the modified block or element. A modifier should change the appearance, behavior, or state of the entity, not replace it
--   You can have one or multiple modifiers active at any time
--   The modifier name describes its appearance ("What size?" or "Which theme?" and so on — size_s or theme_islands), its state ("How is it different from the others?" — disabled, focused, etc.) and its behavior ("How does it behave?" or "How does it respond to the user?" — such as directions_left-top)
-
-**Arguments:**
-
--   `modifierName`: (optional) string
--   `predicate`: boolean | Function(props, state) => boolean
-
-**Returns:**
-
--   `Function(TaggedTemplate)`
-
-**Example:**
+For example a minimal style collector could look something like this:
 
 ```jsx
-import { styleCollector } from 'trousers';
+import { StyleDefinition, Predicate, Expression } from '@trousers/utils';
+import { toHash } from '@trousers/hash';
 
-const styles = styleCollector('button').element``.modifier(props => {
-    return props.primary;
-})`
-        background-color: yellow;
-    `.modifier('active', (props, state) => {
-    return state.isActive;
-})`
-        background-color: purple;
-    `.modifier('disabled', props => {
-    return props.isDisabled;
-})`
-        background-color: grey;
-    `;
-```
-
-### `styleCollector().get()`
-
-Outputs the collected `styleDefinitions`. StyleDefintions is an array of objects that trousers passes around internally.
-
-**StyleDefinition:**
-
-```
-{
-    styles: TemplateStringsArray;
-    expressions: number | string | Function(props) => number | string;
-    predicate?: Predicate<Props>;
+export default function myStyleCollector(styles) {
+    return {
+        get: () => [
+            {
+                styles,
+                hash: toHash(styles.toString()).toString(),
+                predicate: true,
+                name: 'custom_prefix--',
+            },
+        ],
+    };
 }
 ```
 
-**Returns:**
-
--   `styleDefinitions`: StyleDefinition[];
-
-**Example:**
+and use it like this:
 
 ```jsx
-import { styleCollector } from 'trousers';
+import myStyleCollector from './my-style-collector';
 
-const styles = styleCollector('button')
-    .element``
-    .modifier(...)``;
+const styles = myStyleCollector(`
+ button {
+     color: red;
+ }
+`)
 
-styles.get();
+...
+
+useStyle(styles);
 ```
 
-### `useStyles()`
-
-React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
-
-**Arguments:**
-
--   `styleCollector`: StyleCollector
--   `props`?: Object
--   `state`?: Object
-
-**Returns:**
-
--   `className`: string
-
-**Example:**
-
-```jsx
-import React from 'react';
-import { styleCollector, useStyles } from 'trousers';
-
-const styles = styleCollector('button')
-    .element``
-    .modifier(...)``;
-
-const Button = props => {
-    const classNames = useStyles(styles, props);
-
-    return (
-        <button className={classNames}>
-            Submit
-        </button>
-    );
-};
-```
-
-### `withStyles`
-
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
-
-Use this HOC in your class components, where hooks (and useStyles) are not available.
-
-> Note: Remember to apply the supplied className prop to an element in your components render funciton or your styling wont be applied to your element!
-
-**Arguments:**
-
--   `Component`: React Component
--   `styleCollector`: StyleCollector
-
-**Example:**
-
-```jsx
-import React from 'react';
-import { styleCollector, withStyles } from 'trousers';
-
-const styles = styleCollector('button')
-    .element``
-    .modifier(true)``;
-
-class Button {
-    render() {
-        return (
-            // IMPORTANT: apply the className yourself
-            <button className={this.props.className}>
-                Submit
-            </button>
-        )
-    }
-);
-
-export default withStyles(Button, styles);
-```
-
-### `<ThemeProvider />`
-
-Responsible for pushing the supplied theme into React's Context API.
-
-**Props:**
-
--   `theme`: Object
-
-**Example:**
-
-```jsx
-import React from 'react';
-import { ThemeProvider } from 'trousers';
-
-const theme = {
-    primaryColor: 'red',
-    secondaryColor: 'blue',
-};
-
-const App = () => (
-    <ThemeProvider theme={theme}>
-        {* Every child node will have access to the theme *}
-    </ThemeProvider>
-);
-```
-
-### `css`
-
-Single style defintion
-
-**Arugments:**
-
--   `taggedTemplate`: TaggedTemplate
-
-**Example:**
-
-```jsx
-import { css } from 'trousers';
-
-const styles = css`
-    background-color: red;
-`;
-```
-
-### `useGlobals()`
-
-Mount a single style definition as a global style
-
-**Arguments:**
-
--   `styleCollector`: SingleStyleCollector | SingleStyleCollector[]
-
-**Returns**
-
--   void
-
-**Example:**
-
-```jsx
-import React, { useEffect } from 'react';
-import { css, useGlobals } from 'trousers';
-
-const globalStyles = css`
-  @font-face {
-    font-family: MyFont;
-    src: url('${MyFont}') format('opentype');
-  }
-`;
-
-const App = () => {
-    useGlobals(globalStyles);
-
-    return <h1>Welcome to my website!</h1>;
-};
-```
-
-`useGlobals` also accepts an array of styles...
-
-```jsx
-import React, { useEffect } from 'react';
-import { css, useGlobals } from 'trousers';
-
-const globalStyles = css`...`;
-const moreGlobalStyles = css`...`;
-
-const App = () => {
-    useGlobals([globalStyles, moreGlobalStyles]);
-
-    return <h1>Welcome to my website!</h1>;
-};
-```
-
-### `withGlobals`
-
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a single style collector. Returns a new component, with the supplied global styles rendered to the document head.
-
-Use this HOC in your class components, where hooks (and useGlobals) are not available.
-
-**Arguments:**
-
--   `Component`: React Component
--   `css`: SingleStyleCollector
-
-**Example:**
-
-```jsx
-import React from 'react';
-import { css, withGlobals } from 'trousers';
-
-class Button {
-    render() {
-        return (
-            <button>
-                Submit
-            </button>
-        )
-    }
-);
-
-export default withGlobals(Button, css`
-    * {
-        box-sizing: border-box;
-    }
-`);
-```
-
-### `ServerStyleRegistry`
-
-A style registry **for use on the server**
-
-**Example:**
-
-```jsx
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
-
-const registry = new ServerStyleRegistry();
-const styleTags = registry.get();
-```
-
-### `ServerProvider`
-
-A context provider which tells Trousers to push styles into the supplied registry, rather than `document.head`. **For use on the server.**
-
-**Props:**
-
--   `registry`: SeverStyleRegistry()
--   `children`: ReactChildren
-
-**Example:**
-
-```jsx
-import React, { FC, ReactNode } from 'react';
-import { renderToString } from 'react-dom/server';
-
-import { ServerStyleRegistry, ServerProvider } from 'trousers';
-import App from './';
-
-const registry = new ServerStyleRegistry();
-
-const html = renderToString(
-    <ServerProvider registry={registry}>
-        <App />
-    </ServerProvider>,
-);
-
-const styleTags = registry.get();
-```
+## API Reference 📖
+
+Trousers a monorepo made up smaller packages, each with their own responsibilities.
+Please see respective packages for API information.
+
+-   [@trousers/core](./packages/core): The most minimal version of Trousers
+    -   [useStyles](./packages/core/README.md#useStyles)
+    -   [useGlobals](./packages/core/README.md#useGlobals)
+    -   [withGlobals](./packages/core/README.md#withGlobals)
+    -   [css](./packages/core/README.md#css)
+    -   [jsx](./packages/core/README.md#jsx)
+-   [@trousers/collector](./packages/collector): BEM Style collector
+    -   [styleCollector](./packages/core/README.md#style-collector)
+-   [@trousers/server](./packages/server): Tools for SSR
+    -   [serverRegistry](./packages/server/README.md#serverRegistry)
+-   [@trousers/theme](./packages/theme): Theming API
+    -   [ThemeProvider](./packages/theme/README.md#ThemeProvider)
+    -   [useTheme](./packages/theme/README.md#useTheme)
+-   [@trousers/theme-css](./packages/theme-css): Theming implemeneted as CSS variables
+    -   [ThemeProvider](./packages/theme/README.md#ThemeProvider)
+    -   [useTheme](./packages/theme/README.md#useTheme)
+-   [@trousers/hash](./packages/hash): Simple hashing methods
+    -   [hash](./packages/hash/README.md#hash)
+-   [@trousers/registry](./packages/registry): Style registry
+    -   [registry](./packages/hash/README.md#registry)
+-   [@trousers/util](./packages/util): Types and utility methods
 
 ## FAQ 🤷‍♀️
 
@@ -671,46 +454,7 @@ Thanks goes to all our backers! [[Become a backer](https://opencollective.com/tr
     <img src="https://opencollective.com/trousers/backers.svg?width=950" />
 </a>
 
-## Resources
-
--   [CSS Architecture for Modern JavaScript Applications](https://www.madebymike.com.au/writing/css-architecture-for-modern-web-applications/)
--   [CSS Evolution](https://medium.com/@perezpriego7/css-evolution-from-css-sass-bem-css-modules-to-styled-components-d4c1da3a659b)
--   [BEM](https://en.bem.info/)
--   [BEM - Block Element Modifier](http://getbem.com/introduction/)
--   [How styled-components works](https://medium.com/styled-components/how-styled-components-works-618a69970421)
--   [Tagged Templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_templates)
--   [Creating a TypeScript library with minimal setup](https://michalzalecki.com/creating-typescript-library-with-a-minimal-setup/)
-
-## Tools
-
--   [Stylis – a light weight css preprocessor ](https://github.com/thysultan/stylis.js)
-
 ## Contributors
-
-### Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/danieldelcore/trousers/graphs/contributors"><img src="https://opencollective.com/trousers/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/trousers/contribute)]
-
-#### Individuals
-
-<a href="https://opencollective.com/trousers"><img src="https://opencollective.com/trousers/individuals.svg?width=890"></a>
-
-#### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/trousers/contribute)]
-
-<a href="https://opencollective.com/trousers/organization/0/website"><img src="https://opencollective.com/trousers/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/1/website"><img src="https://opencollective.com/trousers/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/2/website"><img src="https://opencollective.com/trousers/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/3/website"><img src="https://opencollective.com/trousers/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/4/website"><img src="https://opencollective.com/trousers/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/5/website"><img src="https://opencollective.com/trousers/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/6/website"><img src="https://opencollective.com/trousers/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/7/website"><img src="https://opencollective.com/trousers/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/8/website"><img src="https://opencollective.com/trousers/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/trousers/organization/9/website"><img src="https://opencollective.com/trousers/organization/9/avatar.svg"></a>

@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { styleCollector, useStyles } from '../src';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
 
 storiesOf('Performance', module).add('Many of the same nodes', () => {
     interface ButtonProps {
@@ -36,7 +37,7 @@ storiesOf('Performance', module).add('Many of the same nodes', () => {
         `;
 
     const Button: FC<ButtonProps> = props => {
-        const buttonClassNames = useStyles(styles, props);
+        const buttonClassNames = useStyles(styles);
 
         return <button className={buttonClassNames}>{props.children}</button>;
     };

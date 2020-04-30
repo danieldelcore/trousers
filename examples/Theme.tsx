@@ -1,7 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC, ReactNode, Fragment } from 'react';
 
-import { ThemeProvider, useStyles, styleCollector } from '../src';
+import { useStyles } from '@trousers/core';
+import styleCollector from '@trousers/collector';
+import { ThemeProvider } from '@trousers/theme';
 
 interface Theme {
     backgroundColor: string;
@@ -28,7 +30,7 @@ interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
+const buttonStyles = styleCollector<Theme>('button').element`
         background-color: ${({ backgroundColor }) => backgroundColor};
         border-radius: 6px;
         border: none;
@@ -56,7 +58,7 @@ const buttonStyles = styleCollector<ButtonProps, {}, Theme>('button').element`
     `;
 
 const Button: FC<ButtonProps> = props => {
-    const classNames = useStyles(buttonStyles, props);
+    const classNames = useStyles(buttonStyles);
 
     return <button className={classNames}>{props.children}</button>;
 };
@@ -67,7 +69,7 @@ storiesOf('Theme', module)
             <Button>Themed Button!</Button>
         </ThemeProvider>
     ))
-    .add('Sibling ThemeProviders', () => (
+    .add('Sibling themes', () => (
         <Fragment>
             <ThemeProvider theme={lightTheme}>
                 <Button>Light Theme</Button>
@@ -77,7 +79,7 @@ storiesOf('Theme', module)
             </ThemeProvider>
         </Fragment>
     ))
-    .add('Nested ThemeProviders', () => (
+    .add('Nested themes', () => (
         <ThemeProvider theme={lightTheme}>
             <Button>Light Theme</Button>
             <ThemeProvider theme={darkTheme}>

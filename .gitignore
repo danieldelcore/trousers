@@ -1,5 +1,7 @@
 node_modules
 npm-debug.log
+yarn-error.log
+package-lock.json
 coverage
 lib
 dist
@@ -7,3 +9,4 @@ dist
 .DS_Store
 .vscode
 storybook-static
+tsconfig.tsbuildinfo

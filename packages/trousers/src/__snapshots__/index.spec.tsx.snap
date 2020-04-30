@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Server side rendering (SSR) stringify globals on server and hydrate on client 1`] = `<p>Hello world</p>`;
+
+exports[`Server side rendering (SSR) stringify globals on server and hydrate on client 2`] = `
+Array [
+  <style
+    data-trousers-global="1957078772"
+  >
+    *{background-color:red;}
+  </style>,
+  <style
+    data-trousers=""
+  >
+    
+  </style>,
+]
+`;
+
+exports[`Server side rendering (SSR) stringify styles on server and hydrate on client 1`] = `
+<button class="button__29298580703130397219">Hello, SSR!</button>
+<button class="button__29298580703130397219 button--11773678243130397219">Hello, Hydration!</button>
+`;
+
+exports[`Server side rendering (SSR) stringify styles on server and hydrate on client 2`] = `
+Array [
+  <style
+    data-trousers=".button__29298580703130397219"
+  >
+    .button__29298580703130397219{background-color:#b3cde8;color:white;}
+  </style>,
+]
+`;
+
+exports[`Server side rendering (SSR) stringify styles(css prop) on server and hydrate on client 1`] = `
+<button class="button__29298580703130397219">Hello, SSR!</button>
+<button class="button__29298580703130397219 button--11773678243130397219">Hello, Hydration!</button>
+`;
+
+exports[`Server side rendering (SSR) stringify styles(css prop) on server and hydrate on client 2`] = `
+Array [
+  <style
+    data-trousers=".button__29298580703130397219"
+  >
+    .button__29298580703130397219{background-color:#b3cde8;color:white;}
+  </style>,
+]
+`;

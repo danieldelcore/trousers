@@ -1,0 +1,12 @@
+{
+    "name": "@trousers/utils",
+    "version": "2.1.1",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {},
+    "peerDependencies": {},
+    "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/utils"
+}

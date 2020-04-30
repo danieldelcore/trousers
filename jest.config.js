@@ -6,9 +6,16 @@ module.exports = {
     testRegex: '^.+\\.spec\\.(ts|tsx|js|jsx)$',
     testPathIgnorePatterns: ['/node_modules/', 'lib'],
     snapshotSerializers: ['jest-serializer-html-string'],
-    setupFilesAfterEnv: ['@testing-library/react/cleanup-after-each'],
     watchPlugins: [
         'jest-watch-typeahead/filename',
         'jest-watch-typeahead/testname',
     ],
+    globals: {
+        'ts-jest': {
+            tsConfig: 'tsconfig.json',
+        },
+    },
+    moduleNameMapper: {
+        '@trousers/(.*)$': '<rootDir>/packages/$1/src',
+    },
 };

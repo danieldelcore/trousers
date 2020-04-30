@@ -1,13 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React, { FC } from 'react';
 
-import {
-    styleCollector,
-    css,
-    useStyles,
-    useGlobals,
-    ThemeProvider,
-} from '../src';
+import { css, useStyles, useGlobals } from '@trousers/core';
+import styleCollector from '@trousers/collector';
+import { ThemeProvider } from '@trousers/theme';
 
 storiesOf('Globals', module)
     .add('Global styles', () => {

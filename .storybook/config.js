@@ -1,9 +1,6 @@
-import { configure } from '@storybook/react';
+import { configure, addDecorator } from '@storybook/react';
+import { withPerformance } from 'storybook-addon-performance';
 
-const req = require.context('../examples', true, /\.tsx$/);
+addDecorator(withPerformance);
 
-const load = () => {
-    req.keys().forEach(req);
-};
-
-configure(load, module);
+configure(require.context('../examples', true, /\.tsx$/), module);

@@ -1,79 +1,67 @@
 {
-    "name": "trousers",
+    "name": "@trousers/repo",
     "version": "2.1.1",
-    "description": "Give React Components some style with Trousers!",
-    "main": "lib/index.js",
-    "author": "Daniel Del Core",
+    "private": true,
     "license": "MIT",
-    "typings": "lib/index.d.ts",
-    "files": [
-        "lib"
+    "repository": "https://github.com/danieldelcore/trousers",
+    "workspaces": [
+        "packages/*"
     ],
     "scripts": {
-        "start": "npm run dev",
-        "dev": "start-storybook -p 9000 -c .storybook -s ./assets",
+        "start": "yarn build && nodemon --exec \"start-storybook -p 9000 -s assets\" --watch packages/*/src -e tsx",
+        "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
+        "validate": "yarn build && yarn lint && yarn monorepo:check",
+        "postinstall": "yarn monorepo:check",
+        "monorepo:check": "manypkg check",
+        "monorepo:fix": "manypkg fix",
         "predeploy-storybook": "build-storybook -s assets",
         "deploy-storybook": "storybook-to-ghpages",
-        "build": "tsc",
-        "typecheck": "tsc --noEmit",
+        "build": "tsc --build",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
-        "lint": "eslint ./src/ ./examples/ --config .eslintrc.js --ext tsx,ts",
-        "lint:fix": "npm run lint -- --fix",
-        "preversion": "npm run lint && npm run typecheck && npm run test",
-        "version": "npm run build",
-        "postversion": "git push && git push --tags",
-        "postpublish": "npm run deploy-storybook"
-    },
-    "homepage": "https://github.com/danieldelcore/trousers#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/danieldelcore/trousers.git"
-    },
-    "keywords": [
-        "bem",
-        "css-in-js",
-        "react",
-        "hooks",
-        "hook",
-        "css"
-    ],
-    "bugs": {
-        "url": "https://github.com/danieldelcore/trousers/issues"
+        "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./examples",
+        "lint:fix": "yarn lint -- --fix",
+        "docs:update": "markdown-toc -i ./README.md --maxdepth 3",
+        "prerelease": "yarn lint && yarn monorepo:check && yarn test",
+        "release": "yarn build && yarn changeset publish"
     },
     "dependencies": {
-        "stylis": "^3.5.4"
-    },
-    "devDependencies": {
-        "@storybook/addon-storysource": "^5.0.0",
-        "@storybook/react": "^5.0.0",
+        "@babel/core": "^7.7.5",
+        "@changesets/cli": "^2.6.2",
+        "@manypkg/cli": "^0.11.1",
+        "@storybook/addon-storysource": "^5.2.8",
+        "@storybook/addons": "^5.2.8",
+        "@storybook/react": "^5.2.8",
+        "@storybook/source-loader": "^5.2.8",
         "@storybook/storybook-deployer": "^2.8.1",
-        "@testing-library/react": "^8.0.5",
-        "@types/jest": "^23.3.13",
+        "@testing-library/react": "^10.0.0",
+        "@types/jest": "^25.2.0",
         "@types/jsdom": "^12.2.3",
         "@types/react": "^16.8.1",
         "@types/react-dom": "^16.8.2",
-        "@types/storybook__react": "^4.0.0",
         "@typescript-eslint/eslint-plugin": "^1.4.2",
         "@typescript-eslint/parser": "^1.4.2",
-        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.0.6",
         "eslint": "^5.15.1",
         "eslint-config-prettier": "^4.1.0",
         "eslint-plugin-prettier": "^3.0.1",
         "eslint-plugin-react": "^7.12.4",
         "eslint-plugin-react-hooks": "^1.5.0",
-        "jest": "^24.0.0",
+        "jest": "^25.3.0",
         "jest-serializer-html-string": "^1.0.1",
         "jest-watch-typeahead": "^0.4.2",
         "jsdom": "^14.0.0",
+        "markdown-toc": "^1.2.0",
+        "nodemon": "^2.0.3",
         "prettier": "^1.16.4",
         "react": "^16.8.1",
         "react-dom": "^16.8.4",
-        "ts-jest": "^24.0.2",
-        "typescript": "^3.3.1"
-    },
-    "peerDependencies": {
-        "react": ">=16.8.0"
+        "react-stable-ref": "^0.4.0",
+        "rimraf": "^2.6.3",
+        "storybook-addon-performance": "^0.10.0",
+        "ts-jest": "^25.3.1",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.8.1"
     }
 }
