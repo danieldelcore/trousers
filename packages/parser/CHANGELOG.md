@@ -1,5 +1,11 @@
 # @trousers/parser
 
+## 3.0.1
+
+### Patch Changes
+
+-   c2853fb: Object styles containing mixed value types (string/number) will now be parsed correectly
+
 ## 3.0.0
 
 ### Major Changes

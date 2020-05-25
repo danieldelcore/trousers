@@ -1,15 +1,15 @@
 {
     "name": "@trousers/core",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
         "@trousers/hash": "3.0.0",
-        "@trousers/parser": "3.0.0",
-        "@trousers/registry": "3.0.0",
-        "@trousers/server": "3.0.0",
+        "@trousers/parser": "3.0.1",
+        "@trousers/registry": "3.0.1",
+        "@trousers/server": "3.0.1",
         "@trousers/theme": "3.0.0",
         "@trousers/utils": "3.0.0"
     },

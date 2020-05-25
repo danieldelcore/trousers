@@ -1,14 +1,14 @@
 {
     "name": "trousers",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
         "@trousers/collector": "3.0.0",
-        "@trousers/core": "3.0.0",
-        "@trousers/server": "3.0.0",
+        "@trousers/core": "3.0.1",
+        "@trousers/server": "3.0.1",
         "@trousers/theme": "3.0.0",
         "@trousers/utils": "3.0.0"
     },
