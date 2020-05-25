@@ -1,5 +1,12 @@
 # trousers
 
+## 3.0.1
+
+### Patch Changes
+
+-   @trousers/core@3.0.1
+-   @trousers/server@3.0.1
+
 ## 3.0.0
 
 ### Major Changes

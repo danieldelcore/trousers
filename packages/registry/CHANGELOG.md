@@ -1,5 +1,12 @@
 # @trousers/registry
 
+## 3.0.1
+
+### Patch Changes
+
+-   Updated dependencies [c2853fb]
+    -   @trousers/parser@3.0.1
+
 ## 3.0.0
 
 ### Major Changes
