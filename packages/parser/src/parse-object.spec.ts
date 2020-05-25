@@ -13,6 +13,15 @@ describe('parseObject', () => {
         );
     });
 
+    it('correctly converts a mixed-unit style object', () => {
+        const result = parseObject({
+            width: '2px',
+            height: 0,
+        });
+
+        expect(result).toEqual('width: 2px;\nheight: 0;');
+    });
+
     it('correctly converts style object with a nested selector', () => {
         const result = parseObject({
             ':hover': {

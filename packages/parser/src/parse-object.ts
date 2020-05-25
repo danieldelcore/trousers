@@ -11,7 +11,8 @@ const parseObject = (
 ): string =>
     Object.keys(styleObj)
         .map(property =>
-            typeof styleObj[property] === 'string'
+            typeof styleObj[property] === 'string' ||
+            typeof styleObj[property] === 'number'
                 ? `${parser(property)}: ${styleObj[property]};`
                 : `${parser(property)} {\n${parseObject(
                       styleObj[property],
