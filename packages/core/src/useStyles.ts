@@ -1,11 +1,7 @@
-import { useContext, useLayoutEffect, useMemo } from 'react';
-import {
-    STYLE_ID,
-    StyleDefinition,
-    StyleCollector,
-    CSSProps,
-} from '@trousers/utils';
-import { useTheme, ThemeCtx } from '@trousers/theme';
+import { useContext, useLayoutEffect } from 'react';
+import { STYLE_ID, StyleCollector, CSSProps } from '@trousers/utils';
+import { toHash } from '@trousers/hash';
+import { useTheme } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
 import { registry, Registry } from '@trousers/registry';
 import { parseObject } from '@trousers/parser';
@@ -13,32 +9,31 @@ import { parseObject } from '@trousers/parser';
 import { interpolateStyles, isBrowser } from './common';
 import css from './css';
 
-function getComponentId<Theme>(
-    styleDefinition: StyleDefinition<Theme>,
-    themeCtx: ThemeCtx,
-) {
-    return `${styleDefinition.name}${styleDefinition.hash}${themeCtx.hash ||
-        ''}`;
+interface ActiveDefinition {
+    componentId: string;
+    styles: string;
 }
 
-function registerStyle<Theme>(
-    registry: Registry,
-    styleDefinition: StyleDefinition<Theme>,
-    themeCtx: ThemeCtx,
+function getComponentId(
+    name: string,
+    stylesHash: string,
+    themeHash: string = '',
 ) {
-    const componentId = getComponentId(styleDefinition, themeCtx);
-    const className = `.${componentId}`;
+    return `${name}${stylesHash}${themeHash}`;
+}
+
+function registerStyle(registry: Registry, definition: ActiveDefinition) {
+    const className = `.${definition.componentId}`;
 
     if (registry.has(className)) return;
 
-    registry.register(
-        className,
-        interpolateStyles(
-            styleDefinition.styles,
-            styleDefinition.expressions,
-            themeCtx.theme,
-        ),
-    );
+    registry.register(className, definition.styles);
+}
+
+function isCollector<Theme>(
+    collector: StyleCollector<Theme> | CSSProps,
+): collector is StyleCollector<Theme> {
+    return !!(collector as StyleCollector<Theme>).get;
 }
 
 export default function useStyles<Theme = {}>(
@@ -46,9 +41,29 @@ export default function useStyles<Theme = {}>(
 ) {
     const themeCtx = useTheme();
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
-    const styleCollector = !(collector as StyleCollector<Theme>).get
-        ? css([parseObject(collector as CSSProps)])
-        : (collector as StyleCollector<Theme>);
+    const styleDefinitions = isCollector<Theme>(collector)
+        ? collector.get()
+        : css([parseObject(collector)]).get();
+    const activeDefinitions: ActiveDefinition[] = styleDefinitions
+        .filter(({ predicate }) => !!predicate)
+        .map(definition => {
+            const styles = interpolateStyles(
+                definition.styles,
+                definition.expressions,
+                themeCtx.theme,
+            );
+
+            const componentId = getComponentId(
+                definition.name,
+                toHash(styles).toString(),
+                themeCtx.hash.toString(),
+            );
+
+            return {
+                styles,
+                componentId,
+            };
+        });
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -57,28 +72,19 @@ export default function useStyles<Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyle(serverStyleRegistry, styleCollector.get()[0], themeCtx);
+        registerStyle(serverStyleRegistry, activeDefinitions[0]);
     }
-
-    const styleDefinitions = useMemo(
-        () => styleCollector.get().filter(({ predicate }) => !!predicate),
-        [styleCollector],
-    );
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
         const clientRegistry = registry(headElement, STYLE_ID);
 
-        styleDefinitions.forEach(styleDefinition =>
-            registerStyle(clientRegistry, styleDefinition, themeCtx),
+        activeDefinitions.forEach(definition =>
+            registerStyle(clientRegistry, definition),
         );
-    }, [styleDefinitions, themeCtx]);
+    }, [activeDefinitions, styleDefinitions]);
 
-    return styleDefinitions
-        .reduce(
-            (accum, styleDefinition) =>
-                `${accum} ${getComponentId(styleDefinition, themeCtx)}`,
-            '',
-        )
+    return activeDefinitions
+        .reduce((accum, definition) => `${accum} ${definition.componentId}`, '')
         .trim();
 }

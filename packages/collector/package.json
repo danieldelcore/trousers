@@ -6,7 +6,6 @@
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/hash": "3.0.0",
         "@trousers/utils": "3.0.0"
     },
     "devDependencies": {},

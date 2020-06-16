@@ -18,31 +18,31 @@ Array [
 `;
 
 exports[`Server side rendering (SSR) stringify styles on server and hydrate on client 1`] = `
-<button class="button__29298580703130397219">Hello, SSR!</button>
-<button class="button__29298580703130397219 button--11773678243130397219">Hello, Hydration!</button>
+<button class="button__4838965623130397219">Hello, SSR!</button>
+<button class="button__4838965623130397219 button--13166510603130397219">Hello, Hydration!</button>
 `;
 
 exports[`Server side rendering (SSR) stringify styles on server and hydrate on client 2`] = `
 Array [
   <style
-    data-trousers=".button__29298580703130397219"
+    data-trousers=".button__4838965623130397219"
   >
-    .button__29298580703130397219{background-color:#b3cde8;color:white;}
+    .button__4838965623130397219{background-color:#b3cde8;color:white;}
   </style>,
 ]
 `;
 
 exports[`Server side rendering (SSR) stringify styles(css prop) on server and hydrate on client 1`] = `
-<button class="button__29298580703130397219">Hello, SSR!</button>
-<button class="button__29298580703130397219 button--11773678243130397219">Hello, Hydration!</button>
+<button class="button__4838965623130397219">Hello, SSR!</button>
+<button class="button__4838965623130397219 button--13166510603130397219">Hello, Hydration!</button>
 `;
 
 exports[`Server side rendering (SSR) stringify styles(css prop) on server and hydrate on client 2`] = `
 Array [
   <style
-    data-trousers=".button__29298580703130397219"
+    data-trousers=".button__4838965623130397219"
   >
-    .button__29298580703130397219{background-color:#b3cde8;color:white;}
+    .button__4838965623130397219{background-color:#b3cde8;color:white;}
   </style>,
 ]
 `;

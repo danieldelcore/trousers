@@ -1,4 +1,3 @@
-import { toHash } from '@trousers/hash';
 import { Expression, StyleCollector } from '@trousers/utils';
 
 const css = <Theme = {}>(
@@ -9,7 +8,6 @@ const css = <Theme = {}>(
         {
             styles,
             expressions,
-            hash: toHash(styles.toString()).toString(),
             predicate: true,
             name: 'css__',
         },

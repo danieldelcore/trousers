@@ -10,6 +10,7 @@ import { registry, Registry } from '@trousers/registry';
 import { ThemeContext, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
 import { parseObject } from '@trousers/parser';
+import { toHash } from '@trousers/hash';
 
 import { interpolateStyles, isBrowser } from './common';
 import css from './css';
@@ -38,7 +39,7 @@ function registerGlobals<Theme>(
             theme,
         );
 
-        registry.register(styleDefinition.hash.toString(), styles, true);
+        registry.register(toHash(styles).toString(), styles, true);
     });
 }
 

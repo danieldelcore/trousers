@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, Fragment } from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { ThemeProvider } from '@trousers/theme';
 import styleCollector from '@trousers/collector';
@@ -31,7 +31,7 @@ describe('useStyles', () => {
         const { container } = render(<StyledComponent />);
 
         expect(container.querySelector('span')!.className).toEqual(
-            'foo__3889083325',
+            'foo__38890833250',
         );
     });
 
@@ -54,28 +54,28 @@ describe('useStyles', () => {
             const { container } = render(<StyledComponent />);
 
             expect(container.querySelector('span')!.className).toEqual(
-                'foo__3826246206',
+                'foo__38262462060',
             );
         }
         {
             const { container } = render(<StyledComponent isRed />);
 
             expect(container.querySelector('span')!.className).toEqual(
-                'foo__3826246206 foo--491189580',
+                'foo__38262462060 foo--4911895800',
             );
         }
         {
             const { container } = render(<StyledComponent isBlue />);
 
             expect(container.querySelector('span')!.className).toEqual(
-                'foo__3826246206 foo--3889083325',
+                'foo__38262462060 foo--38890833250',
             );
         }
         {
             const { container } = render(<StyledComponent isBlue isRed />);
 
             expect(container.querySelector('span')!.className).toEqual(
-                'foo__3826246206 foo--491189580 foo--3889083325',
+                'foo__38262462060 foo--4911895800 foo--38890833250',
             );
         }
     });
@@ -98,7 +98,7 @@ describe('useStyles', () => {
         const { container } = render(<StyledComponent />);
 
         expect(container.querySelector('span')!.className).toEqual(
-            'foo__3889083325',
+            'foo__38890833250',
         );
 
         const { container: secondContainer } = render(
@@ -106,7 +106,7 @@ describe('useStyles', () => {
         );
 
         expect(secondContainer.querySelector('span')!.className).toEqual(
-            'foo__3889083325 foo--primary491189580',
+            'foo__38890833250 foo--primary4911895800',
         );
 
         const { container: thirdContainer } = render(
@@ -114,7 +114,7 @@ describe('useStyles', () => {
         );
 
         expect(thirdContainer.querySelector('span')!.className).toEqual(
-            'foo__3889083325 foo--secondary112991879',
+            'foo__38890833250 foo--secondary1129918790',
         );
 
         const { container: forthContainer } = render(
@@ -122,7 +122,7 @@ describe('useStyles', () => {
         );
 
         expect(forthContainer.querySelector('span')!.className).toEqual(
-            'foo__3889083325 foo--primary491189580 foo--secondary112991879',
+            'foo__38890833250 foo--primary4911895800 foo--secondary1129918790',
         );
     });
 
@@ -407,5 +407,53 @@ describe('useStyles', () => {
         render(<StyledComponent />);
 
         expect(document.getElementsByTagName('head')[0]).toMatchSnapshot();
+    });
+
+    it('object styles with different interpolations should be mounted separately', () => {
+        const Box: FC<{ testId: string; size?: number }> = ({
+            testId,
+            size = 40,
+        }) => {
+            const classNames = useStyles({
+                height: `${size}px`,
+                width: `${size}px`,
+            });
+
+            return <div data-testid={testId} className={classNames} />;
+        };
+
+        const { getByTestId } = render(
+            <Fragment>
+                <Box testId="box-1" />
+                <Box testId="box-2" size={20} />
+            </Fragment>,
+        );
+
+        expect(getByTestId('box-1')!.className).toEqual('css__24024913390');
+        expect(getByTestId('box-2')!.className).not.toEqual('css__24024913390');
+    });
+
+    it('css styles with different interpolations should be mounted separately', () => {
+        const Box: FC<{ testId: string; size?: number }> = ({
+            testId,
+            size = 40,
+        }) => {
+            const classNames = useStyles(css`
+                height: ${size}px;
+                width: ${size}px;
+            `);
+
+            return <div data-testid={testId} className={classNames} />;
+        };
+
+        const { getByTestId } = render(
+            <Fragment>
+                <Box testId="box-1" />
+                <Box testId="box-2" size={20} />
+            </Fragment>,
+        );
+
+        expect(getByTestId('box-1')!.className).toEqual('css__24402206290');
+        expect(getByTestId('box-2')!.className).not.toEqual('css__24402206290');
     });
 });

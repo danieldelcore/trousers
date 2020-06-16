@@ -167,11 +167,14 @@ storiesOf('Miscellaneous', module)
 
             return (
                 <Fragment>
+                    <p>Press to mount/unmount</p>
                     {!active ? (
                         <Logo onClick={() => setActive(true)} />
                     ) : (
                         <Logo primary onClick={() => setActive(false)} />
                     )}
+                    <Logo onClick={() => setActive(true)} />
+                    <Logo primary onClick={() => setActive(false)} />
                 </Fragment>
             );
         };
