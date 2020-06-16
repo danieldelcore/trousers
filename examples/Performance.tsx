@@ -101,7 +101,7 @@ storiesOf('Performance', module)
             return <div className={classNames}>{props.children}</div>;
         };
 
-        const intToRGB = () => {
+        const intToColor = () => {
             const letters = '0123456789ABCDEF';
             let color = '#';
             for (let i = 0; i < 6; i++) {
@@ -112,8 +112,8 @@ storiesOf('Performance', module)
 
         return (
             <Fragment>
-                {[...Array(1000)].map((_, i) => (
-                    <Dot color={intToRGB()} key={i} />
+                {[...Array(500)].map((_, i) => (
+                    <Dot color={intToColor()} key={i} />
                 ))}
             </Fragment>
         );

@@ -13,20 +13,15 @@ interface RegistryOptions {
 }
 
 const createStyleElement = (attributeId: string) => {
-    const element = document.createElement<'style'>('style');
+    const element = document.createElement('style');
     element.setAttribute(attributeId, '');
     element.setAttribute('type', 'text/css');
     element.appendChild(document.createTextNode(''));
     return element;
 };
 
-const getStyleElement = (targetElement: HTMLElement, attributeId: string) => {
-    const element = targetElement.querySelector<HTMLStyleElement>(
-        `style[${attributeId}]`,
-    );
-
-    return !!element ? element : createStyleElement(attributeId);
-};
+const getStyleElement = (targetElement: HTMLElement, attributeId: string) =>
+    targetElement.querySelector<HTMLStyleElement>(`style[${attributeId}]`);
 
 const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
     if (tag.sheet) {
@@ -52,24 +47,26 @@ const registry = (
         appendBefore: undefined,
     },
 ): Registry => {
-    const styleElement = options.forceNewNode
-        ? createStyleElement(attributeId)
-        : getStyleElement(parentElement, attributeId);
+    let styleElement = getStyleElement(parentElement, attributeId);
 
-    if (!options.appendBefore) {
-        parentElement.appendChild(styleElement);
-    } else {
-        parentElement.insertBefore(
-            styleElement,
-            parentElement.querySelector<HTMLStyleElement>(
-                `style[${options.appendBefore}]`,
-            ),
-        );
+    if (styleElement === null || options.forceNewNode) {
+        styleElement = createStyleElement(attributeId);
+
+        if (!options.appendBefore) {
+            parentElement.appendChild(styleElement);
+        } else {
+            parentElement.insertBefore(
+                styleElement,
+                parentElement.querySelector<HTMLStyleElement>(
+                    `style[${options.appendBefore}]`,
+                ),
+            );
+        }
     }
 
-    const clear = () => styleElement.remove();
+    const clear = () => styleElement!.remove();
     const has = (id: string): boolean =>
-        styleElement.getAttribute(attributeId)!.includes(id);
+        styleElement!.getAttribute(attributeId)!.includes(id);
 
     const register = (id: string, styles: string, isGlobal?: boolean) => {
         if (has(id)) return;
@@ -79,13 +76,13 @@ const registry = (
 
         if (process.env.NODE_ENV === 'production') {
             try {
-                const sheet = getSheet(styleElement);
-                splitRules(processedStyles).forEach(styles =>
+                splitRules(processedStyles).forEach(styles => {
+                    const sheet = getSheet(styleElement!);
                     sheet.insertRule(
                         styles,
                         isGlobal ? 0 : sheet.cssRules.length,
-                    ),
-                );
+                    );
+                });
 
                 return;
             } catch (error) {
@@ -97,10 +94,13 @@ const registry = (
         }
 
         const styleNode = document.createTextNode(`${processedStyles}\n`);
-        const mountedStyles = styleElement.getAttribute(attributeId);
+        const mountedStyles = styleElement!.getAttribute(attributeId);
 
-        styleElement.appendChild(styleNode);
-        styleElement.setAttribute(attributeId, `${mountedStyles} ${id}`.trim());
+        styleElement!.appendChild(styleNode);
+        styleElement!.setAttribute(
+            attributeId,
+            `${mountedStyles} ${id}`.trim(),
+        );
     };
 
     return {
