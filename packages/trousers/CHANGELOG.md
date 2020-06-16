@@ -1,5 +1,15 @@
 # trousers
 
+## 3.0.2
+
+### Patch Changes
+
+-   Updated dependencies [16fd640]
+    -   @trousers/collector@3.0.2
+    -   @trousers/core@3.0.2
+    -   @trousers/utils@3.0.2
+    -   @trousers/server@3.0.2
+
 ## 3.0.1
 
 ### Patch Changes
