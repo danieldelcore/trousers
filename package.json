@@ -8,7 +8,10 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "yarn build && nodemon --exec \"start-storybook -p 9000 -s assets\" --watch packages/*/src -e tsx",
+        "prestart": "yarn build",
+        "start": "run-p start:*",
+        "start:watch": "tsc --build --watch",
+        "start:stories": "start-storybook -p 9000 -s assets",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
         "validate": "yarn build && yarn lint && yarn monorepo:check",
         "postinstall": "yarn monorepo:check",
@@ -53,7 +56,7 @@
         "jest-watch-typeahead": "^0.4.2",
         "jsdom": "^14.0.0",
         "markdown-toc": "^1.2.0",
-        "nodemon": "^2.0.3",
+        "npm-run-all": "^4.1.5",
         "prettier": "^1.16.4",
         "react": "^16.8.1",
         "react-dom": "^16.8.4",

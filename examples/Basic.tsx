@@ -1,7 +1,8 @@
+/** @jsx jsx */
 import { storiesOf } from '@storybook/react';
-import React, { FC, Fragment, ReactNode, useState } from 'react';
+import { FC, Fragment, ReactNode, useState } from 'react';
 
-import { useStyles } from '@trousers/core';
+import { jsx, useStyles, css } from '@trousers/core';
 import styleCollector from '@trousers/collector';
 
 storiesOf('Basic', module)
@@ -229,4 +230,52 @@ storiesOf('Basic', module)
         };
 
         return <TrousersLogo />;
+    })
+    .add('CSS collector', () => {
+        const Grid: FC<{ children: ReactNode; columns?: number }> = ({
+            columns = 3,
+            children,
+        }) => (
+            <div
+                css={css`
+                    display: grid;
+                    grid-template-columns: repeat(${columns}, 1fr);
+                    gap: 1.5rem;
+                    width: 100%;
+                    margin-bottom: 1rem;
+                `}
+            >
+                {children}
+            </div>
+        );
+
+        const Box = () => (
+            <div
+                css={{
+                    display: 'block',
+                    minHeight: '40px',
+                    minWidth: '40px',
+                    backgroundColor: '#eaeaea',
+                    borderRadius: '3px',
+                }}
+            />
+        );
+
+        return (
+            <Fragment>
+                <Grid>
+                    <Box />
+                    <Box />
+                    <Box />
+                    <Box />
+                    <Box />
+                </Grid>
+                <Grid columns={2}>
+                    <Box />
+                    <Box />
+                    <Box />
+                    <Box />
+                </Grid>
+            </Fragment>
+        );
     });
