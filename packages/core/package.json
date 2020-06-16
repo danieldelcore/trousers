@@ -1,6 +1,6 @@
 {
     "name": "@trousers/core",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -8,10 +8,10 @@
     "dependencies": {
         "@trousers/hash": "3.0.0",
         "@trousers/parser": "3.0.1",
-        "@trousers/registry": "3.0.1",
-        "@trousers/server": "3.0.1",
+        "@trousers/registry": "3.0.2",
+        "@trousers/server": "3.0.2",
         "@trousers/theme": "3.0.0",
-        "@trousers/utils": "3.0.0"
+        "@trousers/utils": "3.0.2"
     },
     "devDependencies": {
         "react": "^16.8.1"

@@ -1,5 +1,16 @@
 # @trousers/core
 
+## 3.0.2
+
+### Patch Changes
+
+-   16fd640: Style collector instances with differing expressions will now be mounted separately
+-   Updated dependencies [635f6fc]
+-   Updated dependencies [16fd640]
+    -   @trousers/registry@3.0.2
+    -   @trousers/utils@3.0.2
+    -   @trousers/server@3.0.2
+
 ## 3.0.1
 
 ### Patch Changes
