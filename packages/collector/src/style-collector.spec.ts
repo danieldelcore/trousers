@@ -13,7 +13,6 @@ describe('styleCollector', () => {
             `;
 
         expect(collector.get().length).toBe(1);
-        expect(collector.get()[0].hash).toEqual('2111092729');
     });
 
     it('registers an element and modifier', () => {
@@ -25,11 +24,18 @@ describe('styleCollector', () => {
                 font-style: bold;
             `;
 
-        const styleDefinitions = collector({ isBold: true }).get();
+        {
+            const styleDefinitions = collector({ isBold: true }).get();
 
-        expect(styleDefinitions.length).toBe(2);
-        expect(styleDefinitions[1].hash).toEqual('2064733655');
-        expect(styleDefinitions[1].predicate).toBe(true);
+            expect(styleDefinitions.length).toBe(2);
+            expect(styleDefinitions[1].predicate).toBe(true);
+        }
+        {
+            const styleDefinitions = collector({ isBold: false }).get();
+
+            expect(styleDefinitions.length).toBe(2);
+            expect(styleDefinitions[1].predicate).toBe(false);
+        }
     });
 
     it('registers an element and named modifier', () => {
@@ -44,7 +50,7 @@ describe('styleCollector', () => {
         const styleDefinitions = collector({ isBold: true }).get();
 
         expect(styleDefinitions.length).toBe(2);
-        expect(styleDefinitions[1].hash).toEqual('bold2064733655');
+        expect(styleDefinitions[1].name).toEqual('myBlock--bold');
         expect(styleDefinitions[1].predicate).toBe(true);
     });
 
@@ -68,19 +74,5 @@ describe('styleCollector', () => {
         }).get();
 
         expect(styleDefinitions.length).toBe(3);
-        expect(styleDefinitions[0].hash).toEqual('2111092729');
-        expect(styleDefinitions[1].hash).toEqual('2064733655');
-        expect(styleDefinitions[2].hash).toEqual('2172502402');
-    });
-
-    it('duplicate styles generate the same hash', () => {
-        const collector = styleCollector('firstblock').element`
-                font-style: normal;
-            `;
-        const collector2 = styleCollector('firstblock').element`
-                font-style: normal;
-            `;
-
-        expect(collector.get()[0].hash).toEqual(collector2.get()[0].hash);
     });
 });

@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React, { FC, Fragment, useState, MouseEventHandler } from 'react';
 import { useStableRefTester, RenderCount } from 'react-stable-ref';
 
-import { css, useStyles } from '@trousers/core';
+import { css, useStyles, useGlobals } from '@trousers/core';
 import styleCollector from '@trousers/collector';
 import { ThemeProvider } from '@trousers/theme';
 
@@ -37,6 +37,59 @@ storiesOf('Miscellaneous', module)
         };
 
         return <TrousersLogo />;
+    })
+    .add('State transitions (Globals)', () => {
+        interface Theme {
+            color: string;
+        }
+
+        const theme: Theme = {
+            color: '#ff5d9e',
+        };
+
+        const globalStyles = css<Theme>`
+            * {
+                color: ${theme => theme.color};
+            }
+        `;
+
+        const styles = styleCollector('block').element`
+                background-color: #404b69;
+                color: blue;
+                padding: 20px;
+                border: none;
+                border-radius: 6px;
+                letter-spacing: 1px;
+                font-family: 'Press Start 2P', sans-serif;
+                text-align: center;
+
+                h2 {
+                    font-size: 40px;
+                }
+            `;
+
+        const TextBlock: FC = () => {
+            useGlobals<Theme>(globalStyles);
+            useStableRefTester();
+
+            const classNames = useStyles(styles);
+
+            return (
+                <div className={classNames}>
+                    <p>
+                        Render count: <RenderCount />
+                    </p>
+                    <h2>Themed global Styles!</h2>
+                    <p>I should be pink!</p>
+                </div>
+            );
+        };
+
+        return (
+            <ThemeProvider theme={theme}>
+                <TextBlock />
+            </ThemeProvider>
+        );
     })
     .add('Alternating style collectors', () => {
         const logoStyles = css`
@@ -167,11 +220,14 @@ storiesOf('Miscellaneous', module)
 
             return (
                 <Fragment>
+                    <p>Press to mount/unmount</p>
                     {!active ? (
                         <Logo onClick={() => setActive(true)} />
                     ) : (
                         <Logo primary onClick={() => setActive(false)} />
                     )}
+                    <Logo onClick={() => setActive(true)} />
+                    <Logo primary onClick={() => setActive(false)} />
                 </Fragment>
             );
         };

@@ -1,5 +1,4 @@
 import { StyleDefinition, Predicate, Expression } from '@trousers/utils';
-import { toHash } from '@trousers/hash';
 
 export default function styleCollector<Theme = {}>(elementName: string) {
     const styleDefinitions: StyleDefinition<Theme>[] = [];
@@ -21,11 +20,10 @@ export default function styleCollector<Theme = {}>(elementName: string) {
         }
 
         styleDefinitions.push({
-            hash: id + toHash(styles.toString()),
             styles,
             expressions,
             predicate: !!predicate,
-            name: `${elementName}--`,
+            name: `${elementName}--${id}`,
         });
 
         return { modifier, get };
@@ -36,7 +34,6 @@ export default function styleCollector<Theme = {}>(elementName: string) {
         ...expressions: Expression<Theme>[]
     ) => {
         styleDefinitions.push({
-            hash: toHash(styles.toString()).toString(),
             styles,
             expressions,
             predicate: true,

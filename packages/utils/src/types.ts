@@ -12,7 +12,6 @@ export interface TaggedTemplate<Theme> {
 }
 
 export interface StyleDefinition<Theme> extends TaggedTemplate<Theme> {
-    hash: string;
     predicate: Predicate;
     name: string;
 }

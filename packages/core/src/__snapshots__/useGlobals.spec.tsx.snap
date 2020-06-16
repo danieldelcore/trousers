@@ -18,7 +18,7 @@ exports[`useGlobals attaches an array of styles to the head 1`] = `
 exports[`useGlobals attaches an array of themed styles to the head 1`] = `
 <head>
   <style
-    data-trousers-global="3964264859 839332687"
+    data-trousers-global="3964264859 1957078772"
     type="text/css"
   >
     
@@ -67,11 +67,11 @@ exports[`useGlobals attaches styles before data-trousers 1`] = `
 
   </style>
   <style
-    data-trousers=".hello__1855694664"
+    data-trousers=".hello__18556946640"
     type="text/css"
   >
     
-    .hello__1855694664{color:blue;}
+    .hello__18556946640{color:blue;}
 
   </style>
 </head>
@@ -93,7 +93,7 @@ exports[`useGlobals attaches styles to the head 1`] = `
 exports[`useGlobals attaches themed styles to the head 1`] = `
 <head>
   <style
-    data-trousers-global="839332687"
+    data-trousers-global="1957078772"
     type="text/css"
   >
     

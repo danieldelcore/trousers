@@ -3,13 +3,13 @@
 exports[`useStyles attaches new styles when a new style collector is supplied 1`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--491189580"
+    data-trousers=".foo__38890833250 .foo--4911895800"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--491189580{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
   </style>
 </head>
@@ -18,17 +18,17 @@ exports[`useStyles attaches new styles when a new style collector is supplied 1`
 exports[`useStyles attaches new styles when a new style collector is supplied 2`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--491189580 .foo__3016956831 .foo--3826246206"
+    data-trousers=".foo__38890833250 .foo--4911895800 .foo__30169568310 .foo--38262462060"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--491189580{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
-    .foo__3016956831{background-color:purple;}
+    .foo__30169568310{background-color:purple;}
 
-    .foo--3826246206{background-color:green;}
+    .foo--38262462060{background-color:green;}
 
   </style>
 </head>
@@ -37,11 +37,11 @@ exports[`useStyles attaches new styles when a new style collector is supplied 2`
 exports[`useStyles attaches object style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__2304954679"
+    data-trousers=".css__23049546790"
     type="text/css"
   >
     
-    .css__2304954679{background-color:blue;}
+    .css__23049546790{background-color:blue;}
 
   </style>
 </head>
@@ -50,11 +50,11 @@ exports[`useStyles attaches object style to the head 1`] = `
 exports[`useStyles attaches object style with keyframe animations to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__4070925666"
+    data-trousers=".css__40709256660"
     type="text/css"
   >
     
-    .css__4070925666{background-color:blue;}@-webkit-keyframes rotating-css__4070925666{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}@keyframes rotating-css__4070925666{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}
+    .css__40709256660{background-color:blue;}@-webkit-keyframes rotating-css__40709256660{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}@keyframes rotating-css__40709256660{from{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}
 
   </style>
 </head>
@@ -63,11 +63,11 @@ exports[`useStyles attaches object style with keyframe animations to the head 1`
 exports[`useStyles attaches object style with media queries to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__278897963"
+    data-trousers=".css__2788979630"
     type="text/css"
   >
     
-    .css__278897963{background-color:blue;}@media (min-width:768px){.css__278897963{background-color:#deecff;}}
+    .css__2788979630{background-color:blue;}@media (min-width:768px){.css__2788979630{background-color:#deecff;}}
 
   </style>
 </head>
@@ -76,11 +76,11 @@ exports[`useStyles attaches object style with media queries to the head 1`] = `
 exports[`useStyles attaches object style with pseudo states to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__3748122140"
+    data-trousers=".css__37481221400"
     type="text/css"
   >
     
-    .css__3748122140{background-color:blue;}.css__3748122140:hover{background-color:brown;}
+    .css__37481221400{background-color:blue;}.css__37481221400:hover{background-color:brown;}
 
   </style>
 </head>
@@ -89,11 +89,11 @@ exports[`useStyles attaches object style with pseudo states to the head 1`] = `
 exports[`useStyles attaches single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__293439549"
+    data-trousers=".css__2934395490"
     type="text/css"
   >
     
-    .css__293439549{background-color:blue;}
+    .css__2934395490{background-color:blue;}
 
   </style>
 </head>
@@ -102,11 +102,11 @@ exports[`useStyles attaches single style to the head 1`] = `
 exports[`useStyles attaches styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -115,11 +115,11 @@ exports[`useStyles attaches styles to the head 1`] = `
 exports[`useStyles attaches styles with modifiers to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -128,13 +128,13 @@ exports[`useStyles attaches styles with modifiers to the head 1`] = `
 exports[`useStyles attaches styles with modifiers to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--491189580"
+    data-trousers=".foo__38890833250 .foo--4911895800"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--491189580{background-color:red;}
+    .foo--4911895800{background-color:red;}
 
   </style>
 </head>
@@ -143,11 +143,11 @@ exports[`useStyles attaches styles with modifiers to the head 2`] = `
 exports[`useStyles attaches styles with multiple named modifiers to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -156,13 +156,13 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 1`]
 exports[`useStyles attaches styles with multiple named modifiers to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--primary491189580"
+    data-trousers=".foo__38890833250 .foo--primary4911895800"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--primary491189580{background-color:red;}
+    .foo--primary4911895800{background-color:red;}
 
   </style>
 </head>
@@ -171,15 +171,15 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 2`]
 exports[`useStyles attaches styles with multiple named modifiers to the head 3`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--primary491189580 .foo--secondary112991879"
+    data-trousers=".foo__38890833250 .foo--primary4911895800 .foo--secondary1129918790"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--primary491189580{background-color:red;}
+    .foo--primary4911895800{background-color:red;}
 
-    .foo--secondary112991879{background-color:isBlue;}
+    .foo--secondary1129918790{background-color:isBlue;}
 
   </style>
 </head>
@@ -188,15 +188,15 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 3`]
 exports[`useStyles attaches styles with multiple named modifiers to the head 4`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--primary491189580 .foo--secondary112991879"
+    data-trousers=".foo__38890833250 .foo--primary4911895800 .foo--secondary1129918790"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--primary491189580{background-color:red;}
+    .foo--primary4911895800{background-color:red;}
 
-    .foo--secondary112991879{background-color:isBlue;}
+    .foo--secondary1129918790{background-color:isBlue;}
 
   </style>
 </head>
@@ -205,11 +205,11 @@ exports[`useStyles attaches styles with multiple named modifiers to the head 4`]
 exports[`useStyles attaches styles with named modifiers to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325"
+    data-trousers=".foo__38890833250"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
   </style>
 </head>
@@ -218,13 +218,13 @@ exports[`useStyles attaches styles with named modifiers to the head 1`] = `
 exports[`useStyles attaches styles with named modifiers to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__3889083325 .foo--primary491189580"
+    data-trousers=".foo__38890833250 .foo--primary4911895800"
     type="text/css"
   >
     
-    .foo__3889083325{background-color:blue;}
+    .foo__38890833250{background-color:blue;}
 
-    .foo--primary491189580{background-color:red;}
+    .foo--primary4911895800{background-color:red;}
 
   </style>
 </head>
@@ -233,11 +233,11 @@ exports[`useStyles attaches styles with named modifiers to the head 2`] = `
 exports[`useStyles attaches themed single style to the head 1`] = `
 <head>
   <style
-    data-trousers=".css__12650447753516409327"
+    data-trousers=".css__40281543953516409327"
     type="text/css"
   >
     
-    .css__12650447753516409327{background-color:Atomic Tangerine;}
+    .css__40281543953516409327{background-color:Atomic Tangerine;}
 
   </style>
 </head>
@@ -246,11 +246,11 @@ exports[`useStyles attaches themed single style to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 1`] = `
 <head>
   <style
-    data-trousers=".foo__12257674633106931827"
+    data-trousers=".foo__30169568313106931827"
     type="text/css"
   >
     
-    .foo__12257674633106931827{background-color:purple;}
+    .foo__30169568313106931827{background-color:purple;}
 
   </style>
 </head>
@@ -259,13 +259,13 @@ exports[`useStyles attaches themed styles to the head 1`] = `
 exports[`useStyles attaches themed styles to the head 2`] = `
 <head>
   <style
-    data-trousers=".foo__12257674633106931827 .foo--12257674633106931827"
+    data-trousers=".foo__30169568313106931827 .foo--30169568313106931827"
     type="text/css"
   >
     
-    .foo__12257674633106931827{background-color:purple;}
+    .foo__30169568313106931827{background-color:purple;}
 
-    .foo--12257674633106931827{background-color:purple;}
+    .foo--30169568313106931827{background-color:purple;}
 
   </style>
 </head>
