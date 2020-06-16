@@ -6,7 +6,7 @@ import {
     STYLE_ID,
     CSSProps,
 } from '@trousers/utils';
-import { registry, Registry } from '@trousers/registry';
+import { registry } from '@trousers/registry';
 import { ThemeContext, ThemeCtx } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
 import { parseObject } from '@trousers/parser';
@@ -14,34 +14,6 @@ import { toHash } from '@trousers/hash';
 
 import { interpolateStyles, isBrowser } from './common';
 import css from './css';
-
-function registerGlobals<Theme>(
-    styleCollectors:
-        | StyleCollector<Theme>
-        | StyleCollector<Theme>[]
-        | CSSProps
-        | CSSProps[],
-    theme: Theme,
-    registry: Registry,
-) {
-    const collectors =
-        styleCollectors instanceof Array ? styleCollectors : [styleCollectors];
-
-    collectors.forEach(collector => {
-        const parsedCollector = !(collector as StyleCollector<Theme>).get
-            ? css([parseObject(collector)])
-            : (collector as StyleCollector<Theme>);
-
-        const styleDefinition = parsedCollector.get()[0];
-        const styles = interpolateStyles(
-            styleDefinition.styles,
-            styleDefinition.expressions,
-            theme,
-        );
-
-        registry.register(toHash(styles).toString(), styles, true);
-    });
-}
 
 export default function useGlobals<Theme>(
     styleCollectors:
@@ -52,6 +24,26 @@ export default function useGlobals<Theme>(
 ) {
     const { theme } = useContext<ThemeCtx>(ThemeContext);
     const serverStyleRegistry = useContext<ServerCtx>(ServerContext);
+    const collectors =
+        styleCollectors instanceof Array ? styleCollectors : [styleCollectors];
+
+    const activeStyles = collectors.map(collector => {
+        const parsedCollector = !(collector as StyleCollector<Theme>).get
+            ? css([parseObject(collector)])
+            : (collector as StyleCollector<Theme>);
+
+        const definition = parsedCollector.get()[0];
+        const styles = interpolateStyles(
+            definition.styles,
+            definition.expressions,
+            theme,
+        );
+
+        return {
+            hash: toHash(styles).toString(),
+            styles,
+        };
+    });
 
     if (!isBrowser() && !serverStyleRegistry) {
         throw Error(
@@ -60,8 +52,12 @@ export default function useGlobals<Theme>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerGlobals(styleCollectors, theme as Theme, serverStyleRegistry);
+        activeStyles.forEach(({ hash, styles }) => {
+            serverStyleRegistry.register(hash, styles, true);
+        });
     }
+
+    const hash = activeStyles.reduce((accum, { hash }) => accum + hash, '');
 
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
@@ -70,8 +66,11 @@ export default function useGlobals<Theme>(
             appendBefore: STYLE_ID,
         });
 
-        registerGlobals<Theme>(styleCollectors, theme as Theme, clientRegistry);
+        activeStyles.forEach(({ hash, styles }) => {
+            clientRegistry.register(hash, styles, true);
+        });
 
         return () => clientRegistry.clear();
-    }, [theme, styleCollectors]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(theme), hash]);
 }

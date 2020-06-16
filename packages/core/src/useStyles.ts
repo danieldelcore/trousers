@@ -24,9 +24,7 @@ function getComponentId(
 
 function registerStyle(registry: Registry, definition: ActiveDefinition) {
     const className = `.${definition.componentId}`;
-
     if (registry.has(className)) return;
-
     registry.register(className, definition.styles);
 }
 
@@ -75,6 +73,11 @@ export default function useStyles<Theme = {}>(
         registerStyle(serverStyleRegistry, activeDefinitions[0]);
     }
 
+    const hash = activeDefinitions.reduce(
+        (accum, { componentId }) => accum + componentId,
+        '',
+    );
+
     useLayoutEffect(() => {
         const headElement = document.getElementsByTagName('head')[0];
         const clientRegistry = registry(headElement, STYLE_ID);
@@ -82,7 +85,8 @@ export default function useStyles<Theme = {}>(
         activeDefinitions.forEach(definition =>
             registerStyle(clientRegistry, definition),
         );
-    }, [activeDefinitions, styleDefinitions]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hash]);
 
     return activeDefinitions
         .reduce((accum, definition) => `${accum} ${definition.componentId}`, '')
