@@ -445,16 +445,3 @@ This can most certainly be done in styled-components and emotion! They are both 
 
 The reason Trousers is a hook was so it could access (consume) the context from within the library, without exposing that implementation detail to the user. Otherwise you would have to wrap or access the context manually and pass it into Trousers.
 There are also plans on leverage hooks more down the line to enable a few new features.
-
-## Backers
-
-Thanks goes to all our backers! [[Become a backer](https://opencollective.com/trousers#backer)].
-
-<a href="https://opencollective.com/trousers#backers">
-    <img src="https://opencollective.com/trousers/backers.svg?width=950" />
-</a>
-
-## Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/danieldelcore/trousers/graphs/contributors"><img src="https://opencollective.com/trousers/contributors.svg?width=890&button=false" /></a>
