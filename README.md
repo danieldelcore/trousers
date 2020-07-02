@@ -4,7 +4,7 @@
 
 # Trousers 👖
 
-[![Financial Contributors on Open Collective](https://opencollective.com/trousers/all/badge.svg?label=financial+contributors)](https://opencollective.com/trousers) [![min](https://img.shields.io/bundlephobia/min/trousers.svg)](https://www.npmjs.com/package/trousers)
+[![min](https://img.shields.io/bundlephobia/min/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![npm](https://img.shields.io/npm/v/trousers.svg)](https://www.npmjs.com/package/trousers)
 [![Downloads per month](https://img.shields.io/npm/dm/trousers.svg)](https://www.npmjs.com/package/trousers)
 
