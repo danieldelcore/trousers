@@ -23,15 +23,11 @@ const createStyleElement = (attributeId: string) => {
 const getStyleElement = (targetElement: HTMLElement, attributeId: string) =>
     targetElement.querySelector<HTMLStyleElement>(`style[${attributeId}]`);
 
-const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
-    if (tag.sheet) {
-        // @ts-ignore
-        return tag.sheet;
-    }
+const getSheet = (element: HTMLStyleElement): CSSStyleSheet => {
+    if (element.sheet) return element.sheet;
 
     for (let i = 0; i < document.styleSheets.length; i++) {
-        if (document.styleSheets[i].ownerNode === tag) {
-            // @ts-ignore
+        if (document.styleSheets[i].ownerNode === element) {
             return document.styleSheets[i];
         }
     }
@@ -71,36 +67,21 @@ const registry = (
     const register = (id: string, styles: string, isGlobal?: boolean) => {
         if (has(id)) return;
 
-        const selector = !isGlobal ? id : ``;
-        const processedStyles = stylis(selector, styles);
+        const processedStyles = stylis(!isGlobal ? id : ``, styles);
 
-        if (process.env.NODE_ENV === 'production') {
-            try {
-                splitRules(processedStyles).forEach(styles => {
-                    const sheet = getSheet(styleElement!);
-                    sheet.insertRule(
-                        styles,
-                        isGlobal ? 0 : sheet.cssRules.length,
-                    );
-                });
-
-                return;
-            } catch (error) {
+        try {
+            splitRules(processedStyles).forEach(styles => {
+                const sheet = getSheet(styleElement!);
+                sheet.insertRule(styles, isGlobal ? 0 : sheet.cssRules.length);
+            });
+        } catch (error) {
+            if (process.env.NODE_ENV !== 'production') {
                 console.warn(
                     `Trousers: unable to insert rule: ${styles}`,
                     error,
                 );
             }
         }
-
-        const styleNode = document.createTextNode(`${processedStyles}\n`);
-        const mountedStyles = styleElement!.getAttribute(attributeId);
-
-        styleElement!.appendChild(styleNode);
-        styleElement!.setAttribute(
-            attributeId,
-            `${mountedStyles} ${id}`.trim(),
-        );
     };
 
     return {

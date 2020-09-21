@@ -226,8 +226,6 @@ storiesOf('Miscellaneous', module)
                     ) : (
                         <Logo primary onClick={() => setActive(false)} />
                     )}
-                    <Logo onClick={() => setActive(true)} />
-                    <Logo primary onClick={() => setActive(false)} />
                 </Fragment>
             );
         };
