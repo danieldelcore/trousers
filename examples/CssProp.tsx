@@ -111,4 +111,54 @@ storiesOf('CSS Prop', module)
                 <Button>Base</Button>
             </Fragment>
         );
+    })
+    .add('Foo', () => {
+        const Button: FC<ButtonProps & { width: any }> = ({
+            width,
+            children,
+        }) => (
+            <button
+                css={css`
+                    background-color: #b3cde8;
+                    border-radius: 6px;
+                    border: none;
+                    box-shadow: inset 0 -4px #9fb8d1;
+                    color: white;
+                    display: inline-block;
+                    cursor: pointer;
+                    font-family: sans-serif;
+                    font-weight: 500;
+                    font-size: 20px;
+                    letter-spacing: 1px;
+                    margin: 5px 10px;
+                    padding: 10px 20px 14px 20px;
+                    text-decoration: none;
+                    transition: background-color 300ms, color 300ms;
+                    outline: none;
+                    width: ${width};
+
+                    :hover {
+                        background-color: #adc6e0;
+                        color: rgba(255, 255, 255, 0.8);
+                    }
+                    :active {
+                        background-color: #9fb8d1;
+                    }
+                `}
+            >
+                {children}
+            </button>
+        );
+
+        function getWidth() {
+            return '333px';
+        }
+
+        return (
+            <Fragment>
+                <Button width="123px">Base</Button>
+                <Button width="222px">Base</Button>
+                <Button width={getWidth}>Base</Button>
+            </Fragment>
+        );
     });

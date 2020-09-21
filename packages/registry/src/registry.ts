@@ -74,33 +74,16 @@ const registry = (
         const selector = !isGlobal ? id : ``;
         const processedStyles = stylis(selector, styles);
 
-        if (process.env.NODE_ENV === 'production') {
-            try {
-                splitRules(processedStyles).forEach(styles => {
-                    const sheet = getSheet(styleElement!);
-                    sheet.insertRule(
-                        styles,
-                        isGlobal ? 0 : sheet.cssRules.length,
-                    );
-                });
+        try {
+            splitRules(processedStyles).forEach(styles => {
+                const sheet = getSheet(styleElement!);
+                sheet.insertRule(styles, isGlobal ? 0 : sheet.cssRules.length);
+            });
 
-                return;
-            } catch (error) {
-                console.warn(
-                    `Trousers: unable to insert rule: ${styles}`,
-                    error,
-                );
-            }
+            return;
+        } catch (error) {
+            console.warn(`Trousers: unable to insert rule: ${styles}`, error);
         }
-
-        const styleNode = document.createTextNode(`${processedStyles}\n`);
-        const mountedStyles = styleElement!.getAttribute(attributeId);
-
-        styleElement!.appendChild(styleNode);
-        styleElement!.setAttribute(
-            attributeId,
-            `${mountedStyles} ${id}`.trim(),
-        );
     };
 
     return {
