@@ -3,7 +3,7 @@ import { STYLE_ID, StyleCollector, CSSProps } from '@trousers/utils';
 import { toHash } from '@trousers/hash';
 import { useTheme } from '@trousers/theme';
 import { ServerContext, ServerCtx } from '@trousers/server';
-import { registry, Registry } from '@trousers/registry';
+import { registry } from '@trousers/registry';
 import { parseObject } from '@trousers/parser';
 
 import { interpolateStyles, isBrowser } from './common';
@@ -12,20 +12,6 @@ import css from './css';
 interface ActiveDefinition {
     componentId: string;
     styles: string;
-}
-
-function getComponentId(
-    name: string,
-    stylesHash: string,
-    themeHash: string = '',
-) {
-    return `${name}${stylesHash}${themeHash}`;
-}
-
-function registerStyle(registry: Registry, definition: ActiveDefinition) {
-    const className = `.${definition.componentId}`;
-    if (registry.has(className)) return;
-    registry.register(className, definition.styles);
 }
 
 function isCollector<Theme>(
@@ -51,11 +37,10 @@ export default function useStyles<Theme = {}>(
                 themeCtx.theme,
             );
 
-            const componentId = getComponentId(
-                definition.name,
-                toHash(styles).toString(),
-                themeCtx.hash.toString(),
-            );
+            const componentId =
+                definition.name +
+                toHash(styles).toString() +
+                themeCtx.hash.toString();
 
             return {
                 styles,
@@ -70,7 +55,10 @@ export default function useStyles<Theme = {}>(
     }
 
     if (!isBrowser() && !!serverStyleRegistry) {
-        registerStyle(serverStyleRegistry, activeDefinitions[0]);
+        serverStyleRegistry.register(
+            `.${activeDefinitions[0].componentId}`,
+            activeDefinitions[0].styles,
+        );
     }
 
     const hash = activeDefinitions.reduce(
@@ -83,7 +71,7 @@ export default function useStyles<Theme = {}>(
         const clientRegistry = registry(headElement, STYLE_ID);
 
         activeDefinitions.forEach(definition =>
-            registerStyle(clientRegistry, definition),
+            clientRegistry.register(definition.componentId, definition.styles),
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
