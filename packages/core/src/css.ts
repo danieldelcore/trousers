@@ -1,17 +1,35 @@
-import { Expression, StyleCollector } from '@trousers/utils';
+import { CSSProperties } from 'react';
+import { Definition } from './types';
+import hash from './hash';
 
-const css = <Theme = {}>(
-    styles: TemplateStringsArray | string[],
-    ...expressions: Expression<Theme>[]
-): StyleCollector<Theme> => ({
-    get: () => [
+function css(id: string, styles: CSSProperties) {
+    const elementId = `${id}-${hash(JSON.stringify(styles))}`;
+    const styleMap: Definition[] = [
         {
+            id,
+            className: elementId,
             styles,
-            expressions,
-            predicate: true,
-            name: 'css__',
         },
-    ],
-});
+    ];
+
+    const self = {
+        _get: () => styleMap,
+        modifier: (modifierId: string, modifierStyles: CSSProperties) => {
+            styleMap.push({
+                id: modifierId,
+                className: `${elementId}--${modifierId}-${hash(
+                    JSON.stringify(modifierStyles),
+                )}`,
+                styles: modifierStyles,
+            });
+
+            return self;
+        },
+    };
+
+    return self;
+}
+
+export type Collector = typeof css;
 
 export default css;

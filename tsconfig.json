@@ -36,15 +36,5 @@
         "**/*.spec*",
         "examples"
     ],
-    "references": [
-        { "path": "packages/collector" },
-        { "path": "packages/core" },
-        { "path": "packages/hash" },
-        { "path": "packages/registry" },
-        { "path": "packages/server" },
-        { "path": "packages/theme" },
-        { "path": "packages/theme-css" },
-        { "path": "packages/trousers" },
-        { "path": "packages/utils" }
-    ]
+    "references": [{ "path": "packages/core" }]
 }

@@ -6,12 +6,7 @@
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/hash": "3.0.0",
-        "@trousers/parser": "3.0.1",
-        "@trousers/registry": "3.0.2",
-        "@trousers/server": "3.0.2",
-        "@trousers/theme": "3.0.0",
-        "@trousers/utils": "3.0.2"
+        "stylis": "^4.0.3"
     },
     "devDependencies": {
         "react": "^16.8.1"

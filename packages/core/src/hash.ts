@@ -1,7 +1,7 @@
-export default function toHash(str: string) {
+function hash(str: string) {
     let hash = 0;
 
-    if (str.length == 0) return hash;
+    if (str.length === 0) return hash;
 
     for (let i = 0; i < str.length; i++) {
         let char = str.charCodeAt(i);
@@ -11,3 +11,5 @@ export default function toHash(str: string) {
 
     return hash >>> 0;
 }
+
+export default hash;

@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`toHash handles css 1`] = `4658051`;
-
-exports[`toHash handles long css 1`] = `276237355`;

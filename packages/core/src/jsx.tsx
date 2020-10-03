@@ -1,15 +1,26 @@
-import { createElement, hasOwnProperty, ElementType, ReactNode } from 'react';
+import './global-types';
+import {
+    createElement,
+    hasOwnProperty,
+    ElementType,
+    ReactNode,
+    useLayoutEffect,
+} from 'react';
 
-import { StyleCollector, CSSProps } from '@trousers/utils';
-import useStyles from './useStyles';
+import parse from './parse';
+import prefix from './prefix';
+import sheet from './sheet';
 
-import './types';
+import { Collector } from './css';
 
 const jsx = <
-    Props extends { css: StyleCollector<Theme> | CSSProps },
-    Theme extends {} = {}
+    Props extends {
+        css: ReturnType<Collector>;
+        theme?: string;
+        primary: boolean;
+    }
 >(
-    type: ElementType<Omit<Props, 'css'>>,
+    type: ElementType<Omit<Props, 'css' | 'theme' | 'primary'>>,
     props: Props,
     ...children: ReactNode[]
 ) => {
@@ -17,13 +28,43 @@ const jsx = <
         return createElement(type, props, ...children);
     }
 
-    const { css, ...rest } = props;
+    const { css, theme, primary, ...rest } = props;
+    const definitions = css
+        ._get()
+        .filter(({ id }, index) => index === 0 || !!(props as any)[id]);
+    const classes = definitions
+        .map(({ className }) => className)
+        .join(' ')
+        .trim();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const className = useStyles<Theme>(props.css);
+    useLayoutEffect(() => {
+        const headElement = document.getElementsByTagName('head')[0];
+        const styleSheet = sheet(headElement, 'data-trousers');
 
-    return createElement(type, { ...rest, className }, ...children);
+        definitions
+            .filter(({ className }) => !styleSheet.has(`.${className}`))
+            .forEach(({ className, styles }) => {
+                console.log(styles);
+
+                if (!styleSheet.has(className)) {
+                    const styleString = parse(styles);
+                    const prefixedStyles = prefix(`.${className}`, styleString);
+
+                    styleSheet.mount(className, prefixedStyles, false);
+                }
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [classes]);
+
+    return createElement(
+        type,
+        {
+            ...rest,
+            className: theme ? theme + ' ' + classes : classes,
+        },
+        ...children,
+    );
 };
 
 export default jsx;
-export { CSSProps };
