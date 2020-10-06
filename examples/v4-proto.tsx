@@ -2,7 +2,7 @@
 import { ReactNode, Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { jsx, css, createTheme } from '@trousers/core';
+import { jsx, css, createTheme, styled } from '@trousers/core';
 
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,9 +30,23 @@ const Button = ({ primary, children }: ButtonProps) => (
     </button>
 );
 
-storiesOf('v4', module).add('Default', () => (
-    <Fragment>
-        <Button>Themed Button!</Button>
-        <Button primary>Primary Themed Button!</Button>
-    </Fragment>
-));
+const StyledButton = styled.button(styles);
+const StyledButtonAlt = styled('button')(styles);
+
+storiesOf('v4', module)
+    .add('Default', () => (
+        <Fragment>
+            <Button>Themed Button!</Button>
+            <Button primary>Primary Themed Button!</Button>
+        </Fragment>
+    ))
+    .add('Styled', () => (
+        <Fragment>
+            <StyledButton> Styled, Themed Button!</StyledButton>
+            <StyledButton primary>Styled, Primary Themed Button!</StyledButton>
+            <StyledButtonAlt> Styled, Themed Button!</StyledButtonAlt>
+            <StyledButtonAlt primary>
+                Styled, Primary Themed Button!
+            </StyledButtonAlt>
+        </Fragment>
+    ));
