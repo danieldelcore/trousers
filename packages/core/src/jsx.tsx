@@ -31,7 +31,7 @@ const jsx = <
     const { css, theme, primary, ...rest } = props;
     const definitions = css
         ._get()
-        .filter(({ id }, index) => index === 0 || !!(props as any)[id]);
+        .filter(({ id, type }) => type !== 'modifier' || !!(props as any)[id]);
     const classes = definitions
         .map(({ className }) => className)
         .join(' ')
@@ -43,13 +43,13 @@ const jsx = <
         const styleSheet = sheet(headElement, 'data-trousers');
 
         definitions
-            .filter(({ className }) => !styleSheet.has(`.${className}`))
+            .filter(({ className }) => !styleSheet.has(className))
             .forEach(({ className, styles }) => {
-                console.log(styles);
-
                 if (!styleSheet.has(className)) {
                     const styleString = parse(styles);
                     const prefixedStyles = prefix(`.${className}`, styleString);
+
+                    console.log('mounting', className);
 
                     styleSheet.mount(className, prefixedStyles, false);
                 }

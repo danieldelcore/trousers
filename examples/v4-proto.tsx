@@ -2,22 +2,17 @@
 import { ReactNode, Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { jsx, css, createTheme, styled } from '@trousers/core';
-
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const theme = createTheme({
-    default: 'blue',
-    primary: 'red',
-});
+import { jsx, css, styled } from '@trousers/core';
 
 const styles = css('button', {
-    backgroundColor: 'var(--theme-default)',
+    backgroundColor: 'var(--default)',
     color: 'red',
-}).modifier('primary', {
-    backgroundColor: 'var(--theme-primary)',
-    color: 'blue',
-});
+})
+    .modifier('primary', {
+        backgroundColor: 'var(--primary)',
+        color: 'blue',
+    })
+    .theme({ default: 'blue', primary: 'red' });
 
 interface ButtonProps {
     primary?: boolean;
@@ -25,7 +20,7 @@ interface ButtonProps {
 }
 
 const Button = ({ primary, children }: ButtonProps) => (
-    <button css={styles} theme={theme} primary={primary}>
+    <button css={styles} primary={primary}>
         {children}
     </button>
 );
@@ -33,20 +28,15 @@ const Button = ({ primary, children }: ButtonProps) => (
 const StyledButton = styled.button(styles);
 const StyledButtonAlt = styled('button')(styles);
 
-storiesOf('v4', module)
-    .add('Default', () => (
-        <Fragment>
-            <Button>Themed Button!</Button>
-            <Button primary>Primary Themed Button!</Button>
-        </Fragment>
-    ))
-    .add('Styled', () => (
-        <Fragment>
-            <StyledButton> Styled, Themed Button!</StyledButton>
-            <StyledButton primary>Styled, Primary Themed Button!</StyledButton>
-            <StyledButtonAlt> Styled, Themed Button!</StyledButtonAlt>
-            <StyledButtonAlt primary>
-                Styled, Primary Themed Button!
-            </StyledButtonAlt>
-        </Fragment>
-    ));
+storiesOf('v4', module).add('Default', () => (
+    <Fragment>
+        <Button>Themed Button!</Button>
+        <Button primary>Primary Themed Button!</Button>
+        <StyledButton>Styled, Themed Button!</StyledButton>
+        <StyledButton primary>Styled, Primary Themed Button!</StyledButton>
+        <StyledButtonAlt>Styled, Themed Button!</StyledButtonAlt>
+        <StyledButtonAlt primary>
+            Styled, Primary Themed Button!
+        </StyledButtonAlt>
+    </Fragment>
+));

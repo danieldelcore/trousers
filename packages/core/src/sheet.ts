@@ -39,6 +39,7 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
     const has = (id: string) => styleMap.has(id);
 
     const mount = (id: string, styles: string, isGlobal?: boolean) => {
+        // TODO: maybe a map isn't the best thing to use here
         styleMap.set(id, '');
 
         try {
