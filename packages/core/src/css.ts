@@ -2,14 +2,24 @@ import { CSSProperties } from 'react';
 import { Definition } from './types';
 import hash from './hash';
 
-function parseTheme(theme: Record<string, any>) {
-    return Object.keys(theme).reduce<CSSProperties>((accum, key) => {
-        // TODO: this can be nested - beware
-        //@ts-ignore
-        accum[`--${key}`] = theme[key];
+const camelToSnakeCase = (str: string) =>
+    str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+
+const parseTheme = (theme: Record<string, any>, prefix: string = '') =>
+    Object.keys(theme).reduce<Record<string, any>>((accum, key) => {
+        const value = theme[key];
+
+        if (typeof value === 'object') {
+            accum = {
+                ...accum,
+                ...parseTheme(value, prefix + camelToSnakeCase(key) + '-'),
+            };
+        } else {
+            accum[`--${prefix}${camelToSnakeCase(key)}`] = value;
+        }
+
         return accum;
     }, {});
-}
 
 function css(id: string, styles: CSSProperties) {
     const elementId = `${id}-${hash(JSON.stringify(styles))}`;

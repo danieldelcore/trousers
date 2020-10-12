@@ -48,14 +48,13 @@ const jsx = <
                 if (!styleSheet.has(className)) {
                     const styleString = parse(styles);
                     const prefixedStyles = prefix(`.${className}`, styleString);
-
-                    console.log('mounting', className);
-
                     styleSheet.mount(className, prefixedStyles, false);
                 }
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);
+
+    // TODO: Zero config ssr https://github.com/emotion-js/emotion/blob/master/packages/core/src/jsx.js
 
     return createElement(
         type,
