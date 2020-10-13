@@ -36,5 +36,12 @@
         "**/*.spec*",
         "examples"
     ],
-    "references": [{ "path": "packages/core" }]
+    "references": [
+        { "path": "packages/core" },
+        { "path": "packages/react" },
+        { "path": "packages/styled" },
+        { "path": "packages/sheet" },
+        { "path": "packages/hash" },
+        { "path": "packages/trousers" }
+    ]
 }

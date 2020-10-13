@@ -1,4 +1,4 @@
-import { Collector } from './css';
+import { Collector } from '@trousers/core';
 
 declare module 'react' {
     interface DOMAttributes<T> {

@@ -1,10 +1,8 @@
-var uppercasePattern = /[A-Z]/g;
-var msPattern = /^ms-/;
-var cache: Record<string, any> = {};
+import { toHyphenLower } from './util';
 
-function toHyphenLower(match: any) {
-    return '-' + match.toLowerCase();
-}
+const uppercasePattern = /[A-Z]/g;
+const msPattern = /^ms-/;
+const cache: Record<string, any> = {};
 
 function hyphenate(name: any) {
     if (cache.hasOwnProperty(name)) {

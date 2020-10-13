@@ -1,9 +1,8 @@
 import { CSSProperties } from 'react';
-import { Definition } from './types';
-import hash from './hash';
+import hash from '@trousers/hash';
 
-const camelToSnakeCase = (str: string) =>
-    str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+import { Definition } from './types';
+import { camelToSnakeCase } from './util';
 
 const parseTheme = (theme: Record<string, any>, prefix: string = '') =>
     Object.keys(theme).reduce<Record<string, any>>((accum, key) => {

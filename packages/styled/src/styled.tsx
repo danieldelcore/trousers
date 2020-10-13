@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { forwardRef } from 'react';
-import jsx from './jsx';
-import { Collector } from './css';
+import jsx from '@trousers/react';
+import { Collector } from '@trousers/core';
 
 type Elements = keyof JSX.IntrinsicElements;
 const domElements: Elements[] = [

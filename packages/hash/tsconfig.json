@@ -5,6 +5,5 @@
         "outDir": "dist",
         "rootDir": "src",
         "baseUrl": "src"
-    },
-    "references": [{ "path": "../sheet" }, { "path": "../hash" }]
+    }
 }

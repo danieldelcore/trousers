@@ -8,12 +8,8 @@ import React, {
     Fragment,
 } from 'react';
 
-import parse from './parse';
-import prefix from './prefix';
-import sheet from './sheet';
-import isBrowser from './is-browser';
-
-import { Collector } from './css';
+import { Collector, parse, prefix, isBrowser } from '@trousers/core';
+import sheet from '@trousers/sheet';
 
 const jsx = <
     Props extends {
@@ -49,12 +45,9 @@ const jsx = <
 
     if (!isBrowser()) {
         const styles = definitions
-            .map(({ className, styles }) => {
-                const styleString = parse(styles);
-                const prefixedStyles = prefix(`.${className}`, styleString);
-
-                return prefixedStyles;
-            })
+            .map(({ className, styles }) =>
+                prefix(`.${className}`, parse(styles)),
+            )
             .join('\n');
 
         return (

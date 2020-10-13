@@ -6,5 +6,5 @@
         "rootDir": "src",
         "baseUrl": "src"
     },
-    "references": [{ "path": "../sheet" }, { "path": "../hash" }]
+    "references": [{ "path": "../core" }, { "path": "../react" }]
 }

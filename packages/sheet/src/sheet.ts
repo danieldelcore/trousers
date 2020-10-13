@@ -10,10 +10,8 @@ const getElement = (targetElement: HTMLElement, attributeId: string) =>
     targetElement.querySelector<HTMLStyleElement>(`style[${attributeId}]`);
 
 const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
-    if (tag.sheet) {
-        // @ts-ignore
-        return tag.sheet;
-    }
+    // @ts-ignore
+    if (tag.sheet) return tag.sheet;
 
     for (let i = 0; i < document.styleSheets.length; i++) {
         if (document.styleSheets[i].ownerNode === tag) {

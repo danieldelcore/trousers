@@ -2,7 +2,9 @@
 import { ReactNode, Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { jsx, css, styled } from '@trousers/core';
+import css from '@trousers/core';
+import jsx from '@trousers/react';
+import styled from '@trousers/styled';
 
 const styles = css('button', {
     backgroundColor: 'var(--default)',

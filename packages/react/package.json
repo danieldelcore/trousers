@@ -1,14 +1,12 @@
 {
-    "name": "@trousers/core",
-    "version": "3.0.2",
+    "name": "@trousers/react",
+    "version": "4.0.0",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/hash": "3.0.0",
-        "@trousers/sheet": "3.0.0",
-        "stylis": "^4.0.3"
+        "@trousers/core": "3.0.2"
     },
     "devDependencies": {
         "react": "^16.8.1"
@@ -16,5 +14,5 @@
     "peerDependencies": {
         "react": ">=16.8.0"
     },
-    "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/core"
+    "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/react"
 }
