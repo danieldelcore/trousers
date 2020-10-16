@@ -25,7 +25,7 @@ const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
 
 const sheet = (targetEl: HTMLElement, attributeId: string) => {
     let styleEl = getElement(targetEl, attributeId);
-    const styleMap = new Map();
+    const styleMap = new Map(); // TODO: this causes duplicates
 
     if (styleEl === null) {
         styleEl = createStyleElement(attributeId);

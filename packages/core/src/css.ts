@@ -1,8 +1,7 @@
-import { CSSProperties } from 'react';
 import hash from '@trousers/hash';
 
-import { Definition } from './types';
-import { camelToSnakeCase } from './util';
+import { Definition, CSSObject } from './types';
+import { camelToKebabCase } from './util';
 
 const parseTheme = (theme: Record<string, any>, prefix: string = '') =>
     Object.keys(theme).reduce<Record<string, any>>((accum, key) => {
@@ -11,16 +10,16 @@ const parseTheme = (theme: Record<string, any>, prefix: string = '') =>
         if (typeof value === 'object') {
             accum = {
                 ...accum,
-                ...parseTheme(value, prefix + camelToSnakeCase(key) + '-'),
+                ...parseTheme(value, prefix + camelToKebabCase(key) + '-'),
             };
         } else {
-            accum[`--${prefix}${camelToSnakeCase(key)}`] = value;
+            accum[`--${prefix}${camelToKebabCase(key)}`] = value;
         }
 
         return accum;
     }, {});
 
-function css(id: string, styles: CSSProperties) {
+function css(id: string, styles: CSSObject) {
     const elementId = `${id}-${hash(JSON.stringify(styles))}`;
     const styleMap: Definition[] = [
         {
@@ -33,7 +32,7 @@ function css(id: string, styles: CSSProperties) {
 
     const self = {
         _get: () => styleMap,
-        modifier: (modifierId: string, modifierStyles: CSSProperties) => {
+        modifier: (modifierId: string, modifierStyles: CSSObject) => {
             styleMap.push({
                 id: modifierId,
                 type: 'modifier',

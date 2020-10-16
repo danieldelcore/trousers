@@ -1,32 +1,31 @@
-import { toHyphenLower } from './util';
+import { camelToKebabCase } from './util';
 
-const uppercasePattern = /[A-Z]/g;
 const msPattern = /^ms-/;
 const cache: Record<string, any> = {};
 
 function hyphenate(name: any) {
-    if (cache.hasOwnProperty(name)) {
-        return cache[name];
-    }
+    if (cache.hasOwnProperty(name)) return cache[name];
 
-    var hName = name.replace(uppercasePattern, toHyphenLower);
+    const hName = camelToKebabCase(name);
     return (cache[name] = msPattern.test(hName) ? '-' + hName : hName);
 }
 
 function parse(styleObject: Record<string, any>) {
-    var keys = Object.keys(styleObject);
-    if (!keys.length) return '';
-    let i: number;
-    let len = keys.length;
-    var result = '';
+    const keys = Object.keys(styleObject);
 
-    for (i = 0; i < len; i++) {
+    if (!keys.length) return '';
+
+    let result = '';
+
+    for (let i = 0; i < keys.length; i++) {
         var key = keys[i];
         var val = styleObject[key];
 
         if (typeof val !== 'string') {
             result += parse(val);
         } else {
+            console.log(hyphenate(key));
+
             result += hyphenate(key) + ':' + val + ';';
         }
     }
