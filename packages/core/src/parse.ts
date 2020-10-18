@@ -11,26 +11,17 @@ function hyphenate(name: any) {
 }
 
 function parse(styleObject: Record<string, any>) {
-    const keys = Object.keys(styleObject);
-
-    if (!keys.length) return '';
-
-    let result = '';
-
-    for (let i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        var val = styleObject[key];
+    return Object.keys(styleObject).reduce((accum, key) => {
+        const val = styleObject[key];
 
         if (typeof val !== 'string') {
-            result += parse(val);
+            accum += `\n${key} {${parse(val)}}`;
         } else {
-            console.log(hyphenate(key));
-
-            result += hyphenate(key) + ':' + val + ';';
+            accum += hyphenate(key) + ':' + val + ';';
         }
-    }
 
-    return result;
+        return accum;
+    }, '');
 }
 
 export default parse;

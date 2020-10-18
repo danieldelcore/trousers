@@ -31,11 +31,11 @@ storiesOf('Basic', module)
             transition: 'background-color 300ms, color 300ms',
             outline: 'none',
 
-            ':hover': {
+            '&:hover': {
                 backgroundColor: '#adc6e0',
                 color: 'rgba(255, 255, 255, 0.8)',
             },
-            ':active': {
+            '&:active': {
                 backgroundColor: '#9fb8d1',
             },
         })
@@ -43,10 +43,10 @@ storiesOf('Basic', module)
                 backgroundColor: '#f95b5b',
                 boxShadow: 'inset 0 -4px #c54646',
                 color: '#ffffff',
-                ':hover': {
+                '&:hover': {
                     backgroundColor: '#e45454',
                 },
-                ':active': {
+                '&:active': {
                     backgroundColor: '#c54646',
                 },
             })
@@ -55,7 +55,7 @@ storiesOf('Basic', module)
                 boxShadow: 'inset 0 -4px #afafaf',
                 color: '#afafaf',
                 cursor: 'not-allowed',
-                ':hover,:active': {
+                '&:hover,&:active': {
                     color: '#afafaf',
                     backgroundColor: '#efefef',
                 },
@@ -107,10 +107,10 @@ storiesOf('Basic', module)
             boxShadow: 'inset 0 -4px #c54646',
             color: '#ffffff',
 
-            ':hover': {
+            '&:hover': {
                 backgroundColor: '#e45454',
             },
-            ':active': {
+            '&:active': {
                 backgroundColor: '#c54646',
             },
         });

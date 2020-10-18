@@ -43,7 +43,6 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
         try {
             const sheet = getSheet(styleEl!);
             sheet.insertRule(styles, isGlobal ? 0 : sheet.cssRules.length);
-
             return;
         } catch (error) {
             console.warn(`Trousers: unable to insert rule: ${styles}`, error);

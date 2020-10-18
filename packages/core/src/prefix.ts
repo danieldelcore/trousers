@@ -1,6 +1,6 @@
-import { compile, serialize, stringify, namespace, middleware } from 'stylis';
+import { compile, serialize, stringify, middleware, prefixer } from 'stylis';
 
 const prefix = (id: string, styles: string) =>
-    serialize(compile(`${id}{${styles}}`), middleware([namespace, stringify]));
+    serialize(compile(`${id}{${styles}}`), middleware([prefixer, stringify]));
 
 export default prefix;

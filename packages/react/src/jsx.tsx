@@ -66,11 +66,9 @@ const jsx = <
         definitions
             .filter(({ className }) => !styleSheet.has(className))
             .forEach(({ className, styles }) => {
-                if (!styleSheet.has(className)) {
-                    const styleString = parse(styles);
-                    const prefixedStyles = prefix(`.${className}`, styleString);
-                    styleSheet.mount(className, prefixedStyles, false);
-                }
+                const styleString = parse(styles);
+                const prefixedStyles = prefix(`.${className}`, styleString);
+                styleSheet.mount(className, prefixedStyles, false);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);
