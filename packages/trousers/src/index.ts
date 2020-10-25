@@ -2,7 +2,7 @@ export {
     default as css,
     Collector,
     Definition,
-    parse,
+    namespace,
     prefix,
     isBrowser,
 } from '@trousers/core';

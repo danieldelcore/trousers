@@ -8,7 +8,7 @@ import React, {
     Fragment,
 } from 'react';
 
-import { Collector, parse, prefix, isBrowser } from '@trousers/core';
+import { Collector, process, isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
 
 const jsx = <
@@ -46,7 +46,13 @@ const jsx = <
     if (!isBrowser()) {
         const styles = definitions
             .map(({ className, styles }) =>
-                prefix(`.${className}`, parse(styles)),
+                Object.entries(process(`.${className}`, styles)).reduce(
+                    (accum, [key, value]) => {
+                        accum += `${key} {${value}}`;
+                        return accum;
+                    },
+                    '',
+                ),
             )
             .join('\n');
 
@@ -66,9 +72,11 @@ const jsx = <
         definitions
             .filter(({ className }) => !styleSheet.has(className))
             .forEach(({ className, styles }) => {
-                const styleString = parse(styles);
-                const prefixedStyles = prefix(`.${className}`, styleString);
-                styleSheet.mount(className, prefixedStyles, false);
+                Object.entries(
+                    process(`.${className}`, styles),
+                ).forEach(([key, value]) =>
+                    styleSheet.mount(key, `${key}{${value}}`, false),
+                );
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);

@@ -1,23 +1,7 @@
 import hash from '@trousers/hash';
 
 import { Definition, CSSObject } from './types';
-import { camelToKebabCase } from './util';
-
-const parseTheme = (theme: Record<string, any>, prefix: string = '') =>
-    Object.keys(theme).reduce<Record<string, any>>((accum, key) => {
-        const value = theme[key];
-
-        if (typeof value === 'object') {
-            accum = {
-                ...accum,
-                ...parseTheme(value, prefix + camelToKebabCase(key) + '-'),
-            };
-        } else {
-            accum[`--${prefix}${camelToKebabCase(key)}`] = value;
-        }
-
-        return accum;
-    }, {});
+import themify from './themify';
 
 function css(id: string, styles: CSSObject) {
     const elementId = `${id}-${hash(JSON.stringify(styles))}`;
@@ -49,7 +33,7 @@ function css(id: string, styles: CSSObject) {
                 id: `theme-${id}`,
                 type: 'theme',
                 className: `theme-${id}`,
-                styles: parseTheme(theme),
+                styles: themify(theme),
             });
 
             return self;

@@ -11604,11 +11604,6 @@ styled-components@^5.1.0:
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
 
-stylis@^4.0.3:
-  version "4.0.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/stylis/-/stylis-4.0.3.tgz#0d714765f3f694a685550f0c45411ebf90a9bded"
-  integrity sha1-DXFHZfP2lKaFVQ8MRUEev5Cpve0=
-
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
@@ -11837,6 +11832,11 @@ timers-browserify@^2.0.4:
   integrity sha1-gAsfPu4nLlvFPuRloE0OgEwxIR8=
   dependencies:
     setimmediate "^1.0.4"
+
+tiny-css-prefixer@^1.1.4:
+  version "1.1.4"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/tiny-css-prefixer/-/tiny-css-prefixer-1.1.4.tgz#b96a0aa6b312227d996e9c303645e3ae2f194086"
+  integrity sha1-uWoKprMSIn2ZbpwwNkXjri8ZQIY=
 
 tiny-emitter@^2.0.0:
   version "2.1.0"

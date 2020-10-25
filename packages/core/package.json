@@ -9,7 +9,7 @@
         "@trousers/hash": "3.0.0",
         "@trousers/sheet": "3.0.0",
         "csstype": "^2.5.7",
-        "stylis": "^4.0.3"
+        "tiny-css-prefixer": "^1.1.4"
     },
     "devDependencies": {
         "react": "^16.8.1"

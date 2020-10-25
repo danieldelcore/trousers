@@ -14,5 +14,5 @@ export interface Definition {
     id: string;
     type: 'element' | 'modifier' | 'theme';
     className: string;
-    styles: CSSProperties;
+    styles: CSSObject;
 }
