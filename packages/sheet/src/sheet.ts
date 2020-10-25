@@ -25,7 +25,7 @@ const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
 
 const sheet = (targetEl: HTMLElement, attributeId: string) => {
     let styleEl = getElement(targetEl, attributeId);
-    const styleMap = new Map(); // TODO: this causes duplicates
+    const styleMap = new Map();
 
     if (styleEl === null) {
         styleEl = createStyleElement(attributeId);
@@ -37,7 +37,6 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
     const has = (id: string) => styleMap.has(id);
 
     const mount = (id: string, styles: string, isGlobal?: boolean) => {
-        // TODO: maybe a map isn't the best thing to use here
         styleMap.set(id, '');
 
         try {

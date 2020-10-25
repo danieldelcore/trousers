@@ -11,6 +11,12 @@ import React, {
 import { Collector, process, isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
 
+let styleSheet: ReturnType<typeof sheet> | null = null;
+if (isBrowser()) {
+    const headElement = document.getElementsByTagName('head')[0];
+    styleSheet = sheet(headElement, 'data-trousers');
+}
+
 const jsx = <
     Props extends {
         css: ReturnType<Collector>;
@@ -66,16 +72,16 @@ const jsx = <
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
-        const headElement = document.getElementsByTagName('head')[0];
-        const styleSheet = sheet(headElement, 'data-trousers');
-
         definitions
-            .filter(({ className }) => !styleSheet.has(className))
+            .filter(
+                ({ className }) =>
+                    styleSheet && !styleSheet.has(`.${className}`),
+            )
             .forEach(({ className, styles }) => {
-                Object.entries(
-                    process(`.${className}`, styles),
-                ).forEach(([key, value]) =>
-                    styleSheet.mount(key, `${key}{${value}}`, false),
+                Object.entries(process(`.${className}`, styles)).forEach(
+                    ([key, value]) =>
+                        styleSheet &&
+                        styleSheet.mount(key, `${key}{${value}}`, false),
                 );
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
