@@ -1,6 +1,19 @@
 import namespace from './namespace';
 
 describe('namespace', () => {
+    it('namespaces properties', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            color: 'blue',
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+                color: 'blue',
+            },
+        });
+    });
+
     it('namespaces nested selectors', () => {
         const result = namespace('.my-id', {
             background: 'red',
@@ -127,6 +140,100 @@ describe('namespace', () => {
         });
     });
 
+    it('namespaces media queries', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            '@media screen and (max-width: 992px)': {
+                '& button': {
+                    background: 'violet',
+                },
+            },
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+            },
+            '@media screen and (max-width: 992px)': {
+                '.my-id button': {
+                    background: 'violet',
+                },
+            },
+        });
+    });
+
+    it('namespaces media queries multiple selectors', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            '@media screen and (max-width: 992px)': {
+                '& button': {
+                    background: 'violet',
+                },
+                '& span': {
+                    background: 'purple',
+                },
+            },
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+            },
+            '@media screen and (max-width: 992px)': {
+                '.my-id button': {
+                    background: 'violet',
+                },
+                '.my-id span': {
+                    background: 'purple',
+                },
+            },
+        });
+    });
+
+    it('namespaces media queries with nested selectors', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            '@media screen and (max-width: 992px)': {
+                '& button': {
+                    background: 'violet',
+                    '& span': {
+                        background: 'green',
+                    },
+                },
+            },
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+            },
+            '@media screen and (max-width: 992px)': {
+                '.my-id button': {
+                    background: 'violet',
+                },
+                '.my-id button span': {
+                    background: 'green',
+                },
+            },
+        });
+    });
+
+    it('namespaces keyframes', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            '@keyframes mymove': {
+                from: { top: '0px' },
+                to: { top: '200px' },
+            },
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+            },
+            '@keyframes mymove': {
+                from: { top: '0px' },
+                to: { top: '200px' },
+            },
+        });
+    });
+
     it('namespaces nested selectors with & token', () => {
         const result = namespace('.my-id', {
             background: 'red',
@@ -163,6 +270,23 @@ describe('namespace', () => {
             },
             '.my-id button span': {
                 background: 'green',
+            },
+        });
+    });
+
+    it('namespaces nested pseudo elements', () => {
+        const result = namespace('.my-id', {
+            background: 'red',
+            '::before': {
+                background: 'violet',
+            },
+        });
+        expect(result).toEqual({
+            '.my-id': {
+                background: 'red',
+            },
+            '.my-id::before': {
+                background: 'violet',
             },
         });
     });
@@ -259,6 +383,44 @@ describe('namespace', () => {
                 background: 'violet',
             },
             '.my-id:hover button': {
+                color: 'red',
+            },
+        });
+    });
+
+    it('namespaces compound selectors', () => {
+        const result = namespace('.my-id', {
+            '& button, & span': {
+                color: 'red',
+            },
+            'div, strong': {
+                color: 'blue',
+            },
+        });
+        expect(result).toEqual({
+            '.my-id button, .my-id span': {
+                color: 'red',
+            },
+            '.my-id div, .my-id strong': {
+                color: 'blue',
+            },
+        });
+    });
+
+    it('namespaces deeply nested pseudo selectors with compound selector', () => {
+        const result = namespace('.my-id', {
+            '& button': {
+                color: 'red',
+                ':hover,:active': {
+                    color: 'red',
+                },
+            },
+        });
+        expect(result).toEqual({
+            '.my-id button': {
+                color: 'red',
+            },
+            '.my-id button:hover,.my-id button:active': {
                 color: 'red',
             },
         });

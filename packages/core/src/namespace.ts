@@ -21,6 +21,10 @@ function namespace(id: string, style: Record<string, any>): RuleSet {
                     nestedId + ':',
                 );
             } else {
+                newRuleKey = property.replace(
+                    new RegExp(/,/, 'g'),
+                    ', ' + nestedId,
+                );
                 newRuleKey = nestedId + ' ' + newRuleKey;
             }
 
