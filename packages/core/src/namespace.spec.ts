@@ -14,6 +14,23 @@ describe('namespace', () => {
         });
     });
 
+    it('merges duplicate & alike selectors', () => {
+        const result = namespace('.my-id', {
+            '& button': {
+                background: 'violet',
+            },
+            button: {
+                color: 'green',
+            },
+        });
+        expect(result).toEqual({
+            '.my-id button': {
+                background: 'violet',
+                color: 'green',
+            },
+        });
+    });
+
     it('namespaces nested selectors', () => {
         const result = namespace('.my-id', {
             background: 'red',

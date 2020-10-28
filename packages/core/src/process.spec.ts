@@ -7,7 +7,7 @@ describe('process', () => {
             color: 'white',
         });
         expect(result).toEqual({
-            button: 'background-color: #b3cde8;\ncolor: white;\n',
+            button: 'background-color: #b3cde8;color: white;',
         });
     });
 
@@ -17,7 +17,7 @@ describe('process', () => {
             color: 'white',
         });
         expect(result).toEqual({
-            button: 'background-color: #b3cde8;\ncolor: white;\n',
+            button: 'background-color: #b3cde8;color: white;',
         });
     });
 
@@ -30,8 +30,8 @@ describe('process', () => {
             },
         });
         expect(result).toEqual({
-            '.my-id': 'background-color: red;\n',
-            '.my-id button': 'background-color: violet;\n',
+            '.my-id': 'background-color: red;',
+            '.my-id button': 'background-color: violet;',
         });
     });
 
@@ -47,9 +47,9 @@ describe('process', () => {
             },
         });
         expect(result).toEqual({
-            '.my-id': 'background-color: red;\n',
-            '.my-id button': 'background-color: violet;\n',
-            '.my-id button span': 'background-color: green;\n',
+            '.my-id': 'background-color: red;',
+            '.my-id button': 'background-color: violet;',
+            '.my-id button span': 'background-color: green;',
         });
     });
 
@@ -65,9 +65,9 @@ describe('process', () => {
             },
         });
         expect(result).toEqual({
-            '.my-id': 'background-color: red;\n',
-            '.my-id #MyButton': 'background-color: violet;\n',
-            '.my-id #MyButton .myDiv': 'background-color: green;\n',
+            '.my-id': 'background-color: red;',
+            '.my-id #MyButton': 'background-color: violet;',
+            '.my-id #MyButton .myDiv': 'background-color: green;',
         });
     });
 
@@ -79,8 +79,54 @@ describe('process', () => {
             '& > .myButton': { color: 'violet' },
         });
         expect(result).toEqual({
-            '.my-id': 'background-color: red;\n',
-            '.my-id > .myButton': 'background-color: violet;\ncolor: violet;\n',
+            '.my-id': 'background-color: red;',
+            '.my-id > .myButton': 'background-color: violet;color: violet;',
+        });
+    });
+
+    it('stringifies keyframe animations', () => {
+        const result = process('.my-id', {
+            // @ts-ignore
+            '@keyframes mymove': {
+                from: { top: '0px' },
+                to: { top: '200px' },
+            },
+        });
+        expect(result).toEqual({
+            '@keyframes mymove': 'from{top: 0px;}to{top: 200px;}',
+        });
+    });
+
+    it('stringifies media queries', () => {
+        const result = process('.my-id', {
+            // @ts-ignore
+            '@media screen and (max-width: 992px)': {
+                '& button': {
+                    background: 'violet',
+                },
+            },
+        });
+        expect(result).toEqual({
+            '@media screen and (max-width: 992px)':
+                '.my-id button{background: violet;}',
+        });
+    });
+
+    it('stringifies media queries with deeply nested selectors', () => {
+        const result = process('.my-id', {
+            // @ts-ignore
+            '@media screen and (max-width: 992px)': {
+                '& button': {
+                    background: 'violet',
+                    '& span': {
+                        color: 'red',
+                    },
+                },
+            },
+        });
+        expect(result).toEqual({
+            '@media screen and (max-width: 992px)':
+                '.my-id button{background: violet;}.my-id button span{color: red;}',
         });
     });
 });
