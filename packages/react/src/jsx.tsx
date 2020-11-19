@@ -20,30 +20,41 @@ if (isBrowser()) {
 const jsx = <
     Props extends {
         css: ReturnType<Collector>;
-        primary: boolean;
+        [key: string]: any;
     }
 >(
-    type: ElementType<Omit<Props, 'css' | 'primary'>>,
+    type: ElementType<Omit<Props, 'css'>>,
     props: Props,
     ...children: ReactNode[]
 ) => {
-    if (props == null || !hasOwnProperty.call(props, 'css')) {
+    if (props == null || !hasOwnProperty.call(props, 'css'))
         return createElement(type, props, ...children);
-    }
 
-    const { css, primary, ...rest } = props;
-    const definitions = css
+    const definitions = props.css
         ._get()
-        .filter(({ id, type }) => type !== 'modifier' || !!(props as any)[id]);
+        .filter(
+            ({ id, type }) =>
+                type !== 'modifier' ||
+                (props.hasOwnProperty(`$${id}`) && !!props[`$${id}`]),
+        );
+
     const classes = definitions
         .map(({ className }) => className)
         .join(' ')
         .trim();
 
+    const cleanProps = Object.keys(props)
+        .filter(key => !key.startsWith('$') && key !== 'css')
+        .reduce((obj: Record<string, any>, key: string) => {
+            obj[key] = props[key];
+            return obj;
+        }, {});
+
     const Element = createElement(
         type,
+        // @ts-ignore
         {
-            ...rest,
+            ...cleanProps,
             className: classes,
         },
         ...children,
@@ -53,10 +64,7 @@ const jsx = <
         const styles = definitions
             .map(({ className, styles }) =>
                 Object.entries(process(`.${className}`, styles)).reduce(
-                    (accum, [key, value]) => {
-                        accum += `${key} {${value}}`;
-                        return accum;
-                    },
+                    (accum, [key, value]) => `${accum}${key} {${value}}`,
                     '',
                 ),
             )

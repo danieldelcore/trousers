@@ -82,7 +82,7 @@ storiesOf('Performance', module)
             </Fragment>
         );
     })
-    .add('Many nodes with different classes', () => {
+    .add('Many nodes with different nodes', () => {
         const Dot: FC<{ color: string }> = props => (
             <div
                 css={css('dot', {

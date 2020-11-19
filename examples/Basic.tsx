@@ -13,7 +13,7 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = css('button', {
+        const styles = css('button', {
             backgroundColor: '#b3cde8',
             borderRadius: '6px',
             border: 'none',
@@ -30,11 +30,11 @@ storiesOf('Basic', module)
             textDecoration: 'none',
             transition: 'background-color 300ms, color 300ms',
             outline: 'none',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: '#adc6e0',
                 color: 'rgba(255, 255, 255, 0.8)',
             },
-            '&:active': {
+            ':active': {
                 backgroundColor: '#9fb8d1',
             },
         })
@@ -42,10 +42,10 @@ storiesOf('Basic', module)
                 backgroundColor: '#f95b5b',
                 boxShadow: 'inset 0 -4px #c54646',
                 color: '#ffffff',
-                '&:hover': {
+                ':hover': {
                     backgroundColor: '#e45454',
                 },
-                '&:active': {
+                ':active': {
                     backgroundColor: '#c54646',
                 },
             })
@@ -60,8 +60,10 @@ storiesOf('Basic', module)
                 },
             });
 
-        const Button: FC<ButtonProps> = props => (
-            <button css={buttonStyles}>{props.children}</button>
+        const Button: FC<ButtonProps> = ({ primary, disabled, children }) => (
+            <button css={styles} $primary={primary} $disabled={disabled}>
+                {children}
+            </button>
         );
 
         return (
@@ -104,10 +106,10 @@ storiesOf('Basic', module)
             backgroundColor: '#f95b5b',
             boxShadow: 'inset 0 -4px #c54646',
             color: '#ffffff',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: '#e45454',
             },
-            '&:active': {
+            ':active': {
                 backgroundColor: '#c54646',
             },
         });
@@ -119,7 +121,7 @@ storiesOf('Basic', module)
                 <button
                     css={toggleStyles}
                     onClick={() => setToggle(!isOn)}
-                    isOn={isOn}
+                    $isOn={isOn}
                 >
                     <span>{!isOn ? 'On' : 'Off'}</span>
                 </button>
@@ -146,24 +148,23 @@ storiesOf('Basic', module)
                 fontSize: '40px',
                 marginBottom: '10px',
             },
-            // @ts-ignore
             '@media (min-width: 768px)': {
                 '&:before': {
                     content: 'Medium',
                 },
-                backgroundColor: '#deecff',
+                backgroundColor: '#aac8f2',
             },
             '@media (min-width: 1000px)': {
                 '&:before': {
                     content: 'Large',
                 },
-                backgroundColor: '#c6cfff',
+                backgroundColor: '#bb99f0',
             },
             '@media (min-width: 1500px)': {
                 '&:before': {
                     content: 'Extra Large',
                 },
-                backgroundColor: '#e8d3ff',
+                backgroundColor: '#9056ce',
             },
         });
 
@@ -180,7 +181,6 @@ storiesOf('Basic', module)
             backgroundColor: '#f6e3e3',
             borderRadius: '150px',
             animation: 'rotating 2s linear infinite',
-            // @ts-ignore
             '@keyframes rotating': {
                 from: {
                     transform: 'rotate(0deg)',
