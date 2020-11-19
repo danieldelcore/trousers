@@ -6,16 +6,14 @@ const createStyleElement = (attributeId: string) => {
     return element;
 };
 
-const getElement = (targetElement: HTMLElement, attributeId: string) =>
-    targetElement.querySelector<HTMLStyleElement>(`style[${attributeId}]`);
+const getElement = (targetEl: HTMLElement, attributeId: string) =>
+    targetEl.querySelector<HTMLStyleElement>(`style[${attributeId}]`);
 
-const getSheet = (tag: HTMLStyleElement): CSSStyleSheet => {
-    // @ts-ignore
-    if (tag.sheet) return tag.sheet;
+const getSheet = (targetEl: HTMLStyleElement) => {
+    if (targetEl.sheet) return targetEl.sheet;
 
     for (let i = 0; i < document.styleSheets.length; i++) {
-        if (document.styleSheets[i].ownerNode === tag) {
-            // @ts-ignore
+        if (document.styleSheets[i].ownerNode === targetEl) {
             return document.styleSheets[i];
         }
     }
@@ -32,25 +30,25 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
         targetEl.appendChild(styleEl);
     }
 
-    const clear = () => styleEl!.remove();
-
     const has = (id: string) => styleMap.has(id);
 
     const mount = (id: string, styles: string, isGlobal?: boolean) => {
-        styleMap.set(id, '');
+        if (has(id)) return;
 
         try {
-            const sheet = getSheet(styleEl!);
-            sheet.insertRule(styles, isGlobal ? 0 : sheet.cssRules.length);
-            return;
+            const activeSheet = getSheet(styleEl!);
+            activeSheet.insertRule(
+                styles,
+                isGlobal ? 0 : activeSheet.cssRules.length,
+            );
+            styleMap.set(id, '');
         } catch (error) {
-            console.warn(`Trousers: unable to insert rule: ${styles}`, error);
+            console.warn(`Trousers - unable to insert rule: ${styles}`, error);
         }
     };
 
     return {
         has,
-        clear,
         mount,
     };
 };

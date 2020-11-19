@@ -43,7 +43,10 @@ function namespace(id: string, style: Record<string, any>): RuleSet {
                     {},
                 ),
             });
-        } else if (property.includes('@media')) {
+        } else if (
+            property.includes('@media') ||
+            property.includes('@supports')
+        ) {
             return mergeDeep(accum, {
                 [property]: namespace(id, value),
             });

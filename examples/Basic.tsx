@@ -93,7 +93,6 @@ storiesOf('Basic', module)
             textDecoration: 'none',
             transition: 'background-color 300ms, color 300ms',
             outline: 'none',
-
             ':hover': {
                 backgroundColor: '#adc6e0',
                 color: 'rgba(255, 255, 255, 0.8)',
@@ -105,7 +104,6 @@ storiesOf('Basic', module)
             backgroundColor: '#f95b5b',
             boxShadow: 'inset 0 -4px #c54646',
             color: '#ffffff',
-
             '&:hover': {
                 backgroundColor: '#e45454',
             },

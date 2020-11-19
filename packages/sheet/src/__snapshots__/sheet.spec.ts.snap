@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sheet can mount a style tag 1`] = `
+<style data-testing-trousers="" type="text/css"></style>
+<style data-testing-secondary="" type="text/css"></style>
+`;
+
+exports[`Sheet mounts a new style 1`] = `<style data-testing-trousers="" type="text/css"></style>`;
