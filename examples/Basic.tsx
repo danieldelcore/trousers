@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { storiesOf } from '@storybook/react';
 import { FC, Fragment, ReactNode, useState } from 'react';
+import { storiesOf } from '@storybook/react';
 
 import css from '@trousers/core';
 import jsx from '@trousers/react';
