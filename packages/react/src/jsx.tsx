@@ -8,7 +8,7 @@ import React, {
     Fragment,
 } from 'react';
 
-import { Collector, process, isBrowser } from '@trousers/core';
+import { CollectorReturn, process, isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
 
 let styleSheet: ReturnType<typeof sheet> | null = null;
@@ -19,7 +19,7 @@ if (isBrowser()) {
 
 const jsx = <
     Props extends {
-        css: ReturnType<Collector>;
+        css: CollectorReturn;
         [key: string]: any;
     }
 >(
@@ -39,7 +39,7 @@ const jsx = <
         );
 
     const classes = definitions
-        .map(({ className }) => className)
+        .map(({ className }) => className.substring(1))
         .join(' ')
         .trim();
 
@@ -63,7 +63,7 @@ const jsx = <
     if (!isBrowser()) {
         const styles = definitions
             .map(({ className, styles }) =>
-                Object.entries(process(`.${className}`, styles)).reduce(
+                Object.entries(process(className, styles)).reduce(
                     (accum, [key, value]) => `${accum}${key} {${value}}`,
                     '',
                 ),
@@ -81,15 +81,16 @@ const jsx = <
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
         definitions
-            .filter(
-                ({ className }) =>
-                    styleSheet && !styleSheet.has(`.${className}`),
-            )
-            .forEach(({ className, styles }) => {
-                Object.entries(process(`.${className}`, styles)).forEach(
+            .filter(({ className }) => styleSheet && !styleSheet.has(className))
+            .forEach(({ className, styles, type }) => {
+                Object.entries(process(className, styles)).forEach(
                     ([key, value]) =>
                         styleSheet &&
-                        styleSheet.mount(key, `${key}{${value}}`, false),
+                        styleSheet.mount(
+                            key,
+                            `${key}{${value}}`,
+                            type === 'global',
+                        ),
                 );
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps

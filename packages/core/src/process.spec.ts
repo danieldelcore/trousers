@@ -112,6 +112,22 @@ describe('process', () => {
         });
     });
 
+    it('stringifies top-level font-face declaration', () => {
+        const result = process('', {
+            // @ts-ignore
+            '@font-face': {
+                fontFamily: 'Untitled Sans',
+                fontWeight: 400,
+                fontDisplay: 'swap',
+                src: "url(UntitledSansWeb-Regular.woff2) format('woff2')",
+            },
+        });
+        expect(result).toEqual({
+            '@font-face':
+                "{font-family: Untitled Sans;font-weight: 400;font-display: swap;src: url(UntitledSansWeb-Regular.woff2) format('woff2');}",
+        });
+    });
+
     it('stringifies media queries with deeply nested selectors', () => {
         const result = process('.my-id', {
             // @ts-ignore

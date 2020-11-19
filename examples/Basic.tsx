@@ -93,7 +93,6 @@ storiesOf('Basic', module)
             margin: '5px 10px',
             padding: '10px 20px 14px 20px',
             textDecoration: 'none',
-            transition: 'background-color 300ms, color 300ms',
             outline: 'none',
             ':hover': {
                 backgroundColor: '#adc6e0',

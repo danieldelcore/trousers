@@ -45,6 +45,7 @@ function namespace(id: string, style: Record<string, any>): RuleSet {
             });
         } else if (
             property.includes('@media') ||
+            property.includes('@font-face') ||
             property.includes('@supports')
         ) {
             return mergeDeep(accum, {

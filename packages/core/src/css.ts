@@ -5,10 +5,8 @@ import themify from './themify';
 
 export interface CollectorReturn {
     _get: () => Definition[];
-    modifier: (
-        modifierId: string,
-        modifierStyles: CSSObject,
-    ) => CollectorReturn;
+    modifier: (id: string, styles: CSSObject) => CollectorReturn;
+    global: (styles: CSSObject) => CollectorReturn;
     theme: (theme: Record<string, any>) => CollectorReturn;
 }
 
@@ -30,19 +28,19 @@ function css(
     const styleMap: Definition[] = [
         {
             id,
-            className: elementId,
+            className: `.${elementId}`,
             type: 'element',
             styles: styleObject,
         },
     ];
 
-    const self = {
+    const self: CollectorReturn = {
         _get: () => styleMap,
-        modifier: (modifierId: string, modifierStyles: CSSObject) => {
+        modifier: (modifierId, modifierStyles) => {
             styleMap.push({
                 id: modifierId,
                 type: 'modifier',
-                className: `${elementId}--${modifierId}-${hash(
+                className: `.${elementId}--${modifierId}-${hash(
                     JSON.stringify(modifierStyles),
                 )}`,
                 styles: modifierStyles,
@@ -50,11 +48,21 @@ function css(
 
             return self;
         },
-        theme: (theme: Record<string, any>) => {
+        global: styles => {
+            styleMap.push({
+                id: JSON.stringify(styles),
+                type: 'global',
+                className: '',
+                styles: styles,
+            });
+
+            return self;
+        },
+        theme: theme => {
             styleMap.push({
                 id: `theme-${id}`,
                 type: 'theme',
-                className: `theme-${id}`,
+                className: `.theme-${id}`,
                 styles: themify(theme),
             });
 

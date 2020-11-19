@@ -12,7 +12,7 @@ export interface CSSObject extends CSSPropertiesWithMultiValues, CSSPseudos {}
 
 export interface Definition {
     id: string;
-    type: 'element' | 'modifier' | 'theme';
+    type: 'element' | 'modifier' | 'theme' | 'global';
     className: string;
     styles: CSSObject;
 }

@@ -157,6 +157,27 @@ describe('namespace', () => {
         });
     });
 
+    it('namespaces top-level font-face declaration', () => {
+        const result = namespace('', {
+            '@font-face': {
+                fontFamily: 'Untitled Sans',
+                fontWeight: 400,
+                fontDisplay: 'swap',
+                src: "url(UntitledSansWeb-Regular.woff2) format('woff2')",
+            },
+        });
+        expect(result).toEqual({
+            '@font-face': {
+                '': {
+                    fontFamily: 'Untitled Sans',
+                    fontWeight: 400,
+                    fontDisplay: 'swap',
+                    src: "url(UntitledSansWeb-Regular.woff2) format('woff2')",
+                },
+            },
+        });
+    });
+
     it('namespaces media queries', () => {
         const result = namespace('.my-id', {
             background: 'red',
