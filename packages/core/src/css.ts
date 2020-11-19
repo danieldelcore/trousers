@@ -3,14 +3,36 @@ import hash from '@trousers/hash';
 import { Definition, CSSObject } from './types';
 import themify from './themify';
 
-function css(id: string, styles: CSSObject) {
-    const elementId = `${id}-${hash(JSON.stringify(styles))}`;
+export interface CollectorReturn {
+    _get: () => Definition[];
+    modifier: (
+        modifierId: string,
+        modifierStyles: CSSObject,
+    ) => CollectorReturn;
+    theme: (theme: Record<string, any>) => CollectorReturn;
+}
+
+function css(styles: CSSObject): CollectorReturn;
+function css(
+    idOrStyle: string | CSSObject,
+    styles?: CSSObject,
+): CollectorReturn;
+function css(
+    idOrStyle: string | CSSObject,
+    styles?: CSSObject,
+): CollectorReturn {
+    let id = typeof idOrStyle === 'string' ? idOrStyle : '';
+    let styleObject = (typeof idOrStyle === 'string'
+        ? styles
+        : idOrStyle) as CSSObject;
+
+    const elementId = `${id}-${hash(JSON.stringify(styleObject))}`;
     const styleMap: Definition[] = [
         {
             id,
             className: elementId,
             type: 'element',
-            styles,
+            styles: styleObject,
         },
     ];
 
