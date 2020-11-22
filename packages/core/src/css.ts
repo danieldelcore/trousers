@@ -28,8 +28,8 @@ function css(
     const styleMap: Definition[] = [
         {
             id,
-            className: `.${elementId}`,
             type: 'element',
+            className: `.${elementId}`,
             styles: styleObject,
         },
     ];
@@ -48,21 +48,22 @@ function css(
 
             return self;
         },
-        global: styles => {
+        global: globalStyles => {
             styleMap.push({
-                id: JSON.stringify(styles),
+                id: `global-${id}-${hash(JSON.stringify(globalStyles))}`,
                 type: 'global',
                 className: '',
-                styles: styles,
+                styles: globalStyles,
             });
 
             return self;
         },
         theme: theme => {
+            const themeHash = hash(JSON.stringify(theme));
             styleMap.push({
-                id: `theme-${id}`,
+                id: `theme-${id}-${themeHash}`,
                 type: 'theme',
-                className: `.theme-${id}`,
+                className: `.theme-${id}-${themeHash}`,
                 styles: themify(theme),
             });
 

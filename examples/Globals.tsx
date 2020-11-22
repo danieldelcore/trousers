@@ -6,7 +6,7 @@ import jsx from '@trousers/react';
 
 storiesOf('Globals', module)
     .add('Global styles', () => {
-        const globals = css({}).global({
+        const globals = css('global-reset', {}).global({
             // @ts-ignore
             '*': {
                 color: '#f95b5b',
@@ -36,7 +36,7 @@ storiesOf('Globals', module)
         return <TextBlock />;
     })
     .add('Global styles with theme', () => {
-        const globals = css({})
+        const globals = css('themed-reset', {})
             .global({
                 // @ts-ignore
                 '*': {

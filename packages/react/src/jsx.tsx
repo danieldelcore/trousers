@@ -80,19 +80,32 @@ const jsx = <
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useLayoutEffect(() => {
+        const cleanUp: string[] = [];
+
         definitions
-            .filter(({ className }) => styleSheet && !styleSheet.has(className))
-            .forEach(({ className, styles, type }) => {
+            .filter(({ className }) => styleSheet && !styleSheet.has(className)) // this doesn't stop all selectors
+            .forEach(({ id, className, styles, type }) =>
                 Object.entries(process(className, styles)).forEach(
-                    ([key, value]) =>
-                        styleSheet &&
-                        styleSheet.mount(
-                            key,
-                            `${key}{${value}}`,
-                            type === 'global',
-                        ),
-                );
-            });
+                    ([key, value]) => {
+                        if (type === 'global') {
+                            cleanUp.push(id + key);
+                        }
+
+                        return (
+                            styleSheet &&
+                            styleSheet.mount(
+                                id + key,
+                                `${key}{${value}}`,
+                                type === 'global',
+                            )
+                        );
+                    },
+                ),
+            );
+
+        return () => {
+            cleanUp.forEach(id => styleSheet && styleSheet.unmount(id));
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);
 

@@ -54,26 +54,26 @@ const Button: FC<ButtonProps> = props => (
 
 storiesOf('Theme', module)
     .add('Default', () => (
-        <div css={lightTheme}>
+        <span css={lightTheme}>
             <Button>Themed Button!</Button>
-        </div>
+        </span>
     ))
     .add('Sibling themes', () => (
         <Fragment>
-            <div css={lightTheme}>
+            <span css={lightTheme}>
                 <Button>Light Theme</Button>
-            </div>
-            <div css={darkTheme}>
+            </span>
+            <span css={darkTheme}>
                 <Button>Dark Theme</Button>
-            </div>
+            </span>
         </Fragment>
     ))
     .add('Nested themes', () => (
-        <div css={lightTheme}>
+        <span css={lightTheme}>
             <Button>Light Theme</Button>
-            <div css={darkTheme}>
+            <span css={darkTheme}>
                 <Button>Nested Dark Theme</Button>
-            </div>
-        </div>
+            </span>
+        </span>
     ))
     .add('No theme in context', () => <Button>No theme OMG!</Button>);
