@@ -1,38 +1,10 @@
 {
     "compilerOptions": {
-        // // "baseUrl": ".",
-        // // "rootDir": ".",
-        // "target": "es5",
-        // "module": "commonjs",
-        // // "outDir": "lib",
-        // "moduleResolution": "node",
-        // "lib": ["dom", "es2017"],
-        // "jsx": "react",
-        // "strict": true,
-        // "preserveSymlinks": true,
-        // // "inlineSources": true,
-        // "noUnusedLocals": true,
-        // "noUnusedParameters": true,
-        // "noImplicitReturns": true,
-        // "allowSyntheticDefaultImports": true,
-        // "esModuleInterop": true,
-        // "resolveJsonModule": true,
-        // // "incremental": true,
-        // // "declaration": true,
-        // // "declarationMap": true,
-        // "sourceMap": true,
-        // "inlineSources": true,
-        // "noEmit": true
-        // // "downlevelIteration": true
-        // // "paths": {
-        // //     "trousers": ["packages/trousers/src"],
-        // //     "@trousers/*": ["packages/*/src"],
-        // //     "@emotion/core": ["typings/emotion.d.ts"]
-        // // }
-
+        "baseUrl": ".",
         "target": "es5",
         "module": "commonjs",
         "lib": ["dom", "es2017"],
+        "jsx": "react",
         "preserveSymlinks": true,
         "moduleResolution": "node",
         "importHelpers": true,
@@ -41,9 +13,19 @@
         "sourceMap": true,
         "inlineSources": true,
         "resolveJsonModule": true,
-        "strict": true
+        "noEmit": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "paths": {
+            "trousers": ["packages/trousers/src"],
+            "@trousers/*": ["packages/*/src"],
+            "@emotion/core": ["typings/emotion.d.ts"]
+        }
     },
-    // "files": [],
     "exclude": [
         "node_modules",
         "dist",
@@ -53,12 +35,4 @@
         "**/*.spec*",
         "examples"
     ]
-    // "references": [
-    //     { "path": "packages/core" },
-    //     { "path": "packages/react" },
-    //     { "path": "packages/styled" },
-    //     { "path": "packages/sheet" },
-    //     { "path": "packages/hash" },
-    //     { "path": "packages/trousers" }
-    // ]
 }

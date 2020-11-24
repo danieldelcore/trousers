@@ -6,9 +6,5 @@ module.exports = api => {
             '@babel/preset-react',
             '@babel/preset-typescript',
         ],
-        overrides: [
-            { test: '**/*.ts', presets: ['@babel/preset-typescript'] },
-            { test: '**/*.tsx', presets: ['@babel/preset-typescript'] },
-        ],
     };
 };

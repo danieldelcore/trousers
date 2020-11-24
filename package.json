@@ -10,7 +10,7 @@
     "scripts": {
         "prestart": "yarn build",
         "start": "run-p start:*",
-        "start:watch": "preconstruct build && preconstruct watch",
+        "start:watch": "preconstruct watch",
         "start:stories": "start-storybook -p 9000 -s assets",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
         "validate": "yarn build && yarn lint && yarn monorepo:check && preconstruct validate",
