@@ -6,7 +6,8 @@ type CSSPropertiesWithMultiValues = {
         | CSSProperties[K]
         | Extract<CSSProperties[K], string>[];
 };
-export type CSSPseudos = { [K in CSS.Pseudos]?: CSSObject };
+
+type CSSPseudos = { [K in CSS.Pseudos]?: CSSObject };
 
 export interface CSSObject extends CSSPropertiesWithMultiValues, CSSPseudos {}
 

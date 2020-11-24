@@ -58,3 +58,9 @@ Trousers is based on a monorepo architecture, meaning that the internals of the 
 -   `@trousers/hash`: Tiny hashing function
 
 ## API Reference
+
+## Built with...
+
+-   [changesets 🦋](https://github.com/atlassian/changesets)
+-   [preconstruct 🎁](https://github.com/danieldelcore/trousers)
+-   [manypkg ☔️](https://github.com/Thinkmill/manypkg)
