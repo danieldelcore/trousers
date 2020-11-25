@@ -24,7 +24,7 @@ function css(
         ? styles
         : idOrStyle) as CSSObject;
 
-    const elementId = `${id}-${hash(JSON.stringify(styleObject))}`;
+    const elementId = `${id && id + '-'}${hash(JSON.stringify(styleObject))}`;
     const styleMap: Definition[] = [
         {
             id,
