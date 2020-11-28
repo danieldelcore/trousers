@@ -13,13 +13,20 @@ jest.mock('@trousers/sheet', () => ({
     }),
 }));
 
+// HACK: We need to remove this
+// TODO: Figure out why useLayoutEffect doesn't work
+jest.mock('react', () => ({
+    __esModule: true,
+    ...(jest.requireActual('react') as object),
+    useLayoutEffect: (callback: any) => callback(),
+}));
+
 describe('jsx', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    // TODO: Figure out why useLayoutEffect doesn't work
-    it.skip('mounts element styles', () => {
+    it('mounts element styles', () => {
         const styles = css('element', {
             color: 'red',
         });
@@ -36,7 +43,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts element styles without id', () => {
+    it('mounts element styles without id', () => {
         const styles = css({
             color: 'red',
         });
@@ -53,7 +60,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('does not mount modifier if prop is not provided', () => {
+    it('does not mount modifier if prop is not provided', () => {
         const styles = css('element', {
             color: 'red',
         }).modifier('primary', { color: 'blue' });
@@ -72,7 +79,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('does not mount modifier if prop false', () => {
+    it('does not mount modifier if prop false', () => {
         const styles = css('element', {
             color: 'red',
         }).modifier('primary', { color: 'blue' });
@@ -91,7 +98,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('does not mount modifier if prop undefined', () => {
+    it('does not mount modifier if prop undefined', () => {
         const styles = css('element', {
             color: 'red',
         }).modifier('primary', { color: 'blue' });
@@ -110,7 +117,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts modifier if prop is true', () => {
+    it('mounts modifier if prop is true', () => {
         const styles = css('element', {
             color: 'red',
         }).modifier('primary', { color: 'blue' });
@@ -134,7 +141,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts modifier if prop is supplied with no value', () => {
+    it('mounts modifier if prop is supplied with no value', () => {
         const styles = css('element', {
             color: 'red',
         }).modifier('primary', { color: 'blue' });
@@ -158,7 +165,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts multiple modifiers', () => {
+    it('mounts multiple modifiers', () => {
         const styles = css('element', {
             color: 'red',
         })
@@ -189,7 +196,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts element and modifier styles without id', () => {
+    it('mounts element and modifier styles without id', () => {
         const styles = css({
             color: 'red',
         }).modifier('primary', {
@@ -222,7 +229,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts themed elements', () => {
+    it('mounts themed elements', () => {
         const styles = css('element', {
             color: 'var(--primary-color)',
         }).theme({ primaryColor: 'red' });
@@ -245,7 +252,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts themed modifiers', () => {
+    it('mounts themed modifiers', () => {
         const styles = css('element', {
             color: 'var(--primary-color)',
         })
@@ -280,7 +287,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts themed globals', () => {
+    it('mounts themed globals', () => {
         const styles = css('element', {
             color: 'red',
         })
@@ -309,7 +316,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts single global', () => {
+    it('mounts single global', () => {
         const styles = css('element', {
             color: 'red',
         }).global({
@@ -330,7 +337,7 @@ describe('jsx', () => {
         );
     });
 
-    it.skip('mounts multiple globals', () => {
+    it('mounts multiple globals', () => {
         const styles = css('element', {})
             .global({
                 ':root': {
@@ -362,10 +369,4 @@ describe('jsx', () => {
     });
 
     it.todo('cleans-up globals on dismount');
-
-    it.todo('does not trigger unnecessary re-renders');
-
-    it.todo(
-        'does not trigger unnecessary re-renders when css is passed in directly',
-    );
 });
