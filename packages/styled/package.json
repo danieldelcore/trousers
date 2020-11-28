@@ -10,7 +10,7 @@
         "@trousers/react": "4.0.0"
     },
     "devDependencies": {
-        "react": "^16.8.1"
+        "react": "^17.0.1"
     },
     "peerDependencies": {
         "react": ">=16.8.0"
