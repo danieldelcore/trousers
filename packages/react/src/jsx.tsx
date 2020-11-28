@@ -30,6 +30,7 @@ const jsx = <
     if (props == null || !hasOwnProperty.call(props, 'css'))
         return createElement(type, props, ...children);
 
+    //TODO: might be good to memo here
     const definitions = props.css
         ._get()
         .filter(
