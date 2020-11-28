@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { forwardRef } from 'react';
+import { ComponentType, forwardRef } from 'react';
 import jsx from '@trousers/react';
 import { Collector } from '@trousers/core';
 
@@ -118,8 +118,6 @@ const domElements: Elements[] = [
     'var',
     'video',
     'wbr',
-
-    // SVG
     'circle',
     'clipPath',
     'defs',
@@ -143,22 +141,33 @@ const domElements: Elements[] = [
     'tspan',
 ];
 
-interface StyleComponentProps extends JSX.IntrinsicAttributes {
-    tag: keyof JSX.IntrinsicElements;
+interface StyledProps extends JSX.IntrinsicAttributes {
+    // TODO: replace below with template literal type for $primary
+    [key: string]: any;
+}
+type CollectorHOC = (css: ReturnType<Collector>) => ComponentType<StyledProps>;
+type ElementMap = {
+    [key in keyof JSX.IntrinsicElements]?: CollectorHOC;
+};
+
+interface Styled extends ElementMap {
+    (Tag: keyof JSX.IntrinsicElements): CollectorHOC;
 }
 
-const styled = (Tag: Elements) => (css: ReturnType<Collector>) =>
-    forwardRef<
-        HTMLElement,
-        Omit<StyleComponentProps, 'primary' | 'theme' | 'css'>
-    >((props, ref) => {
-        //@ts-ignore
+let styledBase = (Tag: keyof JSX.IntrinsicElements) => (
+    css: ReturnType<Collector>,
+) =>
+    forwardRef<HTMLElement, StyledProps>((props, ref) => {
+        //@ts-ignore union type is too complex
         return <Tag css={css} {...props} ref={ref} />;
     });
 
-domElements.forEach(domElement => {
-    //@ts-ignore
-    styled[domElement] = styled(domElement);
-});
+const styled: Styled = Object.assign(
+    styledBase,
+    domElements.reduce<ElementMap>((accum, element) => {
+        accum[element] = styledBase(element);
+        return accum;
+    }, {}),
+);
 
 export default styled;
