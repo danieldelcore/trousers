@@ -12609,10 +12609,10 @@ typedarray@^0.0.6:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@4.0.3:
-  version "4.0.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript/-/typescript-4.0.3.tgz#153bbd468ef07725c1df9c77e8b453f8d36abba5"
-  integrity sha1-FTu9Ro7wdyXB35x36LRT+NNqu6U=
+typescript@^4.1.2:
+  version "4.1.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript/-/typescript-4.1.2.tgz#6369ef22516fe5e10304aae5a5c4862db55380e9"
+  integrity sha1-Y2nvIlFv5eEDBKrlpcSGLbVTgOk=
 
 unfetch@^4.1.0:
   version "4.2.0"

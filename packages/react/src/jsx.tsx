@@ -8,7 +8,7 @@ import React, {
     Fragment,
 } from 'react';
 
-import { CollectorReturn, process, isBrowser } from '@trousers/core';
+import { TrousersProps, process, isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
 
 let styleSheet: ReturnType<typeof sheet> | null = null;
@@ -17,12 +17,7 @@ if (isBrowser()) {
     styleSheet = sheet(headElement, 'data-trousers');
 }
 
-const jsx = <
-    Props extends {
-        css: CollectorReturn;
-        [key: string]: any;
-    }
->(
+const jsx = <Props extends TrousersProps>(
     type: ElementType<Omit<Props, 'css'>>,
     props: Props,
     ...children: ReactNode[]
@@ -31,8 +26,8 @@ const jsx = <
         return createElement(type, props, ...children);
 
     //TODO: might be good to memo here
-    const definitions = props.css
-        ._get()
+    const definitions = props
+        .css!._get()
         .filter(
             ({ id, type }) =>
                 type !== 'modifier' ||

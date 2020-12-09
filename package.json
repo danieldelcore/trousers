@@ -13,10 +13,11 @@
         "start:watch": "preconstruct watch",
         "start:stories": "start-storybook -p 9000 -s assets",
         "clean": "rm -rf node_modules/.cache && rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}",
-        "validate": "yarn build && yarn lint && yarn monorepo:check && preconstruct validate",
+        "validate": "yarn build && yarn lint && types:check && yarn monorepo:check && preconstruct validate",
         "postinstall": "preconstruct dev && yarn monorepo:check",
         "monorepo:check": "manypkg check",
         "monorepo:fix": "manypkg fix && preconstruct fix",
+        "types:check": "tsc --noEmit --skipLibCheck",
         "predeploy-storybook": "build-storybook -s assets",
         "deploy-storybook": "storybook-to-ghpages",
         "build": "preconstruct build",
@@ -70,7 +71,7 @@
         "storybook-addon-performance": "^0.10.0",
         "ts-jest": "^26.4.4",
         "ts-loader": "^6.2.1",
-        "typescript": "4.0.3"
+        "typescript": "^4.1.2"
     },
     "preconstruct": {
         "packages": [

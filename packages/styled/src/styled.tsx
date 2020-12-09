@@ -147,7 +147,7 @@ interface StyledProps extends JSX.IntrinsicAttributes {
 }
 type CollectorHOC = (css: ReturnType<Collector>) => ComponentType<StyledProps>;
 type ElementMap = {
-    [key in keyof JSX.IntrinsicElements]?: CollectorHOC;
+    [key in keyof JSX.IntrinsicElements]: CollectorHOC;
 };
 
 interface Styled extends ElementMap {
