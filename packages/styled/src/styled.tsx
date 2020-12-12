@@ -147,16 +147,14 @@ interface StyledProps extends JSX.IntrinsicAttributes {
 }
 type CollectorHOC = (css: ReturnType<Collector>) => ComponentType<StyledProps>;
 type ElementMap = {
-    [key in keyof JSX.IntrinsicElements]: CollectorHOC;
+    [key in Elements]: CollectorHOC;
 };
 
 interface Styled extends ElementMap {
-    (Tag: keyof JSX.IntrinsicElements): CollectorHOC;
+    (Tag: Elements): CollectorHOC;
 }
 
-let styledBase = (Tag: keyof JSX.IntrinsicElements) => (
-    css: ReturnType<Collector>,
-) =>
+let styledBase = (Tag: Elements) => (css: ReturnType<Collector>) =>
     forwardRef<HTMLElement, StyledProps>((props, ref) => {
         //@ts-ignore union type is too complex
         return <Tag css={css} {...props} ref={ref} />;
