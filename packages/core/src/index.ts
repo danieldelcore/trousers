@@ -8,3 +8,4 @@ export { default as prefix } from './prefix';
 export { default as namespace } from './namespace';
 export { default as process } from './process';
 export { default as isBrowser } from './is-browser';
+export { default as themify } from './themify';

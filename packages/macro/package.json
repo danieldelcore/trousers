@@ -1,0 +1,19 @@
+{
+    "name": "@trousers/macro",
+    "version": "3.0.2",
+    "main": "dist/trousers-macro.cjs.js",
+    "module": "dist/trousers-macro.esm.js",
+    "types": "dist/index.d.ts",
+    "license": "MIT",
+    "dependencies": {
+        "@trousers/core": "3.0.2",
+        "babel-plugin-macros": "^3.0.0"
+    },
+    "devDependencies": {
+        "react": "^17.0.1"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    },
+    "repository": "https://github.com/danieldelcore/trousers/tree/master/packages/macro"
+}

@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@trousers/macro complex theme: complex theme 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'var(--brand-background)' })
+  .theme({
+    neutral: '#fff',
+    brand: {
+      forground: 'yellow',
+      background: 'green',
+    },
+  });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2140373281': 'color: var(--brand-background);',
+}).theme('', {
+    '.theme-Button-3270977004':
+        '--neutral: #fff;--brand-forground: yellow;--brand-background: green;',
+});
+
+
+`;
+
+exports[`@trousers/macro different import name: different import name 1`] = `
+
+import foo from './trousers.macro';
+foo('Button', { color: 'blue' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import foo from './trousers.macro';
+foo('Button', {
+    '.Button-2561700995': 'color: blue;',
+});
+
+
+`;
+
+exports[`@trousers/macro element without identifier: element without identifier 1`] = `
+
+import css from './trousers.macro';
+css({ color: 'blue' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('', {
+    '.2561700995': 'color: blue;',
+});
+
+
+`;
+
+exports[`@trousers/macro element: element 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'blue' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2561700995': 'color: blue;',
+});
+
+
+`;
+
+exports[`@trousers/macro global: global 1`] = `
+
+import css from './trousers.macro';
+css('Button', {})
+  .global({
+    ':root': {
+      'backgroundColor': 'red',
+    }
+  });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {}).global('global-Button-480010618', {
+    ':root': 'background-color: red;',
+});
+
+
+`;
+
+exports[`@trousers/macro many modifiers: many modifiers 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'blue' })
+  .modifier('primary', { color: 'brown' })
+  .modifier('secondary', { color: 'purple' })
+  .modifier('tertiary', { color: 'yellow' })
+  .modifier('quaternary', { color: 'green' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2561700995': 'color: blue;',
+})
+    .modifier('primary', {
+        '.Button--primary-2270159875': 'color: brown;',
+    })
+    .modifier('secondary', {
+        '.Button--secondary-3026956261': 'color: purple;',
+    })
+    .modifier('tertiary', {
+        '.Button--tertiary-41860765': 'color: yellow;',
+    })
+    .modifier('quaternary', {
+        '.Button--quaternary-2402939536': 'color: green;',
+    });
+
+
+`;
+
+exports[`@trousers/macro modifiers: modifiers 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'blue' })
+  .modifier('primary', { color: 'brown' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2561700995': 'color: blue;',
+}).modifier('primary', {
+    '.Button--primary-2270159875': 'color: brown;',
+});
+
+
+`;
+
+exports[`@trousers/macro multiple modifiers: multiple modifiers 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'blue' })
+  .modifier('primary', { color: 'brown' })
+  .modifier('secondary', { color: 'purple' });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2561700995': 'color: blue;',
+})
+    .modifier('primary', {
+        '.Button--primary-2270159875': 'color: brown;',
+    })
+    .modifier('secondary', {
+        '.Button--secondary-3026956261': 'color: purple;',
+    });
+
+
+`;
+
+exports[`@trousers/macro theme: theme 1`] = `
+
+import css from './trousers.macro';
+css('Button', { color: 'var(--brand-background)' })
+  .theme({ brand: { background: 'green' }});
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+css('Button', {
+    '.Button-2140373281': 'color: var(--brand-background);',
+}).theme('', {
+    '.theme-Button-1537299292': '--brand-background: green;',
+});
+
+
+`;
+
+exports[`@trousers/macro unused import: unused import 1`] = `
+
+import css from './trousers.macro';
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import css from './trousers.macro';
+
+
+`;
