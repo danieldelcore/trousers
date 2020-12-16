@@ -5,6 +5,16 @@
     "module": "dist/trousers-macro.esm.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
+    "files": [
+        "runtime",
+        "dist"
+    ],
+    "preconstruct": {
+        "entrypoints": [
+            ".",
+            "runtime"
+        ]
+    },
     "dependencies": {
         "@trousers/core": "3.0.2",
         "babel-plugin-macros": "^3.0.0"

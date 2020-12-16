@@ -2,7 +2,7 @@
 
 exports[`@trousers/macro complex theme: complex theme 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'var(--brand-background)' })
   .theme({
     neutral: '#fff',
@@ -14,7 +14,7 @@ css('Button', { color: 'var(--brand-background)' })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2140373281': 'color: var(--brand-background);',
 }).theme('', {
@@ -25,14 +25,36 @@ css('Button', {
 
 `;
 
+exports[`@trousers/macro correctly updates imports: correctly updates imports 1`] = `
+
+/** @jsx jsx */
+import { css, jsx } from './macro';
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+
+
+`;
+
+exports[`@trousers/macro correctly updates renamed imports: correctly updates renamed imports 1`] = `
+
+/** @jsx bar */
+import { css as foo, jsx as bar } from './macro';
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+
+
+`;
+
 exports[`@trousers/macro different import name: different import name 1`] = `
 
-import foo from './trousers.macro';
+import { css as foo } from './macro';
 foo('Button', { color: 'blue' });
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import foo from './trousers.macro';
+import { foo } from '@trousers/macro/runtime';
 foo('Button', {
     '.Button-2561700995': 'color: blue;',
 });
@@ -42,12 +64,12 @@ foo('Button', {
 
 exports[`@trousers/macro element without identifier: element without identifier 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css({ color: 'blue' });
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('', {
     '.2561700995': 'color: blue;',
 });
@@ -57,12 +79,12 @@ css('', {
 
 exports[`@trousers/macro element: element 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'blue' });
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2561700995': 'color: blue;',
 });
@@ -72,7 +94,7 @@ css('Button', {
 
 exports[`@trousers/macro global: global 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', {})
   .global({
     ':root': {
@@ -82,7 +104,7 @@ css('Button', {})
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {}).global('global-Button-480010618', {
     ':root': 'background-color: red;',
 });
@@ -92,7 +114,7 @@ css('Button', {}).global('global-Button-480010618', {
 
 exports[`@trousers/macro many modifiers: many modifiers 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'blue' })
   .modifier('primary', { color: 'brown' })
   .modifier('secondary', { color: 'purple' })
@@ -101,7 +123,7 @@ css('Button', { color: 'blue' })
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2561700995': 'color: blue;',
 })
@@ -123,13 +145,13 @@ css('Button', {
 
 exports[`@trousers/macro modifiers: modifiers 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'blue' })
   .modifier('primary', { color: 'brown' });
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2561700995': 'color: blue;',
 }).modifier('primary', {
@@ -141,14 +163,14 @@ css('Button', {
 
 exports[`@trousers/macro multiple modifiers: multiple modifiers 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'blue' })
   .modifier('primary', { color: 'brown' })
   .modifier('secondary', { color: 'purple' });
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2561700995': 'color: blue;',
 })
@@ -164,13 +186,13 @@ css('Button', {
 
 exports[`@trousers/macro theme: theme 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 css('Button', { color: 'var(--brand-background)' })
   .theme({ brand: { background: 'green' }});
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
+import { css } from '@trousers/macro/runtime';
 css('Button', {
     '.Button-2140373281': 'color: var(--brand-background);',
 }).theme('', {
@@ -182,11 +204,10 @@ css('Button', {
 
 exports[`@trousers/macro unused import: unused import 1`] = `
 
-import css from './trousers.macro';
+import { css } from './macro';
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import css from './trousers.macro';
 
 
 `;

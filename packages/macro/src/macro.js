@@ -12,17 +12,18 @@ const parseObject = objectExpression =>
 
 function macro({ references, babel }) {
     const t = babel.types;
-    const namedImport =
-        references.default.length && references.default[0].node.name;
 
-    references.default.forEach(reference => {
+    if (references.css.length === 0) return;
+
+    references.css.forEach(reference => {
         const styleBlocks = [];
+        const importName = reference.node.name;
 
         reference.find(path => {
             if (!path.isCallExpression()) return;
 
             if (
-                path.node.callee.name === namedImport ||
+                path.node.callee.name === importName ||
                 ['modifier', 'theme', 'global'].includes(
                     path.node.callee.property.name,
                 )
@@ -46,7 +47,7 @@ function macro({ references, babel }) {
             let processedStyles;
 
             switch (type) {
-                case namedImport:
+                case importName:
                     elementId = id;
                     className = `.${id && id + '-'}${hashedStyles}`;
                     processedStyles = process(className, rawStyleBlock);
@@ -81,8 +82,26 @@ function macro({ references, babel }) {
         });
     });
 
+    const importName = references.css[0].node.name;
+
+    const { body } = references.css[0].findParent(path =>
+        path.isProgram(),
+    ).node;
+
+    body.unshift(
+        t.importDeclaration(
+            [
+                t.importSpecifier(
+                    t.identifier(importName),
+                    t.identifier(importName),
+                ),
+            ],
+            t.stringLiteral('@trousers/macro/runtime'),
+        ),
+    );
+
     return {
-        keepImports: true,
+        keepImports: false,
     };
 }
 

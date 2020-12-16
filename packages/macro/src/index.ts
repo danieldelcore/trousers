@@ -1,1 +1,3 @@
-export { default } from './trousers.macro';
+//@ts-ignore
+export { default } from './macro';
+export { css, jsx } from './stub';
