@@ -9,8 +9,10 @@ import React, {
     Fragment,
 } from 'react';
 
-import { TrousersProps, isBrowser } from '@trousers/core';
+import { isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
+
+import { TrousersProps } from './types';
 
 let styleSheet: ReturnType<typeof sheet> | null = null;
 if (isBrowser()) {
@@ -36,7 +38,7 @@ const jsx = <Props extends TrousersProps>(
         );
 
     const classes = definitions
-        .map(({ className }) => className.substring(1))
+        .map(({ styles }) => Object.keys(styles)[0].substring(1))
         .join(' ')
         .trim();
 
@@ -80,7 +82,10 @@ const jsx = <Props extends TrousersProps>(
         const cleanUp: string[] = [];
 
         definitions
-            .filter(({ className }) => styleSheet && !styleSheet.has(className)) // this doesn't stop all selectors
+            .filter(
+                ({ styles }) =>
+                    styleSheet && !styleSheet.has(Object.keys(styles)[0]),
+            ) // this doesn't stop all selectors
             .forEach(({ id, styles, type }) =>
                 Object.entries(styles).forEach(([key, value]) => {
                     if (type === 'global') {

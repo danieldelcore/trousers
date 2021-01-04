@@ -110,5 +110,42 @@ pluginTester({
           import { css as foo, jsx as bar } from './macro';
         `,
         },
+        {
+            title: 'correctly interpolates booleans (BooleanLiteral)',
+            code: `
+          import { css } from './macro';
+          css('Button', { color: true });
+        `,
+        },
+        {
+            title: 'correctly interpolates booleans (NumericLiteral)',
+            code: `
+          import { css } from './macro';
+          css('Button', { color: 5 });
+        `,
+        },
+        // {
+        //     title: 'correctly interpolates variables (Identifiers)',
+        //     code: `
+        //   import { css } from './macro';
+        //   const foo = 'blue';
+        //   css('Button', { color: foo });
+        // `,
+        // },
+        // {
+        //     title: 'correctly interpolates functions (CallExpression)',
+        //     code: `
+        //   import { css } from './macro';
+        //   const foo = () => 'blue';
+        //   css('Button', { color: foo() });
+        // `,
+        // },
+        // {
+        //     title: 'correctly interpolates evaluations (BooleanExpression)',
+        //     code: `
+        //   import { css } from './macro';
+        //   css('Button', { color: 5+5 });
+        // `,
+        // },
     ],
 });

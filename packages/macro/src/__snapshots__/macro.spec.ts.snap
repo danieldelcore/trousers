@@ -25,6 +25,36 @@ css('Button', {
 
 `;
 
+exports[`@trousers/macro correctly interpolates booleans (BooleanLiteral): correctly interpolates booleans (BooleanLiteral) 1`] = `
+
+import { css } from './macro';
+css('Button', { color: true });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { css } from '@trousers/macro/runtime';
+css('Button', {
+    '.Button-3336976155': 'color: true;',
+});
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates booleans (NumericLiteral): correctly interpolates booleans (NumericLiteral) 1`] = `
+
+import { css } from './macro';
+css('Button', { color: 5 });
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { css } from '@trousers/macro/runtime';
+css('Button', {
+    '.Button-1906181116': 'color: 5;',
+});
+
+
+`;
+
 exports[`@trousers/macro correctly updates imports: correctly updates imports 1`] = `
 
 /** @jsx jsx */

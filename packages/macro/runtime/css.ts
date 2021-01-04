@@ -1,17 +1,26 @@
 interface Definition {
     type: 'element' | 'modifier' | 'global' | 'theme';
     id: string;
-    styles: string;
+    styles: Record<string, string>;
 }
 
-interface CollectorReturn {
-    modifier: (id: string, styles: string) => CollectorReturn;
-    global: (id: string, styles: string) => CollectorReturn;
-    theme: (id: string, styles: string) => CollectorReturn;
+export interface CollectorReturn {
+    modifier: (
+        id: Definition['id'],
+        styles: Definition['styles'],
+    ) => CollectorReturn;
+    global: (
+        id: Definition['id'],
+        styles: Definition['styles'],
+    ) => CollectorReturn;
+    theme: (
+        id: Definition['id'],
+        styles: Definition['styles'],
+    ) => CollectorReturn;
     _get: () => Definition[];
 }
 
-function css(elementId: string, elementStyles: string) {
+function css(elementId: Definition['id'], elementStyles: Definition['styles']) {
     const styleMap: Definition[] = [
         {
             type: 'element',

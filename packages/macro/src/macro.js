@@ -5,8 +5,20 @@ const hash = require('@trousers/hash').default;
 
 const parseObject = objectExpression =>
     objectExpression.properties.reduce((accum, { key, value }) => {
-        accum[key.name || key.value] =
-            value.type === 'StringLiteral' ? value.value : parseObject(value);
+        let parsedValue;
+
+        if (
+            value.type === 'StringLiteral' ||
+            value.type === 'NumericLiteral' ||
+            value.type === 'BooleanLiteral'
+        ) {
+            parsedValue = value.value;
+        } else {
+            parsedValue = parseObject(value);
+        }
+
+        accum[key.name || key.value] = parsedValue;
+
         return accum;
     }, {});
 

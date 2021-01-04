@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jsx (ssr mode) does not render modifier if prop false 2`] = `
+<div>
+  <style>
+    .element-2313942302 {color: red;}
+  </style>
+  <div
+    class="element-2313942302"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) does not render modifier if prop is not provided 2`] = `
+<div>
+  <style>
+    .element-2313942302 {color: red;}
+  </style>
+  <div
+    class="element-2313942302"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) does not render modifier if prop undefined 2`] = `
+<div>
+  <style>
+    .element-2313942302 {color: red;}
+  </style>
+  <div
+    class="element-2313942302"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) renders element and modifier styles 2`] = `
+<div>
+  <style>
+    .element-2313942302 {color: red;}
+.primary-2561700995 {color: blue;}
+  </style>
+  <div
+    class="element-2313942302 primary-2561700995"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) renders element and modifier styles without id 2`] = `
+<div>
+  <style>
+    .2313942302 {color: red;}
+.primary-2561700995 {color: blue;}
+  </style>
+  <div
+    class="2313942302 primary-2561700995"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) renders element styles 2`] = `
+<div>
+  <style>
+    .element-2313942302 {color: red;}
+  </style>
+  <div
+    class="element-2313942302"
+    data-testid="test"
+  />
+</div>
+`;
+
+exports[`jsx (ssr mode) renders element styles without id 2`] = `
+<div>
+  <style>
+    .2313942302 {color: red;}
+  </style>
+  <div
+    class="2313942302"
+    data-testid="test"
+  />
+</div>
+`;
