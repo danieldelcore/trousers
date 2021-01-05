@@ -1,6 +1,6 @@
 {
     "name": "@trousers/sheet",
-    "version": "3.0.0",
+    "version": "4.0.0-alpha2",
     "main": "dist/trousers-sheet.cjs.js",
     "module": "dist/trousers-sheet.esm.js",
     "types": "dist/index.d.ts",
