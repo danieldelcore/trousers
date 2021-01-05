@@ -165,7 +165,8 @@ const styled: Styled = Object.assign(
     domElements.reduce<ElementMap>((accum, element) => {
         accum[element] = styledBase(element);
         return accum;
-    }, {}),
+        // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
+    }, {} as ElementMap),
 );
 
 export default styled;

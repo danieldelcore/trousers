@@ -8,19 +8,19 @@ import {
 export type CollectorReturn = CoreCollectorReturn;
 export type Collector = CoreCollector;
 
-function css(styles: CSSObject): CollectorReturn;
+function css(_styles: CSSObject): CollectorReturn;
 function css(
-    idOrStyle: string | CSSObject,
-    styles?: CSSObject,
+    _idOrStyle: string | CSSObject,
+    _styles?: CSSObject,
 ): CollectorReturn;
 function css(
-    idOrStyle: string | CSSObject,
-    styles?: CSSObject,
+    _idOrStyle: string | CSSObject,
+    _styles?: CSSObject,
 ): CollectorReturn {
     const self: CollectorReturn = {
-        modifier: (modifierId, modifierStyles) => self,
-        global: globalStyles => self,
-        theme: theme => self,
+        modifier: (_modifierId, _modifierStyles) => self,
+        global: _globalStyles => self,
+        theme: _theme => self,
         _get: () => [],
     };
 
