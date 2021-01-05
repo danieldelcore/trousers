@@ -11,12 +11,14 @@
     ],
     "preconstruct": {
         "entrypoints": [
-            ".",
-            "runtime"
+            "index.ts",
+            "./runtime/index.ts"
         ]
     },
     "dependencies": {
         "@trousers/core": "3.0.2",
+        "@trousers/hash": "3.0.0",
+        "@trousers/sheet": "3.0.0",
         "babel-plugin-macros": "^3.0.0"
     },
     "devDependencies": {

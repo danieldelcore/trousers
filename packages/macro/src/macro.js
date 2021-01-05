@@ -47,14 +47,13 @@ function macro({ references, babel }) {
         let elementId = '';
 
         styleBlocks.forEach(styleBlock => {
-            const { arguments, callee } = styleBlock.node;
-            const objectExpression =
-                arguments.length === 2 ? arguments[1] : arguments[0];
+            const { arguments: args, callee } = styleBlock.node;
+            const objectExpression = args.length === 2 ? args[1] : args[0];
             const type = callee.name || callee.property.name;
             const rawStyleBlock = parseObject(objectExpression);
             const hashedStyles = hash(JSON.stringify(rawStyleBlock));
 
-            let id = arguments.length === 2 ? arguments[0].value : '';
+            let id = args.length === 2 ? args[0].value : '';
             let className = '';
             let processedStyles;
 
@@ -65,7 +64,7 @@ function macro({ references, babel }) {
                     processedStyles = process(className, rawStyleBlock);
                     break;
                 case 'modifier':
-                    className = `.${elementId}--${arguments[0].value}-${hashedStyles}`;
+                    className = `.${elementId}--${args[0].value}-${hashedStyles}`;
                     processedStyles = process(className, rawStyleBlock);
                     break;
                 case 'global':

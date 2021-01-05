@@ -1,4 +1,4 @@
-import './global-types';
+import '../runtime/global-types';
 import { createElement, ElementType, ReactNode } from 'react';
 
 import { TrousersProps } from '@trousers/core';
