@@ -20,6 +20,7 @@
         "noImplicitReturns": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
+        "allowJs": true,
         "paths": {
             "trousers": ["packages/trousers/src"],
             "@trousers/*": ["packages/*/src"],

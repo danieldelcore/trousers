@@ -1,7 +1,6 @@
-import '../runtime/global-types';
 import { createElement, ElementType, ReactNode } from 'react';
 
-import { TrousersProps } from '@trousers/core';
+import { TrousersProps } from '@trousers/react';
 
 const jsx = <Props extends TrousersProps>(
     type: ElementType<Omit<Props, 'css'>>,

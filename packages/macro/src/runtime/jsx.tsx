@@ -1,5 +1,3 @@
-// todo
-import './global-types';
 import React, {
     createElement,
     hasOwnProperty,
@@ -12,7 +10,12 @@ import React, {
 import { isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
 
-import { TrousersProps } from './types';
+import { CollectorReturn } from './css';
+
+export interface TrousersProps {
+    css?: CollectorReturn;
+    [key: string]: any; // Will need to use template literal types in ts 4.1
+}
 
 let styleSheet: ReturnType<typeof sheet> | null = null;
 if (isBrowser()) {

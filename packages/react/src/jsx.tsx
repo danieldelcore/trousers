@@ -8,8 +8,9 @@ import React, {
     Fragment,
 } from 'react';
 
-import { TrousersProps, process, isBrowser } from '@trousers/core';
+import { process, isBrowser } from '@trousers/core';
 import sheet from '@trousers/sheet';
+import { TrousersProps } from './types';
 
 let styleSheet: ReturnType<typeof sheet> | null = null;
 if (isBrowser()) {

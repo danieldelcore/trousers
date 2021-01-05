@@ -1,6 +1,5 @@
-// Type imports need to be explicitly defined see:
-// https://github.com/vercel/next.js/issues/7882
-export type { Definition, CSSObject, TrousersProps } from './types';
+// Type imports need to be explicitly defined see: https://github.com/vercel/next.js/issues/7882
+export type { Definition, CSSObject } from './types';
 export type { Collector, CollectorReturn } from './css';
 
 export { default } from './css';
