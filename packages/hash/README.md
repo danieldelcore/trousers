@@ -2,6 +2,10 @@
 
 `@trousers/hash` is a simple hash package which accepts a string and returns the hashed equivalent.
 
+## Installation
+
+`yarn add @trousers/hash` or `npm install @trousers/hash`
+
 ## API
 
 ### `hash`
