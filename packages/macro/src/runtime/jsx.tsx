@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 
 import { isBrowser } from '@trousers/core';
-import sheet from '@trousers/sheet';
+import Sheet from '@trousers/sheet';
 
 import { CollectorReturn } from './css';
 
@@ -17,10 +17,10 @@ export interface TrousersProps {
     [key: string]: any; // Will need to use template literal types in ts 4.1
 }
 
-let styleSheet: ReturnType<typeof sheet> | null = null;
+let sheet: ReturnType<typeof Sheet> | null = null;
 if (isBrowser()) {
     const headElement = document.getElementsByTagName('head')[0];
-    styleSheet = sheet(headElement, 'data-trousers');
+    sheet = Sheet(headElement, 'data-trousers');
 }
 
 const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
@@ -82,10 +82,7 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
         const cleanUp: string[] = [];
 
         definitions
-            .filter(
-                ({ styles }) =>
-                    styleSheet && !styleSheet.has(Object.keys(styles)[0]),
-            ) // this doesn't stop all selectors
+            .filter(({ styles }) => sheet && !sheet.has(Object.keys(styles)[0])) // this doesn't stop all selectors
             .forEach(({ id, styles, type }) =>
                 Object.entries(styles).forEach(([key, value]) => {
                     if (type === 'global') {
@@ -93,8 +90,8 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
                     }
 
                     return (
-                        styleSheet &&
-                        styleSheet.mount(
+                        sheet &&
+                        sheet.mount(
                             id + key,
                             `${key}{${value}}`,
                             type === 'global',
@@ -104,7 +101,7 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
             );
 
         return () => {
-            cleanUp.forEach(id => styleSheet && styleSheet.unmount(id));
+            cleanUp.forEach(id => sheet && sheet.unmount(id));
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);

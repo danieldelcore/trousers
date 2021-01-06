@@ -1,4 +1,4 @@
-import sheet from './sheet';
+import Sheet from './sheet';
 
 declare global {
     namespace jest {
@@ -56,13 +56,13 @@ expect.extend({
 });
 
 describe('Sheet', () => {
-    let activeSheet: ReturnType<typeof sheet>;
+    let sheet: ReturnType<typeof Sheet>;
     let headEl = window.document.head;
     let attributeId = 'data-testing-trousers';
     let styleSheet: CSSStyleSheet;
 
     beforeEach(() => {
-        activeSheet = sheet(headEl, attributeId);
+        sheet = Sheet(headEl, attributeId);
         styleSheet = document.styleSheets[0];
     });
 
@@ -71,19 +71,19 @@ describe('Sheet', () => {
     });
 
     it('can mount a style tag', () => {
-        sheet(headEl, 'data-testing-secondary');
+        Sheet(headEl, 'data-testing-secondary');
         expect(headEl.innerHTML).toMatchSnapshot();
     });
 
     it('detects an existing style', () => {
         const key = '.foo';
-        activeSheet.mount(key, styleToString(key, { color: 'red' }));
+        sheet.mount(key, styleToString(key, { color: 'red' }));
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
     });
 
     it('detects a non existing style', () => {
-        expect(activeSheet.has('123')).toBe(false);
+        expect(sheet.has('123')).toBe(false);
     });
 
     it('mounts a new style', () => {
@@ -91,9 +91,9 @@ describe('Sheet', () => {
         const style = { color: 'red' };
         const styleRule = styleToString(key, style);
 
-        activeSheet.mount(key, styleRule);
+        sheet.mount(key, styleRule);
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
         expect(headEl.innerHTML).toMatchSnapshot();
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
@@ -103,9 +103,9 @@ describe('Sheet', () => {
         const style = { color: 'blue', backgroundColor: 'red' };
         const styleRule = styleToString(key, style);
 
-        activeSheet.mount(key, styleRule);
+        sheet.mount(key, styleRule);
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
 
@@ -115,8 +115,8 @@ describe('Sheet', () => {
         const style1 = { color: 'blue' };
         const style2 = { color: 'red' };
 
-        activeSheet.mount(key1, styleToString(key1, style1));
-        activeSheet.mount(key2, styleToString(key2, style2));
+        sheet.mount(key1, styleToString(key1, style1));
+        sheet.mount(key2, styleToString(key2, style2));
 
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key1, style1);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
@@ -126,7 +126,7 @@ describe('Sheet', () => {
         const key = '.1';
         const style = { color: 'red' };
 
-        activeSheet.mount(key, styleToString(key, style));
+        sheet.mount(key, styleToString(key, style));
 
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
@@ -137,8 +137,8 @@ describe('Sheet', () => {
         const style1 = { color: 'blue' };
         const style2 = { color: 'red' };
 
-        activeSheet.mount(key1, styleToString(key1, style1));
-        activeSheet.mount(key2, styleToString(key2, style2), true);
+        sheet.mount(key1, styleToString(key1, style1));
+        sheet.mount(key2, styleToString(key2, style2), true);
 
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key1, style1);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key2, style2);
@@ -149,8 +149,8 @@ describe('Sheet', () => {
         const style1 = { color: 'blue' };
         const style2 = { color: 'red' };
 
-        activeSheet.mount(key, styleToString(key, style1));
-        activeSheet.mount(key, styleToString(key, style2));
+        sheet.mount(key, styleToString(key, style1));
+        sheet.mount(key, styleToString(key, style2));
 
         expect(styleSheet.cssRules.length).toEqual(1);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style1);
@@ -161,12 +161,12 @@ describe('Sheet', () => {
         const style = { color: 'red' };
         const styleRule = styleToString(key, style);
 
-        activeSheet.mount(key, styleRule);
+        sheet.mount(key, styleRule);
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
 
-        activeSheet.unmount(key);
+        sheet.unmount(key);
     });
 
     it('unmounts style as one of many mounted styles', () => {
@@ -175,17 +175,17 @@ describe('Sheet', () => {
             color: 'red',
         };
 
-        activeSheet.mount('.bar', '.bar{color: blue;}');
-        activeSheet.mount(key, styleToString(key, style));
-        activeSheet.mount('.baz', '.baz{color: green;}');
+        sheet.mount('.bar', '.bar{color: blue;}');
+        sheet.mount(key, styleToString(key, style));
+        sheet.mount('.baz', '.baz{color: green;}');
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules.length).toEqual(3);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key, style);
 
-        activeSheet.unmount(key);
+        sheet.unmount(key);
 
-        expect(activeSheet.has(key)).toEqual(false);
+        expect(sheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
         expect(styleSheet.cssRules[0]).not.toHaveMountedStyles(key, style);
         expect(styleSheet.cssRules[1]).not.toHaveMountedStyles(key, style);
@@ -205,29 +205,29 @@ describe('Sheet', () => {
             color: 'green',
         };
 
-        activeSheet.mount(key, styleToString(key, style));
-        activeSheet.mount(key2, styleToString(key2, style2));
-        activeSheet.mount(key3, styleToString(key3, style3));
+        sheet.mount(key, styleToString(key, style));
+        sheet.mount(key2, styleToString(key2, style2));
+        sheet.mount(key3, styleToString(key3, style3));
 
         expect(styleSheet.cssRules.length).toEqual(3);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key);
-        expect(activeSheet.has(key)).toEqual(false);
+        sheet.unmount(key);
+        expect(sheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key2, style2);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key2);
-        expect(activeSheet.has(key2)).toEqual(false);
+        sheet.unmount(key2);
+        expect(sheet.has(key2)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(1);
 
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key3);
-        expect(activeSheet.has(key3)).toEqual(false);
+        sheet.unmount(key3);
+        expect(sheet.has(key3)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(0);
     });
 
@@ -245,29 +245,29 @@ describe('Sheet', () => {
             color: 'green',
         };
 
-        activeSheet.mount(key, styleToString(key, style));
-        activeSheet.mount(key2, styleToString(key2, style2));
-        activeSheet.mount(key3, styleToString(key3, style3));
+        sheet.mount(key, styleToString(key, style));
+        sheet.mount(key2, styleToString(key2, style2));
+        sheet.mount(key3, styleToString(key3, style3));
 
         expect(styleSheet.cssRules.length).toEqual(3);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key2);
-        expect(activeSheet.has(key2)).toEqual(false);
+        sheet.unmount(key2);
+        expect(sheet.has(key2)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key);
-        expect(activeSheet.has(key)).toEqual(false);
+        sheet.unmount(key);
+        expect(sheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(1);
 
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key3, style3);
 
-        activeSheet.unmount(key3);
-        expect(activeSheet.has(key3)).toEqual(false);
+        sheet.unmount(key3);
+        expect(sheet.has(key3)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(0);
     });
 
@@ -275,7 +275,7 @@ describe('Sheet', () => {
         const key = ':root';
         const style = { color: 'red' };
 
-        activeSheet.mount(key, styleToString(key, style), true);
+        sheet.mount(key, styleToString(key, style), true);
 
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
@@ -288,15 +288,15 @@ describe('Sheet', () => {
         const key3 = '*';
         const style3 = { color: 'green' };
 
-        activeSheet.mount(key, styleToString(key, style), true);
-        activeSheet.mount(key2, styleToString(key2, style2), true);
-        activeSheet.mount(key3, styleToString(key3, style3), true);
+        sheet.mount(key, styleToString(key, style), true);
+        sheet.mount(key2, styleToString(key2, style2), true);
+        sheet.mount(key3, styleToString(key3, style3), true);
 
-        expect(activeSheet.has(key)).toEqual(true);
+        expect(sheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules.length).toEqual(3);
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key, style);
 
-        activeSheet.unmount(key);
+        sheet.unmount(key);
 
         expect(styleSheet.cssRules.length).toEqual(2);
 

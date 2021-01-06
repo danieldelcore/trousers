@@ -9,13 +9,13 @@ import React, {
 } from 'react';
 
 import { process, isBrowser } from '@trousers/core';
-import sheet from '@trousers/sheet';
+import Sheet from '@trousers/sheet';
 import { TrousersProps } from './types';
 
-let styleSheet: ReturnType<typeof sheet> | null = null;
+let sheet: ReturnType<typeof Sheet> | null = null;
 if (isBrowser()) {
     const headElement = document.getElementsByTagName('head')[0];
-    styleSheet = sheet(headElement, 'data-trousers');
+    sheet = Sheet(headElement, 'data-trousers');
 }
 
 const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
@@ -77,7 +77,7 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
         const cleanUp: string[] = [];
 
         definitions
-            .filter(({ className }) => styleSheet && !styleSheet.has(className)) // this doesn't stop all selectors
+            .filter(({ className }) => sheet && !sheet.has(className)) // this doesn't stop all selectors
             .forEach(({ id, className, styles, type }) =>
                 Object.entries(process(className, styles)).forEach(
                     ([key, value]) => {
@@ -86,8 +86,8 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
                         }
 
                         return (
-                            styleSheet &&
-                            styleSheet.mount(
+                            sheet &&
+                            sheet.mount(
                                 id + key,
                                 `${key}{${value}}`,
                                 type === 'global',
@@ -98,7 +98,7 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
             );
 
         return () => {
-            cleanUp.forEach(id => styleSheet && styleSheet.unmount(id));
+            cleanUp.forEach(id => sheet && sheet.unmount(id));
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classes]);

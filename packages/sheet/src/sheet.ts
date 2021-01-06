@@ -21,7 +21,7 @@ const getSheet = (targetEl: HTMLStyleElement) => {
     throw Error('Unable to get StyleSheet');
 };
 
-const sheet = (targetEl: HTMLElement, attributeId: string) => {
+const Sheet = (targetEl: HTMLElement, attributeId: string) => {
     let styleEl = getElement(targetEl, attributeId);
     const styleMap = new Map<string, number>();
 
@@ -78,4 +78,4 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
     };
 };
 
-export default sheet;
+export default Sheet;
