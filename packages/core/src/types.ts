@@ -9,7 +9,24 @@ type CSSPropertiesWithMultiValues = {
 
 type CSSPseudos = { [K in CSS.Pseudos]?: CSSObject };
 
-export interface CSSObject extends CSSPropertiesWithMultiValues, CSSPseudos {}
+type InterpolationPrimitive =
+    | null
+    | undefined
+    | boolean
+    | number
+    | string
+    | CSSObject;
+
+type CSSInterpolation = InterpolationPrimitive | CSSInterpolation[];
+
+interface CSSOthersObject {
+    [propertiesName: string]: CSSInterpolation;
+}
+
+export interface CSSObject
+    extends CSSPropertiesWithMultiValues,
+        CSSPseudos,
+        CSSOthersObject {}
 
 export interface Definition {
     id: string;

@@ -1,6 +1,5 @@
 import { prefixProperty } from 'tiny-css-prefixer';
 
-// TODO might be good to return an object here instead.
 const prefix = (prop: string, value: string | number) => {
     const flag = prefixProperty(prop);
     let css = `${prop}: ${value};`;

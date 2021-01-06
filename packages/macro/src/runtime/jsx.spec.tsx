@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 /** @jsx jsx */
 import css from './css';
 import jsx from './jsx';
@@ -7,8 +8,7 @@ let mountMock = jest.fn();
 jest.mock('@trousers/sheet', () => ({
     __esModule: true,
     default: () => ({
-        // @ts-ignore
-        mount: (...args) => mountMock(...args),
+        mount: (...args: any[]) => mountMock(...args),
         has: () => false,
     }),
 }));
@@ -28,6 +28,7 @@ describe('jsx', () => {
 
     it('mounts element styles', () => {
         const styles = css('element', { '.element-2313942302': 'color: red;' });
+        // @ts-ignore runtime css prop has no types when consumed
         const { getByTestId } = render(<div css={styles} data-testid="test" />);
 
         expect(getByTestId('test').className).toMatchInlineSnapshot(
@@ -41,7 +42,10 @@ describe('jsx', () => {
     });
 
     it('mounts element styles without id', () => {
-        const styles = css('', { '.2313942302': 'color: red;' });
+        const styles = css('', {
+            '.2313942302': 'color: red;',
+        });
+        // @ts-ignore runtime css prop has no types when consumed
         const { getByTestId } = render(<div css={styles} data-testid="test" />);
 
         expect(getByTestId('test').className).toMatchInlineSnapshot(
@@ -61,6 +65,7 @@ describe('jsx', () => {
             '.primary-2561700995': 'color: blue;',
         });
 
+        // @ts-ignore runtime css prop has no types when consumed
         const { getByTestId } = render(<div css={styles} data-testid="test" />);
 
         expect(getByTestId('test').className).toMatchInlineSnapshot(
@@ -83,6 +88,7 @@ describe('jsx', () => {
         });
 
         const { getByTestId } = render(
+            // @ts-ignore runtime css prop has no types when consumed
             <div css={styles} $primary={false} data-testid="test" />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
@@ -104,6 +110,7 @@ describe('jsx', () => {
         });
 
         const { getByTestId } = render(
+            // @ts-ignore runtime css prop has no types when consumed
             <div css={styles} $primary={undefined} data-testid="test" />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
@@ -125,8 +132,10 @@ describe('jsx', () => {
         });
 
         const { getByTestId } = render(
+            // @ts-ignore runtime css prop has no types when consumed
             <div css={styles} $primary={true} data-testid="test" />,
         );
+
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302 primary-2561700995"`,
         );
@@ -151,8 +160,10 @@ describe('jsx', () => {
         });
 
         const { getByTestId } = render(
+            // @ts-ignore runtime css prop has no types when consumed
             <div css={styles} $primary data-testid="test" />,
         );
+
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302 primary-2561700995"`,
         );

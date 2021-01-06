@@ -24,7 +24,6 @@ describe('process', () => {
     it('stringifies nested selectors', () => {
         const result = process('.my-id', {
             backgroundColor: 'red',
-            // @ts-ignore
             '& button': {
                 backgroundColor: 'violet',
             },
@@ -38,7 +37,6 @@ describe('process', () => {
     it('stringifies deeply nested selectors', () => {
         const result = process('.my-id', {
             backgroundColor: 'red',
-            // @ts-ignore
             button: {
                 backgroundColor: 'violet',
                 span: {
@@ -56,7 +54,6 @@ describe('process', () => {
     it('stringifies deeply nested class selectors', () => {
         const result = process('.my-id', {
             backgroundColor: 'red',
-            // @ts-ignore
             '#MyButton': {
                 backgroundColor: 'violet',
                 '.myDiv': {
@@ -74,7 +71,6 @@ describe('process', () => {
     it('stringifies child selectors', () => {
         const result = process('.my-id', {
             backgroundColor: 'red',
-            // @ts-ignore
             '> .myButton': { backgroundColor: 'violet' },
             '& > .myButton': { color: 'violet' },
         });
@@ -86,7 +82,6 @@ describe('process', () => {
 
     it('stringifies keyframe animations', () => {
         const result = process('.my-id', {
-            // @ts-ignore
             '@keyframes mymove': {
                 from: { top: '0px' },
                 to: { top: '200px' },
@@ -99,7 +94,6 @@ describe('process', () => {
 
     it('stringifies media queries', () => {
         const result = process('.my-id', {
-            // @ts-ignore
             '@media screen and (max-width: 992px)': {
                 '& button': {
                     background: 'violet',
@@ -114,7 +108,6 @@ describe('process', () => {
 
     it('stringifies top-level font-face declaration', () => {
         const result = process('', {
-            // @ts-ignore
             '@font-face': {
                 fontFamily: 'Untitled Sans',
                 fontWeight: 400,
@@ -130,7 +123,6 @@ describe('process', () => {
 
     it('stringifies media queries with deeply nested selectors', () => {
         const result = process('.my-id', {
-            // @ts-ignore
             '@media screen and (max-width: 992px)': {
                 '& button': {
                     background: 'violet',

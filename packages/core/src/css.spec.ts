@@ -47,7 +47,6 @@ describe('css', () => {
                     },
                 })
                 .global({
-                    // @ts-ignore
                     '*': {
                         boxSizing: 'border-box',
                     },
