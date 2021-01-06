@@ -2,6 +2,7 @@
 import { ComponentType, forwardRef } from 'react';
 import jsx from '@trousers/react';
 import { Collector } from '@trousers/core';
+import { TrousersProps } from '@trousers/react';
 
 type Elements = keyof JSX.IntrinsicElements;
 const domElements: Elements[] = [
@@ -141,10 +142,9 @@ const domElements: Elements[] = [
     'tspan',
 ];
 
-interface StyledProps extends JSX.IntrinsicAttributes {
-    // TODO: replace below with template literal type for $primary
-    [key: string]: any;
-}
+interface StyledProps
+    extends JSX.IntrinsicAttributes,
+        Omit<TrousersProps, 'css'> {}
 type CollectorHOC = (css: ReturnType<Collector>) => ComponentType<StyledProps>;
 type ElementMap = {
     [key in Elements]: CollectorHOC;

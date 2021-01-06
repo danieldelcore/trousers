@@ -4,21 +4,15 @@ import jsx from './jsx';
 import { render } from '@testing-library/react';
 
 let mountMock = jest.fn();
+let unmountMock = jest.fn();
 jest.mock('@trousers/sheet', () => ({
     __esModule: true,
     default: () => ({
         // @ts-ignore
         mount: (...args) => mountMock(...args),
         has: () => false,
+        unmount: (id: string) => unmountMock(id),
     }),
-}));
-
-// HACK: We need to remove this
-// TODO: Figure out why useLayoutEffect doesn't work
-jest.mock('react', () => ({
-    __esModule: true,
-    ...(jest.requireActual('react') as object),
-    useLayoutEffect: (callback: any) => callback(),
 }));
 
 describe('jsx', () => {
@@ -368,5 +362,15 @@ describe('jsx', () => {
         );
     });
 
-    it.todo('cleans-up globals on dismount');
+    it('cleans-up globals on dismount', () => {
+        const styles = css({}).global({
+            ':root': { boxSizing: 'border-box' },
+        });
+
+        const { unmount } = render(<div css={styles} />);
+
+        unmount();
+
+        expect(unmountMock).toHaveBeenCalledWith('global--694683171:root');
+    });
 });

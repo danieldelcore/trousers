@@ -13,14 +13,6 @@ jest.mock('@trousers/sheet', () => ({
     }),
 }));
 
-// HACK: We need to remove this
-// TODO: Figure out why useLayoutEffect doesn't work
-jest.mock('react', () => ({
-    __esModule: true,
-    ...(jest.requireActual('react') as object),
-    useLayoutEffect: (callback: any) => callback(),
-}));
-
 describe('jsx', () => {
     afterEach(() => {
         jest.clearAllMocks();
@@ -42,9 +34,7 @@ describe('jsx', () => {
     });
 
     it('mounts element styles without id', () => {
-        const styles = css('', {
-            '.2313942302': 'color: red;',
-        });
+        const styles = css('', { '.2313942302': 'color: red;' });
         // @ts-ignore runtime css prop has no types when consumed
         const { getByTestId } = render(<div css={styles} data-testid="test" />);
 

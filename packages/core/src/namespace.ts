@@ -66,7 +66,6 @@ function namespace(id: string, style: Record<string, any>): RuleSet {
                 id + ' ' + property.replace(new RegExp(/,/, 'g'), ', ' + id);
         }
 
-        // TODO: deep merge is a shame
         return mergeDeep(accum, namespace(selector, value));
     }, {});
 }

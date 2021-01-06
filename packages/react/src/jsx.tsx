@@ -18,15 +18,7 @@ if (isBrowser()) {
     styleSheet = sheet(headElement, 'data-trousers');
 }
 
-const jsx = <Props extends TrousersProps>(
-    type: ElementType<Omit<Props, 'css'>>,
-    props: Props,
-    ...children: ReactNode[]
-) => {
-    if (props == null || !hasOwnProperty.call(props, 'css'))
-        return createElement(type, props, ...children);
-
-    //TODO: might be good to memo here
+const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
     const definitions = props
         .css!._get()
         .filter(
@@ -41,20 +33,25 @@ const jsx = <Props extends TrousersProps>(
         .trim();
 
     const cleanProps = Object.keys(props)
-        .filter(key => !key.startsWith('$') && key !== 'css')
+        .filter(
+            key =>
+                !key.startsWith('$') &&
+                key !== 'css' &&
+                key !== 'elementType' &&
+                key !== 'children',
+        )
         .reduce((obj: Record<string, any>, key: string) => {
             obj[key] = props[key];
             return obj;
         }, {});
 
     const Element = createElement(
-        type,
-        // @ts-ignore
+        props.elementType,
         {
             ...cleanProps,
             className: classes,
         },
-        ...children,
+        ...props.children,
     );
 
     if (!isBrowser()) {
@@ -107,6 +104,21 @@ const jsx = <Props extends TrousersProps>(
     }, [classes]);
 
     return Element;
+};
+
+const jsx = <Props extends TrousersProps>(
+    type: ElementType<Omit<Props, 'css'>>,
+    props: Props,
+    ...children: ReactNode[]
+) => {
+    if (props == null || !hasOwnProperty.call(props, 'css'))
+        return createElement(type, props, ...children);
+
+    return (
+        <TrousersNested<Props> {...props} elementType={type}>
+            {children}
+        </TrousersNested>
+    );
 };
 
 export default jsx;

@@ -50,7 +50,6 @@ const sheet = (targetEl: HTMLElement, attributeId: string) => {
 
         try {
             const activeSheet = getSheet(styleEl!);
-            // TODO: this will break because the ids change over time as new elements like globals are pushed in
             const index = isGlobal ? 0 : activeSheet.cssRules.length;
             activeSheet.insertRule(styles, index);
 
