@@ -1,6 +1,6 @@
 {
     "name": "@trousers/macro",
-    "version": "4.0.0-alpha3",
+    "version": "4.0.0-alpha4",
     "main": "dist/trousers-macro.cjs.js",
     "module": "dist/trousers-macro.esm.js",
     "types": "dist/index.d.ts",
@@ -16,10 +16,10 @@
         ]
     },
     "dependencies": {
-        "@trousers/core": "4.0.0-alpha3",
-        "@trousers/hash": "4.0.0-alpha3",
-        "@trousers/react": "4.0.0-alpha3",
-        "@trousers/sheet": "4.0.0-alpha3",
+        "@trousers/core": "4.0.0-alpha4",
+        "@trousers/hash": "4.0.0-alpha4",
+        "@trousers/react": "4.0.0-alpha4",
+        "@trousers/sheet": "4.0.0-alpha4",
         "babel-plugin-macros": "^3.0.0"
     },
     "devDependencies": {
