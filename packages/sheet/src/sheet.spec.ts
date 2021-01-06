@@ -1,5 +1,13 @@
 import sheet from './sheet';
 
+declare global {
+    namespace jest {
+        interface Matchers<R> {
+            toHaveMountedStyles(key: string, style: object): R;
+        }
+    }
+}
+
 const objectContaining = (
     obj: Record<string, any>,
     subObj: Record<string, any>,
@@ -87,7 +95,6 @@ describe('Sheet', () => {
 
         expect(activeSheet.has(key)).toEqual(true);
         expect(headEl.innerHTML).toMatchSnapshot();
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
 
@@ -99,7 +106,6 @@ describe('Sheet', () => {
         activeSheet.mount(key, styleRule);
 
         expect(activeSheet.has(key)).toEqual(true);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
 
@@ -112,9 +118,7 @@ describe('Sheet', () => {
         activeSheet.mount(key1, styleToString(key1, style1));
         activeSheet.mount(key2, styleToString(key2, style2));
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key1, style1);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
     });
 
@@ -124,7 +128,6 @@ describe('Sheet', () => {
 
         activeSheet.mount(key, styleToString(key, style));
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
 
@@ -137,9 +140,7 @@ describe('Sheet', () => {
         activeSheet.mount(key1, styleToString(key1, style1));
         activeSheet.mount(key2, styleToString(key2, style2), true);
 
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key1, style1);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key2, style2);
     });
 
@@ -152,7 +153,6 @@ describe('Sheet', () => {
         activeSheet.mount(key, styleToString(key, style2));
 
         expect(styleSheet.cssRules.length).toEqual(1);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style1);
     });
 
@@ -164,7 +164,6 @@ describe('Sheet', () => {
         activeSheet.mount(key, styleRule);
 
         expect(activeSheet.has(key)).toEqual(true);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
 
         activeSheet.unmount(key);
@@ -182,16 +181,13 @@ describe('Sheet', () => {
 
         expect(activeSheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules.length).toEqual(3);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key, style);
 
         activeSheet.unmount(key);
 
         expect(activeSheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).not.toHaveMountedStyles(key, style);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).not.toHaveMountedStyles(key, style);
     });
 
@@ -214,26 +210,20 @@ describe('Sheet', () => {
         activeSheet.mount(key3, styleToString(key3, style3));
 
         expect(styleSheet.cssRules.length).toEqual(3);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
-        // @ts-ignore
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key);
         expect(activeSheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key2, style2);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key2);
         expect(activeSheet.has(key2)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(1);
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key3);
@@ -260,26 +250,20 @@ describe('Sheet', () => {
         activeSheet.mount(key3, styleToString(key3, style3));
 
         expect(styleSheet.cssRules.length).toEqual(3);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
-        // @ts-ignore
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key2);
         expect(activeSheet.has(key2)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(2);
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key);
         expect(activeSheet.has(key)).toEqual(false);
         expect(styleSheet.cssRules.length).toEqual(1);
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key3, style3);
 
         activeSheet.unmount(key3);
@@ -293,7 +277,6 @@ describe('Sheet', () => {
 
         activeSheet.mount(key, styleToString(key, style), true);
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key, style);
     });
 
@@ -311,16 +294,13 @@ describe('Sheet', () => {
 
         expect(activeSheet.has(key)).toEqual(true);
         expect(styleSheet.cssRules.length).toEqual(3);
-        // @ts-ignore
         expect(styleSheet.cssRules[2]).toHaveMountedStyles(key, style);
 
         activeSheet.unmount(key);
 
         expect(styleSheet.cssRules.length).toEqual(2);
 
-        // @ts-ignore
         expect(styleSheet.cssRules[0]).toHaveMountedStyles(key3, style3);
-        // @ts-ignore
         expect(styleSheet.cssRules[1]).toHaveMountedStyles(key2, style2);
     });
 });
