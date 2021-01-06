@@ -1,6 +1,5 @@
-/** @jsx jsx */
+import React from 'react';
 import css from '@trousers/core';
-import jsx from '@trousers/react';
 import styled from './styled';
 import { render } from '@testing-library/react';
 
