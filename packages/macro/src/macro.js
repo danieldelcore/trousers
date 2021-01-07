@@ -93,23 +93,23 @@ function macro({ references, babel }) {
         });
     });
 
+    const program = references.css[0].findParent(path => path.isProgram());
     const importName = references.css[0].node.name;
 
-    const { body } = references.css[0].findParent(path =>
-        path.isProgram(),
-    ).node;
-
-    body.unshift(
+    program.node.body.unshift(
         t.importDeclaration(
             [
                 t.importSpecifier(
                     t.identifier(importName),
                     t.identifier(importName),
                 ),
+                t.importSpecifier(t.identifier('jsx'), t.identifier('jsx')),
             ],
             t.stringLiteral('@trousers/macro/runtime'),
         ),
     );
+
+    program.addComment('leading', `* @jsx jsx `);
 
     return {
         keepImports: false,

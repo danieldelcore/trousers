@@ -125,7 +125,7 @@ pluginTester({
         `,
         },
         // {
-        //     title: 'correctly interpolates variables (Identifiers)',
+        //     title: 'correctly interpolates variables (Identifier)',
         //     code: `
         //   import { css } from './macro';
         //   const foo = 'blue';
