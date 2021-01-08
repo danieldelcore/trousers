@@ -5,7 +5,10 @@ pluginTester({
     plugin,
     title: '@trousers/macro',
     snapshot: true,
-    babelOptions: { filename: __filename },
+    babelOptions: {
+        filename: __filename,
+        presets: ['@babel/preset-react'],
+    },
     tests: [
         {
             title: 'element',
@@ -124,28 +127,132 @@ pluginTester({
           css('Button', { color: 5 });
         `,
         },
-        // {
-        //     title: 'correctly interpolates variables (Identifier)',
-        //     code: `
-        //   import { css } from './macro';
-        //   const foo = 'blue';
-        //   css('Button', { color: foo });
-        // `,
-        // },
-        // {
-        //     title: 'correctly interpolates functions (CallExpression)',
-        //     code: `
-        //   import { css } from './macro';
-        //   const foo = () => 'blue';
-        //   css('Button', { color: foo() });
-        // `,
-        // },
-        // {
-        //     title: 'correctly interpolates evaluations (BooleanExpression)',
-        //     code: `
-        //   import { css } from './macro';
-        //   css('Button', { color: 5+5 });
-        // `,
-        // },
+        {
+            title: 'correctly interpolates variables (Identifier)',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const styles = css('Button', { color: foo });
+
+          const App = () => <button css={styles} />;
+        `,
+        },
+        {
+            title: 'correctly interpolates functions (CallExpression)',
+            code: `
+          import { css } from './macro';
+
+          const styles = css('Button', { color: foo() });
+
+          const App = () => <button css={styles} />;
+        `,
+        },
+        {
+            title: 'correctly interpolates evaluations (BinaryExpression)',
+            code: `
+          import { css } from './macro';
+          const styles = css('Button', { color: 5+5 });
+
+          const App = () => <button css={styles} />;
+        `,
+        },
+        {
+            title: 'does not add interpolations if styles are not in use',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const styles = css('Button', { color: foo });
+
+          const App = () => <button />;
+        `,
+        },
+        {
+            title: 'correctly interpolates styles used by nested elements',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const bar = 'green';
+          const styles = css('Button', { color: foo });
+          const innerStyles = css('ButtonInner', { color: bar });
+
+          const App = () => (
+            <button css={styles}>
+              <span css={innerStyles}>
+                Hello, World!
+              </span>
+            </button>
+          );
+        `,
+        },
+        {
+            title: 'correctly interpolates styles used by sibling elements',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const bar = 'green';
+          const styles = css('Button', { color: foo });
+          const siblingStyles = css('ButtonInner', { color: bar });
+
+          const App = () => (
+            <div>
+              <span css={siblingStyles}>
+                Hello, World!
+              </span>
+              <button css={styles}>
+                Submit
+              </button>
+            </div>
+          );
+        `,
+        },
+        {
+            title: 'correctly interpolates reused styles',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const styles = css('Button', { color: foo });
+
+          const App = () => (
+            <button css={styles}>
+              <span css={styles}>
+                Hello, World!
+              </span>
+            </button>
+          );
+        `,
+        },
+        {
+            title:
+                'interpolations are correctly added to an in-use style attribute',
+            code: `
+          import { css } from './macro';
+          const foo = 'blue';
+          const styles = css('Button', { color: foo });
+
+          const App = () => (
+            <button css={styles} styles={{color: 'red'}}>
+                Hello, World!
+            </button>
+          );
+        `,
+        },
+        {
+            title:
+                'interpolations are correctly added styles directly passed into the css',
+            code: `
+          import React, { useState } from 'react';
+          import { css } from './macro';
+
+          const App = () => {
+            const [foo, setFoo] = useState('blue');
+
+            return (
+              <button css={css('Button', { color: foo })}>
+                  Hello, World!
+              </button>
+            );
+          }
+        `,
+        },
     ],
 });

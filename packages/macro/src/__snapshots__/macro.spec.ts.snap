@@ -58,6 +58,248 @@ css('Button', {
 
 `;
 
+exports[`@trousers/macro correctly interpolates evaluations (BinaryExpression): correctly interpolates evaluations (BinaryExpression) 1`] = `
+
+import { css } from './macro';
+const styles = css('Button', { color: 5+5 });
+
+const App = () => <button css={styles} />;
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement('button', {
+        css: styles,
+        styles: {
+            '--interpol0': 5 + 5,
+        },
+    });
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates functions (CallExpression): correctly interpolates functions (CallExpression) 1`] = `
+
+import { css } from './macro';
+
+const styles = css('Button', { color: foo() });
+
+const App = () => <button css={styles} />;
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement('button', {
+        css: styles,
+        styles: {
+            '--interpol0': foo(),
+        },
+    });
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates reused styles: correctly interpolates reused styles 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const styles = css('Button', { color: foo });
+
+const App = () => (
+  <button css={styles}>
+    <span css={styles}>
+      Hello, World!
+    </span>
+  </button>
+);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement(
+        'button',
+        {
+            css: styles,
+            styles: {
+                '--interpol0': foo,
+            },
+        },
+        /*#__PURE__*/ React.createElement(
+            'span',
+            {
+                css: styles,
+                styles: {
+                    '--interpol0': foo,
+                },
+            },
+            'Hello, World!',
+        ),
+    );
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates styles used by nested elements: correctly interpolates styles used by nested elements 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const bar = 'green';
+const styles = css('Button', { color: foo });
+const innerStyles = css('ButtonInner', { color: bar });
+
+const App = () => (
+  <button css={styles}>
+    <span css={innerStyles}>
+      Hello, World!
+    </span>
+  </button>
+);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const bar = 'green';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+const innerStyles = css('ButtonInner', {
+    '.ButtonInner-4214944499': 'color: var(--interpol1);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement(
+        'button',
+        {
+            css: styles,
+            styles: {
+                '--interpol0': foo,
+            },
+        },
+        /*#__PURE__*/ React.createElement(
+            'span',
+            {
+                css: innerStyles,
+                styles: {
+                    '--interpol1': bar,
+                },
+            },
+            'Hello, World!',
+        ),
+    );
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates styles used by sibling elements: correctly interpolates styles used by sibling elements 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const bar = 'green';
+const styles = css('Button', { color: foo });
+const siblingStyles = css('ButtonInner', { color: bar });
+
+const App = () => (
+  <div>
+    <span css={siblingStyles}>
+      Hello, World!
+    </span>
+    <button css={styles}>
+      Submit
+    </button>
+  </div>
+);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const bar = 'green';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+const siblingStyles = css('ButtonInner', {
+    '.ButtonInner-4214944499': 'color: var(--interpol1);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement(
+        'div',
+        null,
+        /*#__PURE__*/ React.createElement(
+            'span',
+            {
+                css: siblingStyles,
+                styles: {
+                    '--interpol1': bar,
+                },
+            },
+            'Hello, World!',
+        ),
+        /*#__PURE__*/ React.createElement(
+            'button',
+            {
+                css: styles,
+                styles: {
+                    '--interpol0': foo,
+                },
+            },
+            'Submit',
+        ),
+    );
+
+
+`;
+
+exports[`@trousers/macro correctly interpolates variables (Identifier): correctly interpolates variables (Identifier) 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const styles = css('Button', { color: foo });
+
+const App = () => <button css={styles} />;
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement('button', {
+        css: styles,
+        styles: {
+            '--interpol0': foo,
+        },
+    });
+
+
+`;
+
 exports[`@trousers/macro correctly updates imports: correctly updates imports 1`] = `
 
 /** @jsx jsx */
@@ -92,6 +334,28 @@ import { foo, jsx } from '@trousers/macro/runtime';
 foo('Button', {
     '.Button-2561700995': 'color: blue;',
 });
+
+
+`;
+
+exports[`@trousers/macro does not add interpolations if styles are not in use: does not add interpolations if styles are not in use 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const styles = css('Button', { color: foo });
+
+const App = () => <button />;
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () => /*#__PURE__*/ React.createElement('button', null);
 
 
 `;
@@ -145,6 +409,83 @@ import { css, jsx } from '@trousers/macro/runtime';
 css('Button', {}).global('global-Button-480010618', {
     ':root': 'background-color: red;',
 });
+
+
+`;
+
+exports[`@trousers/macro interpolations are correctly added styles directly passed into the css: interpolations are correctly added styles directly passed into the css 1`] = `
+
+import React, { useState } from 'react';
+import { css } from './macro';
+
+const App = () => {
+  const [foo, setFoo] = useState('blue');
+
+  return (
+    <button css={css('Button', { color: foo })}>
+        Hello, World!
+    </button>
+  );
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+import React, { useState } from 'react';
+
+const App = () => {
+    const [foo, setFoo] = useState('blue');
+    return /*#__PURE__*/ React.createElement(
+        'button',
+        {
+            css: css('Button', {
+                '.Button-4214914708': 'color: var(--interpol0);',
+            }),
+            styles: {
+                '--interpol0': foo,
+            },
+        },
+        'Hello, World!',
+    );
+};
+
+
+`;
+
+exports[`@trousers/macro interpolations are correctly added to an in-use style attribute: interpolations are correctly added to an in-use style attribute 1`] = `
+
+import { css } from './macro';
+const foo = 'blue';
+const styles = css('Button', { color: foo });
+
+const App = () => (
+  <button css={styles} styles={{color: 'red'}}>
+      Hello, World!
+  </button>
+);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+/** @jsx jsx */
+import { css, jsx } from '@trousers/macro/runtime';
+const foo = 'blue';
+const styles = css('Button', {
+    '.Button-4214914708': 'color: var(--interpol0);',
+});
+
+const App = () =>
+    /*#__PURE__*/ React.createElement(
+        'button',
+        {
+            css: styles,
+            styles: {
+                color: 'red',
+                '--interpol0': foo,
+            },
+        },
+        'Hello, World!',
+    );
 
 
 `;
