@@ -1,6 +1,6 @@
 {
     "name": "@trousers/hash",
-    "version": "4.0.0-alpha4",
+    "version": "4.0.0-alpha5",
     "main": "dist/trousers-hash.cjs.js",
     "module": "dist/trousers-hash.esm.js",
     "types": "dist/index.d.ts",

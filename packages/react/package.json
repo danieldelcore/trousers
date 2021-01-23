@@ -1,13 +1,13 @@
 {
     "name": "@trousers/react",
-    "version": "4.0.0-alpha4",
+    "version": "4.0.0-alpha5",
     "main": "dist/trousers-react.cjs.js",
     "module": "dist/trousers-react.esm.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/core": "4.0.0-alpha4",
-        "@trousers/sheet": "4.0.0-alpha4"
+        "@trousers/core": "4.0.0-alpha5",
+        "@trousers/sheet": "4.0.0-alpha5"
     },
     "devDependencies": {
         "react": "^17.0.1"
