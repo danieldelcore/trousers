@@ -48,4 +48,19 @@ describe('stringify', () => {
             '--typography-paragraph-small': 'black',
         });
     });
+
+    it('converts array properties', () => {
+        const result = themify({
+            background: 'red',
+            size: [1, 2, 3, 4],
+        });
+
+        expect(result).toEqual({
+            '--background': 'red',
+            '--size-0': 1,
+            '--size-1': 2,
+            '--size-2': 3,
+            '--size-3': 4,
+        });
+    });
 });
