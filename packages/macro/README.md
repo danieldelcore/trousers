@@ -21,7 +21,7 @@ To get up and running with babel macros in your project, [see the macro user gui
 -import css from '@trousers/core';
 -import jsx from '@trousers/react';
 
-+import { jsx, css } from '@trousers/macro';
++import { css } from '@trousers/macro';
 
 const styles = css('button', { backgroundColor: 'red' }).modifier('primary', {
     backgroundColor: 'blue',

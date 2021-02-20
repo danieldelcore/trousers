@@ -1,4 +1,5 @@
 // Type imports need to be explicitly defined see: https://github.com/vercel/next.js/issues/7882
+// eslint-disable-next-line prettier/prettier
 export type { Definition, CSSObject } from './types';
 export type { Collector, CollectorReturn } from './css';
 
