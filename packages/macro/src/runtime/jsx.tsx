@@ -1,11 +1,4 @@
-import React, {
-    createElement,
-    hasOwnProperty,
-    ElementType,
-    ReactNode,
-    useLayoutEffect,
-    Fragment,
-} from 'react';
+import React, { FC, createElement, useLayoutEffect, Fragment } from 'react';
 
 import { isBrowser } from '@trousers/core';
 import Sheet from '@trousers/sheet';
@@ -23,7 +16,7 @@ if (isBrowser()) {
     sheet = Sheet(headElement, 'data-trousers');
 }
 
-const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
+const TrousersNested: FC<TrousersProps> = props => {
     const definitions = props
         .css!._get()
         .filter(
@@ -50,13 +43,19 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
             return obj;
         }, {});
 
+    // console.log(props);
+    // console.log(props.elementType);
+    // console.log(props.elementType);
+    // console.log(props.elementType);
+    // console.log(props.elementType);
+
     const Element = createElement(
         props.elementType,
         {
             ...cleanProps,
             className: classes,
         },
-        ...props.children,
+        props.children,
     );
 
     if (!isBrowser()) {
@@ -109,20 +108,4 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
     return Element;
 };
 
-const jsx = <Props extends TrousersProps>(
-    type: ElementType<Omit<Props, 'css'>>,
-    props: Props,
-    ...children: ReactNode[]
-) => {
-    if (props == null || !hasOwnProperty.call(props, 'css'))
-        return createElement(type, props, ...children);
-
-    return (
-        // @ts-ignore css props clash due to global declaration
-        <TrousersNested<Props> {...props} elementType={type}>
-            {children}
-        </TrousersNested>
-    );
-};
-
-export default jsx;
+export default TrousersNested;

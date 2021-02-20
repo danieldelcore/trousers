@@ -51,7 +51,7 @@ const TrousersNested = <P extends TrousersProps = {}>(props: P) => {
             ...cleanProps,
             className: classes,
         },
-        ...props.children,
+        props.children,
     );
 
     if (!isBrowser()) {

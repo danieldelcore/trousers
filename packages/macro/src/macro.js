@@ -153,12 +153,18 @@ function macro({ references, babel }) {
                 ? stylesAttr.value.expression.properties
                 : [];
 
+            // ERROR: This code runs over opening elements multiple times....
+            // need to refactor this whole damn thing
             jsxOpeningElement.replaceWith(
                 t.jsxOpeningElement(
-                    jsxOpeningElement.node.name,
+                    t.jsxIdentifier('TrousersNested'),
                     [
                         ...jsxOpeningElement.node.attributes.filter(
                             attr => attr.name.name !== 'styles',
+                        ),
+                        t.jsxAttribute(
+                            t.jsxIdentifier('elementType'),
+                            t.stringLiteral(jsxOpeningElement.node.name.name),
                         ),
                         t.jsxAttribute(
                             t.jsxIdentifier('styles'),
@@ -192,13 +198,14 @@ function macro({ references, babel }) {
                     t.identifier(importName),
                     t.identifier(importName),
                 ),
-                t.importSpecifier(t.identifier('jsx'), t.identifier('jsx')),
+                t.importSpecifier(
+                    t.identifier('TrousersNested'),
+                    t.identifier('TrousersNested'),
+                ),
             ],
             t.stringLiteral('@trousers/macro/runtime'),
         ),
     );
-
-    program.addComment('leading', `* @jsx jsx `);
 
     return {
         keepImports: false,

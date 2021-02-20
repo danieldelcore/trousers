@@ -3,4 +3,4 @@ export type { CollectorReturn } from './stub';
 
 //@ts-ignore written in JS
 export * from './macro';
-export { css, jsx } from './stub';
+export { css } from './stub';
