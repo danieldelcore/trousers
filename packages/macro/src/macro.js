@@ -3,6 +3,14 @@ const { parse } = require('@babel/parser');
 const { process, themify } = require('@trousers/core');
 const hash = require('@trousers/hash').default;
 
+const libraryMeta = {
+    runtimeComponent: 'TrousersNested',
+    runtimeModulePath: '@trousers/macro/runtime',
+};
+
+const findJsxAttribute = (path, attributeName) =>
+    path.node.attributes.find(attr => attr.name.name === attributeName);
+
 const parseObject = (objectExpression, onInterpolation = () => {}) =>
     objectExpression.properties.reduce((accum, { key, value }) => {
         let parsedValue;
@@ -41,11 +49,9 @@ function macro({ references, babel }) {
     if (references.css.length === 0) return;
 
     const program = references.css[0].findParent(path => path.isProgram());
+    const interpolations = [];
 
-    let interpolationsCount = 0;
-
-    references.css.forEach(reference => {
-        const interpolations = [];
+    references.css.forEach((reference, index) => {
         const styleBlocks = [];
         const importName = reference.node.name;
 
@@ -71,8 +77,12 @@ function macro({ references, babel }) {
             const rawStyleBlock = parseObject(
                 objectExpression,
                 interpolation => {
-                    const id = `--interpol${interpolationsCount++}`;
-                    interpolations.push({ reference, id, interpolation });
+                    const id = `--interpol${interpolations.length}`;
+                    interpolations.push({
+                        referenceIndex: index,
+                        id,
+                        value: interpolation,
+                    });
                     return `var(${id})`;
                 },
             );
@@ -84,8 +94,8 @@ function macro({ references, babel }) {
 
             switch (type) {
                 case importName:
-                    elementId = id;
-                    className = `.${id && id + '-'}${hashedStyles}`;
+                    elementId = `${id && id + '-'}${hashedStyles}`;
+                    className = `.${elementId}`;
                     processedStyles = process(className, rawStyleBlock);
                     break;
                 case 'modifier':
@@ -116,76 +126,80 @@ function macro({ references, babel }) {
                 ]),
             );
         });
+    });
 
-        // Dynamic interpolations
-        let jsxOpeningElements = [];
-        const parentJsxElement = reference.find(path =>
-            path.isJSXOpeningElement(),
-        );
-        if (parentJsxElement) jsxOpeningElements.push(parentJsxElement);
+    program.traverse({
+        JSXOpeningElement: path => {
+            const cssAttr = findJsxAttribute(path, 'css');
+            if (!cssAttr) return;
 
-        if (!jsxOpeningElements.length) {
-            const styleVariable = reference.findParent(
-                path => path.type === 'VariableDeclarator',
-            );
-            const styleVariableId = styleVariable && styleVariable.node.id.name;
-
-            program.traverse({
-                JSXOpeningElement: path => {
-                    const cssAttr = path.node.attributes.find(
-                        attr =>
-                            attr.name.name === 'css' &&
-                            attr.value.expression.name === styleVariableId,
-                    );
-                    if (!cssAttr) return;
-
-                    jsxOpeningElements.push(path);
-                },
-            });
-        }
-
-        jsxOpeningElements.forEach(jsxOpeningElement => {
-            const stylesAttr = jsxOpeningElement.node.attributes.find(
-                attr => attr.name.name === 'styles',
-            );
-
+            const cssPropExpression = cssAttr.value.expression;
+            const stylesAttr = findJsxAttribute(path, 'styles');
             const styleProperties = stylesAttr
                 ? stylesAttr.value.expression.properties
                 : [];
 
-            // ERROR: This code runs over opening elements multiple times....
-            // need to refactor this whole damn thing
-            jsxOpeningElement.replaceWith(
+            const interpolationProperties = interpolations
+                .filter(({ referenceIndex }) => {
+                    let matchedReferenceIndex = -1;
+                    references.css.forEach((referencePath, i) => {
+                        // collector passed directly into css prop
+                        if (
+                            cssPropExpression.callee &&
+                            cssPropExpression.callee.name ===
+                                referencePath.node.name &&
+                            cssPropExpression.callee.start ===
+                                referencePath.node.start
+                        ) {
+                            matchedReferenceIndex = i;
+                        }
+
+                        // collector variable passed into css prop
+                        const variableDeclarator = referencePath.find(p =>
+                            p.isVariableDeclarator(),
+                        );
+
+                        if (
+                            variableDeclarator.node.id.name ===
+                            cssPropExpression.name
+                        ) {
+                            matchedReferenceIndex = i;
+                        }
+                    });
+
+                    return referenceIndex === matchedReferenceIndex;
+                })
+                .map(({ id, value }) =>
+                    t.objectProperty(t.stringLiteral(id), value),
+                );
+
+            path.replaceWith(
                 t.jsxOpeningElement(
-                    t.jsxIdentifier('TrousersNested'),
+                    t.jsxIdentifier(libraryMeta.runtimeComponent),
                     [
-                        ...jsxOpeningElement.node.attributes.filter(
+                        ...path.node.attributes.filter(
                             attr => attr.name.name !== 'styles',
                         ),
                         t.jsxAttribute(
                             t.jsxIdentifier('elementType'),
-                            t.stringLiteral(jsxOpeningElement.node.name.name),
+                            t.stringLiteral(path.node.name.name),
                         ),
                         t.jsxAttribute(
-                            t.jsxIdentifier('styles'),
+                            t.jsxIdentifier('style'),
                             t.jsxExpressionContainer(
                                 t.objectExpression([
                                     ...styleProperties,
-                                    ...interpolations.map(
-                                        ({ id, interpolation }) =>
-                                            t.objectProperty(
-                                                t.stringLiteral(id),
-                                                interpolation,
-                                            ),
-                                    ),
+                                    ...interpolationProperties,
                                 ]),
                             ),
                         ),
                     ],
-                    jsxOpeningElement.node.selfClosing,
+                    path.node.selfClosing,
                 ),
             );
-        });
+
+            path.skip();
+        },
     });
 
     // Import manipulation
@@ -199,11 +213,11 @@ function macro({ references, babel }) {
                     t.identifier(importName),
                 ),
                 t.importSpecifier(
-                    t.identifier('TrousersNested'),
-                    t.identifier('TrousersNested'),
+                    t.identifier(libraryMeta.runtimeComponent),
+                    t.identifier(libraryMeta.runtimeComponent),
                 ),
             ],
-            t.stringLiteral('@trousers/macro/runtime'),
+            t.stringLiteral(libraryMeta.runtimeModulePath),
         ),
     );
 

@@ -17,6 +17,7 @@ describe('macro', () => {
     describe('when parsing css collectors', () => {
         it('should process element collector', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'blue' });
               const App = () => <button css={styles}>Submit</button>;
@@ -25,6 +26,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 });
@@ -32,7 +34,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -40,6 +42,7 @@ describe('macro', () => {
 
         it('should process element collector without an identifier', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css({ color: 'blue' });
               const App = () => <button css={styles}>Submit</button>;
@@ -48,6 +51,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"\\", {
                   \\".2561700995\\": \\"color: blue;\\"
                 });
@@ -55,7 +59,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -63,6 +67,7 @@ describe('macro', () => {
 
         it('should process collector with a single modifier', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'blue' })
                 .modifier('primary', { color: 'brown' });
@@ -72,6 +77,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
@@ -82,7 +88,7 @@ describe('macro', () => {
                   css: styles,
                   $primary: true,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -90,6 +96,7 @@ describe('macro', () => {
 
         it('should process collector with multiple modifiers', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'blue' })
                 .modifier('primary', { color: 'brown' })
@@ -104,6 +111,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
@@ -122,7 +130,7 @@ describe('macro', () => {
                     $primary: primary,
                     $secondary: secondary,
                     elementType: \\"button\\",
-                    styles: {},
+                    style: {},
                     children: \\"Submit\\"
                   });
                 };"
@@ -131,6 +139,7 @@ describe('macro', () => {
 
         it('should process collector with many modifiers', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'blue' })
                 .modifier('primary', { color: 'brown' })
@@ -143,6 +152,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
@@ -158,7 +168,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -166,6 +176,7 @@ describe('macro', () => {
 
         it('should process collector with a theme', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'var(--brand-background)' })
                 .theme({ brand: { background: 'green' }});
@@ -175,6 +186,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2140373281\\": \\"color: var(--brand-background);\\"
                 }).theme(\\"\\", {
@@ -184,7 +196,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -192,6 +204,7 @@ describe('macro', () => {
 
         it('should process collector with a deeply nested theme', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'var(--brand-background)' })
                 .theme({
@@ -207,6 +220,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2140373281\\": \\"color: var(--brand-background);\\"
                 }).theme(\\"\\", {
@@ -216,7 +230,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -224,6 +238,7 @@ describe('macro', () => {
 
         it('should process collector with a global', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', {})
                 .global({
@@ -237,6 +252,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {}).global(\\"global-Button-480010618\\", {
                   \\":root\\": \\"background-color: red;\\"
                 });
@@ -244,7 +260,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -268,7 +284,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -276,12 +292,14 @@ describe('macro', () => {
 
         it('should do nothing in the case of an unused import', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const App = () => <button>Submit</button>;
             `;
 
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+                import React from 'react';
 
                 const App = () => /*#__PURE__*/_jsx(\\"button\\", {
                   children: \\"Submit\\"
@@ -291,8 +309,9 @@ describe('macro', () => {
     });
 
     describe('when interpolations are detected', () => {
-        it('should correctly render elements without interpolations', () => {
+        it('should render elements without interpolations', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 'red' });
               const App = () => <button css={styles}>Submit</button>;
@@ -301,6 +320,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-2313942302\\": \\"color: red;\\"
                 });
@@ -308,14 +328,15 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
         });
 
-        it('should correctly interpolate booleans (BooleanLiteral)', () => {
+        it('should interpolate booleans (BooleanLiteral)', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: true });
               const App = () => <button css={styles}>Submit</button>;
@@ -324,6 +345,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-3336976155\\": \\"color: true;\\"
                 });
@@ -331,14 +353,15 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
         });
 
-        it('should correctly interpolate numbers (NumericLiteral)', () => {
+        it('should interpolate numbers (NumericLiteral)', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 5 });
               const App = () => <button css={styles}>Submit</button>;
@@ -347,6 +370,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-1906181116\\": \\"color: 5;\\"
                 });
@@ -354,14 +378,15 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {},
+                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
         });
 
-        it('should correctly interpolate variables (Identifier)', () => {
+        it('should interpolate variables (Identifier)', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const foo = 'blue';
               const styles = css('Button', { color: foo });
@@ -371,6 +396,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
@@ -379,7 +405,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     \\"--interpol0\\": foo
                   },
                   children: \\"Submit\\"
@@ -387,8 +413,9 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate functions (CallExpression)', () => {
+        it('should interpolate functions (CallExpression)', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: foo() });
               const App = () => <button css={styles}>Submit</button>;
@@ -397,6 +424,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
                 });
@@ -404,7 +432,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     \\"--interpol0\\": foo()
                   },
                   children: \\"Submit\\"
@@ -412,8 +440,9 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate evaluations (BinaryExpression)', () => {
+        it('should interpolate evaluations (BinaryExpression)', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const styles = css('Button', { color: 5+5 });
               const App = () => <button css={styles}>Submit</button>;
@@ -422,6 +451,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
                 });
@@ -429,7 +459,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     \\"--interpol0\\": 5 + 5
                   },
                   children: \\"Submit\\"
@@ -439,6 +469,7 @@ describe('macro', () => {
 
         it('should not add interpolations to jsx element if styles are not in use', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const foo = 'blue';
               const styles = css('Button', { color: foo });
@@ -449,6 +480,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
@@ -460,26 +492,28 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate styles used by nested elements', () => {
+        it('should interpolate styles used by nested elements', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
-                const foo = 'blue';
-                const bar = 'green';
-                const styles = css('Button', { color: foo });
-                const innerStyles = css('ButtonInner', { color: bar });
+              const foo = 'blue';
+              const bar = 'green';
+              const styles = css('Button', { color: foo });
+              const innerStyles = css('ButtonInner', { color: bar });
 
-                const App = () => (
-                  <button css={styles}>
-                    <span css={innerStyles}>
-                      Hello, World!
-                    </span>
-                  </button>
-                );
+              const App = () => (
+                <button css={styles}>
+                  <span css={innerStyles}>
+                    Hello, World!
+                  </span>
+                </button>
+              );
             `;
 
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const bar = 'green';
                 const styles = css(\\"Button\\", {
@@ -492,13 +526,13 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     \\"--interpol0\\": foo
                   },
                   children: /*#__PURE__*/_jsx(TrousersNested, {
                     css: innerStyles,
                     elementType: \\"span\\",
-                    styles: {
+                    style: {
                       \\"--interpol1\\": bar
                     },
                     children: \\"Hello, World!\\"
@@ -507,30 +541,32 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate styles used by sibling elements', () => {
+        it('should interpolate styles used by sibling elements', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
-                const foo = 'blue';
-                const bar = 'green';
-                const styles = css('Button', { color: foo });
-                const siblingStyles = css('ButtonInner', { color: bar });
+              const foo = 'blue';
+              const bar = 'green';
+              const styles = css('Button', { color: foo });
+              const siblingStyles = css('ButtonInner', { color: bar });
 
-                const App = () => (
-                  <div>
-                    <span css={siblingStyles}>
-                      Hello, World!
-                    </span>
-                    <button css={styles}>
-                      Submit
-                    </button>
-                  </div>
-                );
+              const App = () => (
+                <div>
+                  <span css={siblingStyles}>
+                    Hello, World!
+                  </span>
+                  <button css={styles}>
+                    Submit
+                  </button>
+                </div>
+              );
             `;
 
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { jsxs as _jsxs } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const bar = 'green';
                 const styles = css(\\"Button\\", {
@@ -544,14 +580,14 @@ describe('macro', () => {
                   children: [/*#__PURE__*/_jsx(TrousersNested, {
                     css: siblingStyles,
                     elementType: \\"span\\",
-                    styles: {
+                    style: {
                       \\"--interpol1\\": bar
                     },
                     children: \\"Hello, World!\\"
                   }), /*#__PURE__*/_jsx(TrousersNested, {
                     css: styles,
                     elementType: \\"button\\",
-                    styles: {
+                    style: {
                       \\"--interpol0\\": foo
                     },
                     children: \\"Submit\\"
@@ -560,8 +596,9 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate reused styles', () => {
+        it('should interpolate reused styles', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const foo = 'blue';
               const styles = css('Button', { color: foo });
@@ -578,6 +615,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
@@ -586,13 +624,13 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     \\"--interpol0\\": foo
                   },
                   children: /*#__PURE__*/_jsx(TrousersNested, {
                     css: styles,
                     elementType: \\"span\\",
-                    styles: {
+                    style: {
                       \\"--interpol0\\": foo
                     },
                     children: \\"Hello, World!\\"
@@ -601,8 +639,9 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly add interpolations to an in-use style attribute', () => {
+        it('should add interpolations to an in-use style attribute', () => {
             const result = transform`
+              import React from 'react';
               import { css } from './macro';
               const foo = 'blue';
               const styles = css('Button', { color: foo });
@@ -617,6 +656,7 @@ describe('macro', () => {
             expect(result).toMatchInlineSnapshot(`
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React from 'react';
                 const foo = 'blue';
                 const styles = css(\\"Button\\", {
                   \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
@@ -625,7 +665,7 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  styles: {
+                  style: {
                     color: 'red',
                     \\"--interpol0\\": foo
                   },
@@ -634,20 +674,20 @@ describe('macro', () => {
             `);
         });
 
-        it('should correctly interpolate styles passed directly into the css prop', () => {
+        it('should interpolate styles passed directly into the css prop', () => {
             const result = transform`
               import React, { useState } from 'react';
-                import { css } from './macro';
+              import { css } from './macro';
 
-                const App = () => {
-                  const [foo, setFoo] = useState('blue');
+              const App = () => {
+                const [foo, setFoo] = useState('blue');
 
-                  return (
-                    <button css={css('Button', { color: foo })}>
-                        Hello, World!
-                    </button>
-                  );
-                }
+                return (
+                  <button css={css('Button', { color: foo })}>
+                      Hello, World!
+                  </button>
+                );
+              }
             `;
 
             expect(result).toMatchInlineSnapshot(`
@@ -662,10 +702,60 @@ describe('macro', () => {
                       \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
                     }),
                     elementType: \\"button\\",
-                    styles: {
+                    style: {
                       \\"--interpol0\\": foo
                     },
                     children: \\"Hello, World!\\"
+                  });
+                };"
+            `);
+        });
+
+        it('should interpolate styles passed directly into multiple css props', () => {
+            const result = transform`
+              import React, { useState } from 'react';
+              import { css } from './macro';
+
+              const App = () => {
+                const [foo, setFoo] = useState('blue');
+                const [bar, setBar] = useState('red');
+
+                return (
+                  <button css={css('Button', { color: foo })}>
+                    <span css={css('Span', { color: bar })}>
+                      Hello, World!
+                    </span>
+                  </button>
+                );
+              }
+            `;
+
+            expect(result).toMatchInlineSnapshot(`
+                "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+                import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+                import React, { useState } from 'react';
+
+                const App = () => {
+                  const [foo, setFoo] = useState('blue');
+                  const [bar, setBar] = useState('red');
+                  return /*#__PURE__*/_jsx(TrousersNested, {
+                    css: css(\\"Button\\", {
+                      \\".Button-4214914708\\": \\"color: var(--interpol0);\\"
+                    }),
+                    elementType: \\"button\\",
+                    style: {
+                      \\"--interpol0\\": foo
+                    },
+                    children: /*#__PURE__*/_jsx(TrousersNested, {
+                      css: css(\\"Span\\", {
+                        \\".Span-4214944499\\": \\"color: var(--interpol1);\\"
+                      }),
+                      elementType: \\"span\\",
+                      style: {
+                        \\"--interpol1\\": bar
+                      },
+                      children: \\"Hello, World!\\"
+                    })
                   });
                 };"
             `);

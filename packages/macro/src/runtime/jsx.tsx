@@ -43,12 +43,6 @@ const TrousersNested: FC<TrousersProps> = props => {
             return obj;
         }, {});
 
-    // console.log(props);
-    // console.log(props.elementType);
-    // console.log(props.elementType);
-    // console.log(props.elementType);
-    // console.log(props.elementType);
-
     const Element = createElement(
         props.elementType,
         {

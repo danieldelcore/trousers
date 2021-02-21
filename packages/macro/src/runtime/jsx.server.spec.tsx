@@ -1,6 +1,6 @@
-/** @jsx jsx */
+import React from 'react';
 import css from './css';
-import jsx from './jsx';
+import TrousersNested from './jsx';
 import { render } from '@testing-library/react';
 
 jest.mock('@trousers/core', () => ({
@@ -13,8 +13,12 @@ describe('jsx (ssr mode)', () => {
     it('renders element styles', () => {
         const styles = css('element', { '.element-2313942302': 'color: red;' });
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302"`,
@@ -25,8 +29,12 @@ describe('jsx (ssr mode)', () => {
     it('renders element styles without id', () => {
         const styles = css('', { '.2313942302': 'color: red;' });
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"2313942302"`,
@@ -40,8 +48,12 @@ describe('jsx (ssr mode)', () => {
         }).modifier('primary', { '.primary-2561700995': 'color: blue;' });
 
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302"`,
@@ -57,8 +69,13 @@ describe('jsx (ssr mode)', () => {
         });
 
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} $primary={false} data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                $primary={false}
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302"`,
@@ -74,8 +91,13 @@ describe('jsx (ssr mode)', () => {
         });
 
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} $primary={undefined} data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                $primary={undefined}
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302"`,
@@ -91,8 +113,13 @@ describe('jsx (ssr mode)', () => {
         });
 
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} $primary data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                $primary
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"element-2313942302 primary-2561700995"`,
@@ -107,8 +134,13 @@ describe('jsx (ssr mode)', () => {
             '.primary-2561700995': 'color: blue;',
         });
         const { container, getByTestId } = render(
-            // @ts-ignore runtime css prop has no types when consumed
-            <div css={styles} $primary data-testid="test" />,
+            <TrousersNested
+                elementType="div"
+                // @ts-ignore runtime css prop has no types when consumed
+                css={styles}
+                $primary
+                data-testid="test"
+            />,
         );
         expect(getByTestId('test').className).toMatchInlineSnapshot(
             `"2313942302 primary-2561700995"`,
