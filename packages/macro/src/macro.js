@@ -173,27 +173,36 @@ function macro({ references, babel }) {
                     t.objectProperty(t.stringLiteral(id), value),
                 );
 
+            const TrousersNestedProps = [
+                ...path.node.attributes.filter(
+                    attr => attr.name.name !== 'styles',
+                ),
+                t.jsxAttribute(
+                    t.jsxIdentifier('elementType'),
+                    t.stringLiteral(path.node.name.name),
+                ),
+            ];
+
+            const styleObjectProperties = [
+                ...styleProperties,
+                ...interpolationProperties,
+            ];
+
+            if (styleObjectProperties.length) {
+                TrousersNestedProps.push(
+                    t.jsxAttribute(
+                        t.jsxIdentifier('style'),
+                        t.jsxExpressionContainer(
+                            t.objectExpression(styleObjectProperties),
+                        ),
+                    ),
+                );
+            }
+
             path.replaceWith(
                 t.jsxOpeningElement(
                     t.jsxIdentifier(libraryMeta.runtimeComponent),
-                    [
-                        ...path.node.attributes.filter(
-                            attr => attr.name.name !== 'styles',
-                        ),
-                        t.jsxAttribute(
-                            t.jsxIdentifier('elementType'),
-                            t.stringLiteral(path.node.name.name),
-                        ),
-                        t.jsxAttribute(
-                            t.jsxIdentifier('style'),
-                            t.jsxExpressionContainer(
-                                t.objectExpression([
-                                    ...styleProperties,
-                                    ...interpolationProperties,
-                                ]),
-                            ),
-                        ),
-                    ],
+                    TrousersNestedProps,
                     path.node.selfClosing,
                 ),
             );

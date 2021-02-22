@@ -1,4 +1,3 @@
-// import pluginTester from 'babel-plugin-tester';
 import { transformSync } from '@babel/core';
 import plugin from 'babel-plugin-macros';
 
@@ -7,7 +6,6 @@ const transform = (code: TemplateStringsArray) => {
         configFile: false,
         babelrc: false,
         filename: __filename,
-        // presets: ['@babel/preset-react'],
         presets: [['@babel/preset-react', { runtime: 'automatic' }]],
         plugins: [plugin],
     })?.code;
@@ -34,7 +32,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -59,7 +56,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -81,14 +77,13 @@ describe('macro', () => {
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
-                  \\".Button--primary-2270159875\\": \\"color: brown;\\"
+                  \\".Button-2561700995--primary-2270159875\\": \\"color: brown;\\"
                 });
 
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   $primary: true,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -115,9 +110,9 @@ describe('macro', () => {
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
-                  \\".Button--primary-2270159875\\": \\"color: brown;\\"
+                  \\".Button-2561700995--primary-2270159875\\": \\"color: brown;\\"
                 }).modifier(\\"secondary\\", {
-                  \\".Button--secondary-3026956261\\": \\"color: purple;\\"
+                  \\".Button-2561700995--secondary-3026956261\\": \\"color: purple;\\"
                 });
 
                 const App = ({
@@ -130,7 +125,6 @@ describe('macro', () => {
                     $primary: primary,
                     $secondary: secondary,
                     elementType: \\"button\\",
-                    style: {},
                     children: \\"Submit\\"
                   });
                 };"
@@ -156,19 +150,18 @@ describe('macro', () => {
                 const styles = css(\\"Button\\", {
                   \\".Button-2561700995\\": \\"color: blue;\\"
                 }).modifier(\\"primary\\", {
-                  \\".Button--primary-2270159875\\": \\"color: brown;\\"
+                  \\".Button-2561700995--primary-2270159875\\": \\"color: brown;\\"
                 }).modifier(\\"secondary\\", {
-                  \\".Button--secondary-3026956261\\": \\"color: purple;\\"
+                  \\".Button-2561700995--secondary-3026956261\\": \\"color: purple;\\"
                 }).modifier(\\"tertiary\\", {
-                  \\".Button--tertiary-41860765\\": \\"color: yellow;\\"
+                  \\".Button-2561700995--tertiary-41860765\\": \\"color: yellow;\\"
                 }).modifier(\\"quaternary\\", {
-                  \\".Button--quaternary-2402939536\\": \\"color: green;\\"
+                  \\".Button-2561700995--quaternary-2402939536\\": \\"color: green;\\"
                 });
 
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -190,13 +183,12 @@ describe('macro', () => {
                 const styles = css(\\"Button\\", {
                   \\".Button-2140373281\\": \\"color: var(--brand-background);\\"
                 }).theme(\\"\\", {
-                  \\".theme-Button-1537299292\\": \\"--brand-background: green;\\"
+                  \\".theme-Button-2140373281-1537299292\\": \\"--brand-background: green;\\"
                 });
 
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -224,13 +216,12 @@ describe('macro', () => {
                 const styles = css(\\"Button\\", {
                   \\".Button-2140373281\\": \\"color: var(--brand-background);\\"
                 }).theme(\\"\\", {
-                  \\".theme-Button-3270977004\\": \\"--neutral: #fff;--brand-forground: yellow;--brand-background: green;\\"
+                  \\".theme-Button-2140373281-3270977004\\": \\"--neutral: #fff;--brand-forground: yellow;--brand-background: green;\\"
                 });
 
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -253,14 +244,13 @@ describe('macro', () => {
                 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
                 import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
                 import React from 'react';
-                const styles = css(\\"Button\\", {}).global(\\"global-Button-480010618\\", {
+                const styles = css(\\"Button\\", {}).global(\\"global-Button-3938-480010618\\", {
                   \\":root\\": \\"background-color: red;\\"
                 });
 
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -284,7 +274,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -328,7 +317,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -353,7 +341,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
@@ -378,7 +365,6 @@ describe('macro', () => {
                 const App = () => /*#__PURE__*/_jsx(TrousersNested, {
                   css: styles,
                   elementType: \\"button\\",
-                  style: {},
                   children: \\"Submit\\"
                 });"
             `);
