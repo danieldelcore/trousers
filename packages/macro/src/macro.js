@@ -26,9 +26,12 @@ const parseObject = (objectExpression, onInterpolation = () => {}) =>
 
         // Variable & function interpolations
         if (
-            ['Identifier', 'BinaryExpression', 'CallExpression'].includes(
-                value.type,
-            )
+            [
+                'Identifier',
+                'MemberExpression',
+                'BinaryExpression',
+                'CallExpression',
+            ].includes(value.type)
         ) {
             parsedValue = onInterpolation(value);
         }

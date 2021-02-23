@@ -453,6 +453,43 @@ describe('macro', () => {
             `);
         });
 
+        it('should interpolate object properties (MemberExpressions)', () => {
+            const result = transform`
+                import React from 'react';
+                import { css } from './macro';
+
+                const App = () => <div
+                    css={css('dot', {
+                        backgroundColor: props.color,
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '100%',
+                        display: 'inline-block',
+                        margin: '4px',
+                    })}
+                >
+                    {props.children}
+                </div>
+            `;
+
+            expect(result).toMatchInlineSnapshot(`
+              "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+              import { css, TrousersNested } from \\"@trousers/macro/runtime\\";
+              import React from 'react';
+
+              const App = () => /*#__PURE__*/_jsx(TrousersNested, {
+                css: css(\\"dot\\", {
+                  \\".dot-762842188\\": \\"background-color: var(--interpol0);width: 8px;height: 8px;border-radius: 100%;display: inline-block;margin: 4px;\\"
+                }),
+                elementType: \\"div\\",
+                style: {
+                  \\"--interpol0\\": props.color
+                },
+                children: props.children
+              });"
+          `);
+        });
+
         it('should not add interpolations to jsx element if styles are not in use', () => {
             const result = transform`
               import React from 'react';
