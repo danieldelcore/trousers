@@ -2,18 +2,22 @@
 
 `@trousers/hash` is a simple hash package which accepts a string and returns the hashed equivalent.
 
+## Installation
+
+`yarn add @trousers/hash` or `npm install @trousers/hash`
+
 ## API
 
-### `toHash`
+### `hash`
 
 Accepts a string and returns a hashed number. Calling it twice with the same input should yield the same result.
 
 **Example:**
 
 ```jsx
-import toHash from '@trousers/hash';
+import hash from '@trousers/hash';
 
-toHash(`
+hash(`
     .yomama {
         width: 99999999px;
     }

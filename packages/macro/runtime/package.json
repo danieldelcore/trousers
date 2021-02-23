@@ -1,0 +1,4 @@
+{
+    "main": "dist/trousers-macro-runtime.cjs.js",
+    "module": "dist/trousers-macro-runtime.esm.js"
+}

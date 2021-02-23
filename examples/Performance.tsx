@@ -1,8 +1,9 @@
+/** @jsx jsx */
 import { storiesOf } from '@storybook/react';
-import React, { FC, ReactNode, Fragment } from 'react';
+import { FC, ReactNode, Fragment } from 'react';
 
-import { css, useStyles } from '@trousers/core';
-import styleCollector from '@trousers/collector';
+import css from '@trousers/core';
+import jsx from '@trousers/react';
 
 storiesOf('Performance', module)
     .add('Many of the same nodes', () => {
@@ -10,39 +11,33 @@ storiesOf('Performance', module)
             children: ReactNode;
         }
 
-        const styles = styleCollector<ButtonProps>('button').element`
-            background-color: #b3cde8;
-            border-radius: 6px;
-            border: none;
-            box-shadow: inset 0 -4px #9fb8d1;
-            color: white;
-            display: inline-block;
-            cursor: pointer;
-            font-family: sans-serif;
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin: 5px 10px;
-            padding: 10px 20px 14px 20px;
-            text-decoration: none;
-            transition: background-color 300ms, color 300ms;
-            outline: none;
-
-            :hover {
-                background-color: #adc6e0;
-                color: rgba(255, 255, 255, 0.8);
-            }
-
-            :active {
-                background-color: #9fb8d1;
-            }
-        `;
+        const styles = css('button', {
+            backgroundColor: '#b3cde8',
+            borderRadius: '6px',
+            border: 'none',
+            boxShadow: 'inset 0 -4px #9fb8d1',
+            color: 'white',
+            display: 'inline-block',
+            cursor: 'pointer',
+            fontFamily: 'sans-serif',
+            fontWeight: 500,
+            letterSpacing: '1px',
+            margin: '5px 10px',
+            padding: '10px 20px 14px 20px',
+            textDecoration: 'none',
+            transition: 'background-color 300ms, color 300ms',
+            outline: 'none',
+            ':hover': {
+                backgroundColor: '#adc6e0',
+                color: 'rgba(255, 255, 255, 0.8)',
+            },
+            ':active': {
+                backgroundColor: '#9fb8d1',
+            },
+        });
 
         const Button: FC<ButtonProps> = props => {
-            const buttonClassNames = useStyles(styles);
-
-            return (
-                <button className={buttonClassNames}>{props.children}</button>
-            );
+            return <button css={styles}>{props.children}</button>;
         };
 
         return (
@@ -87,19 +82,21 @@ storiesOf('Performance', module)
             </Fragment>
         );
     })
-    .add('Many nodes with different classes', () => {
-        const Dot: FC<{ color: string }> = props => {
-            const classNames = useStyles(css`
-                background-color: ${props.color};
-                width: 8px;
-                height: 8px;
-                border-radius: 100%;
-                display: inline-block;
-                margin: 4px;
-            `);
-
-            return <div className={classNames}>{props.children}</div>;
-        };
+    .add('Many nodes with different nodes', () => {
+        const Dot: FC<{ color: string }> = props => (
+            <div
+                css={css('dot', {
+                    backgroundColor: props.color,
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '100%',
+                    display: 'inline-block',
+                    margin: '4px',
+                })}
+            >
+                {props.children}
+            </div>
+        );
 
         const intToColor = () => {
             const letters = '0123456789ABCDEF';

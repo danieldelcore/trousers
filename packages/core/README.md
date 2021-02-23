@@ -1,181 +1,280 @@
 # @trousers/core
 
-`@trousers/core` is the heart of the repo, it exists to act as the most minimal and light-weight version of Trousers, allowing you to opt-out of other features such as theming (@trousers/theme) and the bem-style style collectors(@trousers/collector).
+`@trousers/core` is the heart of the repo, it exists to act as the most minimal and light-weight version of Trousers, allowing you to opt-out of other features such as react (`@trousers/react`) and the styled (`@trousers/styled`).
 
-## API 🤖
+It is essentially a set of library agnostic utility functions that you can use to create your own version of Trousers. For example creating a React or Vue version.
+
+## Installation
+
+`yarn add @trousers/core` or `npm install @trousers/core`
+
+## API
 
 ### `css`
 
-A single style defintion
+The `css` method (aka Collector) aims to allow express styles across multiple states and appearances in a semantic way. Internally the styles that you supply to css will be cataloged and organized so they can efficiently be mounted to the page.
 
-**Arugments:**
+It's loosely inspired by the principles of the [_BEM methodology_](https://en.bem.info/methodology/quick-start). So familiar concepts like `element` and `modifiers` can be conceptually treated in the same way.
 
--   `taggedTemplate`: TaggedTemplate
+You should treat element blocks the same as [Elements in BEM](https://en.bem.info/methodology/quick-start/#element).
 
-**Example:**
-
-```jsx
-import { css } from 'trousers';
-
-const styles = css`
-    background-color: red;
-`;
-```
-
-### `jsx`
-
-```jsx
-TODO;
-```
-
-### `useStyles()`
-
-React Hook responsbile for evaluating the supplied styles, attaching them to the document head and returning all active classes for the current state.
+The element describes its purpose ("What is this?" — item, text, etc.), not its state ("What type, or what does it look like?" — red, big, etc.).
 
 **Arguments:**
 
--   `styleCollector`: StyleCollector
--   `props`?: Object
--   `state`?: Object
+-   `elementId` (`string`)?: The id that represents the element (optional)
+-   `elementStyles` (`CSSObject`): The styles that represent the element. Treat these styles as the base for which modifier styles might override. Styles are in object notation, rather than template literals, for runtime performance purposes. If you wish to use template literals please check out [`@trousers/macro`](todo).
 
 **Returns:**
 
--   `className`: string
+-   `CollectorReturn`: The chainable methods of the collector (see below)
 
 **Example:**
 
-```jsx
-import React from 'react';
-import { styleCollector, useStyles } from 'trousers';
+```js
+import css from '@trousers/core';
 
-const styles = props => styleCollector('button')
-    .element``
-    .modifier(...)``;
-
-const Button = props => {
-    const classNames = useStyles(styles(props));
-
-    return (
-        <button className={classNames}>
-            Submit
-        </button>
-    );
-};
+const styles = css('Button', { color: 'red' });
 ```
 
-### `withStyles`
+### `css().modifier()`
 
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a style collector. Returns a new component, with the supplied styles rendered and passed down to via a `className` prop.
+The `modifier` is a chainable method which allows you to express "modifiers" or "variants" of your styles.
 
-Use this HOC in your class components, where hooks (and useStyles) are not available.
-
-> Note: Remember to apply the supplied className prop to an element in your components render funciton or your styling wont be applied to your element!
+-   Modifiers deliberately **override element styles** which avoids duplication and the need for dynamic logic.
+-   You can provide more than one modifier.
+-   Modifiers are typically **toggled on and off when conditions are met**. For example, if a react prop is truthy, trousers might toggle the associated modifier on (see [@trousers/react](todo)).
+-   **Modifiers are dependant on order**. Be sure to organise the order of your modifiers with the understanding that the bottom most modifier will potentially be overriding the style rules defined in the modifiers and elements declared before it.
 
 **Arguments:**
 
--   `Component`: React Component
--   `(props) => styleCollector`: Function returning a StyleCollector
+-   `modifierId` (`string`)?: The id that represents the modifier (optional)
+-   `modifierStyles` (`CSSObject`): The styles that represent the modifier. Treat these styles as overrides or additions to the element styles.
+
+**Returns:**
+
+-   `CollectorReturn`: The chainable methods of the collector (see below)
 
 **Example:**
 
-```jsx
-import React from 'react';
-import { styleCollector, withStyles } from 'trousers';
+```js
+import css from '@trousers/core';
 
-class Button {
-    render() {
-        return (
-            // IMPORTANT: apply the className yourself
-            <button className={this.props.className}>
-                Submit
-            </button>
-        )
-    }
-);
-
-export default withStyles(Button, (props) => styleCollector('button')
-    .element``
-    .modifier(props.primary)``);
+const styles = css('Button', { color: 'red' })
+    .modifier('Primary', { color: 'blue' })
+    .modifier('Secondary', { color: 'grey' });
 ```
 
-### `useGlobals()`
+### `css().global()`
 
-Mount a single style definition as a global style
+The `global` is a chainable method which allows you to express global styles (styles that are applied to more than a single element). Consider a css reset or adding styles to the `:root`.
 
 **Arguments:**
 
--   `styleCollector`: SingleStyleCollector | SingleStyleCollector[]
+-   `globalStyles` (`CSSObject`): The styles that represent the a global.
 
-**Returns**
+**Returns:**
 
--   void
+-   `CollectorReturn`: The chainable methods of the collector (see below)
 
 **Example:**
 
-```jsx
-import React, { useEffect } from 'react';
-import { css, useGlobals } from 'trousers';
+```js
+import css from '@trousers/core';
 
-const globalStyles = css`
-  @font-face {
-    font-family: MyFont;
-    src: url('${MyFont}') format('opentype');
-  }
-`;
-
-const App = () => {
-    useGlobals(globalStyles);
-
-    return <h1>Welcome to my website!</h1>;
-};
+const styles = css('MyGlobal', {}).global({ ':root': 'color: red;' });
 ```
 
-`useGlobals` also accepts an array of styles...
+### `css().theme()`
 
-```jsx
-import React, { useEffect } from 'react';
-import { css, useGlobals } from 'trousers';
+The `theme` is a chainable method which allows you to express [css custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) in object notation.
 
-const globalStyles = css`...`;
-const moreGlobalStyles = css`...`;
-
-const App = () => {
-    useGlobals([globalStyles, moreGlobalStyles]);
-
-    return <h1>Welcome to my website!</h1>;
-};
-```
-
-### `withGlobals`
-
-A [HOC (Higher Order Component)](https://reactjs.org/docs/higher-order-components.html) which accepts a component and a single style collector. Returns a new component, with the supplied global styles rendered to the document head.
-
-Use this HOC in your class components, where hooks (and useGlobals) are not available.
+-   Themes apply to the element they are referenced in and also their children.
+-   They can be used by Elements, Modifiers and Globals.
+-   They are mounted via a simple class and can be used like any css custom property
 
 **Arguments:**
 
--   `Component`: React Component
--   `css`: SingleStyleCollector
+-   `themeObject` (`Object`): The object that represents the theme
+
+**Returns:**
+
+-   `CollectorReturn`: The chainable methods of the collector (see below)
 
 **Example:**
 
-```jsx
-import React from 'react';
-import { css, withGlobals } from 'trousers';
+```js
+import css from '@trousers/core';
 
-class Button {
-    render() {
-        return (
-            <button>
-                Submit
-            </button>
-        )
-    }
-);
+const styles = css('MyElement', { color: 'var(--primary-color)' })
+    .modifier('Primary', { color: 'var(--secondary-color)' })
+    .theme({
+        primaryColor: 'red',
+        secondaryColor: 'blue',
+    });
+```
 
-export default withGlobals(Button, css`
-    * {
-        box-sizing: border-box;
-    }
-`);
+### `prefix`
+
+This method prefixes properties and their values.
+
+-   Prefixing is only indended to be for modern browsers. If you intend to target legacy browsers you'll need to provide the relevant prefixes manually.
+
+**Arguments:**
+
+-   `property`(`string`): css property (`background`, `color`, etc)
+-   `value`(`string`): value of property (`red`, '100px`, etc)
+
+**Returns:**
+
+-   `string`: prefixed string including both property and value
+
+**Example:**
+
+```js
+import { prefix } from '@trousers/core';
+
+const result = prefix('appearance', 'none');
+
+/*
+Result:
+'appearance: none;-moz-appearance: none;-webkit-appearance: none;-moz-appearance: none;'
+*/
+```
+
+### `namespace`
+
+Namespaces styles with nested selectors etc, into css with valid selectors.
+
+**Arguments:**
+
+-   `id`(`string`): The id to use when namespacing your styles
+-   `styles`(`CSSObject`): The styles to process
+
+**Returns:**
+
+-   `Record<string, string>`: key value pairs of styles, in valid CSS
+
+**Example:**
+
+```js
+import { namespace } from '@trousers/core';
+
+const result = namespace('.my-id', {
+    background: 'red',
+    button: {
+        background: 'violet',
+        span: {
+            background: 'green',
+        },
+    },
+});
+
+/*
+Result:
+{
+    '.my-id': {
+        background: 'red',
+    },
+    '.my-id button': {
+        background: 'violet',
+    },
+    '.my-id button span': {
+        background: 'green',
+    },
+}
+*/
+```
+
+### `process`
+
+Process is a special function which takes ids and styles and applies the above methods like `namespace` and `prefix` to them. The result is a shape that can easily be passed to `@trousers/sheet` for mounting.
+
+**Arguments:**
+
+-   `id`(`string`): The id to use when namespacing your styles
+-   `styles`(`CSSObject`): The styles to process
+
+**Returns:**
+
+-   `Record<string, string>`: key value pairs of styles, namespaced and prefixed
+
+**Example:**
+
+```js
+import { process } from '@trousers/core';
+
+const result = process('.my-id', {
+    backgroundColor: 'red',
+    '& button': {
+        backgroundColor: 'violet',
+    },
+});
+
+/*
+Result:
+{
+    '.my-id': 'background-color: red;',
+    '.my-id button': 'background-color: violet;',
+}
+*/
+```
+
+### `themify`
+
+`themify` accepts an object and converts it into its css custom properties counterpart
+
+**Arguments:**
+
+-   `theme`(`Object`): Theme object in object notation
+
+**Returns:**
+
+-   `Record<string,string>`: An object containing css custom properties and their values as key-value pairs
+
+**Example:**
+
+```js
+import { themify } from '@trousers/core';
+
+const result = themify({
+    background: 'red',
+    typography: {
+        heading: 'violet',
+        paragraph: {
+            small: 'black',
+            large: 'blue',
+        },
+    },
+});
+
+/*
+Result:
+{
+    '--background': 'red',
+    '--typography-heading': 'violet',
+    '--typography-paragraph-large': 'blue',
+    '--typography-paragraph-small': 'black',
+};
+*/
+```
+
+### `isBrowser`
+
+Used to determine whether to use browser or SSR logic.
+
+**Arguments:**
+
+N/A
+
+**Returns:**
+
+-   `boolean`: Returns true when invoked on the browser, false if on the server.
+
+**Example:**
+
+```js
+import { isBrowser } from '@trousers/core';
+
+isBrowser(); // true, i'm running in the browser
 ```

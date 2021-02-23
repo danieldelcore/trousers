@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import { storiesOf } from '@storybook/react';
 import { FC, Fragment, ReactNode, useState } from 'react';
+import { storiesOf } from '@storybook/react';
 
-import { jsx, useStyles, css } from '@trousers/core';
-import styleCollector from '@trousers/collector';
+import css from '@trousers/core';
+import jsx from '@trousers/react';
 
 storiesOf('Basic', module)
     .add('Elements and modifiers', () => {
@@ -13,65 +13,58 @@ storiesOf('Basic', module)
             disabled?: boolean;
         }
 
-        const buttonStyles = (props: ButtonProps) => styleCollector('button')
-            .element`
-                background-color: #b3cde8;
-                border-radius: 6px;
-                border: none;
-                box-shadow: inset 0 -4px #9fb8d1;
-                color: white;
-                display: inline-block;
-                cursor: pointer;
-                font-family: sans-serif;
-                font-weight: 500;
-                font-size: 20px;
-                letter-spacing: 1px;
-                margin: 5px 10px;
-                padding: 10px 20px 14px 20px;
-                text-decoration: none;
-                transition: background-color 300ms, color 300ms;
-                outline: none;
+        const styles = css('button', {
+            backgroundColor: '#b3cde8',
+            borderRadius: '6px',
+            border: 'none',
+            boxShadow: 'inset 0 -4px #9fb8d1',
+            color: 'white',
+            display: 'inline-block',
+            cursor: 'pointer',
+            fontFamily: 'sans-serif',
+            fontWeight: 'normal',
+            fontSize: '20px',
+            letterSpacing: '1px',
+            margin: '5px 10px',
+            padding: '10px 20px 14px 20px',
+            textDecoration: 'none',
+            transition: 'background-color 300ms, color 300ms',
+            outline: 'none',
+            ':hover': {
+                backgroundColor: '#adc6e0',
+                color: 'rgba(255, 255, 255, 0.8)',
+            },
+            ':active': {
+                backgroundColor: '#9fb8d1',
+            },
+        })
+            .modifier('primary', {
+                backgroundColor: '#f95b5b',
+                boxShadow: 'inset 0 -4px #c54646',
+                color: '#ffffff',
+                ':hover': {
+                    backgroundColor: '#e45454',
+                },
+                ':active': {
+                    backgroundColor: '#c54646',
+                },
+            })
+            .modifier('disabled', {
+                backgroundColor: '#efefef',
+                boxShadow: 'inset 0 -4px #afafaf',
+                color: '#afafaf',
+                cursor: 'not-allowed',
+                '&:hover,&:active': {
+                    color: '#afafaf',
+                    backgroundColor: '#efefef',
+                },
+            });
 
-                :hover {
-                    background-color: #adc6e0;
-                    color: rgba(255, 255, 255, 0.8);
-                }
-
-                :active {
-                    background-color: #9fb8d1;
-                }
-            `.modifier(!!props.primary)`
-                background-color: #f95b5b;
-                box-shadow: inset 0 -4px #c54646;
-                color: #ffffff;
-
-                :hover {
-                    background-color: #e45454;
-                }
-
-                :active {
-                    background-color: #c54646;
-                }
-            `.modifier(!!props.disabled)`
-                background-color: #efefef;
-                box-shadow: inset 0 -4px #afafaf;
-                color: #afafaf;
-                cursor: not-allowed;
-
-                :hover,
-                :active {
-                    color: #afafaf;
-                    background-color: #efefef;
-                }
-            `;
-
-        const Button: FC<ButtonProps> = props => {
-            const buttonClassNames = useStyles(buttonStyles(props));
-
-            return (
-                <button className={buttonClassNames}>{props.children}</button>
-            );
-        };
+        const Button: FC<ButtonProps> = ({ primary, disabled, children }) => (
+            <button css={styles} $primary={primary} $disabled={disabled}>
+                {children}
+            </button>
+        );
 
         return (
             <Fragment>
@@ -85,59 +78,51 @@ storiesOf('Basic', module)
         );
     })
     .add('Modifiers and state', () => {
-        interface ButtonState {
-            isOn?: boolean;
-        }
-
-        const toggleStyles = (state: ButtonState) => styleCollector('toggle')
-            .element`
-                background-color: #b3cde8;
-                border-radius: 6px;
-                border: none;
-                box-shadow: inset 0 -4px #9fb8d1;
-                color: white;
-                display: inline-block;
-                cursor: pointer;
-                font: 500 20px sans-serif;
-                letter-spacing: 1px;
-                margin: 5px 10px;
-                padding: 10px 20px 14px 20px;
-                text-decoration: none;
-                transition: all 300ms, color 300ms;
-                outline: none;
-
-                :hover {
-                    background-color: #adc6e0;
-                    color: rgba(255, 255, 255, 0.8);
-                }
-
-                :active {
-                    background-color: #9fb8d1;
-                }
-            `.modifier(!!state.isOn)`
-                background-color: #f95b5b;
-                box-shadow: inset 0 -4px #c54646;
-                color: #ffffff;
-
-                :hover {
-                    background-color: #e45454;
-                }
-
-                :active {
-                    background-color: #c54646;
-                }
-            `;
+        const toggleStyles = css('button', {
+            backgroundColor: '#b3cde8',
+            borderRadius: '6px',
+            border: 'none',
+            boxShadow: 'inset 0 -4px #9fb8d1',
+            color: 'white',
+            display: 'inline-block',
+            cursor: 'pointer',
+            fontFamily: 'sans-serif',
+            fontWeight: 'normal',
+            fontSize: '20px',
+            letterSpacing: '1px',
+            margin: '5px 10px',
+            padding: '10px 20px 14px 20px',
+            textDecoration: 'none',
+            outline: 'none',
+            ':hover': {
+                backgroundColor: '#adc6e0',
+                color: 'rgba(255, 255, 255, 0.8)',
+            },
+            ':active': {
+                backgroundColor: '#9fb8d1',
+            },
+        }).modifier('isOn', {
+            backgroundColor: '#f95b5b',
+            boxShadow: 'inset 0 -4px #c54646',
+            color: '#ffffff',
+            ':hover': {
+                backgroundColor: '#e45454',
+            },
+            ':active': {
+                backgroundColor: '#c54646',
+            },
+        });
 
         const Button: FC = () => {
             const [isOn, setToggle] = useState(false);
-            const buttonClassNames = useStyles(toggleStyles({ isOn }));
 
             return (
                 <button
-                    className={buttonClassNames}
+                    css={toggleStyles}
                     onClick={() => setToggle(!isOn)}
+                    $isOn={isOn}
                 >
-                    {!isOn ? <span>On</span> : <span>Off</span>}
+                    <span>{!isOn ? 'On' : 'Off'}</span>
                 </button>
             );
         };
@@ -145,137 +130,69 @@ storiesOf('Basic', module)
         return <Button />;
     })
     .add('Media queries', () => {
-        const styles = styleCollector('ruler').element`
-                background-color: #eaf2fd;
-                padding: 20px;
-                border: none;
-                border-radius: 6px;
-                color: #3b3b41;
-                letter-spacing: 1px;
-                font-family: sans-serif;
-                font-weight: 400;
-                text-align: center;
+        const styles = css('ruler', {
+            backgroundColor: '#eaf2fd',
+            padding: '20px',
+            border: 'none',
+            borderRadius: '6px',
+            color: '#3b3b41',
+            letterSpacing: '1px',
+            fontFamily: 'sans-serif',
+            fontWeight: 'normal',
+            textAlign: 'center',
+            ':before': {
+                content: 'Small',
+                display: 'block',
+                fontWeight: 'bold',
+                fontSize: '40px',
+                marginBottom: '10px',
+            },
+            '@media (min-width: 768px)': {
+                '&:before': {
+                    content: 'Medium',
+                },
+                backgroundColor: '#aac8f2',
+            },
+            '@media (min-width: 1000px)': {
+                '&:before': {
+                    content: 'Large',
+                },
+                backgroundColor: '#bb99f0',
+            },
+            '@media (min-width: 1500px)': {
+                '&:before': {
+                    content: 'Extra Large',
+                },
+                backgroundColor: '#9056ce',
+            },
+        });
 
-                &:before {
-                    content: "Small";
-                    display: block;
-                    font-weight: 800;
-                    font-size: 40px;
-                    margin-bottom: 10px;
-                }
-
-                @media (min-width: 768px) {
-                    &:before {
-                        content: "Medium";
-                    }
-
-                    background-color: #deecff;
-                }
-
-                @media (min-width: 1000px) {
-                    &:before {
-                        content: "Large";
-                    }
-
-                    background-color: #c6cfff;
-                }
-
-                @media (min-width: 1500px) {
-                    &:before {
-                        content: "Extra Large";
-                    }
-
-                    background-color: #e8d3ff;
-                }
-            `;
-
-        const ScreenRuler: FC = () => {
-            const classNames = useStyles(styles);
-
-            return <div className={classNames}>Resize me!</div>;
-        };
+        const ScreenRuler: FC = () => <div css={styles}>Resize me!</div>;
 
         return <ScreenRuler />;
     })
     .add('Keyframe animations', () => {
-        const styles = styleCollector('logo').element`
-                width: 150px;
-                height: auto;
-                margin: 15px;
-                padding: 15px;
-                background-color: #f6e3e3;
-                border-radius: 150px;
-                animation: rotating 2s linear infinite;
+        const styles = css('logo', {
+            width: '150px',
+            height: 'auto',
+            margin: '15px',
+            padding: '15px',
+            backgroundColor: '#f6e3e3',
+            borderRadius: '150px',
+            animation: 'rotating 2s linear infinite',
+            '@keyframes rotating': {
+                from: {
+                    transform: 'rotate(0deg)',
+                },
+                to: {
+                    transform: 'rotate(360deg)',
+                },
+            },
+        });
 
-                @keyframes rotating {
-                    from {
-                        transform: rotate(0deg);
-                    }
-                    to {
-                        transform: rotate(360deg);
-                    }
-                }
-            `;
-
-        const TrousersLogo: FC = () => {
-            const classNames = useStyles(styles);
-
-            return (
-                <img
-                    className={classNames}
-                    src="trousers-logo.png"
-                    alt="Trousers Logo"
-                />
-            );
-        };
+        const TrousersLogo = () => (
+            <img css={styles} src="trousers-logo.png" alt="Trousers Logo" />
+        );
 
         return <TrousersLogo />;
-    })
-    .add('CSS collector', () => {
-        const Grid: FC<{ children: ReactNode; columns?: number }> = ({
-            columns = 3,
-            children,
-        }) => (
-            <div
-                css={css`
-                    display: grid;
-                    grid-template-columns: repeat(${columns}, 1fr);
-                    gap: 1.5rem;
-                    width: 100%;
-                    margin-bottom: 1rem;
-                `}
-            >
-                {children}
-            </div>
-        );
-
-        const Box = () => (
-            <div
-                css={{
-                    display: 'block',
-                    minHeight: '40px',
-                    minWidth: '40px',
-                    backgroundColor: '#eaeaea',
-                    borderRadius: '3px',
-                }}
-            />
-        );
-
-        return (
-            <Fragment>
-                <Grid>
-                    <Box />
-                    <Box />
-                    <Box />
-                    <Box />
-                    <Box />
-                </Grid>
-                <Grid columns={2}>
-                    <Box />
-                    <Box />
-                    <Box />
-                    <Box />
-                </Grid>
-            </Fragment>
-        );
     });
