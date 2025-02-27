@@ -1,19 +1,17 @@
 {
     "name": "trousers",
-    "version": "3.0.2",
-    "main": "dist/index.js",
-    "module": "dist/index.js",
+    "version": "4.0.0-alpha6",
+    "main": "dist/trousers.cjs.js",
+    "module": "dist/trousers.esm.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
     "dependencies": {
-        "@trousers/collector": "3.0.2",
-        "@trousers/core": "3.0.2",
-        "@trousers/server": "3.0.2",
-        "@trousers/theme": "3.0.0",
-        "@trousers/utils": "3.0.2"
+        "@trousers/core": "4.0.0-alpha6",
+        "@trousers/react": "4.0.0-alpha6",
+        "@trousers/styled": "4.0.0-alpha6"
     },
     "devDependencies": {
-        "react": "^16.8.1"
+        "react": "^17.0.1"
     },
     "peerDependencies": {
         "react": ">=16.8.0"

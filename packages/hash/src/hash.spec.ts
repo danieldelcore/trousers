@@ -1,25 +1,25 @@
-import toHash from './hash';
+import hash from './hash';
 
-describe('toHash', () => {
+describe('hash', () => {
     it('generates a consistent hash', () => {
-        const first = toHash('Hello, world!');
-        const second = toHash('Hello, world!');
+        const first = hash('Hello, world!');
+        const second = hash('Hello, world!');
 
         expect(first).toEqual(second);
     });
 
     it('handles css', () => {
-        const hash = toHash(`
+        const result = hash(`
             .yomama {
                 width: 99999999px;
             }
         `);
 
-        expect(hash).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
     });
 
     it('handles long css', () => {
-        const hash = toHash(`
+        const result = hash(`
             background-color: #b3cde8;
             border-radius: 6px;
             border: none;
@@ -46,6 +46,6 @@ describe('toHash', () => {
             }
         `);
 
-        expect(hash).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
     });
 });

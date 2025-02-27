@@ -1,90 +1,79 @@
+/** @jsx jsx */
 import { storiesOf } from '@storybook/react';
-import React, { FC, ReactNode, Fragment } from 'react';
+import { FC, ReactNode, Fragment } from 'react';
 
-import { useStyles } from '@trousers/core';
-import styleCollector from '@trousers/collector';
-import { ThemeProvider } from '@trousers/theme';
+import css from '@trousers/core';
+import jsx from '@trousers/react';
 
-interface Theme {
-    backgroundColor: string;
-    hoverColor: string;
-    textColor: string;
-    borderColor: string;
-}
-
-const lightTheme: Theme = {
+const lightTheme = css('theme-light', {}).theme({
     backgroundColor: '#f3f3f3',
     hoverColor: '#dcdcdc',
     textColor: '#6f6f6f',
     borderColor: '#cacaca',
-};
+});
 
-const darkTheme: Theme = {
+const darkTheme = css('theme-dark', {}).theme({
     backgroundColor: '#585858',
     hoverColor: '#484848',
     textColor: 'white',
     borderColor: '#333',
-};
+});
 
 interface ButtonProps {
     children: ReactNode;
 }
 
-const buttonStyles = styleCollector<Theme>('button').element`
-        background-color: ${({ backgroundColor }) => backgroundColor};
-        border-radius: 6px;
-        border: none;
-        box-shadow: inset 0 -4px ${({ borderColor }) => borderColor};
-        color: ${({ textColor }) => textColor};
-        cursor: pointer;
-        display: inline-block;
-        font-family: sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-        letter-spacing: 1px;
-        margin: 5px 10px;
-        outline: none;
-        padding: 10px 20px 14px 20px;
-        text-decoration: none;
-        transition: background-color 300ms, color 300ms;
+const buttonStyles = css('button', {
+    backgroundColor: 'var(--background-color)',
+    borderRadius: '6px',
+    border: 'none',
+    boxShadow: 'inset 0 -4px var(--border-color)',
+    color: 'var(--text-color)',
+    cursor: 'pointer',
+    display: 'inline-block',
+    fontFamily: 'sans-serif',
+    fontSize: '20px',
+    fontWeight: 'normal',
+    letterSpacing: '1px',
+    margin: '5px 10px',
+    outline: 'none',
+    padding: '10px 20px 14px 20px',
+    textDecoration: 'none',
+    transition: 'background-color 300ms, color 300ms',
+    ':hover': {
+        backgroundColor: 'var(--hover-color)',
+    },
+    ':active': {
+        backgroundColor: 'var(--border-color)',
+    },
+});
 
-        :hover {
-            background-color: ${({ hoverColor }) => hoverColor};
-        }
-
-        :active {
-            background-color: ${({ borderColor }) => borderColor};
-        }
-    `;
-
-const Button: FC<ButtonProps> = props => {
-    const classNames = useStyles(buttonStyles);
-
-    return <button className={classNames}>{props.children}</button>;
-};
+const Button: FC<ButtonProps> = props => (
+    <button css={buttonStyles}>{props.children}</button>
+);
 
 storiesOf('Theme', module)
     .add('Default', () => (
-        <ThemeProvider theme={lightTheme}>
+        <span css={lightTheme}>
             <Button>Themed Button!</Button>
-        </ThemeProvider>
+        </span>
     ))
     .add('Sibling themes', () => (
         <Fragment>
-            <ThemeProvider theme={lightTheme}>
+            <span css={lightTheme}>
                 <Button>Light Theme</Button>
-            </ThemeProvider>
-            <ThemeProvider theme={darkTheme}>
+            </span>
+            <span css={darkTheme}>
                 <Button>Dark Theme</Button>
-            </ThemeProvider>
+            </span>
         </Fragment>
     ))
     .add('Nested themes', () => (
-        <ThemeProvider theme={lightTheme}>
+        <span css={lightTheme}>
             <Button>Light Theme</Button>
-            <ThemeProvider theme={darkTheme}>
+            <span css={darkTheme}>
                 <Button>Nested Dark Theme</Button>
-            </ThemeProvider>
-        </ThemeProvider>
+            </span>
+        </span>
     ))
     .add('No theme in context', () => <Button>No theme OMG!</Button>);

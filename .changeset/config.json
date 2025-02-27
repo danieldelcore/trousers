@@ -4,15 +4,12 @@
     "commit": false,
     "linked": [
         [
-            "@trousers/collector",
             "@trousers/core",
+            "@trousers/react",
             "@trousers/hash",
-            "@trousers/parser",
-            "@trousers/registry",
-            "@trousers/server",
-            "@trousers/theme-css",
-            "@trousers/theme",
-            "@trousers/utils",
+            "@trousers/sheet",
+            "@trousers/styled",
+            "@trousers/macro",
             "trousers"
         ]
     ],

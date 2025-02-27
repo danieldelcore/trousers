@@ -1,1 +1,1 @@
-export { default as toHash } from './hash';
+export { default } from './hash';

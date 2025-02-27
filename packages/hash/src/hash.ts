@@ -1,4 +1,4 @@
-export default function toHash(str: string) {
+export default function hash(str: string) {
     let hash = 0;
 
     if (str.length == 0) return hash;

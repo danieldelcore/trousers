@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`css collects element styles without an id supplied 1`] = `
+Array [
+  Object {
+    "className": ".2313942302",
+    "id": "",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+]
+`;
+
+exports[`css collects id and element styles 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+]
+`;
+
+exports[`css collects multiple global styles 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": "",
+    "id": "global-Element-3713844026",
+    "styles": Object {
+      ":root": Object {
+        "color": "green",
+      },
+    },
+    "type": "global",
+  },
+  Object {
+    "className": "",
+    "id": "global-Element-2840557653",
+    "styles": Object {
+      "*": Object {
+        "boxSizing": "border-box",
+      },
+    },
+    "type": "global",
+  },
+]
+`;
+
+exports[`css collects multiple modifier styles 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".Element-2313942302--primary-2561700995",
+    "id": "primary",
+    "styles": Object {
+      "color": "blue",
+    },
+    "type": "modifier",
+  },
+  Object {
+    "className": ".Element-2313942302--secondary-2709930440",
+    "id": "secondary",
+    "styles": Object {
+      "color": "grey",
+    },
+    "type": "modifier",
+  },
+]
+`;
+
+exports[`css collects multiple theme objects 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".theme-Element-4166118473",
+    "id": "theme-Element-4166118473",
+    "styles": Object {
+      "--typography-font": "ariel",
+      "--typography-size": "18px",
+    },
+    "type": "theme",
+  },
+  Object {
+    "className": ".theme-Element-1320425247",
+    "id": "theme-Element-1320425247",
+    "styles": Object {
+      "--color-background": "blue",
+      "--color-foreground": "red",
+    },
+    "type": "theme",
+  },
+]
+`;
+
+exports[`css collects single camel case flat theme object 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".theme-Element-1395378648",
+    "id": "theme-Element-1395378648",
+    "styles": Object {
+      "--primary-background": "blue",
+      "--primary-color": "red",
+    },
+    "type": "theme",
+  },
+]
+`;
+
+exports[`css collects single deep theme object 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".theme-Element-1320425247",
+    "id": "theme-Element-1320425247",
+    "styles": Object {
+      "--color-background": "blue",
+      "--color-foreground": "red",
+    },
+    "type": "theme",
+  },
+]
+`;
+
+exports[`css collects single flat theme object 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".theme-Element-3131109692",
+    "id": "theme-Element-3131109692",
+    "styles": Object {
+      "--background": "blue",
+      "--color": "red",
+    },
+    "type": "theme",
+  },
+]
+`;
+
+exports[`css collects single global style 1`] = `
+Array [
+  Object {
+    "className": ".Element-3938",
+    "id": "Element",
+    "styles": Object {},
+    "type": "element",
+  },
+  Object {
+    "className": "",
+    "id": "global-Element-3713844026",
+    "styles": Object {
+      ":root": Object {
+        "color": "green",
+      },
+    },
+    "type": "global",
+  },
+]
+`;
+
+exports[`css collects single modifier style 1`] = `
+Array [
+  Object {
+    "className": ".Element-2313942302",
+    "id": "Element",
+    "styles": Object {
+      "color": "red",
+    },
+    "type": "element",
+  },
+  Object {
+    "className": ".Element-2313942302--modifier-2561700995",
+    "id": "modifier",
+    "styles": Object {
+      "color": "blue",
+    },
+    "type": "modifier",
+  },
+]
+`;
