@@ -4,7 +4,7 @@ import css from './css';
 import TrousersNested from './jsx';
 import { render } from '@testing-library/react';
 
-let mountMock = jest.fn();
+const mountMock = jest.fn();
 jest.mock('@trousers/sheet', () => ({
     __esModule: true,
     default: () => ({

@@ -154,7 +154,7 @@ interface Styled extends ElementMap {
     (Tag: Elements): CollectorHOC;
 }
 
-let styledBase = (Tag: Elements) => (css: ReturnType<Collector>) =>
+const styledBase = (Tag: Elements) => (css: ReturnType<Collector>) =>
     forwardRef<HTMLElement, StyledProps>((props, ref) => {
         //@ts-ignore union type is too complex
         return <Tag css={css} {...props} ref={ref} />;

@@ -19,10 +19,10 @@ function css(
     idOrStyle: string | CSSObject,
     styles?: CSSObject,
 ): CollectorReturn {
-    let id = typeof idOrStyle === 'string' ? idOrStyle : '';
-    let styleObject = (typeof idOrStyle === 'string'
-        ? styles
-        : idOrStyle) as CSSObject;
+    const id = typeof idOrStyle === 'string' ? idOrStyle : '';
+    const styleObject = (
+        typeof idOrStyle === 'string' ? styles : idOrStyle
+    ) as CSSObject;
 
     const elementId = `${id && id + '-'}${hash(JSON.stringify(styleObject))}`;
     const styleMap: Definition[] = [
@@ -48,7 +48,7 @@ function css(
 
             return self;
         },
-        global: globalStyles => {
+        global: (globalStyles) => {
             styleMap.push({
                 id: `global-${id}-${hash(JSON.stringify(globalStyles))}`,
                 type: 'global',
@@ -58,7 +58,7 @@ function css(
 
             return self;
         },
-        theme: theme => {
+        theme: (theme) => {
             const themeHash = hash(JSON.stringify(theme));
             styleMap.push({
                 id: `theme-${id}-${themeHash}`,
