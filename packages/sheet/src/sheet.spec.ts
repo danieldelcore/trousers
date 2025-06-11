@@ -57,8 +57,8 @@ expect.extend({
 
 describe('Sheet', () => {
     let sheet: ReturnType<typeof Sheet>;
-    let headEl = window.document.head;
-    let attributeId = 'data-testing-trousers';
+    const headEl = window.document.head;
+    const attributeId = 'data-testing-trousers';
     let styleSheet: CSSStyleSheet;
 
     beforeEach(() => {

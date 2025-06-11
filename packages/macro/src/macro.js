@@ -9,7 +9,7 @@ const libraryMeta = {
 };
 
 const findJsxAttribute = (path, attributeName) =>
-    path.node.attributes.find(attr => attr.name.name === attributeName);
+    path.node.attributes.find((attr) => attr.name.name === attributeName);
 
 const parseObject = (objectExpression, onInterpolation = () => {}) =>
     objectExpression.properties.reduce((accum, { key, value }) => {
@@ -51,14 +51,14 @@ function macro({ references, babel }) {
 
     if (references.css.length === 0) return;
 
-    const program = references.css[0].findParent(path => path.isProgram());
+    const program = references.css[0].findParent((path) => path.isProgram());
     const interpolations = [];
 
     references.css.forEach((reference, index) => {
         const styleBlocks = [];
         const importName = reference.node.name;
 
-        reference.find(path => {
+        reference.find((path) => {
             if (!path.isCallExpression()) return;
 
             if (
@@ -73,14 +73,14 @@ function macro({ references, babel }) {
 
         let elementId = '';
 
-        styleBlocks.forEach(styleBlock => {
+        styleBlocks.forEach((styleBlock) => {
             const { arguments: args, callee } = styleBlock.node;
             const objectExpression = args.length === 2 ? args[1] : args[0];
             const type = callee.name || callee.property.name;
             const rawStyleBlock = parseObject(
                 objectExpression,
-                interpolation => {
-                    const id = `--interpol${interpolations.length}`;
+                (interpolation) => {
+                    let id = `--interpol${interpolations.length}`;
                     interpolations.push({
                         referenceIndex: index,
                         id,
@@ -132,7 +132,7 @@ function macro({ references, babel }) {
     });
 
     program.traverse({
-        JSXOpeningElement: path => {
+        JSXOpeningElement: (path) => {
             const cssAttr = findJsxAttribute(path, 'css');
             if (!cssAttr) return;
 
@@ -158,7 +158,7 @@ function macro({ references, babel }) {
                         }
 
                         // collector variable passed into css prop
-                        const variableDeclarator = referencePath.find(p =>
+                        const variableDeclarator = referencePath.find((p) =>
                             p.isVariableDeclarator(),
                         );
 
@@ -178,7 +178,7 @@ function macro({ references, babel }) {
 
             const TrousersNestedProps = [
                 ...path.node.attributes.filter(
-                    attr => attr.name.name !== 'styles',
+                    (attr) => attr.name.name !== 'styles',
                 ),
                 t.jsxAttribute(
                     t.jsxIdentifier('elementType'),

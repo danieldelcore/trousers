@@ -3,8 +3,8 @@ import css from '@trousers/core';
 import jsx from './jsx';
 import { render } from '@testing-library/react';
 
-let mountMock = jest.fn();
-let unmountMock = jest.fn();
+const mountMock = jest.fn();
+const unmountMock = jest.fn();
 jest.mock('@trousers/sheet', () => ({
     __esModule: true,
     default: () => ({
